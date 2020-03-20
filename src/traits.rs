@@ -1510,7 +1510,7 @@ impl_int! { u128 }
 impl_int! { usize }
 
 macro_rules! impl_float {
-    ($Float:ty) => {
+    ($Float:ty, $link:expr) => {
         impl FromFixed for $Float {
             /// Converts a fixed-point number to a floating-point number.
             ///
@@ -1578,29 +1578,30 @@ macro_rules! impl_float {
         }
 
         impl ToFixed for $Float {
-            /// Converts a floating-point number to a fixed-point number.
-            ///
-            /// Rounding is to the nearest, with ties rounded to even.
-            ///
-            /// # Panics
-            ///
-            /// Panics if `self` is not [finite].
-            ///
-            /// When debug assertions are enabled, also panics if the
-            /// value does not fit. When debug assertions are not
-            /// enabled, the wrapped value can be returned, but it is
-            /// not considered a breaking change if in the future it
-            /// panics; if wrapping is required use
-            /// [`wrapping_to_fixed`] instead.
-            ///
-            /// [`wrapping_to_fixed`]: #method.wrapping_to_fixed
-            /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
-            #[inline]
-            fn to_fixed<F: Fixed>(self) -> F {
-                let (wrapped, overflow) = ToFixed::overflowing_to_fixed(self);
-                debug_assert!(!overflow, "{} overflows", self);
-                let _ = overflow;
-                wrapped
+            comment! {
+                "Converts a floating-point number to a fixed-point number.
+
+Rounding is to the nearest, with ties rounded to even.
+
+# Panics
+
+Panics if `self` is not [finite].
+
+When debug assertions are enabled, also panics if the value does not
+fit. When debug assertions are not enabled, the wrapped value can be
+returned, but it is not considered a breaking change if in the future
+it panics; if wrapping is required use [`wrapping_to_fixed`] instead.
+
+[`wrapping_to_fixed`]: #method.wrapping_to_fixed
+[finite]: ", $link, "#method.is_finite
+";
+                #[inline]
+                fn to_fixed<F: Fixed>(self) -> F {
+                    let (wrapped, overflow) = ToFixed::overflowing_to_fixed(self);
+                    debug_assert!(!overflow, "{} overflows", self);
+                    let _ = overflow;
+                    wrapped
+                }
             }
 
             /// Converts a floating-point number to a fixed-point
@@ -1624,70 +1625,79 @@ macro_rules! impl_float {
                 }
             }
 
-            /// Converts a floating-point number to a fixed-point
-            /// number, saturating if it does not fit.
-            ///
-            /// Rounding is to the nearest, with ties rounded to even.
-            ///
-            /// # Panics
-            ///
-            /// Panics if `self` is [NaN].
-            ///
-            /// [NaN]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_nan
-            #[inline]
-            fn saturating_to_fixed<F: Fixed>(self) -> F {
-                let kind = self.to_float_kind(F::frac_nbits(), F::int_nbits());
-                let helper = FromFloatHelper { kind };
-                F::private_saturating_from_float_helper(helper)
+            comment! {
+                "Converts a floating-point number to a fixed-point
+number, saturating if it does not fit.
+
+Rounding is to the nearest, with ties rounded to even.
+
+# Panics
+
+Panics if `self` is [NaN].
+
+[NaN]: ", $link, "#method.is_nan
+";
+                #[inline]
+                fn saturating_to_fixed<F: Fixed>(self) -> F {
+                    let kind = self.to_float_kind(F::frac_nbits(), F::int_nbits());
+                    let helper = FromFloatHelper { kind };
+                    F::private_saturating_from_float_helper(helper)
+                }
             }
 
-            /// Converts a floating-point number to a fixed-point
-            /// number, wrapping if it does not fit.
-            ///
-            /// Rounding is to the nearest, with ties rounded to even.
-            ///
-            /// # Panics
-            ///
-            /// Panics if `self` is not [finite].
-            ///
-            /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
-            #[inline]
-            fn wrapping_to_fixed<F: Fixed>(self) -> F {
-                let (wrapped, _) = ToFixed::overflowing_to_fixed(self);
-                wrapped
+            comment! {
+                "Converts a floating-point number to a fixed-point
+number, wrapping if it does not fit.
+
+Rounding is to the nearest, with ties rounded to even.
+
+# Panics
+
+Panics if `self` is not [finite].
+
+[finite]: ", $link, "#method.is_finite
+";
+                #[inline]
+                fn wrapping_to_fixed<F: Fixed>(self) -> F {
+                    let (wrapped, _) = ToFixed::overflowing_to_fixed(self);
+                    wrapped
+                }
             }
 
-            /// Converts a floating-point number to a fixed-point number.
-            ///
-            /// Returns a [tuple] of the fixed-point number and a [`bool`]
-            /// indicating whether an overflow has occurred. On overflow, the
-            /// wrapped value is returned.
-            ///
-            /// Rounding is to the nearest, with ties rounded to even.
-            ///
-            /// # Panics
-            ///
-            /// Panics if `self` is not [finite].
-            ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-            /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
-            /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
-            #[inline]
-            fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
-                let kind = self.to_float_kind(F::frac_nbits(), F::int_nbits());
-                let helper = FromFloatHelper { kind };
-                F::private_overflowing_from_float_helper(helper)
+            comment! {
+            "Converts a floating-point number to a fixed-point number.
+
+Returns a [tuple] of the fixed-point number and a [`bool`] indicating
+whether an overflow has occurred. On overflow, the wrapped value is
+returned.
+
+Rounding is to the nearest, with ties rounded to even.
+
+# Panics
+
+Panics if `self` is not [finite].
+
+[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[finite]: ", $link, "#method.is_finite
+[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
+";
+                #[inline]
+                fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
+                    let kind = self.to_float_kind(F::frac_nbits(), F::int_nbits());
+                    let helper = FromFloatHelper { kind };
+                    F::private_overflowing_from_float_helper(helper)
+                }
             }
         }
     };
 }
 
 #[cfg(feature = "f16")]
-impl_float! { f16 }
+impl_float! { f16, "https://docs.rs/half/^1/half/struct.f16.html" }
 #[cfg(feature = "f16")]
-impl_float! { bf16 }
-impl_float! { f32 }
-impl_float! { f64 }
+impl_float! { bf16, "https://docs.rs/half/^1/half/struct.bf16.html" }
+impl_float! { f32, "https://doc.rust-lang.org/nightly/std/primitive.f32.html" }
+impl_float! { f64, "https://doc.rust-lang.org/nightly/std/primitive.f64.html" }
 
 macro_rules! trait_delegate {
     (fn $method:ident($($param:ident: $Param:ty),*) -> $Ret:ty) => {
