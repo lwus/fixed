@@ -26,7 +26,7 @@ use fixed::{consts, types::I4F28};
 let tau = I4F28::from_num(consts::TAU);
 println!("τ = 2π with eight binary places is {:.8b}", tau);
 assert_eq!(format!("{:.8b}", tau), "110.01001000");
-println!("τ = 2π with six decimal places is {:.8}", tau);
+println!("τ = 2π with eight decimal places is {:.8}", tau);
 assert_eq!(format!("{:.8}", tau), "6.28318531");
 ```
 */
