@@ -21,7 +21,7 @@ macro_rules! fixed_no_frac {
         $UInner:ty, $Signedness:tt
     ) => {
         impl<Frac> $Fixed<Frac> {
-            // TODO when rustc requirement >= 1.43.0, use MIN instead of min_value() in example
+            // TODO when rustc requirement >= 1.43.0, use MIN instead of min_value()
             comment! {
                 "The smallest value that can be represented.
 
@@ -29,14 +29,15 @@ macro_rules! fixed_no_frac {
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
+# use std::", $s_inner, "; // TODO when rustc requirement >= 1.43.0, remove this
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::MIN, Fix::from_bits(", $s_inner, "::min_value()));
+assert_eq!(Fix::MIN, Fix::from_bits(", $s_inner, "::MIN));
 ```
 ";
                 pub const MIN: Self = Self::from_bits(<$Inner>::min_value());
             }
 
-            // TODO when rustc requirement >= 1.43.0, use MAX instead of max_value() in example
+            // TODO when rustc requirement >= 1.43.0, use MAX instead of max_value()
             comment! {
                 "The largest value that can be represented.
 
@@ -44,8 +45,9 @@ assert_eq!(Fix::MIN, Fix::from_bits(", $s_inner, "::min_value()));
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
+# use std::", $s_inner, "; // TODO when rustc requirement >= 1.43.0, remove this
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::MAX, Fix::from_bits(", $s_inner, "::max_value()));
+assert_eq!(Fix::MAX, Fix::from_bits(", $s_inner, "::MAX));
 ```
 ";
                 pub const MAX: Self = Self::from_bits(<$Inner>::max_value());

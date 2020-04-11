@@ -1203,7 +1203,6 @@ where
     }
 }
 
-// TODO when rustc requirement >= 1.43.0, use MAX instead of max_value() in example
 /// This trait provides checked conversions from fixed-point numbers.
 ///
 /// This trait is implemented for conversions between integer
@@ -1214,6 +1213,7 @@ where
 /// ```rust
 /// use fixed::traits::FromFixed;
 /// use fixed::types::U8F8;
+/// # use std::i8; // TODO when rustc requirement >= 1.43.0, remove this
 /// // 0x87.65
 /// let f = U8F8::from_bits(0x8765);
 /// assert_eq!(f32::from_fixed(f), f32::from(0x8765u16) / 256.0);
@@ -1221,7 +1221,7 @@ where
 /// assert_eq!(u8::saturating_from_fixed(f), 0x87);
 /// // no fit
 /// assert_eq!(i8::checked_from_fixed(f), None);
-/// assert_eq!(i8::saturating_from_fixed(f), i8::max_value());
+/// assert_eq!(i8::saturating_from_fixed(f), i8::MAX);
 /// assert_eq!(i8::wrapping_from_fixed(f), 0x87u8 as i8);
 /// assert_eq!(i8::overflowing_from_fixed(f), (0x87u8 as i8, true));
 /// ```
