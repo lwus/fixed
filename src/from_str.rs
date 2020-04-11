@@ -676,9 +676,9 @@ macro_rules! impl_from_str_traits {
                     Ok((val, false)) => Ok(val),
                     Ok((_, true)) => {
                         if s.starts_with('-') {
-                            Ok(Self::min_value())
+                            Ok(Self::MIN)
                         } else {
-                            Ok(Self::max_value())
+                            Ok(Self::MAX)
                         }
                     }
                     Err(e) => Err(e),

@@ -76,10 +76,15 @@ The conversions supported cover the following cases.
 
 ### Version 0.5.5 news (unreleased)
 
+  * The associated constants [`MIN`] and [`MAX`] were added to all
+    fixed-point types, to the [`Fixed`] trait, and to the [`Wrapping`]
+    wrapper.
   * The methods [`int_log2`] and [`checked_int_log2`] were added to
     all fixed-point types and to the [`Fixed`] trait.
   * The method [`int_log2`][wril] was added to the [`Wrapping`]
     wrapper.
+  * The following methods were deprecated:
+      * [`min_value`], [`max_value`]
 
 ### Version 0.5.4 news (2020-02-21)
 
@@ -115,6 +120,8 @@ The conversions supported cover the following cases.
   * [`Wrapping`] now supports serialization. (Thanks: Shane Pearman)
 
 [`Fixed`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.Fixed.html
+[`MAX`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#associatedconstant.MAX
+[`MIN`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#associatedconstant.MIN
 [`RemAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.RemAssign.html
 [`Rem`]: https://doc.rust-lang.org/nightly/core/ops/trait.Rem.html
 [`Wrapping`]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html
@@ -124,6 +131,8 @@ The conversions supported cover the following cases.
 [`checked_rem`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem
 [`div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.div_euclid
 [`int_log2`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_log2
+[`max_value`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.max_value
+[`min_value`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.min_value
 [`overflowing_div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.overflowing_div_euclid
 [`overflowing_rem_int`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.overflowing_rem_int
 [`rem_euclid_int`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.rem_euclid_int

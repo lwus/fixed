@@ -8,9 +8,14 @@ as-is, without any warranty. -->
 Version 0.5.5 (unreleased)
 ==========================
 
+  * The associated constants `MIN` and `MAX` were added to all
+    fixed-point types, to the `Fixed` trait, and to the `Wrapping`
+    wrapper.
   * The methods `int_log2` and `checked_int_log2` were added to all
     fixed-point types and to the `Fixed` trait.
   * The method `int_log2` was added to the `Wrapping` wrapper.
+  * The following methods were deprecated:
+      * `min_value`, `max_value`
 
 Version 0.5.4 (2020-02-21)
 ==========================

@@ -326,8 +326,8 @@ assert_eq!(Fix::from_num(7.5).rem_euclid_int(2), Fix::from_num(1.5));
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::max_value().checked_mul(Fix::from_num(1)), Some(Fix::max_value()));
-assert_eq!(Fix::max_value().checked_mul(Fix::from_num(2)), None);
+assert_eq!(Fix::MAX.checked_mul(Fix::from_num(1)), Some(Fix::MAX));
+assert_eq!(Fix::MAX.checked_mul(Fix::from_num(2)), None);
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -350,8 +350,8 @@ the divisor is zero or on overflow.
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::max_value().checked_div(Fix::from_num(1)), Some(Fix::max_value()));
-assert_eq!(Fix::max_value().checked_div(Fix::from_num(1) / 2), None);
+assert_eq!(Fix::MAX.checked_div(Fix::from_num(1)), Some(Fix::MAX));
+assert_eq!(Fix::MAX.checked_div(Fix::from_num(1) / 2), None);
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -379,7 +379,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).checked_div_euclid(Fix::from_num(2)), Some(Fix::from_num(3)));
 assert_eq!(Fix::from_num(7.5).checked_div_euclid(Fix::from_num(0)), None);
-assert_eq!(Fix::max_value().checked_div_euclid(Fix::from_num(0.25)), None);
+assert_eq!(Fix::MAX.checked_div_euclid(Fix::from_num(0.25)), None);
 ",
                 if_signed_else_empty_str! {
                     $Signedness,
@@ -438,7 +438,7 @@ assert_eq!(Fix::from_num(3.75).checked_rem_int(0), None);
                         Some(fixed_rhs) => self.checked_rem(fixed_rhs),
                         None => Some(if_signed_unsigned!(
                             $Signedness,
-                            if self == Self::min_value()
+                            if self == Self::MIN
                                 && (Self::INT_NBITS > 0 && rhs == 1 << (Self::INT_NBITS - 1))
                             {
                                 Self::from_bits(0)
@@ -471,7 +471,7 @@ assert_eq!(Fix::from_num(7.5).checked_div_euclid_int(0), None);
 ",
                 if_signed_else_empty_str! {
                     $Signedness,
-                    "assert_eq!(Fix::min_value().checked_div_euclid_int(-1), None);
+                    "assert_eq!(Fix::MIN.checked_div_euclid_int(-1), None);
 ",
                 },
                 "```
@@ -563,7 +563,7 @@ assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(20), None);
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(3).saturating_mul(Fix::from_num(2)), Fix::from_num(6));
-assert_eq!(Fix::max_value().saturating_mul(Fix::from_num(2)), Fix::max_value());
+assert_eq!(Fix::MAX.saturating_mul(Fix::from_num(2)), Fix::MAX);
 ```
 ";
                 #[inline]
@@ -572,9 +572,9 @@ assert_eq!(Fix::max_value().saturating_mul(Fix::from_num(2)), Fix::max_value());
                         (ans, false) => Self::from_bits(ans),
                         (_, true) => {
                             if (self < 0) != (rhs < 0) {
-                                Self::min_value()
+                                Self::MIN
                             } else {
-                                Self::max_value()
+                                Self::MAX
                             }
                         }
                     }
@@ -595,7 +595,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let one_half = Fix::from_num(1) / 2;
 assert_eq!(Fix::from_num(1).saturating_div(Fix::from_num(2)), one_half);
-assert_eq!(Fix::max_value().saturating_div(one_half), Fix::max_value());
+assert_eq!(Fix::MAX.saturating_div(one_half), Fix::MAX);
 ```
 ";
                 #[inline]
@@ -604,9 +604,9 @@ assert_eq!(Fix::max_value().saturating_div(one_half), Fix::max_value());
                         (ans, false) => Self::from_bits(ans),
                         (_, true) => {
                             if (self < 0) != (rhs < 0) {
-                                Self::min_value()
+                                Self::MIN
                             } else {
-                                Self::max_value()
+                                Self::MAX
                             }
                         }
                     }
@@ -627,12 +627,12 @@ Panics if the divisor is zero.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).saturating_div_euclid(Fix::from_num(2)), Fix::from_num(3));
-assert_eq!(Fix::max_value().saturating_div_euclid(Fix::from_num(0.25)), Fix::max_value());
+assert_eq!(Fix::MAX.saturating_div_euclid(Fix::from_num(0.25)), Fix::MAX);
 ",
                 if_signed_else_empty_str! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(-7.5).saturating_div_euclid(Fix::from_num(2)), Fix::from_num(-4));
-assert_eq!(Fix::min_value().saturating_div_euclid(Fix::from_num(0.25)), Fix::min_value());
+assert_eq!(Fix::MIN.saturating_div_euclid(Fix::from_num(0.25)), Fix::MIN);
 ",
                 },
                 "```
@@ -646,9 +646,9 @@ assert_eq!(Fix::min_value().saturating_div_euclid(Fix::from_num(0.25)), Fix::min
                     }
                     self.checked_div_euclid(rhs).unwrap_or_else(|| {
                         if (self.to_bits() > 0) == (rhs.to_bits() > 0) {
-                            Self::max_value()
+                            Self::MAX
                         } else {
-                            Self::min_value()
+                            Self::MIN
                         }
                     })
                 }
@@ -664,7 +664,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(3).wrapping_mul(Fix::from_num(2)), Fix::from_num(6));
 let wrapped = Fix::from_bits(!0 << 2);
-assert_eq!(Fix::max_value().wrapping_mul(Fix::from_num(4)), wrapped);
+assert_eq!(Fix::MAX.wrapping_mul(Fix::from_num(4)), wrapped);
 ```
 ";
                 #[inline]
@@ -690,7 +690,7 @@ let one_point_5 = Fix::from_bits(0b11 << (4 - 1));
 assert_eq!(Fix::from_num(3).wrapping_div(Fix::from_num(2)), one_point_5);
 let quarter = Fix::from_num(1) / 4;
 let wrapped = Fix::from_bits(!0 << 2);
-assert_eq!(Fix::max_value().wrapping_div(quarter), wrapped);
+assert_eq!(Fix::MAX.wrapping_div(quarter), wrapped);
 ```
 ";
                 #[inline]
@@ -713,8 +713,8 @@ Panics if the divisor is zero.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).wrapping_div_euclid(Fix::from_num(2)), Fix::from_num(3));
-let wrapped = Fix::max_value().wrapping_mul_int(4).round_to_zero();
-assert_eq!(Fix::max_value().wrapping_div_euclid(Fix::from_num(0.25)), wrapped);
+let wrapped = Fix::MAX.wrapping_mul_int(4).round_to_zero();
+assert_eq!(Fix::MAX.wrapping_div_euclid(Fix::from_num(0.25)), wrapped);
 ```
 ";
                 #[inline]
@@ -750,8 +750,8 @@ assert_eq!(Fix::from_num(7.5).wrapping_div_euclid_int(2), Fix::from_num(3));
                 if_signed_else_empty_str! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(-7.5).wrapping_div_euclid_int(2), Fix::from_num(-4));
-let wrapped = Fix::min_value().round_to_zero();
-assert_eq!(Fix::min_value().wrapping_div_euclid_int(-1), wrapped);
+let wrapped = Fix::MIN.round_to_zero();
+assert_eq!(Fix::MIN.wrapping_div_euclid_int(-1), wrapped);
 ",
                 },
                 "```
@@ -815,7 +815,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(3).overflowing_mul(Fix::from_num(2)), (Fix::from_num(6), false));
 let wrapped = Fix::from_bits(!0 << 2);
-assert_eq!(Fix::max_value().overflowing_mul(Fix::from_num(4)), (wrapped, true));
+assert_eq!(Fix::MAX.overflowing_mul(Fix::from_num(4)), (wrapped, true));
 ```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -847,7 +847,7 @@ let one_point_5 = Fix::from_bits(0b11 << (4 - 1));
 assert_eq!(Fix::from_num(3).overflowing_div(Fix::from_num(2)), (one_point_5, false));
 let quarter = Fix::from_num(1) / 4;
 let wrapped = Fix::from_bits(!0 << 2);
-assert_eq!(Fix::max_value().overflowing_div(quarter), (wrapped, true));
+assert_eq!(Fix::MAX.overflowing_div(quarter), (wrapped, true));
 ```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -877,8 +877,8 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let check = Fix::from_num(3);
 assert_eq!(Fix::from_num(7.5).overflowing_div_euclid(Fix::from_num(2)), (check, false));
-let wrapped = Fix::max_value().wrapping_mul_int(4).round_to_zero();
-assert_eq!(Fix::max_value().overflowing_div_euclid(Fix::from_num(0.25)), (wrapped, true));
+let wrapped = Fix::MAX.wrapping_mul_int(4).round_to_zero();
+assert_eq!(Fix::MAX.overflowing_div_euclid(Fix::from_num(0.25)), (wrapped, true));
 ```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -938,8 +938,8 @@ assert_eq!(Fix::from_num(7.5).overflowing_div_euclid_int(2), (Fix::from_num(3), 
                 if_signed_else_empty_str! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(-7.5).overflowing_div_euclid_int(2), (Fix::from_num(-4), false));
-let wrapped = Fix::min_value().round_to_zero();
-assert_eq!(Fix::min_value().overflowing_div_euclid_int(-1), (wrapped, true));
+let wrapped = Fix::MIN.round_to_zero();
+assert_eq!(Fix::MIN.overflowing_div_euclid_int(-1), (wrapped, true));
 ",
                 },
                 "```

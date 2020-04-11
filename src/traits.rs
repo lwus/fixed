@@ -246,11 +246,11 @@ where
     /// [`frac_nbits`]: #tymethod.frac_nbits
     type Frac: Unsigned;
 
-    /// Returns the smallest value that can be represented.
-    fn min_value() -> Self;
+    /// The smallest value that can be represented.
+    const MIN: Self;
 
-    /// Returns the largest value that can be represented.
-    fn max_value() -> Self;
+    /// The largest value that can be represented.
+    const MAX: Self;
 
     /// Returns the number of integer bits.
     fn int_nbits() -> u32;
@@ -985,6 +985,18 @@ where
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_shr(self, rhs: u32) -> (Self, bool);
 
+    /// Returns the smallest value that can be represented.
+    #[deprecated(since = "0.5.5", note = "replaced by `MIN`")]
+    fn min_value() -> Self {
+        Self::MIN
+    }
+
+    /// Returns the largest value that can be represented.
+    #[deprecated(since = "0.5.5", note = "replaced by `MAX`")]
+    fn max_value() -> Self {
+        Self::MAX
+    }
+
     /// Remainder for division by an integer.
     ///
     /// # Panics
@@ -1173,6 +1185,7 @@ where
     }
 }
 
+// TODO when rustc requirement >= 1.43.0, use MAX instead of max_value() in example
 /// This trait provides checked conversions from fixed-point numbers.
 ///
 /// This trait is implemented for conversions between integer
@@ -1261,7 +1274,7 @@ pub trait FromFixed {
 /// let checked: Option<U8F8> = too_large.checked_to_num();
 /// assert_eq!(checked, None);
 /// let saturating: U8F8 = too_large.saturating_to_num();
-/// assert_eq!(saturating, U8F8::max_value());
+/// assert_eq!(saturating, U8F8::MAX);
 /// let wrapping: U8F8 = too_large.wrapping_to_num();
 /// assert_eq!(wrapping, U8F8::from_bits(0x3456));
 /// let overflowing: (U8F8, bool) = too_large.overflowing_to_num();
@@ -1747,8 +1760,8 @@ macro_rules! impl_fixed {
             type Bits = $Bits;
             type Bytes = [u8; mem::size_of::<$Bits>()];
             type Frac = Frac;
-            trait_delegate! { fn min_value() -> Self }
-            trait_delegate! { fn max_value() -> Self }
+            const MIN: Self = Self::MIN;
+            const MAX: Self = Self::MAX;
             trait_delegate! { fn int_nbits() -> u32 }
             trait_delegate! { fn frac_nbits() -> u32 }
             trait_delegate! { fn from_bits(bits: Self::Bits) -> Self }
@@ -1923,18 +1936,14 @@ macro_rules! impl_fixed {
             fn saturating_from_fixed<F: Fixed>(src: F) -> Self {
                 let conv = src.private_to_fixed_helper(Self::FRAC_NBITS, Self::INT_NBITS);
                 if conv.overflow {
-                    return if src < 0 {
-                        Self::min_value()
-                    } else {
-                        Self::max_value()
-                    };
+                    return if src < 0 { Self::MIN } else { Self::MAX };
                 }
                 let bits = if_signed_unsigned! {
                     $Signedness,
                     match conv.bits {
                         Widest::Unsigned(bits) => {
                             if (bits as $Bits) < 0 {
-                                return Self::max_value();
+                                return Self::MAX;
                             }
                             bits as $Bits
                         }
@@ -1943,7 +1952,7 @@ macro_rules! impl_fixed {
                     match conv.bits {
                         Widest::Unsigned(bits) => bits as $Bits,
                         Widest::Negative(_) => {
-                            return Self::min_value();
+                            return Self::MIN;
                         }
                     },
                 };

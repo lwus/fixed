@@ -268,7 +268,7 @@ macro_rules! fixed_arith {
 
         refs_assign! { impl DivAssign for $Fixed($LeEqU) { div_assign } }
 
-        // do not pass! { Rem }, as I::min_value() % I::from(-1) should return 0, not panic
+        // do not pass! { Rem }, as I::MIN % I::from(-1) should return 0, not panic
         impl<Frac> Rem<$Fixed<Frac>> for $Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
@@ -828,10 +828,10 @@ mod tests {
             I0F32::from_num(f)
         }
 
-        assert_eq!(I16F16::min_value() % -1, 0);
-        assert_eq!(I16F16::min_value().checked_rem_int(-1).unwrap(), 0);
-        assert_eq!(I16F16::min_value().rem_euclid_int(-1), 0);
-        assert_eq!(I16F16::min_value().checked_rem_euclid_int(-1).unwrap(), 0);
+        assert_eq!(I16F16::MIN % -1, 0);
+        assert_eq!(I16F16::MIN.checked_rem_int(-1).unwrap(), 0);
+        assert_eq!(I16F16::MIN.rem_euclid_int(-1), 0);
+        assert_eq!(I16F16::MIN.checked_rem_euclid_int(-1).unwrap(), 0);
 
         assert_eq!(i1(-1.0) % 1, i1(0.0));
         assert_eq!(i1(-1.0).rem_euclid_int(1), i1(0.0));

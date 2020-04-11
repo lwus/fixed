@@ -82,11 +82,7 @@ macro_rules! impl_sealed {
                     FloatKind::Infinite { neg } => neg,
                     FloatKind::Finite { neg, .. } => neg,
                 };
-                let saturated = if neg {
-                    Self::min_value()
-                } else {
-                    Self::max_value()
-                };
+                let saturated = if neg { Self::MIN } else { Self::MAX };
                 let conv = match src.kind {
                     FloatKind::Finite { conv, .. } => conv,
                     _ => return saturated,
@@ -100,7 +96,7 @@ macro_rules! impl_sealed {
                         Widest::Unsigned(bits) => {
                             let bits = bits as _;
                             if bits < 0 {
-                                return Self::max_value();
+                                return Self::MAX;
                             }
                             bits
                         }
@@ -108,7 +104,7 @@ macro_rules! impl_sealed {
                     },
                     match conv.bits {
                         Widest::Unsigned(bits) => bits as _,
-                        Widest::Negative(_) => return Self::min_value(),
+                        Widest::Negative(_) => return Self::MIN,
                     },
                 };
                 Self::from_bits(bits)

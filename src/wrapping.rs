@@ -42,40 +42,34 @@ use core::{
 ///
 /// ```rust
 /// use fixed::{types::I16F16, Wrapping};
-/// let max = Wrapping(I16F16::max_value());
+/// let max = Wrapping(I16F16::MAX);
 /// let delta = Wrapping(I16F16::from_bits(1));
-/// assert_eq!(I16F16::min_value(), (max + delta).0);
+/// assert_eq!(I16F16::MIN, (max + delta).0);
 /// ```
 #[repr(transparent)]
 #[derive(Clone, Copy, Default, Hash, Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Wrapping<F>(pub F);
 
 impl<F: Fixed> Wrapping<F> {
-    /// Returns the smallest value that can be represented.
+    /// The smallest value that can be represented.
     ///
     /// # Examples
     ///
     /// ```rust
     /// use fixed::{types::I16F16, Wrapping};
-    /// assert_eq!(Wrapping::<I16F16>::min_value(), Wrapping(I16F16::min_value()));
+    /// assert_eq!(Wrapping::<I16F16>::MIN, Wrapping(I16F16::MIN));
     /// ```
-    #[inline]
-    pub fn min_value() -> Wrapping<F> {
-        Wrapping(F::min_value())
-    }
+    pub const MIN: Wrapping<F> = Wrapping(F::MIN);
 
-    /// Returns the largest value that can be represented.
+    /// The largest value that can be represented.
     ///
     /// # Examples
     ///
     /// ```rust
     /// use fixed::{types::I16F16, Wrapping};
-    /// assert_eq!(Wrapping::<I16F16>::max_value(), Wrapping(I16F16::max_value()));
+    /// assert_eq!(Wrapping::<I16F16>::MAX, Wrapping(I16F16::MAX));
     /// ```
-    #[inline]
-    pub fn max_value() -> Wrapping<F> {
-        Wrapping(F::max_value())
-    }
+    pub const MAX: Wrapping<F> = Wrapping(F::MAX);
 
     /// Returns the number of integer bits.
     ///
@@ -233,8 +227,8 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(src.to_num::<I16F16>(), expected);
     ///
     /// // conversion that wraps
-    /// let src = Wrapping(I4F4::max_value());
-    /// let wrapped = I2F6::from_bits(I2F6::max_value().to_bits() << 2);
+    /// let src = Wrapping(I4F4::MAX);
+    /// let wrapped = I2F6::from_bits(I2F6::MAX.to_bits() << 2);
     /// assert_eq!(src.to_num::<I2F6>(), wrapped);
     /// ```
     ///
@@ -382,7 +376,7 @@ impl<F: Fixed> Wrapping<F> {
     /// use fixed::{types::I16F16, Wrapping};
     /// let two_half = Wrapping(I16F16::from_num(5) / 2);
     /// assert_eq!(two_half.ceil(), Wrapping(I16F16::from_num(3)));
-    /// assert_eq!(Wrapping(I16F16::max_value()).ceil(), Wrapping(I16F16::min_value()));
+    /// assert_eq!(Wrapping(I16F16::MAX).ceil(), Wrapping(I16F16::MIN));
     /// ```
     #[inline]
     pub fn ceil(self) -> Wrapping<F> {
@@ -404,7 +398,7 @@ impl<F: Fixed> Wrapping<F> {
     /// };
     /// let two_half = Wrapping(I16F16::from_num(5) / 2);
     /// assert_eq!(two_half.floor(), Wrapping(I16F16::from_num(2)));
-    /// assert_eq!(Wrapping(I0F32::min_value()).floor(), Wrapping(I0F32::from_num(0)));
+    /// assert_eq!(Wrapping(I0F32::MIN).floor(), Wrapping(I0F32::from_num(0)));
     /// ```
     #[inline]
     pub fn floor(self) -> Wrapping<F> {
@@ -421,7 +415,7 @@ impl<F: Fixed> Wrapping<F> {
     /// let two_half = Wrapping(I16F16::from_num(5) / 2);
     /// assert_eq!(two_half.round(), Wrapping(I16F16::from_num(3)));
     /// assert_eq!((-two_half).round(), Wrapping(I16F16::from_num(-3)));
-    /// assert_eq!(Wrapping(I16F16::max_value()).round(), Wrapping(I16F16::min_value()));
+    /// assert_eq!(Wrapping(I16F16::MAX).round(), Wrapping(I16F16::MIN));
     /// ```
     #[inline]
     pub fn round(self) -> Wrapping<F> {
@@ -439,8 +433,8 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(two_half.round_ties_to_even(), Wrapping(I16F16::from_num(2)));
     /// let three_half = Wrapping(I16F16::from_num(3.5));
     /// assert_eq!(three_half.round_ties_to_even(), Wrapping(I16F16::from_num(4)));
-    /// let max = Wrapping(I16F16::max_value());
-    /// assert_eq!(max.round_ties_to_even(), Wrapping(I16F16::min_value()));
+    /// let max = Wrapping(I16F16::MAX);
+    /// assert_eq!(max.round_ties_to_even(), Wrapping(I16F16::MIN));
     /// ```
     #[inline]
     pub fn round_ties_to_even(self) -> Wrapping<F> {
@@ -555,8 +549,8 @@ impl<F: Fixed> Wrapping<F> {
     /// let den = Wrapping(I16F16::from_num(2));
     /// assert_eq!(num.div_euclid(den), Wrapping(I16F16::from_num(3)));
     /// let quarter = Wrapping(I16F16::from_num(0.25));
-    /// let check = (Wrapping::max_value() * 4i32).round_to_zero();
-    /// assert_eq!(Wrapping::max_value().div_euclid(quarter), check);
+    /// let check = (Wrapping::MAX * 4i32).round_to_zero();
+    /// assert_eq!(Wrapping::MAX.div_euclid(quarter), check);
     /// ```
     #[inline]
     pub fn div_euclid(self, divisor: Wrapping<F>) -> Wrapping<F> {
@@ -595,7 +589,7 @@ impl<F: Fixed> Wrapping<F> {
     /// use fixed::{types::I16F16, Wrapping};
     /// let num = Wrapping(I16F16::from_num(7.5));
     /// assert_eq!(num.div_euclid_int(2), Wrapping(I16F16::from_num(3)));
-    /// let min = Wrapping(I16F16::min_value());
+    /// let min = Wrapping(I16F16::MIN);
     /// assert_eq!(min.div_euclid_int(-1), min);
     /// ```
     #[inline]
@@ -620,6 +614,20 @@ impl<F: Fixed> Wrapping<F> {
     #[inline]
     pub fn rem_euclid_int(self, divisor: F::Bits) -> Wrapping<F> {
         Wrapping(self.0.wrapping_rem_euclid_int(divisor))
+    }
+
+    /// Returns the smallest value that can be represented.
+    #[deprecated(since = "0.5.5", note = "replaced by `MIN`")]
+    #[inline]
+    pub fn min_value() -> Wrapping<F> {
+        Self::MIN
+    }
+
+    /// Returns the largest value that can be represented.
+    #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `MAX`")]
+    pub fn max_value() -> Wrapping<F> {
+        Self::MAX
     }
 }
 
@@ -669,7 +677,7 @@ impl<F: FixedSigned> Wrapping<F> {
     /// ```rust
     /// use fixed::{types::I16F16, Wrapping};
     /// assert_eq!(Wrapping(I16F16::from_num(-5)).abs(), Wrapping(I16F16::from_num(5)));
-    /// assert_eq!(Wrapping(I16F16::min_value()).abs(), Wrapping(I16F16::min_value()));
+    /// assert_eq!(Wrapping(I16F16::MIN).abs(), Wrapping(I16F16::MIN));
     /// ```
     #[inline]
     pub fn abs(self) -> Wrapping<F> {
@@ -749,7 +757,7 @@ impl<F: FixedUnsigned> Wrapping<F> {
     /// let four = Wrapping(U16F16::from_num(4));
     /// assert_eq!(Wrapping(U16F16::from_num(4)).next_power_of_two(), four);
     /// let zero = Wrapping(U16F16::from_num(0));
-    /// assert_eq!(Wrapping(U16F16::max_value()).next_power_of_two(), zero);
+    /// assert_eq!(Wrapping(U16F16::MAX).next_power_of_two(), zero);
     /// ```
     #[inline]
     pub fn next_power_of_two(self) -> Wrapping<F> {

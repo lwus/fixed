@@ -21,38 +21,34 @@ macro_rules! fixed_no_frac {
         $UInner:ty, $Signedness:tt
     ) => {
         impl<Frac> $Fixed<Frac> {
+            // TODO when rustc requirement >= 1.43.0, use MIN instead of min_value() in example
             comment! {
-                "Returns the smallest value that can be represented.
+                "The smallest value that can be represented.
 
 # Examples
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::min_value(), Fix::from_bits(", $s_inner, "::min_value()));
+assert_eq!(Fix::MIN, Fix::from_bits(", $s_inner, "::min_value()));
 ```
 ";
-                #[inline]
-                pub const fn min_value() -> $Fixed<Frac> {
-                    Self::from_bits(<$Inner>::min_value())
-                }
+                pub const MIN: Self = Self::from_bits(<$Inner>::min_value());
             }
 
+            // TODO when rustc requirement >= 1.43.0, use MAX instead of max_value() in example
             comment! {
-                "Returns the largest value that can be represented.
+                "The largest value that can be represented.
 
 # Examples
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::max_value(), Fix::from_bits(", $s_inner, "::max_value()));
+assert_eq!(Fix::MAX, Fix::from_bits(", $s_inner, "::max_value()));
 ```
 ";
-                #[inline]
-                pub const fn max_value() -> $Fixed<Frac> {
-                    Self::from_bits(<$Inner>::max_value())
-                }
+                pub const MAX: Self = Self::from_bits(<$Inner>::max_value());
             }
 
             comment! {
@@ -524,7 +520,7 @@ type Fix = ", $s_fixed, "<U4>;
                 if_signed_unsigned! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(5).checked_neg(), Some(Fix::from_num(-5)));
-assert_eq!(Fix::min_value().checked_neg(), None);",
+assert_eq!(Fix::MIN.checked_neg(), None);",
                     "assert_eq!(Fix::from_num(0).checked_neg(), Some(Fix::from_num(0)));
 assert_eq!(Fix::from_num(5).checked_neg(), None);",
                 },
@@ -548,8 +544,8 @@ assert_eq!(Fix::from_num(5).checked_neg(), None);",
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let one = Fix::from_num(1);
-assert_eq!((Fix::max_value() - one).checked_add(one), Some(Fix::max_value()));
-assert_eq!(Fix::max_value().checked_add(one), None);
+assert_eq!((Fix::MAX - one).checked_add(one), Some(Fix::MAX));
+assert_eq!(Fix::MAX.checked_add(one), None);
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -569,8 +565,8 @@ assert_eq!(Fix::max_value().checked_add(one), None);
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let one = Fix::from_num(1);
-assert_eq!((Fix::min_value() + one).checked_sub(one), Some(Fix::min_value()));
-assert_eq!(Fix::min_value().checked_sub(one), None);
+assert_eq!((Fix::MIN + one).checked_sub(one), Some(Fix::MIN));
+assert_eq!(Fix::MIN.checked_sub(one), None);
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -624,8 +620,8 @@ product, or [`None`] on overflow.
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::max_value().checked_mul_int(1), Some(Fix::max_value()));
-assert_eq!(Fix::max_value().checked_mul_int(2), None);
+assert_eq!(Fix::MAX.checked_mul_int(1), Some(Fix::MAX));
+assert_eq!(Fix::MAX.checked_mul_int(2), None);
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -651,12 +647,12 @@ assert_eq!(Fix::max_value().checked_mul_int(2), None);
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::max_value().checked_div_int(1), Some(Fix::max_value()));
+assert_eq!(Fix::MAX.checked_div_int(1), Some(Fix::MAX));
 assert_eq!(Fix::from_num(1).checked_div_int(0), None);
 ",
                 if_signed_else_empty_str! {
                     $Signedness,
-                    "assert_eq!(Fix::min_value().checked_div_int(-1), None);
+                    "assert_eq!(Fix::MIN.checked_div_int(-1), None);
 ",
                 },
                 "```
@@ -765,7 +761,7 @@ Overflow can only occur when trying to find the absolute value of the minimum va
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(-5).checked_abs(), Some(Fix::from_num(5)));
-assert_eq!(Fix::min_value().checked_abs(), None);
+assert_eq!(Fix::MIN.checked_abs(), None);
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -793,7 +789,7 @@ let three_eights = Fix::from_bits(0b0110);
 // 1/2 is 0.1000
 let half = Fix::from_bits(0b1000);
 assert_eq!(three_eights.checked_next_power_of_two(), Some(half));
-assert!(Fix::max_value().checked_next_power_of_two().is_none());
+assert!(Fix::MAX.checked_next_power_of_two().is_none());
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -825,7 +821,7 @@ type Fix = ", $s_fixed, "<U4>;
                 if_signed_unsigned! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(5).saturating_neg(), Fix::from_num(-5));
-assert_eq!(Fix::min_value().saturating_neg(), Fix::max_value());",
+assert_eq!(Fix::MIN.saturating_neg(), Fix::MAX);",
                     "assert_eq!(Fix::from_num(0).saturating_neg(), Fix::from_num(0));
 assert_eq!(Fix::from_num(5).saturating_neg(), Fix::from_num(0));",
                 },
@@ -838,7 +834,7 @@ assert_eq!(Fix::from_num(5).saturating_neg(), Fix::from_num(0));",
                         $Signedness,
                         {
                             let (val, overflow) = self.overflowing_neg();
-                            val.if_cond_else(!overflow, Self::max_value())
+                            val.if_cond_else(!overflow, Self::MAX)
                         },
                         Self::from_bits(0),
                     }
@@ -854,7 +850,7 @@ assert_eq!(Fix::from_num(5).saturating_neg(), Fix::from_num(0));",
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(3).saturating_add(Fix::from_num(2)), Fix::from_num(5));
-assert_eq!(Fix::max_value().saturating_add(Fix::from_num(1)), Fix::max_value());
+assert_eq!(Fix::MAX.saturating_add(Fix::from_num(1)), Fix::MAX);
 ```
 ";
                 #[inline]
@@ -864,8 +860,8 @@ assert_eq!(Fix::max_value().saturating_add(Fix::from_num(1)), Fix::max_value());
                         !overflow,
                         if_signed_unsigned! {
                             $Signedness,
-                            Self::min_value().if_cond_else(self.to_bits() < 0, Self::max_value()),
-                            Self::max_value(),
+                            Self::MIN.if_cond_else(self.to_bits() < 0, Self::MAX),
+                            Self::MAX,
                         },
                     )
                 }
@@ -883,7 +879,7 @@ type Fix = ", $s_fixed, "<U4>;
                 if_signed_unsigned! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(1).saturating_sub(Fix::from_num(3)), Fix::from_num(-2));
-assert_eq!(Fix::min_value().saturating_sub(Fix::from_num(1)), Fix::min_value());",
+assert_eq!(Fix::MIN.saturating_sub(Fix::from_num(1)), Fix::MIN);",
                     "assert_eq!(Fix::from_num(5).saturating_sub(Fix::from_num(3)), Fix::from_num(2));
 assert_eq!(Fix::from_num(0).saturating_sub(Fix::from_num(1)), Fix::from_num(0));",
                 },
@@ -897,11 +893,11 @@ assert_eq!(Fix::from_num(0).saturating_sub(Fix::from_num(1)), Fix::from_num(0));
                         !overflow,
                         if_signed_unsigned! {
                             $Signedness,
-                            Self::min_value().if_cond_else(
+                            Self::MIN.if_cond_else(
                                 self.to_bits() < rhs.to_bits(),
-                                Self::max_value(),
+                                Self::MAX,
                             ),
-                            Self::min_value(),
+                            Self::MIN,
                         },
                     )
                 }
@@ -916,7 +912,7 @@ assert_eq!(Fix::from_num(0).saturating_sub(Fix::from_num(1)), Fix::from_num(0));
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(3).saturating_mul_int(2), Fix::from_num(6));
-assert_eq!(Fix::max_value().saturating_mul_int(2), Fix::max_value());
+assert_eq!(Fix::MAX.saturating_mul_int(2), Fix::MAX);
 ```
 ";
                 #[inline]
@@ -926,11 +922,11 @@ assert_eq!(Fix::max_value().saturating_mul_int(2), Fix::max_value());
                         !overflow,
                         if_signed_unsigned! {
                             $Signedness,
-                            Self::min_value().if_cond_else(
+                            Self::MIN.if_cond_else(
                                 (self.to_bits() < 0) != (rhs < 0),
-                                Self::max_value(),
+                                Self::MAX,
                             ),
-                            Self::max_value(),
+                            Self::MAX,
                         },
                     )
                 }
@@ -949,13 +945,13 @@ Overflow can only occur when trying to find the absolute value of the minimum va
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(-5).saturating_abs(), Fix::from_num(5));
-assert_eq!(Fix::min_value().saturating_abs(), Fix::max_value());
+assert_eq!(Fix::MIN.saturating_abs(), Fix::MAX);
 ```
 ";
                     #[inline]
                     pub const fn saturating_abs(self) -> $Fixed<Frac> {
                         let (val, overflow) = self.overflowing_abs();
-                        val.if_cond_else(!overflow, Self::max_value())
+                        val.if_cond_else(!overflow, Self::MAX)
                     }
                 }
             }
@@ -980,7 +976,7 @@ type Fix = ", $s_fixed, "<U4>;
                 if_signed_unsigned! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(5).wrapping_neg(), Fix::from_num(-5));
-assert_eq!(Fix::min_value().wrapping_neg(), Fix::min_value());",
+assert_eq!(Fix::MIN.wrapping_neg(), Fix::MIN);",
                     "assert_eq!(Fix::from_num(0).wrapping_neg(), Fix::from_num(0));
 assert_eq!(Fix::from_num(5).wrapping_neg(), Fix::wrapping_from_num(-5));
 let neg_five_bits = !Fix::from_num(5).to_bits() + 1;
@@ -1006,8 +1002,8 @@ type Fix = ", $s_fixed, "<U4>;
 let one = Fix::from_num(1);
 let one_minus_bit = one - Fix::from_bits(1);
 assert_eq!(Fix::from_num(3).wrapping_add(Fix::from_num(2)), Fix::from_num(5));
-assert_eq!(Fix::max_value().wrapping_add(one), ",
-                if_signed_else_empty_str! { $Signedness, "Fix::min_value() + " },
+assert_eq!(Fix::MAX.wrapping_add(one), ",
+                if_signed_else_empty_str! { $Signedness, "Fix::MIN + " },
                 "one_minus_bit);
 ```
 ";
@@ -1031,11 +1027,11 @@ let one_minus_bit = one - Fix::from_bits(1);
                 if_signed_unsigned! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(3).wrapping_sub(Fix::from_num(5)), Fix::from_num(-2));
-assert_eq!(Fix::min_value()",
+assert_eq!(Fix::MIN",
                     "assert_eq!(Fix::from_num(5).wrapping_sub(Fix::from_num(3)), Fix::from_num(2));
 assert_eq!(Fix::from_num(0)",
                 },
-                ".wrapping_sub(one), Fix::max_value() - one_minus_bit);
+                ".wrapping_sub(one), Fix::MAX - one_minus_bit);
 ```
 ";
                 #[inline]
@@ -1054,7 +1050,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(3).wrapping_mul_int(2), Fix::from_num(6));
 let wrapped = Fix::from_bits(!0 << 2);
-assert_eq!(Fix::max_value().wrapping_mul_int(4), wrapped);
+assert_eq!(Fix::MAX.wrapping_mul_int(4), wrapped);
 ```
 ";
                 #[inline]
@@ -1091,7 +1087,7 @@ assert_eq!(Fix::from_num(3).wrapping_div_int(2), one_point_5);
 ",
                 if_signed_else_empty_str! {
                     $Signedness,
-                    "assert_eq!(Fix::min_value().wrapping_div_int(-1), Fix::min_value());
+                    "assert_eq!(Fix::MIN.wrapping_div_int(-1), Fix::MIN);
 ",
                 },
                 "```
@@ -1153,7 +1149,7 @@ Overflow can only occur when trying to find the absolute value of the minimum va
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(-5).wrapping_abs(), Fix::from_num(5));
-assert_eq!(Fix::min_value().wrapping_abs(), Fix::min_value());
+assert_eq!(Fix::MIN.wrapping_abs(), Fix::MIN);
 ```
 ";
                     #[inline]
@@ -1186,7 +1182,7 @@ type Fix = ", $s_fixed, "<U4>;
                 if_signed_unsigned! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(5).overflowing_neg(), (Fix::from_num(-5), false));
-assert_eq!(Fix::min_value().overflowing_neg(), (Fix::min_value(), true));",
+assert_eq!(Fix::MIN.overflowing_neg(), (Fix::MIN, true));",
                     "assert_eq!(Fix::from_num(0).overflowing_neg(), (Fix::from_num(0), false));
 assert_eq!(Fix::from_num(5).overflowing_neg(), Fix::overflowing_from_num(-5));
 let neg_five_bits = !Fix::from_num(5).to_bits() + 1;
@@ -1219,8 +1215,8 @@ type Fix = ", $s_fixed, "<U4>;
 let one = Fix::from_num(1);
 let one_minus_bit = one - Fix::from_bits(1);
 assert_eq!(Fix::from_num(3).overflowing_add(Fix::from_num(2)), (Fix::from_num(5), false));
-assert_eq!(Fix::max_value().overflowing_add(one), (",
-                if_signed_else_empty_str! { $Signedness, "Fix::min_value() + " },
+assert_eq!(Fix::MAX.overflowing_add(one), (",
+                if_signed_else_empty_str! { $Signedness, "Fix::MIN + " },
                 "one_minus_bit, true));
 ```
 
@@ -1251,11 +1247,11 @@ let one_minus_bit = one - Fix::from_bits(1);
                 if_signed_unsigned! {
                     $Signedness,
                     "assert_eq!(Fix::from_num(3).overflowing_sub(Fix::from_num(5)), (Fix::from_num(-2), false));
-assert_eq!(Fix::min_value()",
+assert_eq!(Fix::MIN",
                     "assert_eq!(Fix::from_num(5).overflowing_sub(Fix::from_num(3)), (Fix::from_num(2), false));
 assert_eq!(Fix::from_num(0)",
                 },
-                ".overflowing_sub(one), (Fix::max_value() - one_minus_bit, true));
+                ".overflowing_sub(one), (Fix::MAX - one_minus_bit, true));
 ```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -1281,7 +1277,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(3).overflowing_mul_int(2), (Fix::from_num(6), false));
 let wrapped = Fix::from_bits(!0 << 2);
-assert_eq!(Fix::max_value().overflowing_mul_int(4), (wrapped, true));
+assert_eq!(Fix::MAX.overflowing_mul_int(4), (wrapped, true));
 ```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -1322,7 +1318,7 @@ assert_eq!(Fix::from_num(3).overflowing_div_int(2), (one_point_5, false));
 ",
                 if_signed_else_empty_str! {
                     $Signedness,
-                    "assert_eq!(Fix::min_value().overflowing_div_int(-1), (Fix::min_value(), true));
+                    "assert_eq!(Fix::MIN.overflowing_div_int(-1), (Fix::MIN, true));
 ",
                 },
                 "```
@@ -1407,7 +1403,7 @@ Overflow can only occur when trying to find the absolute value of the minimum va
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(-5).overflowing_abs(), (Fix::from_num(5), false));
-assert_eq!(Fix::min_value().overflowing_abs(), (Fix::min_value(), true));
+assert_eq!(Fix::MIN.overflowing_abs(), (Fix::MIN, true));
 ```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -1425,6 +1421,20 @@ assert_eq!(Fix::min_value().overflowing_abs(), (Fix::min_value(), true));
             const fn if_cond_else(self, cond: bool, otherwise: Self) -> Self {
                 let not_mask = (cond as $Inner).wrapping_sub(1);
                 Self::from_bits((self.to_bits() & !not_mask) | (otherwise.to_bits() & not_mask))
+            }
+
+            /// Returns the smallest value that can be represented.
+            #[inline]
+            #[deprecated(since = "0.5.5", note = "replaced by `MIN`")]
+            pub const fn min_value() -> $Fixed<Frac> {
+                Self::MIN
+            }
+
+            /// Returns the largest value that can be represented.
+            #[inline]
+            #[deprecated(since = "0.5.5", note = "replaced by `MAX`")]
+            pub const fn max_value() -> $Fixed<Frac> {
+                Self::MAX
             }
         }
     };

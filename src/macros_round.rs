@@ -315,7 +315,7 @@ assert_eq!(Fix::from_num(2.5).checked_ceil(), Some(Fix::from_num(3)));
                 "assert_eq!(Fix::from_num(-2.5).checked_ceil(), Some(Fix::from_num(-2)));
 ",
             },
-            "assert!(Fix::max_value().checked_ceil().is_none());
+            "assert!(Fix::MAX.checked_ceil().is_none());
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -360,7 +360,7 @@ assert_eq!(Fix::from_num(2.5).checked_floor(), Some(Fix::from_num(2)));
                 $Signedness,
                 "assert_eq!(Fix::from_num(-2.5).checked_floor(), Some(Fix::from_num(-3)));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
-assert!(AllFrac::min_value().checked_floor().is_none());
+assert!(AllFrac::MIN.checked_floor().is_none());
 ",
             },
             "```
@@ -397,7 +397,7 @@ assert_eq!(Fix::from_num(2.5).checked_round(), Some(Fix::from_num(3)));
                 "assert_eq!(Fix::from_num(-2.5).checked_round(), Some(Fix::from_num(-3)));
 ",
             },
-            "assert!(Fix::max_value().checked_round().is_none());
+            "assert!(Fix::MAX.checked_round().is_none());
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -420,7 +420,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).checked_round_ties_to_even(), Some(Fix::from_num(2)));
 assert_eq!(Fix::from_num(3.5).checked_round_ties_to_even(), Some(Fix::from_num(4)));
-assert!(Fix::max_value().checked_round_ties_to_even().is_none());
+assert!(Fix::MAX.checked_round_ties_to_even().is_none());
 ```
 
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
@@ -448,13 +448,13 @@ assert_eq!(Fix::from_num(2.5).saturating_ceil(), Fix::from_num(3));
                 "assert_eq!(Fix::from_num(-2.5).saturating_ceil(), Fix::from_num(-2));
 ",
             },
-            "assert_eq!(Fix::max_value().saturating_ceil(), Fix::max_value());
+            "assert_eq!(Fix::MAX.saturating_ceil(), Fix::MAX);
 ```
 ";
             #[inline]
             pub fn saturating_ceil(self) -> $Fixed<Frac> {
                 let (ceil, overflow) = self.overflowing_ceil();
-                if overflow { Self::max_value() } else { ceil }
+                if overflow { Self::MAX } else { ceil }
             }
         }
 
@@ -491,7 +491,7 @@ assert_eq!(Fix::from_num(2.5).saturating_floor(), Fix::from_num(2));
                 $Signedness,
                 "assert_eq!(Fix::from_num(-2.5).saturating_floor(), Fix::from_num(-3));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
-assert_eq!(AllFrac::min_value().saturating_floor(), AllFrac::min_value());
+assert_eq!(AllFrac::MIN.saturating_floor(), AllFrac::MIN);
 ",
             },
             "```
@@ -499,7 +499,7 @@ assert_eq!(AllFrac::min_value().saturating_floor(), AllFrac::min_value());
             #[inline]
             pub fn saturating_floor(self) -> $Fixed<Frac> {
                 let (floor, overflow) = self.overflowing_floor();
-                if overflow { Self::min_value() } else { floor }
+                if overflow { Self::MIN } else { floor }
             }
         }
 
@@ -519,15 +519,15 @@ assert_eq!(Fix::from_num(2.5).saturating_round(), Fix::from_num(3));
                 "assert_eq!(Fix::from_num(-2.5).saturating_round(), Fix::from_num(-3));
 ",
             },
-            "assert_eq!(Fix::max_value().saturating_round(), Fix::max_value());
+            "assert_eq!(Fix::MAX.saturating_round(), Fix::MAX);
 ```
 ";
             #[inline]
             pub fn saturating_round(self) -> $Fixed<Frac> {
                 let saturated = if self.to_bits() > 0 {
-                    $Fixed::max_value()
+                    $Fixed::MAX
                 } else {
-                    $Fixed::min_value()
+                    $Fixed::MIN
                 };
                 let (round, overflow) = self.overflowing_round();
                 if overflow { saturated } else { round }
@@ -545,15 +545,15 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).saturating_round_ties_to_even(), Fix::from_num(2));
 assert_eq!(Fix::from_num(3.5).saturating_round_ties_to_even(), Fix::from_num(4));
-assert_eq!(Fix::max_value().saturating_round_ties_to_even(), Fix::max_value());
+assert_eq!(Fix::MAX.saturating_round_ties_to_even(), Fix::MAX);
 ```
 ";
             #[inline]
             pub fn saturating_round_ties_to_even(self) -> $Fixed<Frac> {
                 let saturated = if self.to_bits() > 0 {
-                    $Fixed::max_value()
+                    $Fixed::MAX
                 } else {
-                    $Fixed::min_value()
+                    $Fixed::MIN
                 };
                 let (round, overflow) = self.overflowing_round_ties_to_even();
                 if overflow { saturated } else { round }
@@ -576,7 +576,7 @@ assert_eq!(Fix::from_num(2.5).wrapping_ceil(), Fix::from_num(3));
                 "assert_eq!(Fix::from_num(-2.5).wrapping_ceil(), Fix::from_num(-2));
 ",
             },
-            "assert_eq!(Fix::max_value().wrapping_ceil(), Fix::min_value());
+            "assert_eq!(Fix::MAX.wrapping_ceil(), Fix::MIN);
 ```
 ";
             #[inline]
@@ -618,7 +618,7 @@ assert_eq!(Fix::from_num(2.5).wrapping_floor(), Fix::from_num(2));
                 $Signedness,
                 "assert_eq!(Fix::from_num(-2.5).wrapping_floor(), Fix::from_num(-3));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
-assert_eq!(AllFrac::min_value().wrapping_floor(), AllFrac::from_num(0));
+assert_eq!(AllFrac::MIN.wrapping_floor(), AllFrac::from_num(0));
 ",
             },
             "```
@@ -645,7 +645,7 @@ assert_eq!(Fix::from_num(2.5).wrapping_round(), Fix::from_num(3));
                 "assert_eq!(Fix::from_num(-2.5).wrapping_round(), Fix::from_num(-3));
 ",
             },
-            "assert_eq!(Fix::max_value().wrapping_round(), Fix::min_value());
+            "assert_eq!(Fix::MAX.wrapping_round(), Fix::MIN);
 ```
 ";
             #[inline]
@@ -665,7 +665,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).wrapping_round_ties_to_even(), Fix::from_num(2));
 assert_eq!(Fix::from_num(3.5).wrapping_round_ties_to_even(), Fix::from_num(4));
-assert_eq!(Fix::max_value().wrapping_round_ties_to_even(), Fix::min_value());
+assert_eq!(Fix::MAX.wrapping_round_ties_to_even(), Fix::MIN);
 ```
 ";
             #[inline]
@@ -693,7 +693,7 @@ assert_eq!(Fix::from_num(2.5).overflowing_ceil(), (Fix::from_num(3), false));
                 "assert_eq!(Fix::from_num(-2.5).overflowing_ceil(), (Fix::from_num(-2), false));
 "
             },
-            "assert_eq!(Fix::max_value().overflowing_ceil(), (Fix::min_value(), true));
+            "assert_eq!(Fix::MAX.overflowing_ceil(), (Fix::MIN, true));
 ```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -756,7 +756,7 @@ assert_eq!(Fix::from_num(2.5).overflowing_floor(), (Fix::from_num(2), false));
                 $Signedness,
                 "assert_eq!(Fix::from_num(-2.5).overflowing_floor(), (Fix::from_num(-3), false));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
-assert_eq!(AllFrac::min_value().overflowing_floor(), (AllFrac::from_num(0), true));
+assert_eq!(AllFrac::MIN.overflowing_floor(), (AllFrac::from_num(0), true));
 ",
             },
             "```
@@ -798,7 +798,7 @@ assert_eq!(Fix::from_num(2.5).overflowing_round(), (Fix::from_num(3), false));
                 "assert_eq!(Fix::from_num(-2.5).overflowing_round(), (Fix::from_num(-3), false));
 ",
             },
-            "assert_eq!(Fix::max_value().overflowing_round(), (Fix::min_value(), true));
+            "assert_eq!(Fix::MAX.overflowing_round(), (Fix::MIN, true));
 ```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -857,7 +857,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).overflowing_round_ties_to_even(), (Fix::from_num(2), false));
 assert_eq!(Fix::from_num(3.5).overflowing_round_ties_to_even(), (Fix::from_num(4), false));
-assert_eq!(Fix::max_value().overflowing_round_ties_to_even(), (Fix::min_value(), true));
+assert_eq!(Fix::MAX.overflowing_round_ties_to_even(), (Fix::MIN, true));
 ```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html

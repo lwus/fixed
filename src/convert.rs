@@ -1056,9 +1056,9 @@ mod tests {
 
     #[test]
     fn to_size() {
-        let min_i24 = I24F8::min_value();
-        let max_i24 = I24F8::max_value();
-        let max_u24 = U24F8::max_value();
+        let min_i24 = I24F8::MIN;
+        let max_i24 = I24F8::MAX;
+        let max_u24 = U24F8::MAX;
         assert_eq!(min_i24.overflowing_to_num::<isize>(), (!0 << 23, false));
         assert_eq!(max_i24.overflowing_to_num::<isize>(), (!(!0 << 23), false));
         assert_eq!(max_u24.overflowing_to_num::<isize>(), (!(!0 << 24), false));
@@ -1066,9 +1066,9 @@ mod tests {
         assert_eq!(max_i24.overflowing_to_num::<usize>(), (!(!0 << 23), false));
         assert_eq!(max_u24.overflowing_to_num::<usize>(), (!(!0 << 24), false));
 
-        let min_i56 = I56F8::min_value();
-        let max_i56 = I56F8::max_value();
-        let max_u56 = U56F8::max_value();
+        let min_i56 = I56F8::MIN;
+        let max_i56 = I56F8::MAX;
+        let max_u56 = U56F8::MAX;
         #[cfg(target_pointer_width = "32")]
         {
             assert_eq!(min_i56.overflowing_to_num::<isize>(), (0, true));
@@ -1088,9 +1088,9 @@ mod tests {
             assert_eq!(max_u56.overflowing_to_num::<usize>(), (!(!0 << 56), false));
         }
 
-        let min_i120 = I120F8::min_value();
-        let max_i120 = I120F8::max_value();
-        let max_u120 = U120F8::max_value();
+        let min_i120 = I120F8::MIN;
+        let max_i120 = I120F8::MAX;
+        let max_u120 = U120F8::MAX;
         assert_eq!(min_i120.overflowing_to_num::<isize>(), (0, true));
         assert_eq!(max_i120.overflowing_to_num::<isize>(), (!0, true));
         assert_eq!(max_u120.overflowing_to_num::<isize>(), (!0, true));
@@ -1336,7 +1336,7 @@ mod tests {
     fn to_infinite_f32() {
         // too_large is 1.ffff_ffff_ffff... << 127,
         // which will be rounded to 1.0 << 128.
-        let too_large = U128F0::max_value();
+        let too_large = U128F0::MAX;
         assert_eq!(too_large.count_ones(), 128);
         assert!(too_large.to_num::<f32>().is_infinite());
 
@@ -1355,7 +1355,7 @@ mod tests {
         assert!(!not_too_large.to_num::<f32>().is_infinite());
 
         // min_128 is -1.0 << 127.
-        let min_i128 = I128F0::min_value();
+        let min_i128 = I128F0::MIN;
         assert_eq!(min_i128.count_ones(), 1);
         assert_eq!(min_i128.to_num::<f32>(), -(127f32.exp2()));
     }

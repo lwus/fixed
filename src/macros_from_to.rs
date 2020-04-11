@@ -183,6 +183,8 @@ assert_eq!(",
             }
         }
 
+        // TODO when rustc requirement >= 1.43.0, use {MIN,MAX}
+        // instead of {min,max}_value() in example
         comment! {
             "Creates a fixed-point number from another number if it
 fits, otherwise returns [`None`].
@@ -213,7 +215,7 @@ type Fix = ", $s_fixed, "<U4>;
 // 1.75 is 1.11 in binary
 let src = I16F16::from_bits(0b111 << (16 - 2));
 assert_eq!(Fix::checked_from_num(src), Some(Fix::from_bits(0b111 << (4 - 2))));
-let too_large = ", $s_fixed, "::<U2>::max_value();
+let too_large = ", $s_fixed, "::<U2>::MAX;
 assert!(Fix::checked_from_num(too_large).is_none());
 
 assert_eq!(Fix::checked_from_num(3), Some(Fix::from_bits(3 << 4)));
@@ -302,7 +304,7 @@ let src = Fix::from_bits(0b111 << (4 - 2));
 let expected = I16F16::from_bits(0b111 << (16 - 2));
 assert_eq!(src.checked_to_num::<I16F16>(), Some(expected));
 type TooFewIntBits = ", $s_fixed, "<U6>;
-assert!(Fix::max_value().checked_to_num::<TooFewIntBits>().is_none());
+assert!(Fix::MAX.checked_to_num::<TooFewIntBits>().is_none());
 
 // 2.5 is 10.1 in binary
 let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
@@ -319,7 +321,7 @@ assert!(AllInt::",
             if_signed_unsigned! {
                 $Signedness,
                 "from_bits(-1).checked_to_num::<u",
-                "max_value().checked_to_num::<i",
+                "MAX.checked_to_num::<i",
             },
             $s_nbits, ">().is_none());
 
@@ -355,6 +357,7 @@ assert_eq!(one_point_625.checked_to_num::<f32>(), Some(1.625f32));
             }
         }
 
+        // TODO when rustc requirement >= 1.43.0, use MIN instead of min_value() in example
         comment! {
             "Creates a fixed-point number from another number,
 saturating if it does not fit.
@@ -390,8 +393,8 @@ type Fix = ", $s_fixed, "<U4>;
 // 1.75 is 1.11 in binary
 let src = I16F16::from_bits(0b111 << (16 - 2));
 assert_eq!(Fix::saturating_from_num(src), Fix::from_bits(0b111 << (4 - 2)));
-let too_large = ", $s_fixed, "::<U2>::max_value();
-assert_eq!(Fix::saturating_from_num(too_large), Fix::max_value());
+let too_large = ", $s_fixed, "::<U2>::MAX;
+assert_eq!(Fix::saturating_from_num(too_large), Fix::MAX);
 
 assert_eq!(Fix::saturating_from_num(3), Fix::from_bits(3 << 4));
 let too_small = ",
@@ -401,7 +404,7 @@ let too_small = ",
                 "-1",
             },
             ";
-assert_eq!(Fix::saturating_from_num(too_small), Fix::min_value());
+assert_eq!(Fix::saturating_from_num(too_small), Fix::MIN);
 
 // 1.75 is 1.11 in binary
 let expected = Fix::from_bits(0b111 << (4 - 2));
@@ -413,8 +416,8 @@ assert_eq!(Fix::saturating_from_num(",
                 "1.75f64), ",
             },
             "expected);
-assert_eq!(Fix::saturating_from_num(2e38), Fix::max_value());
-assert_eq!(Fix::saturating_from_num(std::f64::NEG_INFINITY), Fix::min_value());
+assert_eq!(Fix::saturating_from_num(2e38), Fix::MAX);
+assert_eq!(Fix::saturating_from_num(std::f64::NEG_INFINITY), Fix::MIN);
 ```
 
 [NaN]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_nan
@@ -444,6 +447,7 @@ assert_eq!(Fix::saturating_from_num(std::f64::NEG_INFINITY), Fix::min_value());
             }
         }
 
+        // TODO when rustc requirement >= 1.43.0, use MAX instead of max_value() in example
         comment! {
             "Converts a fixed-point number to another number,
 saturating the value if it does not fit.
@@ -477,8 +481,8 @@ let src = Fix::from_bits(0b111 << (4 - 2));
 let expected = I16F16::from_bits(0b111 << (16 - 2));
 assert_eq!(src.saturating_to_num::<I16F16>(), expected);
 type TooFewIntBits = ", $s_fixed, "<U6>;
-let saturated = Fix::max_value().saturating_to_num::<TooFewIntBits>();
-assert_eq!(saturated, TooFewIntBits::max_value());
+let saturated = Fix::MAX.saturating_to_num::<TooFewIntBits>();
+assert_eq!(saturated, TooFewIntBits::MAX);
 
 // 2.5 is 10.1 in binary
 let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
@@ -489,7 +493,7 @@ assert_eq!(",
                 $Signedness,
                 concat!("AllInt::from_bits(-1).saturating_to_num::<u", $s_nbits, ">(), 0"),
                 concat!(
-                    "AllInt::max_value().saturating_to_num::<i", $s_nbits, ">(), ",
+                    "AllInt::MAX.saturating_to_num::<i", $s_nbits, ">(), ",
                     "i", $s_nbits, "::max_value()",
                 ),
             },
@@ -606,6 +610,7 @@ assert_eq!(Fix::wrapping_from_num(large), wrapped);
             }
         }
 
+        // TODO when rustc requirement >= 1.43.0, use MAX instead of max_value() in example
         comment! {
             "Converts a fixed-point number to another number,
 wrapping the value on overflow.
@@ -639,8 +644,8 @@ let src = Fix::from_bits(0b111 << (4 - 2));
 let expected = I16F16::from_bits(0b111 << (16 - 2));
 assert_eq!(src.wrapping_to_num::<I16F16>(), expected);
 type TooFewIntBits = ", $s_fixed, "<U6>;
-let wrapped = TooFewIntBits::from_bits(Fix::max_value().to_bits() << 2);
-assert_eq!(Fix::max_value().wrapping_to_num::<TooFewIntBits>(), wrapped);
+let wrapped = TooFewIntBits::from_bits(Fix::MAX.to_bits() << 2);
+assert_eq!(Fix::MAX.wrapping_to_num::<TooFewIntBits>(), wrapped);
 
 // 2.5 is 10.1 in binary
 let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
@@ -653,7 +658,7 @@ assert_eq!(",
                     "AllInt::from_bits(-1).wrapping_to_num::<u", $s_nbits, ">(), ",
                     "u", $s_nbits, "::max_value()",
                 ),
-                concat!("AllInt::max_value().wrapping_to_num::<i", $s_nbits, ">(), -1"),
+                concat!("AllInt::MAX.wrapping_to_num::<i", $s_nbits, ">(), -1"),
             },
             ");
 
@@ -810,14 +815,14 @@ let src = Fix::from_bits(0b111 << (4 - 2));
 let expected = I16F16::from_bits(0b111 << (16 - 2));
 assert_eq!(src.overflowing_to_num::<I16F16>(), (expected, false));
 type TooFewIntBits = ", $s_fixed, "<U6>;
-let wrapped = TooFewIntBits::from_bits(Fix::max_value().to_bits() << 2);
-assert_eq!(Fix::max_value().overflowing_to_num::<TooFewIntBits>(), (wrapped, true));
+let wrapped = TooFewIntBits::from_bits(Fix::MAX.to_bits() << 2);
+assert_eq!(Fix::MAX.overflowing_to_num::<TooFewIntBits>(), (wrapped, true));
 
 // 2.5 is 10.1 in binary
 let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
 assert_eq!(two_point_5.overflowing_to_num::<i32>(), (2, false));
 let does_not_fit = ", $s_fixed, "::<U0>::",
-            if_signed_unsigned! { $Signedness, "from_bits(-1)", "max_value()" },
+            if_signed_unsigned! { $Signedness, "from_bits(-1)", "MAX" },
             ";
 let wrapped = ",
             if_signed_unsigned! {
@@ -963,11 +968,11 @@ Rounding is to the nearest, with ties rounded to even.
             if_signed_unsigned! {
                 $Signedness,
                 "use fixed::types::I8F8;
-assert_eq!(I8F8::saturating_from_str(\"9999\"), Ok(I8F8::max_value()));
-assert_eq!(I8F8::saturating_from_str(\"-9999\"), Ok(I8F8::min_value()));
+assert_eq!(I8F8::saturating_from_str(\"9999\"), Ok(I8F8::MAX));
+assert_eq!(I8F8::saturating_from_str(\"-9999\"), Ok(I8F8::MIN));
 ",
                 "use fixed::types::U8F8;
-assert_eq!(U8F8::saturating_from_str(\"9999\"), Ok(U8F8::max_value()));
+assert_eq!(U8F8::saturating_from_str(\"9999\"), Ok(U8F8::MAX));
 assert_eq!(U8F8::saturating_from_str(\"-1\"), Ok(U8F8::from_num(0)));
 ",
             },
@@ -992,11 +997,11 @@ Rounding is to the nearest, with ties rounded to even.
             if_signed_unsigned! {
                 $Signedness,
                 "use fixed::types::I8F8;
-assert_eq!(I8F8::saturating_from_str_binary(\"101100111000\"), Ok(I8F8::max_value()));
-assert_eq!(I8F8::saturating_from_str_binary(\"-101100111000\"), Ok(I8F8::min_value()));
+assert_eq!(I8F8::saturating_from_str_binary(\"101100111000\"), Ok(I8F8::MAX));
+assert_eq!(I8F8::saturating_from_str_binary(\"-101100111000\"), Ok(I8F8::MIN));
 ",
                 "use fixed::types::U8F8;
-assert_eq!(U8F8::saturating_from_str_binary(\"101100111000\"), Ok(U8F8::max_value()));
+assert_eq!(U8F8::saturating_from_str_binary(\"101100111000\"), Ok(U8F8::MAX));
 assert_eq!(U8F8::saturating_from_str_binary(\"-1\"), Ok(U8F8::from_num(0)));
 ",
             },
@@ -1021,11 +1026,11 @@ Rounding is to the nearest, with ties rounded to even.
             if_signed_unsigned! {
                 $Signedness,
                 "use fixed::types::I8F8;
-assert_eq!(I8F8::saturating_from_str_octal(\"7777\"), Ok(I8F8::max_value()));
-assert_eq!(I8F8::saturating_from_str_octal(\"-7777\"), Ok(I8F8::min_value()));
+assert_eq!(I8F8::saturating_from_str_octal(\"7777\"), Ok(I8F8::MAX));
+assert_eq!(I8F8::saturating_from_str_octal(\"-7777\"), Ok(I8F8::MIN));
 ",
                 "use fixed::types::U8F8;
-assert_eq!(U8F8::saturating_from_str_octal(\"7777\"), Ok(U8F8::max_value()));
+assert_eq!(U8F8::saturating_from_str_octal(\"7777\"), Ok(U8F8::MAX));
 assert_eq!(U8F8::saturating_from_str_octal(\"-1\"), Ok(U8F8::from_num(0)));
 ",
             },
@@ -1050,11 +1055,11 @@ Rounding is to the nearest, with ties rounded to even.
             if_signed_unsigned! {
                 $Signedness,
                 "use fixed::types::I8F8;
-assert_eq!(I8F8::saturating_from_str_hex(\"FFFF\"), Ok(I8F8::max_value()));
-assert_eq!(I8F8::saturating_from_str_hex(\"-FFFF\"), Ok(I8F8::min_value()));
+assert_eq!(I8F8::saturating_from_str_hex(\"FFFF\"), Ok(I8F8::MAX));
+assert_eq!(I8F8::saturating_from_str_hex(\"-FFFF\"), Ok(I8F8::MIN));
 ",
                 "use fixed::types::U8F8;
-assert_eq!(U8F8::saturating_from_str_hex(\"FFFF\"), Ok(U8F8::max_value()));
+assert_eq!(U8F8::saturating_from_str_hex(\"FFFF\"), Ok(U8F8::MAX));
 assert_eq!(U8F8::saturating_from_str_hex(\"-1\"), Ok(U8F8::from_num(0)));
 ",
             },
