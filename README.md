@@ -74,6 +74,13 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 0.5.5 news (unreleased)
+
+  * The methods [`int_log2`] and [`checked_int_log2`] were added to
+    all fixed-point types and to the [`Fixed`] trait.
+  * The method [`int_log2`][wril] was added to the [`Wrapping`]
+    wrapper.
+
 ### Version 0.5.4 news (2020-02-21)
 
   * Bug fix: [`rem_euclid_int`] and its checked versions were handling
@@ -112,9 +119,11 @@ The conversions supported cover the following cases.
 [`Rem`]: https://doc.rust-lang.org/nightly/core/ops/trait.Rem.html
 [`Wrapping`]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html
 [`checked_div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_div_euclid
+[`checked_int_log2`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_int_log2
 [`checked_rem_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem_euclid
 [`checked_rem`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem
 [`div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.div_euclid
+[`int_log2`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_log2
 [`overflowing_div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.overflowing_div_euclid
 [`overflowing_rem_int`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.overflowing_rem_int
 [`rem_euclid_int`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.rem_euclid_int
@@ -128,6 +137,7 @@ The conversions supported cover the following cases.
 [wdei]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.div_euclid_int
 [wre]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.rem_euclid
 [wrei]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.rem_euclid_int
+[wril]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.int_log2
 
 ### Other releases
 

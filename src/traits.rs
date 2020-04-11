@@ -614,6 +614,19 @@ where
     /// Returns the number of trailing zeros in the binary representation.
     fn trailing_zeros(self) -> u32;
 
+    /// Integer base-2 logarithm, rounded down.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the fixed-point number is ≤ 0.
+    fn int_log2(self) -> i32;
+
+    /// Checked integer base-2 logarithm, rounded down. Returns the
+    /// logarithm or [`None`] if the fixed-point number is ≤ 0.
+    ///
+    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
+    fn checked_int_log2(self) -> Option<i32>;
+
     /// Shifts to the left by `n` bits, wrapping the truncated bits to the right end.
     fn rotate_left(self, n: u32) -> Self;
 
@@ -1822,6 +1835,8 @@ macro_rules! impl_fixed {
             trait_delegate! { fn count_zeros(self) -> u32 }
             trait_delegate! { fn leading_zeros(self) -> u32 }
             trait_delegate! { fn trailing_zeros(self) -> u32 }
+            trait_delegate! { fn int_log2(self) -> i32 }
+            trait_delegate! { fn checked_int_log2(self) -> Option<i32> }
             trait_delegate! { fn rotate_left(self, n: u32) -> Self }
             trait_delegate! { fn rotate_right(self, n: u32) -> Self }
             trait_delegate! { fn div_euclid(self, rhs: Self) -> Self }

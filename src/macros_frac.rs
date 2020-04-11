@@ -100,6 +100,59 @@ assert_eq!(Fix::frac_nbits(), 6);
             fixed_from_to! { $Fixed[$s_fixed]($Inner[$s_inner], $s_nbits), $Signedness }
             fixed_round! { $Fixed[$s_fixed]($s_nbits), $Signedness }
 
+            comment! {
+                "Integer base-2 logarithm, rounded down.
+
+# Panics
+
+Panics if the fixed-point number is ", if_signed_unsigned!($Signedness, "≤ 0", "zero"), ".
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(4).int_log2(), 2);
+assert_eq!(Fix::from_num(3.9375).int_log2(), 1);
+assert_eq!(Fix::from_num(0.25).int_log2(), -2);
+assert_eq!(Fix::from_num(0.1875).int_log2(), -3);
+```
+";
+                #[inline]
+                pub fn int_log2(self) -> i32 {
+                    self.checked_int_log2().expect("log of non-positive number")
+                }
+            }
+
+            comment! {
+                "Checked integer base-2 logarithm, rounded down.
+Returns the logarithm or [`None`] if the fixed-point number is
+", if_signed_unsigned!($Signedness, "≤ 0", "zero"), ".
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(0).checked_int_log2(), None);
+assert_eq!(Fix::from_num(4).checked_int_log2(), Some(2));
+assert_eq!(Fix::from_num(3.9375).checked_int_log2(), Some(1));
+assert_eq!(Fix::from_num(0.25).checked_int_log2(), Some(-2));
+assert_eq!(Fix::from_num(0.1875).checked_int_log2(), Some(-3));
+```
+
+[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
+";
+                #[inline]
+                pub fn checked_int_log2(self) -> Option<i32> {
+                    if self <= 0 {
+                        None
+                    } else {
+                        Some(Self::INT_NBITS as i32 - 1 - self.leading_zeros() as i32)
+                    }
+                }
+            }
+
             if_signed! {
                 $Signedness;
                 comment! {

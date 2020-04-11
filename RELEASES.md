@@ -5,6 +5,13 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 0.5.5 (unreleased)
+==========================
+
+  * The methods `int_log2` and `checked_int_log2` were added to all
+    fixed-point types and to the `Fixed` trait.
+  * The method `int_log2` was added to the `Wrapping` wrapper.
+
 Version 0.5.4 (2020-02-21)
 ==========================
 
