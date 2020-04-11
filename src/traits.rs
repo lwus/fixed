@@ -252,11 +252,11 @@ where
     /// The largest value that can be represented.
     const MAX: Self;
 
-    /// Returns the number of integer bits.
-    fn int_nbits() -> u32;
+    /// The number of integer bits.
+    const INT_NBITS: u32;
 
-    /// Returns the number of fractional bits.
-    fn frac_nbits() -> u32;
+    /// The number of fractional bits.
+    const FRAC_NBITS: u32;
 
     /// Creates a fixed-point number that has a bitwise representation
     /// identical to the given integer.
@@ -986,15 +986,31 @@ where
     fn overflowing_shr(self, rhs: u32) -> (Self, bool);
 
     /// Returns the smallest value that can be represented.
+    #[inline]
     #[deprecated(since = "0.5.5", note = "replaced by `MIN`")]
     fn min_value() -> Self {
         Self::MIN
     }
 
     /// Returns the largest value that can be represented.
+    #[inline]
     #[deprecated(since = "0.5.5", note = "replaced by `MAX`")]
     fn max_value() -> Self {
         Self::MAX
+    }
+
+    /// Returns the number of integer bits.
+    #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `INT_NBITS`")]
+    fn int_nbits() -> u32 {
+        Self::INT_NBITS
+    }
+
+    /// Returns the number of fractional bits.
+    #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `FRAC_NBITS`")]
+    fn frac_nbits() -> u32 {
+        Self::FRAC_NBITS
     }
 
     /// Remainder for division by an integer.
@@ -1002,6 +1018,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[inline]
     #[deprecated(
         since = "0.5.3",
         note = "cannot overflow, use `%` or `Rem::rem` instead"
@@ -1015,6 +1032,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[inline]
     #[deprecated(
         since = "0.5.3",
         note = "cannot overflow, use `%` or `Rem::rem` instead"
@@ -1555,7 +1573,7 @@ macro_rules! impl_float {
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 let helper = src.private_to_float_helper();
-                FloatHelper::from_to_float_helper(helper, F::frac_nbits(), F::int_nbits())
+                FloatHelper::from_to_float_helper(helper, F::FRAC_NBITS, F::INT_NBITS)
             }
 
             /// Converts a fixed-point number to a floating-point
@@ -1638,7 +1656,7 @@ it panics; if wrapping is required use [`wrapping_to_fixed`] instead.
             /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
             fn checked_to_fixed<F: Fixed>(self) -> Option<F> {
-                let kind = self.to_float_kind(F::frac_nbits(), F::int_nbits());
+                let kind = self.to_float_kind(F::FRAC_NBITS, F::INT_NBITS);
                 match kind {
                     FloatKind::Finite { .. } => {
                         let helper = FromFloatHelper { kind };
@@ -1665,7 +1683,7 @@ Panics if `self` is [NaN].
 ";
                 #[inline]
                 fn saturating_to_fixed<F: Fixed>(self) -> F {
-                    let kind = self.to_float_kind(F::frac_nbits(), F::int_nbits());
+                    let kind = self.to_float_kind(F::FRAC_NBITS, F::INT_NBITS);
                     let helper = FromFloatHelper { kind };
                     F::private_saturating_from_float_helper(helper)
                 }
@@ -1709,7 +1727,7 @@ Panics if `self` is not [finite].
 ";
                 #[inline]
                 fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
-                    let kind = self.to_float_kind(F::frac_nbits(), F::int_nbits());
+                    let kind = self.to_float_kind(F::FRAC_NBITS, F::INT_NBITS);
                     let helper = FromFloatHelper { kind };
                     F::private_overflowing_from_float_helper(helper)
                 }
@@ -1762,8 +1780,8 @@ macro_rules! impl_fixed {
             type Frac = Frac;
             const MIN: Self = Self::MIN;
             const MAX: Self = Self::MAX;
-            trait_delegate! { fn int_nbits() -> u32 }
-            trait_delegate! { fn frac_nbits() -> u32 }
+            const INT_NBITS: u32 = Self::INT_NBITS;
+            const FRAC_NBITS: u32 = Self::FRAC_NBITS;
             trait_delegate! { fn from_bits(bits: Self::Bits) -> Self }
             trait_delegate! { fn to_bits(self) -> Self::Bits }
             trait_delegate! { fn from_be_bytes(bits: Self::Bytes) -> Self }

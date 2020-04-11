@@ -63,40 +63,6 @@ assert_eq!(Fix::FRAC_NBITS, 6);
             const FRAC_MSB: $Inner =
                 Self::FRAC_MASK ^ ((Self::FRAC_MASK as $UInner) >> 1) as $Inner;
 
-            comment! {
-                "Returns the number of integer bits.
-
-# Examples
-
-```rust
-use fixed::{types::extra::U6, ", $s_fixed, "};
-type Fix = ", $s_fixed, "<U6>;
-assert_eq!(Fix::int_nbits(), ", $s_nbits, " - 6);
-```
-";
-                #[inline]
-                pub fn int_nbits() -> u32 {
-                    Self::INT_NBITS
-                }
-            }
-
-            comment! {
-                "Returns the number of fractional bits.
-
-# Examples
-
-```rust
-use fixed::{types::extra::U6, ", $s_fixed, "};
-type Fix = ", $s_fixed, "<U6>;
-assert_eq!(Fix::frac_nbits(), 6);
-```
-";
-                #[inline]
-                pub fn frac_nbits() -> u32 {
-                    Self::FRAC_NBITS
-                }
-            }
-
             fixed_from_to! { $Fixed[$s_fixed]($Inner[$s_inner], $s_nbits), $Signedness }
             fixed_round! { $Fixed[$s_fixed]($s_nbits), $Signedness }
 
@@ -1046,13 +1012,27 @@ assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3
                 }
             }
 
+            /// Returns the number of integer bits.
+            #[inline]
+            #[deprecated(since = "0.5.5", note = "use `INT_NBITS` instead")]
+            pub fn int_nbits() -> u32 {
+                Self::INT_NBITS
+            }
+
+            /// Returns the number of fractional bits.
+            #[inline]
+            #[deprecated(since = "0.5.5", note = "use `FRAC_NBITS` instead")]
+            pub fn frac_nbits() -> u32 {
+                Self::FRAC_NBITS
+            }
+
             /// Remainder for division by an integer.
             ///
             /// # Panics
             ///
             /// Panics if the divisor is zero.
-            #[deprecated(since = "0.5.3", note = "cannot overflow, use `%` or `Rem::rem` instead")]
             #[inline]
+            #[deprecated(since = "0.5.3", note = "cannot overflow, use `%` or `Rem::rem` instead")]
             pub fn wrapping_rem_int(self, rhs: $Inner) -> $Fixed<Frac> {
                 self % rhs
             }
@@ -1062,8 +1042,8 @@ assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3
             /// # Panics
             ///
             /// Panics if the divisor is zero.
-            #[deprecated(since = "0.5.3", note = "cannot overflow, use `%` or `Rem::rem` instead")]
             #[inline]
+            #[deprecated(since = "0.5.3", note = "cannot overflow, use `%` or `Rem::rem` instead")]
             pub fn overflowing_rem_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
                 (self % rhs, false)
             }

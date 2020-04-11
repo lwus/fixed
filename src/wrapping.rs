@@ -71,31 +71,25 @@ impl<F: Fixed> Wrapping<F> {
     /// ```
     pub const MAX: Wrapping<F> = Wrapping(F::MAX);
 
-    /// Returns the number of integer bits.
+    /// The number of integer bits.
     ///
     /// # Examples
     ///
     /// ```rust
     /// use fixed::{types::I16F16, Wrapping};
-    /// assert_eq!(Wrapping::<I16F16>::int_nbits(), I16F16::int_nbits());
+    /// assert_eq!(Wrapping::<I16F16>::INT_NBITS, I16F16::INT_NBITS);
     /// ```
-    #[inline]
-    pub fn int_nbits() -> u32 {
-        F::int_nbits()
-    }
+    pub const INT_NBITS: u32 = F::INT_NBITS;
 
-    /// Returns the number of fractional bits.
+    /// The number of fractional bits.
     ///
     /// # Examples
     ///
     /// ```rust
     /// use fixed::{types::I16F16, Wrapping};
-    /// assert_eq!(Wrapping::<I16F16>::frac_nbits(), I16F16::frac_nbits());
+    /// assert_eq!(Wrapping::<I16F16>::FRAC_NBITS, I16F16::FRAC_NBITS);
     /// ```
-    #[inline]
-    pub fn frac_nbits() -> u32 {
-        F::frac_nbits()
-    }
+    pub const FRAC_NBITS: u32 = F::FRAC_NBITS;
 
     /// Creates a fixed-point number that has a bitwise representation
     /// identical to the given integer.
@@ -617,8 +611,8 @@ impl<F: Fixed> Wrapping<F> {
     }
 
     /// Returns the smallest value that can be represented.
-    #[deprecated(since = "0.5.5", note = "replaced by `MIN`")]
     #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `MIN`")]
     pub fn min_value() -> Wrapping<F> {
         Self::MIN
     }
@@ -628,6 +622,20 @@ impl<F: Fixed> Wrapping<F> {
     #[deprecated(since = "0.5.5", note = "replaced by `MAX`")]
     pub fn max_value() -> Wrapping<F> {
         Self::MAX
+    }
+
+    /// Returns the number of integer bits.
+    #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `INT_NBITS`")]
+    pub fn int_nbits() -> u32 {
+        Self::INT_NBITS
+    }
+
+    /// Returns the number of fractional bits.
+    #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `FRAC_NBITS`")]
+    pub fn frac_nbits() -> u32 {
+        Self::FRAC_NBITS
     }
 }
 

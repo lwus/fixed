@@ -79,12 +79,15 @@ The conversions supported cover the following cases.
   * The associated constants [`MIN`] and [`MAX`] were added to all
     fixed-point types, to the [`Fixed`] trait, and to the [`Wrapping`]
     wrapper.
+  * The associated constants [`INT_NBITS`] and [`FRAC_NBITS`] were
+    added to the [`Fixed`] trait, and to the [`Wrapping`] wrapper.
   * The methods [`int_log2`] and [`checked_int_log2`] were added to
     all fixed-point types and to the [`Fixed`] trait.
   * The method [`int_log2`][wril] was added to the [`Wrapping`]
     wrapper.
   * The following methods were deprecated:
       * [`min_value`], [`max_value`]
+      * [`int_nbits`][`int_nbits()`], [`frac_nbits`][`frac_nbits()`]
 
 ### Version 0.5.4 news (2020-02-21)
 
@@ -119,7 +122,9 @@ The conversions supported cover the following cases.
 
   * [`Wrapping`] now supports serialization. (Thanks: Shane Pearman)
 
+[`FRAC_NBITS`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.Fixed.html#associatedconstant.FRAC_NBITS
 [`Fixed`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.Fixed.html
+[`INT_NBITS`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.Fixed.html#associatedconstant.INT_NBITS
 [`MAX`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#associatedconstant.MAX
 [`MIN`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#associatedconstant.MIN
 [`RemAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.RemAssign.html
@@ -130,7 +135,9 @@ The conversions supported cover the following cases.
 [`checked_rem_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem_euclid
 [`checked_rem`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem
 [`div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.div_euclid
+[`frac_nbits()`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.frac_nbits
 [`int_log2`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_log2
+[`int_nbits()`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_nbits
 [`max_value`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.max_value
 [`min_value`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.min_value
 [`overflowing_div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.overflowing_div_euclid
