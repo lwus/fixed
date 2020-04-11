@@ -730,7 +730,7 @@ Returns a [tuple] of the fixed-point number and
                 "a [`bool`], indicating whether an overflow has
 occurred. On overflow, the wrapped value isreturned. Overflow can only
 occur when there are zero integer bits.",
-                "[`false`][`bool`].",
+                "[`false`].",
             },
             "
 
@@ -762,6 +762,7 @@ assert_eq!(AllFrac::min_value().overflowing_floor(), (AllFrac::from_num(0), true
             "```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[`false`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]

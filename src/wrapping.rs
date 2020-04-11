@@ -614,7 +614,7 @@ impl<F: Fixed> Wrapping<F> {
 }
 
 impl<F: FixedSigned> Wrapping<F> {
-    /// Returns [`true`][`bool`] if the number is > 0.
+    /// Returns [`true`] if the number is > 0.
     ///
     /// # Examples
     ///
@@ -625,13 +625,13 @@ impl<F: FixedSigned> Wrapping<F> {
     /// assert!(!Wrapping(I16F16::from_num(-4.3)).is_positive());
     /// ```
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     pub fn is_positive(self) -> bool {
         self.0.is_positive()
     }
 
-    /// Returns [`true`][`bool`] if the number is < 0.
+    /// Returns [`true`] if the number is < 0.
     ///
     /// # Examples
     ///
@@ -642,7 +642,7 @@ impl<F: FixedSigned> Wrapping<F> {
     /// assert!(Wrapping(I16F16::from_num(-4.3)).is_negative());
     /// ```
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     pub fn is_negative(self) -> bool {
         self.0.is_negative()
@@ -708,7 +708,7 @@ impl<F: FixedSigned> Wrapping<F> {
 }
 
 impl<F: FixedUnsigned> Wrapping<F> {
-    /// Returns [`true`][`bool`] if the fixed-point number is
+    /// Returns [`true`] if the fixed-point number is
     /// 2<sup><i>k</i></sup> for some integer <i>k</i>.
     ///
     /// # Examples
@@ -720,7 +720,7 @@ impl<F: FixedUnsigned> Wrapping<F> {
     /// assert!(!Wrapping(U16F16::from_num(5)).is_power_of_two());
     /// ```
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     pub fn is_power_of_two(self) -> bool {
         self.0.is_power_of_two()

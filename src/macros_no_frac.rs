@@ -349,7 +349,7 @@ assert_eq!(Fix::from_bits(bits).rotate_right(3), Fix::from_bits(rot));
             if_signed! {
                 $Signedness;
                 comment! {
-                    "Returns [`true`][`bool`] if the number is > 0.
+                    "Returns [`true`] if the number is > 0.
 
 # Examples
 
@@ -361,7 +361,7 @@ assert!(!Fix::from_num(0).is_positive());
 assert!(!Fix::from_num(-5).is_positive());
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 ";
                     #[inline]
                     pub const fn is_positive(self) -> bool {
@@ -370,7 +370,7 @@ assert!(!Fix::from_num(-5).is_positive());
                 }
 
                 comment! {
-                    "Returns [`true`][`bool`] if the number is < 0.
+                    "Returns [`true`] if the number is < 0.
 
 # Examples
 
@@ -382,7 +382,7 @@ assert!(!Fix::from_num(0).is_negative());
 assert!(Fix::from_num(-5).is_negative());
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 ";
                     #[inline]
                     pub const fn is_negative(self) -> bool {
@@ -394,7 +394,7 @@ assert!(Fix::from_num(-5).is_negative());
             if_unsigned! {
                 $Signedness;
                 comment! {
-                    "Returns [`true`][`bool`] if the fixed-point number is
+                    "Returns [`true`] if the fixed-point number is
 2<sup><i>k</i></sup> for some integer <i>k</i>.
 
 # Examples
@@ -410,7 +410,7 @@ assert!(!three_eights.is_power_of_two());
 assert!(half.is_power_of_two());
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 ";
                     #[inline]
                     pub const fn is_power_of_two(self) -> bool {
@@ -1303,7 +1303,7 @@ Returns a [tuple] of the quotient and ",
                     "a [`bool`] indicating whether an overflow has
 occurred. On overflow, the wrapped value is returned. Overflow can
 only occur when dividing the minimum value by −1.",
-                    "[`false`][`bool`], as the division can never overflow for unsigned values.",
+                    "[`false`], as the division can never overflow for unsigned values.",
                 },
                 "
 
@@ -1328,6 +1328,7 @@ assert_eq!(Fix::from_num(3).overflowing_div_int(2), (one_point_5, false));
                 "```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[`false`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]

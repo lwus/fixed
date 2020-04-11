@@ -1015,14 +1015,14 @@ where
 /// [`FixedI8`]: ../struct.FixedI8.html
 /// [`Fixed`]: trait.Fixed.html
 pub trait FixedSigned: Fixed + Neg<Output = Self> {
-    /// Returns [`true`][`bool`] if the number is > 0.
+    /// Returns [`true`] if the number is > 0.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     fn is_positive(self) -> bool;
 
-    /// Returns [`true`][`bool`] if the number is < 0.
+    /// Returns [`true`] if the number is < 0.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     fn is_negative(self) -> bool;
 
     /// Returns the absolute value.
@@ -1089,10 +1089,10 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
 /// [`FixedU8`]: ../struct.FixedU8.html
 /// [`Fixed`]: trait.Fixed.html
 pub trait FixedUnsigned: Fixed {
-    /// Returns [`true`][`bool`] if the fixed-point number is
+    /// Returns [`true`] if the fixed-point number is
     /// 2<sup><i>k</i></sup> for some integer <i>k</i>.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     fn is_power_of_two(self) -> bool;
 
     /// Returns the smallest power of two that is ≥ `self`.

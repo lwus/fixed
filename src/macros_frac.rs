@@ -867,7 +867,7 @@ Returns a [tuple] of the quotient and ",
                     "a [`bool`] indicating whether an overflow has
 occurred. On overflow, the wrapped value is returned. Overflow can
 only occur when dividing the minimum value by −1.",
-                    "[`false`][`bool`], as the division can never overflow for unsigned values.",
+                    "[`false`], as the division can never overflow for unsigned values.",
                 },
                 "
 
@@ -892,6 +892,7 @@ assert_eq!(Fix::min_value().overflowing_div_euclid_int(-1), (wrapped, true));
                 "```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[`false`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -932,7 +933,7 @@ occurred. On overflow, the wrapped value is returned.
 
 Note that while remainder for Euclidean division cannot be negative,
 the wrapped value can be negative.",
-                    "[`false`][`bool`], as this can never overflow for unsigned values.",
+                    "[`false`], as this can never overflow for unsigned values.",
                 },
                 "
 
@@ -957,6 +958,7 @@ assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3
                 "```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[`false`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
