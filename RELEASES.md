@@ -12,7 +12,7 @@ Version 0.5.5 (unreleased)
     fixed-point types, to the `Fixed` trait, and to the `Wrapping`
     wrapper.
   * The associated constants `INT_NBITS` and `FRAC_NBITS` were added
-    to the `Fixed` trait, and to the `Wrapping` wrapper.
+    to the `Fixed` trait and to the `Wrapping` wrapper.
   * The methods `int_log2` and `checked_int_log2` were added to all
     fixed-point types and to the `Fixed` trait.
   * The method `int_log2` was added to the `Wrapping` wrapper.

@@ -34,7 +34,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::MIN, Fix::from_bits(", $s_inner, "::MIN));
 ```
 ";
-                pub const MIN: Self = Self::from_bits(<$Inner>::min_value());
+                pub const MIN: $Fixed<Frac> = Self::from_bits(<$Inner>::min_value());
             }
 
             // TODO when rustc requirement >= 1.43.0, use MAX instead of max_value()
@@ -50,7 +50,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::MAX, Fix::from_bits(", $s_inner, "::MAX));
 ```
 ";
-                pub const MAX: Self = Self::from_bits(<$Inner>::max_value());
+                pub const MAX: $Fixed<Frac> = Self::from_bits(<$Inner>::max_value());
             }
 
             comment! {
