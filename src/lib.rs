@@ -272,9 +272,9 @@ mod wrapping;
 use crate::{
     arith::MulDivOverflow,
     from_str::FromStrRadix,
+    log10::IntFracLog10,
     traits::{FromFixed, ToFixed},
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
-    log10::IntFracLog10,
 };
 pub use crate::{from_str::ParseFixedError, wrapping::Wrapping};
 use core::{
