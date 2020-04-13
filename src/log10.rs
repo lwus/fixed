@@ -79,7 +79,6 @@ impl IntFracLog10 for u16 {
     }
 }
 
-#[inline]
 fn int_part_log10_less_than_8(mut i: u32) -> i32 {
     debug_assert!(i < 100_000_000);
     let mut log = 0;
@@ -140,7 +139,6 @@ impl IntFracLog10 for u32 {
     }
 }
 
-#[inline]
 fn int_part_log10_less_than_16(mut i: u64) -> i32 {
     debug_assert!(i < 10_000_000_000_000_000);
     let mut log = 0;
@@ -155,7 +153,6 @@ fn int_part_log10_less_than_16(mut i: u64) -> i32 {
 // This is only used by u128::frac_part_log10, not by
 // u64::frac_part_log10 where we can actually skip the two initial
 // comparisons when we already have log = -16.
-#[inline]
 fn frac_part_log10_greater_equal_m16(mut i: u64) -> i32 {
     const MAX: u64 = u64::max_value();
     debug_assert!(i > MAX / 10_000_000_000_000_000);
@@ -206,10 +203,6 @@ impl IntFracLog10 for u64 {
                 self *= 10_000;
                 log += -4;
             }
-            if log <= -12 {
-                // At this point log can only go down by a further 8.
-                return log + frac_part_log10_greater_equal_m8((self >> 32) as u32);
-            }
         }
         log + if self > MAX / 10 {
             -1
@@ -230,6 +223,8 @@ impl IntFracLog10 for u128 {
         if self >= 100_000_000_000_000_000_000_000_000_000_000 {
             self /= 100_000_000_000_000_000_000_000_000_000_000;
             log += 32;
+            debug_assert_eq!(self >> 32, 0);
+            return log + int_part_log10_less_than_8(self as u32);
         }
         if self >= 10_000_000_000_000_000 {
             self /= 10_000_000_000_000_000;
@@ -245,24 +240,24 @@ impl IntFracLog10 for u128 {
         if self <= MAX / 100_000_000_000_000_000_000_000_000_000_000 {
             self *= 100_000_000_000_000_000_000_000_000_000_000;
             log += -32;
-            // At this point log can only go down by a further 7.
+            // At this point  we have shifted out 32 digits, and we can only shift out 7 more.
             return log + frac_part_log10_greater_equal_m8((self >> 96) as u32);
         }
         if self <= MAX / 10_000_000_000_000_000 {
-            log += -16;
             self *= 10_000_000_000_000_000;
+            log += -16;
         }
         if self <= MAX / 100_000_000 {
-            log += -8;
             self *= 100_000_000;
+            log += -8;
         }
         if log <= -24 {
-            // At this point log can only go down by a further 15.
+            // At this point  we have shifted out 24 digits, and we can only shift out 15 more.
             return log + frac_part_log10_greater_equal_m16((self >> 64) as u64);
         }
         if self <= MAX / 10_000 {
-            log += -4;
             self *= 10_000;
+            log += -4;
         }
         log + if self > MAX / 10 {
             -1
