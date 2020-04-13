@@ -276,143 +276,54 @@ impl IntFracLog10 for u128 {
 mod tests {
     use super::IntFracLog10;
 
-    #[test]
-    fn int_part_log10_u8() {
-        assert_eq!(u8::max_value().int_part_log10(), 2);
-        for i in 0..=2 {
-            let p = 10u8.pow(i as u32);
-            if i > 0 {
-                assert_eq!((p - 1).int_part_log10(), i - 1);
+    macro_rules! check_loop {
+        ($T:ty, $max:expr, $min:expr) => {
+            assert_eq!(<$T>::max_value().int_part_log10(), $max);
+            for i in 0..=$max {
+                let p = (10 as $T).pow(i as u32);
+                if i > 0 {
+                    assert_eq!((p - 1).int_part_log10(), i - 1);
+                }
+                assert_eq!(p.int_part_log10(), i);
+                assert_eq!((p + 1).int_part_log10(), i);
             }
-            assert_eq!(p.int_part_log10(), i);
-            assert_eq!((p + 1).int_part_log10(), i);
-        }
+
+            assert_eq!((1 as $T).frac_part_log10(), $min);
+            for i in 0..-$min {
+                let p = <$T>::max_value() / (10 as $T).pow(i as u32);
+                if p > 1 {
+                    assert_eq!((p - 1).frac_part_log10(), -1 - i);
+                }
+                assert_eq!(p.frac_part_log10(), -1 - i);
+                if i > 0 {
+                    assert_eq!((p + 1).frac_part_log10(), -i);
+                }
+            }
+        };
     }
 
     #[test]
-    fn frac_part_log10_u8() {
-        assert_eq!(1u8.frac_part_log10(), -3);
-        for i in 0..=2 {
-            let p = u8::max_value() / 10u8.pow(i as u32);
-            if p > 1 {
-                assert_eq!((p - 1).frac_part_log10(), -1 - i);
-            }
-            assert_eq!(p.frac_part_log10(), -1 - i);
-            if i > 0 {
-                assert_eq!((p + 1).frac_part_log10(), -i);
-            }
-        }
+    fn log10_u8() {
+        check_loop! { u8, 2, -3 }
     }
 
     #[test]
-    fn int_part_log10_u16() {
-        assert_eq!(u16::max_value().int_part_log10(), 4);
-        for i in 0..=4 {
-            let p = 10u16.pow(i as u32);
-            if i > 0 {
-                assert_eq!((p - 1).int_part_log10(), i - 1);
-            }
-            assert_eq!(p.int_part_log10(), i);
-            assert_eq!((p + 1).int_part_log10(), i);
-        }
+    fn log10_u16() {
+        check_loop! { u16, 4, -5 }
     }
 
     #[test]
-    fn frac_part_log10_u16() {
-        assert_eq!(1u16.frac_part_log10(), -5);
-        for i in 0..=4 {
-            let p = u16::max_value() / 10u16.pow(i as u32);
-            if p > 1 {
-                assert_eq!((p - 1).frac_part_log10(), -1 - i);
-            }
-            assert_eq!(p.frac_part_log10(), -1 - i);
-            if i > 0 {
-                assert_eq!((p + 1).frac_part_log10(), -i);
-            }
-        }
+    fn log10_u32() {
+        check_loop! { u32, 9, -10 }
     }
 
     #[test]
-    fn int_part_log10_u32() {
-        assert_eq!(u32::max_value().int_part_log10(), 9);
-        for i in 0..=9 {
-            let p = 10u32.pow(i as u32);
-            if i > 0 {
-                assert_eq!((p - 1).int_part_log10(), i - 1);
-            }
-            assert_eq!(p.int_part_log10(), i);
-            assert_eq!((p + 1).int_part_log10(), i);
-        }
+    fn log10_u64() {
+        check_loop! { u64, 19, -20 }
     }
 
     #[test]
-    fn frac_part_log10_u32() {
-        assert_eq!(1u32.frac_part_log10(), -10);
-        for i in 0..=9 {
-            let p = u32::max_value() / 10u32.pow(i as u32);
-            if p > 1 {
-                assert_eq!((p - 1).frac_part_log10(), -1 - i);
-            }
-            assert_eq!(p.frac_part_log10(), -1 - i);
-            if i > 0 {
-                assert_eq!((p + 1).frac_part_log10(), -i);
-            }
-        }
-    }
-
-    #[test]
-    fn int_part_log10_u64() {
-        assert_eq!(u64::max_value().int_part_log10(), 19);
-        for i in 0..=19 {
-            let p = 10u64.pow(i as u32);
-            if i > 0 {
-                assert_eq!((p - 1).int_part_log10(), i - 1);
-            }
-            assert_eq!(p.int_part_log10(), i);
-            assert_eq!((p + 1).int_part_log10(), i);
-        }
-    }
-
-    #[test]
-    fn frac_part_log10_u64() {
-        assert_eq!(1u64.frac_part_log10(), -20);
-        for i in 0..=19 {
-            let p = u64::max_value() / 10u64.pow(i as u32);
-            if p > 1 {
-                assert_eq!((p - 1).frac_part_log10(), -1 - i);
-            }
-            assert_eq!(p.frac_part_log10(), -1 - i);
-            if i > 0 {
-                assert_eq!((p + 1).frac_part_log10(), -i);
-            }
-        }
-    }
-
-    #[test]
-    fn int_part_log10_u128() {
-        assert_eq!(u128::max_value().int_part_log10(), 38);
-        for i in 0..=38 {
-            let p = 10u128.pow(i as u32);
-            if i > 0 {
-                assert_eq!((p - 1).int_part_log10(), i - 1);
-            }
-            assert_eq!(p.int_part_log10(), i);
-            assert_eq!((p + 1).int_part_log10(), i);
-        }
-    }
-
-    #[test]
-    fn frac_part_log10_u128() {
-        assert_eq!(1u128.frac_part_log10(), -39);
-        for i in 0..=38 {
-            let p = u128::max_value() / 10u128.pow(i as u32);
-            if p > 1 {
-                assert_eq!((p - 1).frac_part_log10(), -1 - i);
-            }
-            assert_eq!(p.frac_part_log10(), -1 - i);
-            if i > 0 {
-                assert_eq!((p + 1).frac_part_log10(), -i);
-            }
-        }
+    fn log10_u128() {
+        check_loop! { u128, 38, -39 }
     }
 }
