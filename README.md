@@ -76,15 +76,18 @@ The conversions supported cover the following cases.
 
 ### Version 0.5.5 news (unreleased)
 
-  * The associated constants [`MIN`] and [`MAX`] were added to all
-    fixed-point types, to the [`Fixed`] trait, and to the [`Wrapping`]
-    wrapper.
-  * The associated constants [`INT_NBITS`] and [`FRAC_NBITS`] were
-    added to the [`Fixed`] trait and to the [`Wrapping`] wrapper.
-  * The methods [`int_log2`] and [`checked_int_log2`] were added to
-    all fixed-point types and to the [`Fixed`] trait.
-  * The method [`int_log2`][wril] was added to the [`Wrapping`]
-    wrapper.
+  * The following associated constants were added to all fixed-point
+    types, to the [`Fixed`] trait, and to the [`Wrapping`] wrapper:
+      * [`MIN`], [`MAX`]
+  * The following associated constants were added to the [`Fixed`]
+    trait and to the [`Wrapping`] wrapper:
+      * [`INT_NBITS`], [`FRAC_NBITS`]
+  * The following methods were added to all fixed-point types and to
+    the [`Fixed`] trait:
+      * [`int_log2`], [`int_log10`]
+      * [`checked_int_log2`], [`checked_int_log10`]
+  * The following methods were added to the [`Wrapping`] wrapper:
+      *  [`int_log2`][wril2], [`int_log10`][wril10]
   * The following methods were deprecated:
       * [`min_value`], [`max_value`]
       * [`int_nbits`][`int_nbits()`], [`frac_nbits`][`frac_nbits()`]
@@ -106,15 +109,15 @@ The conversions supported cover the following cases.
     numbers.
   * The following methods were added to all fixed-point types and to
     the [`Fixed`] trait:
-	  * [`checked_rem`]
-	  * [`div_euclid`], [`rem_euclid`]
-	  * [`checked_div_euclid`], [`checked_rem_euclid`]
-	  * [`saturating_div_euclid`]
-	  * [`wrapping_div_euclid`]
+      * [`checked_rem`]
+      * [`div_euclid`], [`rem_euclid`]
+      * [`checked_div_euclid`], [`checked_rem_euclid`]
+      * [`saturating_div_euclid`]
+      * [`wrapping_div_euclid`]
       * [`overflowing_div_euclid`]
   * The following methods were added to the [`Wrapping`] wrapper:
-	  * [`div_euclid`][wde], [`rem_euclid`][wre]
-	  * [`div_euclid_int`][wdei], [`rem_euclid_int`][wrei]
+      * [`div_euclid`][wde], [`rem_euclid`][wre]
+      * [`div_euclid_int`][wdei], [`rem_euclid_int`][wrei]
   * The following methods were deprecated:
       * [`wrapping_rem_int`], [`overflowing_rem_int`]
 
@@ -131,11 +134,13 @@ The conversions supported cover the following cases.
 [`Rem`]: https://doc.rust-lang.org/nightly/core/ops/trait.Rem.html
 [`Wrapping`]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html
 [`checked_div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_div_euclid
+[`checked_int_log10`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_int_log10
 [`checked_int_log2`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_int_log2
 [`checked_rem_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem_euclid
 [`checked_rem`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem
 [`div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.div_euclid
 [`frac_nbits()`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.frac_nbits
+[`int_log10`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_log10
 [`int_log2`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_log2
 [`int_nbits()`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_nbits
 [`max_value`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.max_value
@@ -153,7 +158,8 @@ The conversions supported cover the following cases.
 [wdei]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.div_euclid_int
 [wre]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.rem_euclid
 [wrei]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.rem_euclid_int
-[wril]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.int_log2
+[wril10]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.int_log10
+[wril2]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.int_log2
 
 ### Other releases
 

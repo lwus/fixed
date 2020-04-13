@@ -261,6 +261,7 @@ mod float_helper;
 mod from_str;
 mod helpers;
 mod int_helper;
+mod log10;
 #[cfg(feature = "serde")]
 mod serdeize;
 pub mod traits;
@@ -273,6 +274,7 @@ use crate::{
     from_str::FromStrRadix,
     traits::{FromFixed, ToFixed},
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
+    log10::IntFracLog10,
 };
 pub use crate::{from_str::ParseFixedError, wrapping::Wrapping};
 use core::{

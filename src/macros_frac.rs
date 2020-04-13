@@ -91,6 +91,32 @@ assert_eq!(Fix::from_num(0.1875).int_log2(), -3);
             }
 
             comment! {
+                "Integer base-10 logarithm, rounded down.
+
+# Panics
+
+Panics if the fixed-point number is ", if_signed_unsigned!($Signedness, "≤ 0", "zero"), ".
+
+# Examples
+
+```rust
+use fixed::{
+    types::extra::{U2, U6},
+    ", $s_fixed, ",
+};
+assert_eq!(", $s_fixed, "::<U2>::from_num(10).int_log10(), 1);
+assert_eq!(", $s_fixed, "::<U2>::from_num(9.75).int_log10(), 0);
+assert_eq!(", $s_fixed, "::<U6>::from_num(0.109375).int_log10(), -1);
+assert_eq!(", $s_fixed, "::<U6>::from_num(0.09375).int_log10(), -2);
+```
+";
+                #[inline]
+                pub fn int_log10(self) -> i32 {
+                    self.checked_int_log10().expect("log of non-positive number")
+                }
+            }
+
+            comment! {
                 "Checked integer base-2 logarithm, rounded down.
 Returns the logarithm or [`None`] if the fixed-point number is
 ", if_signed_unsigned!($Signedness, "≤ 0", "zero"), ".
@@ -115,6 +141,45 @@ assert_eq!(Fix::from_num(0.1875).checked_int_log2(), Some(-3));
                         None
                     } else {
                         Some(Self::INT_NBITS as i32 - 1 - self.leading_zeros() as i32)
+                    }
+                }
+            }
+
+            // TODO when rustc requirement >= 1.43.0, use MAX instead of max_value()
+            comment! {
+                "Checked integer base-10 logarithm, rounded down.
+Returns the logarithm or [`None`] if the fixed-point number is
+", if_signed_unsigned!($Signedness, "≤ 0", "zero"), ".
+
+# Examples
+
+```rust
+use fixed::{
+    types::extra::{U2, U6},
+    ", $s_fixed, ",
+};
+assert_eq!(", $s_fixed, "::<U2>::from_num(0).checked_int_log10(), None);
+assert_eq!(", $s_fixed, "::<U2>::from_num(10).checked_int_log10(), Some(1));
+assert_eq!(", $s_fixed, "::<U2>::from_num(9.75).checked_int_log10(), Some(0));
+assert_eq!(", $s_fixed, "::<U6>::from_num(0.109375).checked_int_log10(), Some(-1));
+assert_eq!(", $s_fixed, "::<U6>::from_num(0.09375).checked_int_log10(), Some(-2));
+```
+
+[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
+";
+                #[inline]
+                pub fn checked_int_log10(self) -> Option<i32> {
+                    if self <= 0 {
+                        return None;
+                    }
+                    // Use unsigned representation because we use all bits in fractional part.
+                    let bits = self.to_bits() as $UInner;
+                    let int = bits >> Self::FRAC_NBITS;
+                    if int != 0 {
+                        Some(int.int_part_log10())
+                    } else {
+                        let frac = bits << Self::INT_NBITS;
+                        Some(frac.frac_part_log10())
                     }
                 }
             }

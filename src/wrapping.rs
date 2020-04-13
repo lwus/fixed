@@ -501,6 +501,16 @@ impl<F: Fixed> Wrapping<F> {
         self.0.int_log2()
     }
 
+    /// Integer base-10 logarithm, rounded down.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the fixed-point number is ≤ 0.
+    #[inline]
+    pub fn int_log10(self) -> i32 {
+        self.0.int_log10()
+    }
+
     /// Shifts to the left by `n` bits, wrapping the truncated bits to the right end.
     ///
     /// # Examples

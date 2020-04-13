@@ -8,14 +8,18 @@ as-is, without any warranty. -->
 Version 0.5.5 (unreleased)
 ==========================
 
-  * The associated constants `MIN` and `MAX` were added to all
-    fixed-point types, to the `Fixed` trait, and to the `Wrapping`
-    wrapper.
-  * The associated constants `INT_NBITS` and `FRAC_NBITS` were added
-    to the `Fixed` trait and to the `Wrapping` wrapper.
-  * The methods `int_log2` and `checked_int_log2` were added to all
-    fixed-point types and to the `Fixed` trait.
-  * The method `int_log2` was added to the `Wrapping` wrapper.
+  * The following associated constants were added to all fixed-point
+    types, to the `Fixed` trait, and to the `Wrapping` wrapper:
+      * `MIN`, `MAX`
+  * The following associated constants were added to the `Fixed` trait
+    and to the `Wrapping` wrapper:
+      * `INT_NBITS`, `FRAC_NBITS`
+  * The following methods were added to all fixed-point types and to
+    the `Fixed` trait:
+      * `int_log2`, `int_log10`
+      * `checked_int_log2`, `checked_int_log10`
+  * The following methods were added to the `Wrapping` wrapper:
+      *  `int_log2`, `int_log10`
   * The following methods were deprecated:
       * `min_value`, `max_value`
       * `int_nbits`, `frac_nbits`
@@ -39,15 +43,15 @@ Version 0.5.3 (2020-02-13)
   * `Rem` and `RemAssign` were implemented for fixed-point numbers.
   * The following methods were added to all fixed-point types and to
     the `Fixed` trait:
-	  * `checked_rem`
-	  * `div_euclid`, `rem_euclid`
-	  * `checked_div_euclid`, `checked_rem_euclid`
-	  * `saturating_div_euclid`
-	  * `wrapping_div_euclid`
+      * `checked_rem`
+      * `div_euclid`, `rem_euclid`
+      * `checked_div_euclid`, `checked_rem_euclid`
+      * `saturating_div_euclid`
+      * `wrapping_div_euclid`
       * `overflowing_div_euclid`
   * The following methods were added to the `Wrapping` wrapper:
-	  * `div_euclid`, `rem_euclid`
-	  * `div_euclid_int`, `rem_euclid_int`
+      * `div_euclid`, `rem_euclid`
+      * `div_euclid_int`, `rem_euclid_int`
   * The following methods were deprecated:
       * `wrapping_rem_int`, `overflowing_rem_int`
 
@@ -69,11 +73,11 @@ Version 0.5.0 (2019-12-06)
   * The following methods were added to all fixed-point types and to
     the `Fixed` trait:
       * `from_be_bytes`, `from_le_bytes`, `from_ne_bytes`
-	  * `to_be_bytes`, `to_le_bytes`, `to_ne_bytes`
-	  * `div_euclid_int`, `rem_euclid_int`
-	  * `checked_div_euclid_int`, `checked_rem_euclid_int`
-	  * `wrapping_div_euclid_int`, `wrapping_rem_euclid_int`
-	  * `overflowing_div_euclid_int`, `overflowing_rem_euclid_int`
+      * `to_be_bytes`, `to_le_bytes`, `to_ne_bytes`
+      * `div_euclid_int`, `rem_euclid_int`
+      * `checked_div_euclid_int`, `checked_rem_euclid_int`
+      * `wrapping_div_euclid_int`, `wrapping_rem_euclid_int`
+      * `overflowing_div_euclid_int`, `overflowing_rem_euclid_int`
 
 Incompatible changes
 --------------------
