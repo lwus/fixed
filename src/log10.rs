@@ -1,4 +1,4 @@
-// Copyright © 2018–2019 Trevor Spiteri
+// Copyright © 2018–2020 Trevor Spiteri
 
 // This library is free software: you can redistribute it and/or
 // modify it under the terms of either
@@ -277,7 +277,7 @@ mod tests {
     use super::IntFracLog10;
 
     macro_rules! check_loop {
-        ($T:ty, $max:expr, $min:expr) => {
+        ($T:ty, $max:expr) => {
             assert_eq!(<$T>::max_value().int_part_log10(), $max);
             for i in 0..=$max {
                 let p = (10 as $T).pow(i as u32);
@@ -288,8 +288,8 @@ mod tests {
                 assert_eq!((p + 1).int_part_log10(), i);
             }
 
-            assert_eq!((1 as $T).frac_part_log10(), $min);
-            for i in 0..-$min {
+            assert_eq!((1 as $T).frac_part_log10(), -1 - $max);
+            for i in 0..=$max {
                 let p = <$T>::max_value() / (10 as $T).pow(i as u32);
                 if p > 1 {
                     assert_eq!((p - 1).frac_part_log10(), -1 - i);
@@ -304,26 +304,26 @@ mod tests {
 
     #[test]
     fn log10_u8() {
-        check_loop! { u8, 2, -3 }
+        check_loop! { u8, 2 }
     }
 
     #[test]
     fn log10_u16() {
-        check_loop! { u16, 4, -5 }
+        check_loop! { u16, 4 }
     }
 
     #[test]
     fn log10_u32() {
-        check_loop! { u32, 9, -10 }
+        check_loop! { u32, 9 }
     }
 
     #[test]
     fn log10_u64() {
-        check_loop! { u64, 19, -20 }
+        check_loop! { u64, 19 }
     }
 
     #[test]
     fn log10_u128() {
-        check_loop! { u128, 38, -39 }
+        check_loop! { u128, 38 }
     }
 }
