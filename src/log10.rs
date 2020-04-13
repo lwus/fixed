@@ -99,6 +99,26 @@ fn int_part_log10_less_than_8(mut i: u32) -> i32 {
     }
 }
 
+fn frac_part_log10_greater_equal_m8(mut i: u32) -> i32 {
+    const MAX: u32 = u32::max_value();
+    debug_assert!(i > MAX / 100_000_000);
+    let mut log = 0;
+    if i <= MAX / 10_000 {
+        i *= 10_000;
+        log += -4;
+    }
+    log + if i > MAX / 10 {
+        -1
+    } else if i > MAX / 100 {
+        -2
+    } else if i > MAX / 1000 {
+        -3
+    } else {
+        debug_assert!(i > MAX / 10_000);
+        -4
+    }
+}
+
 impl IntFracLog10 for u32 {
     fn int_part_log10(mut self) -> i32 {
         let mut log = 0;
@@ -116,20 +136,7 @@ impl IntFracLog10 for u32 {
             self *= 100_000_000;
             log += -8;
         }
-        if self <= MAX / 10_000 {
-            self *= 10_000;
-            log += -4;
-        }
-        log + if self > MAX / 10 {
-            -1
-        } else if self > MAX / 100 {
-            -2
-        } else if self > MAX / 1000 {
-            -3
-        } else {
-            debug_assert!(self > MAX / 10_000);
-            -4
-        }
+        log + frac_part_log10_greater_equal_m8(self)
     }
 }
 
@@ -143,6 +150,34 @@ fn int_part_log10_less_than_16(mut i: u64) -> i32 {
     }
     debug_assert_eq!(i >> 32, 0);
     log + int_part_log10_less_than_8(i as u32)
+}
+
+// This is only used by u128::frac_part_log10, not by
+// u64::frac_part_log10 where we can actually skip the two initial
+// comparisons when we already have log = -16.
+#[inline]
+fn frac_part_log10_greater_equal_m16(mut i: u64) -> i32 {
+    const MAX: u64 = u64::max_value();
+    debug_assert!(i > MAX / 10_000_000_000_000_000);
+    let mut log = 0;
+    if i <= MAX / 100_000_000 {
+        i *= 100_000_000;
+        log += -8;
+    }
+    if i <= MAX / 10_000 {
+        i *= 10_000;
+        log += -4;
+    }
+    log + if i > MAX / 10 {
+        -1
+    } else if i > MAX / 100 {
+        -2
+    } else if i > MAX / 1000 {
+        -3
+    } else {
+        debug_assert!(i > MAX / 10_000);
+        -4
+    }
 }
 
 impl IntFracLog10 for u64 {
@@ -159,16 +194,22 @@ impl IntFracLog10 for u64 {
         const MAX: u64 = u64::max_value();
         let mut log = 0;
         if self <= MAX / 10_000_000_000_000_000 {
-            log += -16;
+            // After this, self >= 10^16 > MAX / 10^4 == 1.84 × 10^15.
             self *= 10_000_000_000_000_000;
-        }
-        if self <= MAX / 100_000_000 {
-            log += -8;
-            self *= 100_000_000;
-        }
-        if self <= MAX / 10_000 {
-            log += -4;
-            self *= 10_000;
+            log += -16;
+        } else {
+            if self <= MAX / 100_000_000 {
+                self *= 100_000_000;
+                log += -8;
+            }
+            if self <= MAX / 10_000 {
+                self *= 10_000;
+                log += -4;
+            }
+            if log <= -12 {
+                // At this point log can only go down by a further 8.
+                return log + frac_part_log10_greater_equal_m8((self >> 32) as u32);
+            }
         }
         log + if self > MAX / 10 {
             -1
@@ -202,8 +243,10 @@ impl IntFracLog10 for u128 {
         const MAX: u128 = u128::max_value();
         let mut log = 0;
         if self <= MAX / 100_000_000_000_000_000_000_000_000_000_000 {
-            log += -32;
             self *= 100_000_000_000_000_000_000_000_000_000_000;
+            log += -32;
+            // At this point log can only go down by a further 7.
+            return log + frac_part_log10_greater_equal_m8((self >> 96) as u32);
         }
         if self <= MAX / 10_000_000_000_000_000 {
             log += -16;
@@ -212,6 +255,10 @@ impl IntFracLog10 for u128 {
         if self <= MAX / 100_000_000 {
             log += -8;
             self *= 100_000_000;
+        }
+        if log <= -24 {
+            // At this point log can only go down by a further 15.
+            return log + frac_part_log10_greater_equal_m16((self >> 64) as u64);
         }
         if self <= MAX / 10_000 {
             log += -4;
