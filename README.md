@@ -110,6 +110,7 @@ The conversions supported cover the following cases.
 [`Wrapping`]: https://docs.rs/fixed/0.5.5/fixed/struct.Wrapping.html
 [`checked_int_log10`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.checked_int_log10
 [`checked_int_log2`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.checked_int_log2
+[`consts`]: https://docs.rs/fixed/0.5.5/fixed/consts/index.html
 [`frac_nbits()`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.frac_nbits
 [`int_log10`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.int_log10
 [`int_log2`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.int_log2
