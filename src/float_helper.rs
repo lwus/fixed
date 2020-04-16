@@ -66,7 +66,6 @@ macro_rules! sealed_float {
             }
 
             #[inline]
-            #[allow(clippy::cast_lossless)]
             fn parts(self) -> (bool, i32, $Bits) {
                 let bits = self.to_bits();
                 let neg = bits & Self::SIGN_MASK != 0;

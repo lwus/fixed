@@ -74,11 +74,11 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
-### Version 0.5.5 news (unreleased)
+### Version 0.5.5 news (2020-04-16)
 
-  * Bug fix: comparison between a signed fixed-point number of type
-    `FixedI` and a number that would overflow when converting to
-    `FixedI` by exactly one bit was giving an incorrect result.
+  * Bug fix: an incorrect result could be given when comparing a
+    signed fixed-point number of type `FixedI` to a number that would
+    overflow by exactly one bit when converting to `FixedI`.
   * The following associated constants were added to all fixed-point
     types, to the [`Fixed`] trait, and to the [`Wrapping`] wrapper:
       * [`MIN`], [`MAX`]
@@ -89,11 +89,10 @@ The conversions supported cover the following cases.
     the [`Fixed`] trait:
       * [`int_log2`], [`int_log10`]
       * [`checked_int_log2`], [`checked_int_log10`]
-  * The constants inside the [`consts`] module are now also available
-    as associated constants when they are representable by a
-    fixed-point number.
   * The following methods were added to the [`Wrapping`] wrapper:
       *  [`int_log2`][wril2], [`int_log10`][wril10]
+  * The constants in the [`consts`] module were also added as
+    associated constants to fixed-point types that can represent them.
   * The following methods were deprecated:
       * [`min_value`], [`max_value`]
       * [`int_nbits`][`int_nbits()`], [`frac_nbits`][`frac_nbits()`]
@@ -103,70 +102,23 @@ The conversions supported cover the following cases.
   * Bug fix: [`rem_euclid_int`] and its checked versions were handling
     overflow incorrectly.
 
-### Version 0.5.3 news (2020-02-13)
-
-  * Bug fix: [`round_to_zero`] was returning incorrect results for
-    negative whole number operands.
-  * Bug fix: all remainder operations with a fixed-point LHS and an
-    integer RHS were giving an incorrect answer ([issue 13]).
-  * Bug fix: Euclidean division operations by integers were giving an
-    incorrect answer.
-  * [`Rem`] and [`RemAssign`] were implemented for fixed-point
-    numbers.
-  * The following methods were added to all fixed-point types and to
-    the [`Fixed`] trait:
-      * [`checked_rem`]
-      * [`div_euclid`], [`rem_euclid`]
-      * [`checked_div_euclid`], [`checked_rem_euclid`]
-      * [`saturating_div_euclid`]
-      * [`wrapping_div_euclid`]
-      * [`overflowing_div_euclid`]
-  * The following methods were added to the [`Wrapping`] wrapper:
-      * [`div_euclid`][wde], [`rem_euclid`][wre]
-      * [`div_euclid_int`][wdei], [`rem_euclid_int`][wrei]
-  * The following methods were deprecated:
-      * [`wrapping_rem_int`], [`overflowing_rem_int`]
-
-### Version 0.5.2 news (2020-02-02)
-
-  * [`Wrapping`] now supports serialization. (Thanks: Shane Pearman)
-
-[`FRAC_NBITS`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.Fixed.html#associatedconstant.FRAC_NBITS
-[`Fixed`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.Fixed.html
-[`INT_NBITS`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.Fixed.html#associatedconstant.INT_NBITS
-[`MAX`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#associatedconstant.MAX
-[`MIN`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#associatedconstant.MIN
-[`RemAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.RemAssign.html
-[`Rem`]: https://doc.rust-lang.org/nightly/core/ops/trait.Rem.html
-[`Wrapping`]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html
-[`checked_div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_div_euclid
-[`checked_int_log10`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_int_log10
-[`checked_int_log2`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_int_log2
-[`checked_rem_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem_euclid
-[`checked_rem`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem
-[`consts`]: https://docs.rs/fixed/0.5.4/fixed/consts/index.html
-[`div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.div_euclid
-[`frac_nbits()`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.frac_nbits
-[`int_log10`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_log10
-[`int_log2`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_log2
-[`int_nbits()`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_nbits
-[`max_value`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.max_value
-[`min_value`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.min_value
-[`overflowing_div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.overflowing_div_euclid
-[`overflowing_rem_int`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.overflowing_rem_int
-[`rem_euclid_int`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.rem_euclid_int
-[`rem_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.rem_euclid
-[`round_to_zero`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.round_to_zero
-[`saturating_div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.saturating_div_euclid
-[`wrapping_div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.wrapping_div_euclid
-[`wrapping_rem_int`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.wrapping_rem_int
-[issue 13]: https://gitlab.com/tspiteri/fixed/issues/13
-[wde]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.div_euclid
-[wdei]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.div_euclid_int
-[wre]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.rem_euclid
-[wrei]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.rem_euclid_int
-[wril10]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.int_log10
-[wril2]: https://docs.rs/fixed/0.5.4/fixed/struct.Wrapping.html#method.int_log2
+[`FRAC_NBITS`]: https://docs.rs/fixed/0.5.5/fixed/traits/trait.Fixed.html#associatedconstant.FRAC_NBITS
+[`Fixed`]: https://docs.rs/fixed/0.5.5/fixed/traits/trait.Fixed.html
+[`INT_NBITS`]: https://docs.rs/fixed/0.5.5/fixed/traits/trait.Fixed.html#associatedconstant.INT_NBITS
+[`MAX`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#associatedconstant.MAX
+[`MIN`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#associatedconstant.MIN
+[`Wrapping`]: https://docs.rs/fixed/0.5.5/fixed/struct.Wrapping.html
+[`checked_int_log10`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.checked_int_log10
+[`checked_int_log2`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.checked_int_log2
+[`frac_nbits()`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.frac_nbits
+[`int_log10`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.int_log10
+[`int_log2`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.int_log2
+[`int_nbits()`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.int_nbits
+[`max_value`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.max_value
+[`min_value`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.min_value
+[`rem_euclid_int`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.rem_euclid_int
+[wril10]: https://docs.rs/fixed/0.5.5/fixed/struct.Wrapping.html#method.int_log10
+[wril2]: https://docs.rs/fixed/0.5.5/fixed/struct.Wrapping.html#method.int_log2
 
 ### Other releases
 
@@ -236,7 +188,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 
 ```toml
 [dependencies]
-fixed = "0.5.4"
+fixed = "0.5.5"
 ```
 
 The *fixed* crate requires rustc version 1.39.0 or later.
@@ -261,7 +213,7 @@ To enable features, you can add the dependency like this to
 
 ```toml
 [dependencies.fixed]
-version = "0.5.4"
+version = "0.5.5"
 features = ["f16", "serde"]
 ```
 
@@ -294,38 +246,38 @@ additional terms or conditions.
 [`Binary`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html
 [`Display`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html
 [`Error`]: https://doc.rust-lang.org/nightly/std/error/trait.Error.html
-[`FixedI128`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI128.html
-[`FixedI16`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI16.html
-[`FixedI32`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html
-[`FixedI64`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI64.html
-[`FixedI8`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI8.html
-[`FixedU128`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedU128.html
-[`FixedU16`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedU16.html
-[`FixedU32`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedU32.html
-[`FixedU64`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedU64.html
-[`FixedU8`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedU8.html
-[`FromFixed`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.FromFixed.html
+[`FixedI128`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI128.html
+[`FixedI16`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI16.html
+[`FixedI32`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html
+[`FixedI64`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI64.html
+[`FixedI8`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI8.html
+[`FixedU128`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedU128.html
+[`FixedU16`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedU16.html
+[`FixedU32`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedU32.html
+[`FixedU64`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedU64.html
+[`FixedU8`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedU8.html
+[`FromFixed`]: https://docs.rs/fixed/0.5.5/fixed/traits/trait.FromFixed.html
 [`FromStr`]: https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html
 [`From`]: https://doc.rust-lang.org/nightly/core/convert/trait.From.html
-[`I20F12`]: https://docs.rs/fixed/0.5.4/fixed/types/type.I20F12.html
-[`I4F12`]: https://docs.rs/fixed/0.5.4/fixed/types/type.I4F12.html
-[`I4F4`]: https://docs.rs/fixed/0.5.4/fixed/types/type.I4F4.html
+[`I20F12`]: https://docs.rs/fixed/0.5.5/fixed/types/type.I20F12.html
+[`I4F12`]: https://docs.rs/fixed/0.5.5/fixed/types/type.I4F12.html
+[`I4F4`]: https://docs.rs/fixed/0.5.5/fixed/types/type.I4F4.html
 [`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
-[`LossyFrom`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.LossyFrom.html
-[`LossyInto`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.LossyInto.html
+[`LossyFrom`]: https://docs.rs/fixed/0.5.5/fixed/traits/trait.LossyFrom.html
+[`LossyInto`]: https://docs.rs/fixed/0.5.5/fixed/traits/trait.LossyInto.html
 [`LowerHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html
 [`Octal`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html
-[`ParseFixedError`]: https://docs.rs/fixed/0.5.4/fixed/struct.ParseFixedError.html
-[`ToFixed`]: https://docs.rs/fixed/0.5.4/fixed/traits/trait.ToFixed.html
-[`U12`]: https://docs.rs/fixed/0.5.4/fixed/types/extra/type.U12.html
-[`U20F12`]: https://docs.rs/fixed/0.5.4/fixed/types/type.U20F12.html
+[`ParseFixedError`]: https://docs.rs/fixed/0.5.5/fixed/struct.ParseFixedError.html
+[`ToFixed`]: https://docs.rs/fixed/0.5.5/fixed/traits/trait.ToFixed.html
+[`U12`]: https://docs.rs/fixed/0.5.5/fixed/types/extra/type.U12.html
+[`U20F12`]: https://docs.rs/fixed/0.5.5/fixed/types/type.U20F12.html
 [`UpperHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html
 [`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
-[`checked_from_num`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_from_num
+[`checked_from_num`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.checked_from_num
 [`f16`]: https://docs.rs/half/^1/half/struct.f16.html
-[`from_num`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.from_num
-[`from_str_binary`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.from_str_binary
-[`from_str_hex`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.from_str_hex
-[`from_str_octal`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.from_str_octal
-[`to_num`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.to_num
+[`from_num`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.from_num
+[`from_str_binary`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.from_str_binary
+[`from_str_hex`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.from_str_hex
+[`from_str_octal`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.from_str_octal
+[`to_num`]: https://docs.rs/fixed/0.5.5/fixed/struct.FixedI32.html#method.to_num
 [const generics]: https://github.com/rust-lang/rust/issues/44580

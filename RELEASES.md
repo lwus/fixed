@@ -5,27 +5,26 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 0.5.5 (unreleased)
+Version 0.5.5 (2020-04-16)
 ==========================
 
-  * Bug fix: comparison between a signed fixed-point number of type
-    `FixedI` and a number that would overflow when converting to
-    `FixedI` by exactly one bit was giving an incorrect result.
+  * Bug fix: an incorrect result could be given when comparing a
+    signed fixed-point number of type `FixedI` to a number that would
+    overflow by exactly one bit when converting to `FixedI`.
   * The following associated constants were added to all fixed-point
     types, to the `Fixed` trait, and to the `Wrapping` wrapper:
       * `MIN`, `MAX`
   * The following associated constants were added to the `Fixed` trait
     and to the `Wrapping` wrapper:
       * `INT_NBITS`, `FRAC_NBITS`
-  * The constants inside the `consts` module are now also available as
-    associated constants when they are representable by a fixed-point
-    number.
   * The following methods were added to all fixed-point types and to
     the `Fixed` trait:
       * `int_log2`, `int_log10`
       * `checked_int_log2`, `checked_int_log10`
   * The following methods were added to the `Wrapping` wrapper:
       *  `int_log2`, `int_log10`
+  * The constants in the `consts` module were also added as associated
+    constants to fixed-point types that can represent them.
   * The following methods were deprecated:
       * `min_value`, `max_value`
       * `int_nbits`, `frac_nbits`
