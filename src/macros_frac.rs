@@ -15,7 +15,6 @@
 
 macro_rules! fixed_frac {
     (
-        $description:expr,
         $Fixed:ident[$s_fixed:expr](
             $Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr, $s_nbits_m4:expr
         ),

@@ -15,7 +15,6 @@
 
 macro_rules! fixed_no_frac {
     (
-        $description:expr,
         $Fixed:ident[$s_fixed:expr]($Inner:ty[$s_inner:expr], $s_nbits:expr),
         $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UInner:ty, $Signedness:tt
