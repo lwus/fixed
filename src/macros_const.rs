@@ -13,116 +13,303 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
-// split shift in two parts in case it is equal to 128
-macro_rules! split {
-    ($CONST:ident >> (128 - $frac:expr)) => {
-        consts::$CONST >> (64 - $frac / 2) >> (64 + $frac / 2 - $frac)
+macro_rules! shift {
+    // in case of 128, split shift in two parts to avoid >> 128
+    ($SRC:ident, $Fixed:ident<$Frac:ident>) => {
+        $Fixed::<$Frac>::from_bits(
+            (consts::$SRC.to_bits() >> (64 - $Frac::U32 / 2) >> (64 + $Frac::U32 / 2 - $Frac::U32))
+                as _,
+        )
+    };
+    ($SRC:ident, $src_frac_nbits:literal, $Fixed:ident<$Frac:ident>) => {
+        $Fixed::<$Frac>::from_bits((consts::$SRC.to_bits() >> ($src_frac_nbits - $Frac::U32)) as _)
     };
 }
 
 macro_rules! fixed_const {
     (
         $Fixed:ident[$s_fixed:expr](
-            $LeEqU:tt, $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt
-        )
+            $LeEqU:tt, $s_nbits:expr,
+            $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
+        ),
+        $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt,
+        $Signedness:tt
     ) => {
-        // 0 ≤ constant < 0.5
-        impl<Frac: $LeEqU> $Fixed<Frac> {
-            /// 1/τ = 0.159154…
-            pub const FRAC_1_TAU: U0F128 = split!(consts::FRAC_1_TAU >> (128 - Frac::U32));
+        comment! {
+            "This block contains constants in the range 0 ≤ <i>x</i> < 0.5.
 
-            /// 2/τ = 0.318309…
-            pub const FRAC_2_TAU: U0F128 = split!(consts::FRAC_2_TAU >> (128 - Frac::U32));
+# Examples
 
-            /// π/8 = 0.392699…
-            pub const FRAC_PI_8: U0F128 = split!(consts::FRAC_PI_8 >> (128 - Frac::U32));
+```rust
+use fixed::{consts, types::extra::U", $s_nbits, ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U", $s_nbits, ">;
+assert_eq!(Fix::LOG10_2, Fix::from_num(consts::LOG10_2));
+```
+";
+            impl<Frac: $LeEqU> $Fixed<Frac> {
+                /// 1/τ = 0.159154…
+                pub const FRAC_1_TAU: $Fixed<Frac> = shift!(FRAC_1_TAU, $Fixed<Frac>);
 
-            /// 1/π = 0.318309…
-            pub const FRAC_1_PI: U0F128 = split!(consts::FRAC_1_PI >> (128 - Frac::U32));
+                /// 2/τ = 0.318309…
+                pub const FRAC_2_TAU: $Fixed<Frac> = shift!(FRAC_2_TAU, $Fixed<Frac>);
 
-            /// log<sub>10</sub> 2 = 0.301029…
-            pub const LOG10_2: U0F128 = split!(consts::LOG10_2 >> (128 - Frac::U32));
+                /// π/8 = 0.392699…
+                pub const FRAC_PI_8: $Fixed<Frac> = shift!(FRAC_PI_8, $Fixed<Frac>);
 
-            /// log<sub>10</sub> e = 0.434294…
-            pub const LOG10_E: U0F128 = split!(consts::LOG10_E >> (128 - Frac::U32));
+                /// 1/π = 0.318309…
+                pub const FRAC_1_PI: $Fixed<Frac> = shift!(FRAC_1_PI, $Fixed<Frac>);
+
+                /// log<sub>10</sub> 2 = 0.301029…
+                pub const LOG10_2: $Fixed<Frac> = shift!(LOG10_2, $Fixed<Frac>);
+
+                /// log<sub>10</sub> e = 0.434294…
+                pub const LOG10_E: $Fixed<Frac> = shift!(LOG10_E, $Fixed<Frac>);
+            }
         }
 
-        // 0.5 ≤ constant < 1
-        impl<Frac: $LeEqU_C0> $Fixed<Frac> {
-            /// τ/8 = 0.785398…
-            pub const FRAC_TAU_8: U0F128 = split!(consts::FRAC_TAU_8 >> (128 - Frac::U32));
+        comment! {
+            "This block contains constants in the range 0.5 ≤ <i>x</i> < 1.
 
-            /// τ/12 = 0.523598…
-            pub const FRAC_TAU_12: U0F128 = split!(consts::FRAC_TAU_12 >> (128 - Frac::U32));
+",
+            if_signed_else_empty_str!(
+                $Signedness,
+                "These constants are not representable in signed
+fixed-point numbers with less than 1 integer bit.
 
-            /// 4/τ = 0.636619…
-            pub const FRAC_4_TAU: U0F128 = split!(consts::FRAC_4_TAU >> (128 - Frac::U32));
+"
+            ),
+            "# Examples
 
-            /// π/4 = 0.785398…
-            pub const FRAC_PI_4: U0F128 = split!(consts::FRAC_PI_4 >> (128 - Frac::U32));
+```rust
+use fixed::{consts, types::extra::U",
+            if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
+            ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U",
+            if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
+            ">;
+assert_eq!(Fix::LN_2, Fix::from_num(consts::LN_2));
+assert!(0.5 <= Fix::LN_2 && Fix::LN_2 < 1);
+```
+",
+            if_signed_else_empty_str!(
+                $Signedness,
+                "
+The following example fails to compile, since the maximum
+representable value with ", $s_nbits, " fractional bits and 0 integer
+bits is < 0.5.
 
-            /// π/6 = 0.523598…
-            pub const FRAC_PI_6: U0F128 = split!(consts::FRAC_PI_6 >> (128 - Frac::U32));
+```compile_fail
+use fixed::{consts, types::extra::U", $s_nbits, ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U", $s_nbits, ">;
+let _ = Fix::LN_2;
+```
+"
+            );
+            impl<Frac: Unsigned> $Fixed<Frac>
+            where
+                Frac: IsLessOrEqual<$LeEqU_C0, Output = True>,
+            {
+                /// τ/8 = 0.785398…
+                pub const FRAC_TAU_8: $Fixed<Frac> = shift!(FRAC_TAU_8, $Fixed<Frac>);
 
-            /// 2/π = 0.636619…
-            pub const FRAC_2_PI: U0F128 = split!(consts::FRAC_2_PI >> (128 - Frac::U32));
+                /// τ/12 = 0.523598…
+                pub const FRAC_TAU_12: $Fixed<Frac> = shift!(FRAC_TAU_12, $Fixed<Frac>);
 
-            /// 1/√2 = 0.707106…
-            pub const FRAC_1_SQRT_2: U0F128 = split!(consts::FRAC_1_SQRT_2 >> (128 - Frac::U32));
+                /// 4/τ = 0.636619…
+                pub const FRAC_4_TAU: $Fixed<Frac> = shift!(FRAC_4_TAU, $Fixed<Frac>);
 
-            /// ln 2 = 0.693147…
-            pub const LN_2: U0F128 = split!(consts::LN_2 >> (128 - Frac::U32));
+                /// π/4 = 0.785398…
+                pub const FRAC_PI_4: $Fixed<Frac> = shift!(FRAC_PI_4, $Fixed<Frac>);
+
+                /// π/6 = 0.523598…
+                pub const FRAC_PI_6: $Fixed<Frac> = shift!(FRAC_PI_6, $Fixed<Frac>);
+
+                /// 2/π = 0.636619…
+                pub const FRAC_2_PI: $Fixed<Frac> = shift!(FRAC_2_PI, $Fixed<Frac>);
+
+                /// 1/√2 = 0.707106…
+                pub const FRAC_1_SQRT_2: $Fixed<Frac> = shift!(FRAC_1_SQRT_2, $Fixed<Frac>);
+
+                /// ln 2 = 0.693147…
+                pub const LN_2: $Fixed<Frac> = shift!(LN_2, $Fixed<Frac>);
+            }
         }
 
-        // 1 ≤ constant < 2
-        impl<Frac: $LeEqU_C1> $Fixed<Frac> {
-            /// τ/4 = 1.57079…
-            pub const FRAC_TAU_4: U1F127 = consts::FRAC_TAU_4 >> (127 - Frac::U32);
+        comment! {
+            "This block contains constants in the range 1 ≤ <i>x</i> < 2.
 
-            /// τ/6 = 1.04719…
-            pub const FRAC_TAU_6: U1F127 = consts::FRAC_TAU_6 >> (127 - Frac::U32);
+These constants are not representable in ",
+            if_signed_unsigned!($Signedness, "signed", "unsigned"),
+            " fixed-point numbers with less than ",
+            if_signed_unsigned!($Signedness, "2 integer bits", "1 integer bit"),
+            ".
 
-            /// π/2 = 1.57079…
-            pub const FRAC_PI_2: U1F127 = consts::FRAC_PI_2 >> (127 - Frac::U32);
+# Examples
 
-            /// π/3 = 1.04719…
-            pub const FRAC_PI_3: U1F127 = consts::FRAC_PI_3 >> (127 - Frac::U32);
+```rust
+use fixed::{consts, types::extra::U",
+            if_signed_unsigned!($Signedness, $s_nbits_m2, $s_nbits_m1),
+            ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U",
+            if_signed_unsigned!($Signedness, $s_nbits_m2, $s_nbits_m1),
+            ">;
+assert_eq!(Fix::LOG2_E, Fix::from_num(consts::LOG2_E));
+assert!(1 <= Fix::LOG2_E && Fix::LOG2_E < 2);
+```
 
-            /// 2/√π = 1.12837…
-            pub const FRAC_2_SQRT_PI: U1F127 = consts::FRAC_2_SQRT_PI >> (127 - Frac::U32);
+The following example fails to compile, since the maximum
+representable value with ",
+            if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
+            " fractional bits and ",
+            if_signed_unsigned!($Signedness, "1 integer bit", "0 integer bits"),
+            " is < 1.
 
-            /// √2 = 1.41421…
-            pub const SQRT_2: U1F127 = consts::SQRT_2 >> (127 - Frac::U32);
+```compile_fail
+use fixed::{consts, types::extra::U",
+            if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
+            ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U",
+            if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
+            ">;
+let _ = Fix::LOG2_E;
+```
+";
+            impl<Frac: Unsigned> $Fixed<Frac>
+            where
+                Frac: IsLessOrEqual<$LeEqU_C1, Output = True>,
+            {
+                /// τ/4 = 1.57079…
+                pub const FRAC_TAU_4: $Fixed<Frac> = shift!(FRAC_TAU_4, 127, $Fixed<Frac>);
 
-            /// log<sub>2</sub> e = 1.44269…
-            pub const LOG2_E: U1F127 = consts::LOG2_E >> (127 - Frac::U32);
+                /// τ/6 = 1.04719…
+                pub const FRAC_TAU_6: $Fixed<Frac> = shift!(FRAC_TAU_6, 127, $Fixed<Frac>);
+
+                /// π/2 = 1.57079…
+                pub const FRAC_PI_2: $Fixed<Frac> = shift!(FRAC_PI_2, 127, $Fixed<Frac>);
+
+                /// π/3 = 1.04719…
+                pub const FRAC_PI_3: $Fixed<Frac> = shift!(FRAC_PI_3, 127, $Fixed<Frac>);
+
+                /// 2/√π = 1.12837…
+                pub const FRAC_2_SQRT_PI: $Fixed<Frac> = shift!(FRAC_2_SQRT_PI, 127, $Fixed<Frac>);
+
+                /// √2 = 1.41421…
+                pub const SQRT_2: $Fixed<Frac> = shift!(SQRT_2, 127, $Fixed<Frac>);
+
+                /// log<sub>2</sub> e = 1.44269…
+                pub const LOG2_E: $Fixed<Frac> = shift!(LOG2_E, 127, $Fixed<Frac>);
+            }
         }
 
-        // 2 ≤ constant < 4
-        impl<Frac: $LeEqU_C2> $Fixed<Frac> {
-            /// τ/2 = 3.14159…
-            pub const FRAC_TAU_2: U2F126 = consts::FRAC_TAU_2 >> (126 - Frac::U32);
+        comment! {
+            "This block contains constants in the range 2 ≤ <i>x</i> < 4.
 
-            /// τ/3 = 2.09439…
-            pub const FRAC_TAU_3: U2F126 = consts::FRAC_TAU_3 >> (126 - Frac::U32);
+These constants are not representable in ",
+            if_signed_unsigned!($Signedness, "signed", "unsigned"),
+            " fixed-point numbers with less than ",
+            if_signed_unsigned!($Signedness, "3", "2"),
+            " integer bits.
 
-            /// π = 3.14159…
-            pub const PI: U2F126 = consts::PI >> (126 - Frac::U32);
+# Examples
 
-            /// e = 2.71828…
-            pub const E: U2F126 = consts::E >> (126 - Frac::U32);
+```rust
+use fixed::{consts, types::extra::U",
+            if_signed_unsigned!($Signedness, $s_nbits_m3, $s_nbits_m2),
+            ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U",
+            if_signed_unsigned!($Signedness, $s_nbits_m3, $s_nbits_m2),
+            ">;
+assert_eq!(Fix::E, Fix::from_num(consts::E));
+assert!(2 <= Fix::E && Fix::E < 4);
+```
 
-            /// log<sub>2</sub> 10 = 3.32192…
-            pub const LOG2_10: U2F126 = consts::LOG2_10 >> (126 - Frac::U32);
+The following example fails to compile, since the maximum
+representable value with ",
+            if_signed_unsigned!($Signedness, $s_nbits_m2, $s_nbits_m1),
+            " fractional bits and ",
+            if_signed_unsigned!($Signedness, "2 integer bits", "1 integer bit"),
+            " is < 2.
 
-            /// ln 10 = 2.30258…
-            pub const LN_10: U2F126 = consts::LN_10 >> (126 - Frac::U32);
+```compile_fail
+use fixed::{consts, types::extra::U",
+            if_signed_unsigned!($Signedness, $s_nbits_m2, $s_nbits_m1),
+            ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U",
+            if_signed_unsigned!($Signedness, $s_nbits_m2, $s_nbits_m1),
+            ">;
+let _ = Fix::E;
+```
+";
+            impl<Frac: Unsigned> $Fixed<Frac>
+            where
+                Frac: IsLessOrEqual<$LeEqU_C2, Output = True>,
+            {
+                /// τ/2 = 3.14159…
+                pub const FRAC_TAU_2: $Fixed<Frac> = shift!(FRAC_TAU_2, 126, $Fixed<Frac>);
+
+                /// τ/3 = 2.09439…
+                pub const FRAC_TAU_3: $Fixed<Frac> = shift!(FRAC_TAU_3, 126, $Fixed<Frac>);
+
+                /// π = 3.14159…
+                pub const PI: $Fixed<Frac> = shift!(PI, 126, $Fixed<Frac>);
+
+                /// e = 2.71828…
+                pub const E: $Fixed<Frac> = shift!(E, 126, $Fixed<Frac>);
+
+                /// log<sub>2</sub> 10 = 3.32192…
+                pub const LOG2_10: $Fixed<Frac> = shift!(LOG2_10, 126, $Fixed<Frac>);
+
+                /// ln 10 = 2.30258…
+                pub const LN_10: $Fixed<Frac> = shift!(LN_10, 126, $Fixed<Frac>);
+            }
         }
 
-        // 4 ≤ constant < 8
-        impl<Frac: $LeEqU_C3> $Fixed<Frac> {
-            /// τ = 6.28318…
-            pub const TAU: U3F125 = consts::TAU >> (125 - Frac::U32);
+        comment! {
+            "This block contains constants in the range 4 ≤ <i>x</i> < 8.
+
+These constants are not representable in ",
+            if_signed_unsigned!($Signedness, "signed", "unsigned"),
+            " fixed-point numbers with less than ",
+            if_signed_unsigned!($Signedness, "4", "3"),
+            " integer bits.
+
+# Examples
+
+```rust
+use fixed::{consts, types::extra::U",
+            if_signed_unsigned!($Signedness, $s_nbits_m4, $s_nbits_m3),
+            ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U",
+            if_signed_unsigned!($Signedness, $s_nbits_m4, $s_nbits_m3),
+            ">;
+assert_eq!(Fix::TAU, Fix::from_num(consts::TAU));
+assert!(4 <= Fix::TAU && Fix::TAU < 8);
+```
+
+The following example fails to compile, since the maximum
+representable value with ",
+            if_signed_unsigned!($Signedness, $s_nbits_m3, $s_nbits_m2),
+            " fractional bits and ",
+            if_signed_unsigned!($Signedness, "3", "2"),
+            " integer bits is < 4.
+
+```compile_fail
+use fixed::{consts, types::extra::U",
+            if_signed_unsigned!($Signedness, $s_nbits_m3, $s_nbits_m2),
+            ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U",
+            if_signed_unsigned!($Signedness, $s_nbits_m3, $s_nbits_m2),
+            ">;
+let _ = Fix::TAU;
+```
+";
+            impl<Frac: Unsigned> $Fixed<Frac>
+            where
+                Frac: IsLessOrEqual<$LeEqU_C3, Output = True>,
+            {
+                /// τ = 6.28318…
+                pub const TAU: $Fixed<Frac> = shift!(TAU, 125, $Fixed<Frac>);
+            }
         }
     };
 }

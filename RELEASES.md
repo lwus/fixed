@@ -17,6 +17,9 @@ Version 0.5.5 (unreleased)
   * The following associated constants were added to the `Fixed` trait
     and to the `Wrapping` wrapper:
       * `INT_NBITS`, `FRAC_NBITS`
+  * The constants inside the `consts` module are now also available as
+    associated constants when they are representable by a fixed-point
+    number.
   * The following methods were added to all fixed-point types and to
     the `Fixed` trait:
       * `int_log2`, `int_log10`

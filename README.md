@@ -89,6 +89,9 @@ The conversions supported cover the following cases.
     the [`Fixed`] trait:
       * [`int_log2`], [`int_log10`]
       * [`checked_int_log2`], [`checked_int_log10`]
+  * The constants inside the [`consts`] module are now also available
+    as associated constants when they are representable by a
+    fixed-point number.
   * The following methods were added to the [`Wrapping`] wrapper:
       *  [`int_log2`][wril2], [`int_log10`][wril10]
   * The following methods were deprecated:
@@ -141,6 +144,7 @@ The conversions supported cover the following cases.
 [`checked_int_log2`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_int_log2
 [`checked_rem_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem_euclid
 [`checked_rem`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.checked_rem
+[`consts`]: https://docs.rs/fixed/0.5.4/fixed/consts/index.html
 [`div_euclid`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.div_euclid
 [`frac_nbits()`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.frac_nbits
 [`int_log10`]: https://docs.rs/fixed/0.5.4/fixed/struct.FixedI32.html#method.int_log10
