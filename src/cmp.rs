@@ -34,18 +34,22 @@ macro_rules! fixed_cmp_fixed {
                     Self::FRAC_NBITS,
                     Self::INT_NBITS,
                 );
-                let rhs_bits = match conv.bits {
-                    Widest::Unsigned(bits) => bits as <Self as Fixed>::Bits,
-                    Widest::Negative(bits) => bits as <Self as Fixed>::Bits,
+                let (rhs_is_neg, rhs_bits) = match conv.bits {
+                    Widest::Unsigned(bits) => (false, bits as <Self as Fixed>::Bits),
+                    Widest::Negative(bits) => (true, bits as <Self as Fixed>::Bits),
                 };
-                conv.dir == Ordering::Equal && !conv.overflow && rhs_bits == self.to_bits()
+                conv.dir == Ordering::Equal
+                    && !conv.overflow
+                    && rhs_is_neg == rhs_bits.is_negative()
+                    && rhs_bits == self.to_bits()
             }
         }
 
         impl<FracLhs: $LhsLeEqU, FracRhs: $RhsLeEqU> PartialOrd<$Rhs<FracRhs>> for $Lhs<FracLhs> {
             #[inline]
             fn partial_cmp(&self, rhs: &$Rhs<FracRhs>) -> Option<Ordering> {
-                match (self.to_bits().is_negative(), rhs.to_bits().is_negative()) {
+                let rhs_is_neg = rhs.to_bits().is_negative();
+                match (self.to_bits().is_negative(), rhs_is_neg) {
                     (false, true) => return Some(Ordering::Greater),
                     (true, false) => return Some(Ordering::Less),
                     _ => {}
@@ -55,23 +59,24 @@ macro_rules! fixed_cmp_fixed {
                     Self::FRAC_NBITS,
                     Self::INT_NBITS,
                 );
-                if conv.overflow {
-                    return if rhs.to_bits().is_negative() {
+                let rhs_bits = match conv.bits {
+                    Widest::Unsigned(bits) => bits as <Self as Fixed>::Bits,
+                    Widest::Negative(bits) => bits as <Self as Fixed>::Bits,
+                };
+                if conv.overflow || rhs_bits.is_negative() != rhs_is_neg {
+                    return if rhs_is_neg {
                         Some(Ordering::Greater)
                     } else {
                         Some(Ordering::Less)
                     };
                 }
-                let rhs_bits = match conv.bits {
-                    Widest::Unsigned(bits) => bits as <Self as Fixed>::Bits,
-                    Widest::Negative(bits) => bits as <Self as Fixed>::Bits,
-                };
                 Some(self.to_bits().cmp(&rhs_bits).then(conv.dir))
             }
 
             #[inline]
             fn lt(&self, rhs: &$Rhs<FracRhs>) -> bool {
-                match (self.to_bits().is_negative(), rhs.to_bits().is_negative()) {
+                let rhs_is_neg = rhs.to_bits().is_negative();
+                match (self.to_bits().is_negative(), rhs_is_neg) {
                     (false, true) => return false,
                     (true, false) => return true,
                     _ => {}
@@ -81,15 +86,15 @@ macro_rules! fixed_cmp_fixed {
                     Self::FRAC_NBITS,
                     Self::INT_NBITS,
                 );
-                if conv.overflow {
-                    return !rhs.to_bits().is_negative();
-                }
                 let rhs_bits = match conv.bits {
                     Widest::Unsigned(bits) => bits as <Self as Fixed>::Bits,
                     Widest::Negative(bits) => bits as <Self as Fixed>::Bits,
                 };
-                self.to_bits() < rhs_bits
-                    || (self.to_bits() == rhs_bits && conv.dir == Ordering::Less)
+                if conv.overflow || rhs_bits.is_negative() != rhs_is_neg {
+                    return !rhs_is_neg;
+                }
+                let lhs_bits = self.to_bits();
+                lhs_bits < rhs_bits || (lhs_bits == rhs_bits && conv.dir == Ordering::Less)
             }
 
             #[inline]
@@ -191,11 +196,14 @@ macro_rules! fixed_cmp_float {
                     FloatKind::Finite { conv, .. } => conv,
                     _ => return false,
                 };
-                let rhs_bits = match conv.bits {
-                    Widest::Unsigned(bits) => bits as <Self as Fixed>::Bits,
-                    Widest::Negative(bits) => bits as <Self as Fixed>::Bits,
+                let (rhs_is_neg, rhs_bits) = match conv.bits {
+                    Widest::Unsigned(bits) => (false, bits as <Self as Fixed>::Bits),
+                    Widest::Negative(bits) => (true, bits as <Self as Fixed>::Bits),
                 };
-                conv.dir == Ordering::Equal && !conv.overflow && rhs_bits == self.to_bits()
+                conv.dir == Ordering::Equal
+                    && !conv.overflow
+                    && rhs_is_neg == rhs_bits.is_negative()
+                    && rhs_bits == self.to_bits()
             }
         }
 
@@ -226,17 +234,17 @@ macro_rules! fixed_cmp_float {
                     (true, false) => return Some(Ordering::Less),
                     _ => {}
                 }
-                if conv.overflow {
+                let rhs_bits = match conv.bits {
+                    Widest::Unsigned(bits) => bits as <Self as Fixed>::Bits,
+                    Widest::Negative(bits) => bits as <Self as Fixed>::Bits,
+                };
+                if conv.overflow || rhs_bits.is_negative() != rhs_is_neg {
                     return if rhs_is_neg {
                         Some(Ordering::Greater)
                     } else {
                         Some(Ordering::Less)
                     };
                 }
-                let rhs_bits = match conv.bits {
-                    Widest::Unsigned(bits) => bits as <Self as Fixed>::Bits,
-                    Widest::Negative(bits) => bits as <Self as Fixed>::Bits,
-                };
                 Some(self.to_bits().cmp(&rhs_bits).then(conv.dir))
             }
 
@@ -254,13 +262,13 @@ macro_rules! fixed_cmp_float {
                     (true, false) => return true,
                     _ => {}
                 }
-                if conv.overflow {
-                    return !rhs_is_neg;
-                }
                 let rhs_bits = match conv.bits {
                     Widest::Unsigned(bits) => bits as <Self as Fixed>::Bits,
                     Widest::Negative(bits) => bits as <Self as Fixed>::Bits,
                 };
+                if conv.overflow || rhs_bits.is_negative() != rhs_is_neg {
+                    return !rhs_is_neg;
+                }
                 let lhs_bits = self.to_bits();
                 lhs_bits < rhs_bits || (lhs_bits == rhs_bits && conv.dir == Ordering::Less)
             }
@@ -301,13 +309,13 @@ macro_rules! fixed_cmp_float {
                     (true, false) => return true,
                     _ => {}
                 }
-                if conv.overflow {
-                    return lhs_is_neg;
-                }
                 let lhs_bits = match conv.bits {
                     Widest::Unsigned(bits) => bits as <$Fix<Frac> as Fixed>::Bits,
                     Widest::Negative(bits) => bits as <$Fix<Frac> as Fixed>::Bits,
                 };
+                if conv.overflow || lhs_bits.is_negative() != lhs_is_neg {
+                    return lhs_is_neg;
+                }
                 let rhs_bits = rhs.to_bits();
                 lhs_bits < rhs_bits || (lhs_bits == rhs_bits && conv.dir == Ordering::Greater)
             }
@@ -508,5 +516,70 @@ mod tests {
         assert!(a > -1i8);
         assert_eq!(a, 1i32 << 12);
         assert_eq!(b, 0);
+    }
+
+    #[test]
+    fn cmp_i0_with_half() {
+        use crate::types::*;
+        assert_eq!(I0F32::checked_from_num(0.5), None);
+        for &float in &[-0.5, -0.25, 0., 0.25, 0.49] {
+            let fixed = I0F32::from_num(float);
+            let half = U0F32::from_num(0.5);
+            assert_eq!(fixed < half, float < 0.5, "{} < {}", fixed, half);
+            assert_eq!(fixed == half, float == 0.5, "{} == {}", fixed, half);
+            assert_eq!(fixed > half, float > 0.5, "{} > {}", fixed, half);
+            assert_eq!(
+                fixed.partial_cmp(&half),
+                float.partial_cmp(&0.5),
+                "{}.partial_cmp(&{})",
+                fixed,
+                half
+            );
+            assert_eq!(half < fixed, fixed > half);
+            assert_eq!(half == fixed, fixed == half);
+            assert_eq!(half > fixed, fixed < half);
+            assert_eq!(
+                half.partial_cmp(&fixed),
+                fixed.partial_cmp(&half).map(Ordering::reverse)
+            );
+
+            let half = I1F31::from_num(0.5);
+            assert_eq!(fixed < half, float < 0.5, "{} < {}", fixed, half);
+            assert_eq!(fixed == half, float == 0.5, "{} == {}", fixed, half);
+            assert_eq!(fixed > half, float > 0.5, "{} > {}", fixed, half);
+            assert_eq!(
+                fixed.partial_cmp(&half),
+                float.partial_cmp(&0.5),
+                "{}.partial_cmp(&{})",
+                fixed,
+                half
+            );
+            assert_eq!(half < fixed, fixed > half);
+            assert_eq!(half == fixed, fixed == half);
+            assert_eq!(half > fixed, fixed < half);
+            assert_eq!(
+                half.partial_cmp(&fixed),
+                fixed.partial_cmp(&half).map(Ordering::reverse)
+            );
+
+            let half = 0.5f32;
+            assert_eq!(fixed < half, float < 0.5, "{} < {}", fixed, half);
+            assert_eq!(fixed == half, float == 0.5, "{} == {}", fixed, half);
+            assert_eq!(fixed > half, float > 0.5, "{} > {}", fixed, half);
+            assert_eq!(
+                fixed.partial_cmp(&half),
+                float.partial_cmp(&0.5),
+                "{}.partial_cmp(&{})",
+                fixed,
+                half
+            );
+            assert_eq!(half < fixed, fixed > half);
+            assert_eq!(half == fixed, fixed == half);
+            assert_eq!(half > fixed, fixed < half);
+            assert_eq!(
+                half.partial_cmp(&fixed),
+                fixed.partial_cmp(&half).map(Ordering::reverse)
+            );
+        }
     }
 }

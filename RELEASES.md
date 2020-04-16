@@ -8,6 +8,9 @@ as-is, without any warranty. -->
 Version 0.5.5 (unreleased)
 ==========================
 
+  * Bug fix: comparison between a signed fixed-point number of type
+    `FixedI` and a number that would overflow when converting to
+    `FixedI` by exactly one bit was giving an incorrect result.
   * The following associated constants were added to all fixed-point
     types, to the `Fixed` trait, and to the `Wrapping` wrapper:
       * `MIN`, `MAX`
