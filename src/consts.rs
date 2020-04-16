@@ -33,6 +33,86 @@ assert_eq!(format!("{:.8}", tau), "6.28318531");
 
 use crate::types::{U0F128, U1F127, U2F126, U3F125};
 
+/*
+```rust
+use core::{cmp::Ord, convert::TryFrom};
+use rug::{
+    float::{Constant, Round},
+    Assign, Float, Integer,
+};
+
+fn decimal_string(val: &Float, prec: i32) -> String {
+    let log10 = val.clone().log10();
+    let floor_log10 = log10.to_i32_saturating_round(Round::Down).unwrap();
+    let shift = u32::try_from(prec - 1 - floor_log10).unwrap();
+    let val = val.clone() * Integer::from(Integer::u_pow_u(10, shift));
+    let int = val.to_integer_round(Round::Down).unwrap().0;
+    let padding = "0".repeat(usize::try_from(-floor_log10.min(0)).unwrap());
+    let mut s = format!("{}{}", padding, int);
+    s.insert(1, '.');
+    s
+}
+
+fn hex_bits(val: &Float, frac_bits: i32) -> String {
+    let val = val.clone() << frac_bits;
+    let int = val.to_integer_round(Round::Down).unwrap().0;
+    let mut s = format!("0x{:016X}", int);
+    for i in 0..7 {
+        s.insert(6 + 5 * i, '_');
+    }
+    s
+}
+
+fn print(doc: &str, name: &str, val: Float) {
+    println!("/// {} = {}…", doc, decimal_string(&val, 6));
+    println!("// {} = {}...", name, decimal_string(&val, 40));
+    let int_bits = val.get_exp().unwrap().max(0);
+    let frac_bits = 128 - int_bits;
+    print!("pub const {}: U{}F{} = U{1}F{2}", name, int_bits, frac_bits,);
+    println!("::from_bits({});", hex_bits(&val, frac_bits));
+    println!();
+}
+
+fn float<T>(t: T) -> Float
+where
+    Float: Assign<T>,
+{
+    Float::with_val(200, t)
+}
+
+fn main() {
+    print("τ", "TAU", float(Constant::Pi) * 2);
+    print("τ/2", "FRAC_TAU_2", float(Constant::Pi));
+    print("τ/3", "FRAC_TAU_3", float(Constant::Pi) * 2 / 3);
+    print("τ/4", "FRAC_TAU_4", float(Constant::Pi) / 2);
+    print("τ/6", "FRAC_TAU_6", float(Constant::Pi) / 3);
+    print("τ/8", "FRAC_TAU_8", float(Constant::Pi) / 4);
+    print("τ/12", "FRAC_TAU_12", float(Constant::Pi) / 6);
+    print("1/τ", "FRAC_1_TAU", 0.5 / float(Constant::Pi));
+    print("2/τ", "FRAC_2_TAU", 1 / float(Constant::Pi));
+    print("4/τ", "FRAC_4_TAU", 2 / float(Constant::Pi));
+    print("π", "PI", float(Constant::Pi));
+    print("π/2", "FRAC_PI_2", float(Constant::Pi) / 2);
+    print("π/3", "FRAC_PI_3", float(Constant::Pi) / 3);
+    print("π/4", "FRAC_PI_4", float(Constant::Pi) / 4);
+    print("π/6", "FRAC_PI_6", float(Constant::Pi) / 6);
+    print("π/8", "FRAC_PI_8", float(Constant::Pi) / 8);
+    print("1/π", "FRAC_1_PI", 1 / float(Constant::Pi));
+    print("2/π", "FRAC_2_PI", 2 / float(Constant::Pi));
+    print("2/√π", "FRAC_2_SQRT_PI", 2 / float(Constant::Pi).sqrt());
+    print("√2", "SQRT_2", float(2).sqrt());
+    print("1/√2", "FRAC_1_SQRT_2", float(0.5).sqrt());
+    print("e", "E", float(1).exp());
+    print("log<sub>2</sub> 10", "LOG2_10", float(10).log2());
+    print("log<sub>2</sub> e", "LOG2_E", float(1).exp().log2());
+    print("log<sub>10</sub> 2", "LOG10_2", float(2).log10());
+    print("log<sub>10</sub> e", "LOG10_E", float(1).exp().log10());
+    print("ln 2", "LN_2", float(2).ln());
+    print("ln 10", "LN_10", float(10).ln());
+}
+```
+*/
+
 /// τ = 6.28318…
 // TAU = 6.283185307179586476925286766559005768394...
 pub const TAU: U3F125 = U3F125::from_bits(0xC90F_DAA2_2168_C234_C4C6_628B_80DC_1CD1);
