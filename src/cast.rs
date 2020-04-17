@@ -18,7 +18,9 @@ use crate::{
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
-use az::{Cast, CheckedCast, OverflowingCast, SaturatingCast, StaticCast, WrappingCast};
+#[allow(deprecated)]
+use az::StaticCast;
+use az::{Cast, CheckedCast, OverflowingCast, SaturatingCast, WrappingCast};
 use core::mem;
 #[cfg(feature = "f16")]
 use half::{bf16, f16};
@@ -148,6 +150,10 @@ macro_rules! compile_time {
             $cond:expr
         }
     ) => {
+        #[deprecated(since = "0.5.6", note = "deprecated in az crate")]
+        #[allow(deprecated)]
+        /// <div class='stability'><div class='stab deprecated'>Deprecated since 0.5.6:
+        /// <p>deprecated in az crate since 0.3.1; use case is unclear</p></div></div>
         impl<$FracSrc: $LeEqUSrc, $FracDst: $LeEqUDst> StaticCast<$Dst> for $Src {
             #[inline]
             fn static_cast(self) -> Option<$Dst> {
@@ -161,6 +167,10 @@ macro_rules! compile_time {
     };
 
     (impl<$Frac:ident: $LeEqU:ident> StaticCast<$Dst:ty> for $Src:ty { $cond:expr }) => {
+        #[deprecated(since = "0.5.6", note = "deprecated in az crate")]
+        #[allow(deprecated)]
+        /// <div class='stability'><div class='stab deprecated'>Deprecated since 0.5.6:
+        /// <p>deprecated in az crate since 0.3.1; use case is unclear</p></div></div>
         impl<$Frac: $LeEqU> StaticCast<$Dst> for $Src {
             #[inline]
             fn static_cast(self) -> Option<$Dst> {
