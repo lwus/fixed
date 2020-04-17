@@ -410,6 +410,7 @@ fixed_cmp! { FixedI128(i128, LeEqU128, 128) }
 #[allow(clippy::cognitive_complexity, clippy::float_cmp)]
 mod tests {
     use crate::*;
+    use core::f32;
 
     #[test]
     fn cmp_signed() {
@@ -431,6 +432,11 @@ mod tests {
         assert_eq!(a.partial_cmp(&b), Some(Equal));
         assert_eq!(b.partial_cmp(&a), Some(Equal));
         assert!(a < 0.0);
+        assert_eq!(a.partial_cmp(&f32::INFINITY), Some(Less));
+        assert!(a < f32::INFINITY);
+        assert!(a != f32::INFINITY);
+        assert_eq!(a.partial_cmp(&f32::NEG_INFINITY), Some(Greater));
+        assert!(a > f32::NEG_INFINITY);
         assert_eq!(a, -(-16f32).exp2());
         assert!(a <= -(-16f32).exp2());
         assert!(a >= -(-16f32).exp2());
@@ -484,6 +490,11 @@ mod tests {
         assert_eq!(a.partial_cmp(&b), Some(Equal));
         assert_eq!(b.partial_cmp(&a), Some(Equal));
         assert!(a > 0.0);
+        assert_eq!(a.partial_cmp(&f32::INFINITY), Some(Less));
+        assert!(a < f32::INFINITY);
+        assert!(a != f32::INFINITY);
+        assert_eq!(a.partial_cmp(&f32::NEG_INFINITY), Some(Greater));
+        assert!(a > f32::NEG_INFINITY);
         assert_eq!(a, (-16f64).exp2());
         assert!(a <= (-16f64).exp2());
         assert!(a >= (-16f64).exp2());
@@ -519,7 +530,7 @@ mod tests {
     }
 
     #[test]
-    fn cmp_i0_with_half() {
+    fn cmp_i0() {
         use crate::types::*;
         assert_eq!(I0F32::checked_from_num(0.5), None);
         for &float in &[-0.5, -0.25, 0., 0.25, 0.49] {
@@ -579,6 +590,82 @@ mod tests {
             assert_eq!(
                 half.partial_cmp(&fixed),
                 fixed.partial_cmp(&half).map(Ordering::reverse)
+            );
+
+            let m1 = I1F31::from_num(-1.0);
+            assert_eq!(fixed < m1, float < -1.0, "{} < {}", fixed, m1);
+            assert_eq!(fixed == m1, float == -1.0, "{} == {}", fixed, m1);
+            assert_eq!(fixed > m1, float > -1.0, "{} > {}", fixed, m1);
+            assert_eq!(
+                fixed.partial_cmp(&m1),
+                float.partial_cmp(&-1.0),
+                "{}.partial_cmp(&{})",
+                fixed,
+                m1
+            );
+            assert_eq!(m1 < fixed, fixed > m1);
+            assert_eq!(m1 == fixed, fixed == m1);
+            assert_eq!(m1 > fixed, fixed < m1);
+            assert_eq!(
+                m1.partial_cmp(&fixed),
+                fixed.partial_cmp(&m1).map(Ordering::reverse)
+            );
+
+            let m1 = -1.0f32;
+            assert_eq!(fixed < m1, float < -1.0, "{} < {}", fixed, m1);
+            assert_eq!(fixed == m1, float == -1.0, "{} == {}", fixed, m1);
+            assert_eq!(fixed > m1, float > -1.0, "{} > {}", fixed, m1);
+            assert_eq!(
+                fixed.partial_cmp(&m1),
+                float.partial_cmp(&-1.0),
+                "{}.partial_cmp(&{})",
+                fixed,
+                m1
+            );
+            assert_eq!(m1 < fixed, fixed > m1);
+            assert_eq!(m1 == fixed, fixed == m1);
+            assert_eq!(m1 > fixed, fixed < m1);
+            assert_eq!(
+                m1.partial_cmp(&fixed),
+                fixed.partial_cmp(&m1).map(Ordering::reverse)
+            );
+
+            let mhalf = I1F31::from_num(-0.5);
+            assert_eq!(fixed < mhalf, float < -0.5, "{} < {}", fixed, mhalf);
+            assert_eq!(fixed == mhalf, float == -0.5, "{} == {}", fixed, mhalf);
+            assert_eq!(fixed > mhalf, float > -0.5, "{} > {}", fixed, mhalf);
+            assert_eq!(
+                fixed.partial_cmp(&mhalf),
+                float.partial_cmp(&-0.5),
+                "{}.partial_cmp(&{})",
+                fixed,
+                mhalf
+            );
+            assert_eq!(mhalf < fixed, fixed > mhalf);
+            assert_eq!(mhalf == fixed, fixed == mhalf);
+            assert_eq!(mhalf > fixed, fixed < mhalf);
+            assert_eq!(
+                mhalf.partial_cmp(&fixed),
+                fixed.partial_cmp(&mhalf).map(Ordering::reverse)
+            );
+
+            let mhalf = -0.5f32;
+            assert_eq!(fixed < mhalf, float < -0.5, "{} < {}", fixed, mhalf);
+            assert_eq!(fixed == mhalf, float == -0.5, "{} == {}", fixed, mhalf);
+            assert_eq!(fixed > mhalf, float > -0.5, "{} > {}", fixed, mhalf);
+            assert_eq!(
+                fixed.partial_cmp(&mhalf),
+                float.partial_cmp(&-0.5),
+                "{}.partial_cmp(&{})",
+                fixed,
+                mhalf
+            );
+            assert_eq!(mhalf < fixed, fixed > mhalf);
+            assert_eq!(mhalf == fixed, fixed == mhalf);
+            assert_eq!(mhalf > fixed, fixed < mhalf);
+            assert_eq!(
+                mhalf.partial_cmp(&fixed),
+                fixed.partial_cmp(&mhalf).map(Ordering::reverse)
             );
         }
     }

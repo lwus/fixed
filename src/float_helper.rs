@@ -124,7 +124,7 @@ macro_rules! sealed_float {
                 let prec = Self::PREC as i32;
 
                 let (neg, exp, mut mantissa) = self.parts();
-                if exp == Self::EXP_MAX {
+                if exp > Self::EXP_MAX {
                     if mantissa == 0 {
                         return FloatKind::Infinite { neg };
                     } else {

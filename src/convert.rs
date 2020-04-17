@@ -1530,4 +1530,35 @@ mod tests {
         );
         assert_eq!(bf16::lossy_from((-133f32).exp2() * 0.5), bf16::from_bits(0));
     }
+
+    #[test]
+    fn keep_nothing() {
+        assert_eq!(I32F0::from_num(I0F32::MIN), -1);
+        assert_eq!(I32F0::from_num(I0F32::MAX), 0);
+        assert_eq!(I32F0::from_num(U0F32::MIN), 0);
+        assert_eq!(I32F0::from_num(U0F32::MAX), 0);
+        assert_eq!(U32F0::checked_from_num(I0F32::MIN), None);
+        assert_eq!(U32F0::from_num(I0F32::MAX), 0);
+        assert_eq!(U32F0::from_num(U0F32::MIN), 0);
+        assert_eq!(U32F0::from_num(U0F32::MAX), 0);
+
+        assert_eq!(I0F32::from_num(I32F0::from_bits(0)), 0);
+        assert_eq!(I0F32::from_num(U32F0::from_bits(0)), 0);
+        assert_eq!(U0F32::from_num(I32F0::from_bits(0)), 0);
+        assert_eq!(U0F32::from_num(U32F0::from_bits(0)), 0);
+
+        assert_eq!(I128F0::from_num(I0F128::MIN), -1);
+        assert_eq!(I128F0::from_num(I0F128::MAX), 0);
+        assert_eq!(I128F0::from_num(U0F128::MIN), 0);
+        assert_eq!(I128F0::from_num(U0F128::MAX), 0);
+        assert_eq!(U128F0::checked_from_num(I0F128::MIN), None);
+        assert_eq!(U128F0::from_num(I0F128::MAX), 0);
+        assert_eq!(U128F0::from_num(U0F128::MIN), 0);
+        assert_eq!(U128F0::from_num(U0F128::MAX), 0);
+
+        assert_eq!(I0F128::from_num(I128F0::from_bits(0)), 0);
+        assert_eq!(I0F128::from_num(U128F0::from_bits(0)), 0);
+        assert_eq!(U0F128::from_num(I128F0::from_bits(0)), 0);
+        assert_eq!(U0F128::from_num(U128F0::from_bits(0)), 0);
+    }
 }
