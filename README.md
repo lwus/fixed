@@ -74,20 +74,22 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
-### Version 1.0.0 news (unreleased)
+### Version 0.5.6 news (unreleased)
 
   * The following method were added to signed fixed-point types and to
-    the [`FixedSigned`][tfs-1-0] trait:
-	  * [`checked_signum`][f-csig-1-0],
-        [`saturating_signum`][f-ssig-1-0],
-        [`wrapping_signum`][f-wsig-1-0],
-        [`overflowing_signum`][f-osig-1-0]
+    the [`FixedSigned`][tfs-0-5-6] trait:
+	  * [`checked_signum`][f-csig-0-5-6],
+        [`saturating_signum`][f-ssig-0-5-6],
+        [`wrapping_signum`][f-wsig-0-5-6],
+        [`overflowing_signum`][f-osig-0-5-6]
+  * Casts deprecated in version 0.3.1 of the *az* crate were marked as
+    deprecated.
 
-[f-csig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_signum
-[f-osig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_signum
-[f-ssig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_signum
-[f-wsig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_signum
-[tfs-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
+[f-csig-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_signum
+[f-osig-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_signum
+[f-ssig-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_signum
+[f-wsig-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_signum
+[tfs-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
 
 ### Version 0.5.5 news (2020-04-16)
 

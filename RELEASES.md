@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.0.0 (unreleased)
+Version 0.5.6 (unreleased)
 ==========================
 
   * The following method were added to signed fixed-point types and to
@@ -100,6 +100,8 @@ Version 0.5.0 (2019-12-06)
       * `checked_div_euclid_int`, `checked_rem_euclid_int`
       * `wrapping_div_euclid_int`, `wrapping_rem_euclid_int`
       * `overflowing_div_euclid_int`, `overflowing_rem_euclid_int`
+  * Casts deprecated in version 0.3.1 of the *az* crate were marked as
+    deprecated.
 
 Incompatible changes
 --------------------
