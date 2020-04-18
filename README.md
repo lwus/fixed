@@ -82,7 +82,6 @@ The conversions supported cover the following cases.
         [`saturating_signum`][f-ssig-1-0],
         [`wrapping_signum`][f-wsig-1-0],
         [`overflowing_signum`][f-osig-1-0]
-  * All deprecated items were removed.
 
 [f-csig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_signum
 [f-osig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_signum

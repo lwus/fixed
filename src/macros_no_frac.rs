@@ -1423,6 +1423,20 @@ assert_eq!(Fix::MIN.overflowing_abs(), (Fix::MIN, true));
                 let not_mask = (cond as $Inner).wrapping_sub(1);
                 Self::from_bits((self.to_bits() & !not_mask) | (otherwise.to_bits() & not_mask))
             }
+
+            /// Returns the smallest value that can be represented.
+            #[inline]
+            #[deprecated(since = "0.5.5", note = "replaced by `MIN`")]
+            pub const fn min_value() -> $Fixed<Frac> {
+                Self::MIN
+            }
+
+            /// Returns the largest value that can be represented.
+            #[inline]
+            #[deprecated(since = "0.5.5", note = "replaced by `MAX`")]
+            pub const fn max_value() -> $Fixed<Frac> {
+                Self::MAX
+            }
         }
     };
 }

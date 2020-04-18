@@ -619,6 +619,34 @@ impl<F: Fixed> Wrapping<F> {
     pub fn rem_euclid_int(self, divisor: F::Bits) -> Wrapping<F> {
         Wrapping(self.0.wrapping_rem_euclid_int(divisor))
     }
+
+    /// Returns the smallest value that can be represented.
+    #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `MIN`")]
+    pub fn min_value() -> Wrapping<F> {
+        Self::MIN
+    }
+
+    /// Returns the largest value that can be represented.
+    #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `MAX`")]
+    pub fn max_value() -> Wrapping<F> {
+        Self::MAX
+    }
+
+    /// Returns the number of integer bits.
+    #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `INT_NBITS`")]
+    pub fn int_nbits() -> u32 {
+        Self::INT_NBITS
+    }
+
+    /// Returns the number of fractional bits.
+    #[inline]
+    #[deprecated(since = "0.5.5", note = "replaced by `FRAC_NBITS`")]
+    pub fn frac_nbits() -> u32 {
+        Self::FRAC_NBITS
+    }
 }
 
 impl<F: FixedSigned> Wrapping<F> {

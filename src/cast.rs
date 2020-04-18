@@ -18,11 +18,14 @@ use crate::{
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
+#[allow(deprecated)]
+use az::StaticCast;
 use az::{Cast, CheckedCast, OverflowingCast, SaturatingCast, WrappingCast};
+use core::mem;
 #[cfg(feature = "f16")]
 use half::{bf16, f16};
 
-macro_rules! cast {
+macro_rules! run_time {
     ($Src:ident($LeEqUSrc:ident); $Dst:ident($LeEqUDst:ident)) => {
         impl<FracSrc: $LeEqUSrc, FracDst: $LeEqUDst> Cast<$Dst<FracDst>> for $Src<FracSrc> {
             #[inline]
@@ -139,38 +142,269 @@ macro_rules! cast {
     };
 }
 
-macro_rules! cast_num {
+macro_rules! compile_time {
+    (
+        impl<$FracSrc:ident: $LeEqUSrc:ident, $FracDst:ident: $LeEqUDst:ident> StaticCast<$Dst:ty>
+            for $Src:ty
+        {
+            $cond:expr
+        }
+    ) => {
+        #[deprecated(since = "0.5.6", note = "deprecated in az crate")]
+        #[allow(deprecated)]
+        /// <div class='stability'><div class='stab deprecated'>Deprecated since 0.5.6:
+        /// <p>deprecated in az crate since 0.3.1; use case is unclear</p></div></div>
+        impl<$FracSrc: $LeEqUSrc, $FracDst: $LeEqUDst> StaticCast<$Dst> for $Src {
+            #[inline]
+            fn static_cast(self) -> Option<$Dst> {
+                if $cond {
+                    Some(az::cast(self))
+                } else {
+                    None
+                }
+            }
+        }
+    };
+
+    (impl<$Frac:ident: $LeEqU:ident> StaticCast<$Dst:ty> for $Src:ty { $cond:expr }) => {
+        #[deprecated(since = "0.5.6", note = "deprecated in az crate")]
+        #[allow(deprecated)]
+        /// <div class='stability'><div class='stab deprecated'>Deprecated since 0.5.6:
+        /// <p>deprecated in az crate since 0.3.1; use case is unclear</p></div></div>
+        impl<$Frac: $LeEqU> StaticCast<$Dst> for $Src {
+            #[inline]
+            fn static_cast(self) -> Option<$Dst> {
+                if $cond {
+                    Some(az::cast(self))
+                } else {
+                    None
+                }
+            }
+        }
+    };
+
+    ($SrcI:ident, $SrcU:ident($LeEqUSrc:ident); $DstI:ident, $DstU:ident($LeEqUDst:ident)) => {
+        compile_time! {
+            impl<FracSrc: $LeEqUSrc, FracDst: $LeEqUDst> StaticCast<$DstI<FracDst>>
+                for $SrcI<FracSrc>
+            {
+                <$DstI<FracDst>>::INT_NBITS >= <$SrcI<FracSrc>>::INT_NBITS
+            }
+        }
+
+        compile_time! {
+            impl<FracSrc: $LeEqUSrc, FracDst: $LeEqUDst> StaticCast<$DstU<FracDst>>
+                for $SrcI<FracSrc>
+            {
+                false
+            }
+        }
+
+        compile_time! {
+            impl<FracSrc: $LeEqUSrc, FracDst: $LeEqUDst> StaticCast<$DstI<FracDst>>
+                for $SrcU<FracSrc>
+            {
+                <$DstI<FracDst>>::INT_NBITS > <$SrcU<FracSrc>>::INT_NBITS
+            }
+        }
+
+        compile_time! {
+            impl<FracSrc: $LeEqUSrc, FracDst: $LeEqUDst> StaticCast<$DstU<FracDst>>
+                for $SrcU<FracSrc>
+            {
+                <$DstU<FracDst>>::INT_NBITS >= <$SrcU<FracSrc>>::INT_NBITS
+            }
+        }
+    };
+
+    ($FixedI:ident, $FixedU:ident($LeEqU:ident); int $DstI:ident, $DstU:ident) => {
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$DstI> for $FixedI<Frac> {
+                8 * mem::size_of::<$DstI>() as u32 >= <$FixedI<Frac>>::INT_NBITS
+            }
+        }
+
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$DstI> for $FixedU<Frac> {
+                8 * mem::size_of::<$DstI>() as u32 > <$FixedU<Frac>>::INT_NBITS
+            }
+        }
+
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$DstU> for $FixedI<Frac> {
+                false
+            }
+        }
+
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$DstU> for $FixedU<Frac> {
+                8 * mem::size_of::<$DstU>() as u32 >= <$FixedU<Frac>>::INT_NBITS
+            }
+        }
+    };
+
+    (int $SrcI:ident, $SrcU:ident; $FixedI:ident, $FixedU:ident($LeEqU:ident)) => {
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$FixedI<Frac>> for $SrcI {
+                <$FixedI<Frac>>::INT_NBITS >= 8 * mem::size_of::<$SrcI>() as u32
+            }
+        }
+
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$FixedU<Frac>> for $SrcI {
+                false
+            }
+        }
+
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$FixedI<Frac>> for $SrcU {
+                <$FixedI<Frac>>::INT_NBITS > 8 * mem::size_of::<$SrcU>() as u32
+            }
+        }
+
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$FixedU<Frac>> for $SrcU {
+                <$FixedU<Frac>>::INT_NBITS >= 8 * mem::size_of::<$SrcU>() as u32
+            }
+        }
+    };
+
+    ($Fixed:ident($LeEqU:ident); float $Dst:ident) => {
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$Dst> for $Fixed<Frac> {
+                true
+            }
+        }
+    };
+
+    (float $Src:ident; $Fixed:ident($LeEqU:ident)) => {
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$Fixed<Frac>> for $Src {
+                false
+            }
+        }
+    };
+}
+
+macro_rules! run_time_num {
     ($Src:ident($LeEqUSrc:ident); $($Dst:ident($LeEqUDst:ident),)*) => { $(
-        cast! { $Src($LeEqUSrc); $Dst($LeEqUDst) }
+        run_time! { $Src($LeEqUSrc); $Dst($LeEqUDst) }
     )* };
     ($Fixed:ident($LeEqU:ident); $($Num:ident,)*) => { $(
-        cast! { $Fixed($LeEqU); $Num }
-        cast! { $Num; $Fixed($LeEqU) }
+        run_time! { $Fixed($LeEqU); $Num }
+        run_time! { $Num; $Fixed($LeEqU) }
     )* };
     ($($Fixed:ident($LeEqU:ident),)*) => { $(
-        cast_num! {
+        run_time_num! {
             $Fixed($LeEqU);
             FixedI8(LeEqU8), FixedI16(LeEqU16), FixedI32(LeEqU32), FixedI64(LeEqU64),
             FixedI128(LeEqU128),
             FixedU8(LeEqU8), FixedU16(LeEqU16), FixedU32(LeEqU32), FixedU64(LeEqU64),
             FixedU128(LeEqU128),
         }
-        cast! { bool; $Fixed($LeEqU) }
-        cast_num! {
+        run_time! { bool; $Fixed($LeEqU) }
+        run_time_num! {
             $Fixed($LeEqU);
             i8, i16, i32, i64, i128, isize,
             u8, u16, u32, u64, u128, usize,
             f32, f64,
         }
         #[cfg(feature = "f16")]
-        cast_num! {
+        run_time_num! {
             $Fixed($LeEqU);
             f16, bf16,
         }
     )* };
 }
 
-cast_num! {
+run_time_num! {
+    FixedI8(LeEqU8), FixedI16(LeEqU16), FixedI32(LeEqU32), FixedI64(LeEqU64), FixedI128(LeEqU128),
+    FixedU8(LeEqU8), FixedU16(LeEqU16), FixedU32(LeEqU32), FixedU64(LeEqU64), FixedU128(LeEqU128),
+}
+
+macro_rules! compile_time_fixed {
+    (
+        $SrcI:ident, $SrcU:ident($LeEqUSrc:ident); $(($DstI:ident, $DstU:ident($LeEqUDst:ident)),)*
+    ) => { $(
+        compile_time! { $SrcI, $SrcU($LeEqUSrc); $DstI, $DstU($LeEqUDst) }
+    )* };
+    ($($FixedI:ident, $FixedU:ident($LeEqU:ident),)*) => { $(
+        compile_time_fixed! {
+            $FixedI, $FixedU($LeEqU);
+            (FixedI8, FixedU8(LeEqU8)),
+            (FixedI16, FixedU16(LeEqU16)),
+            (FixedI32, FixedU32(LeEqU32)),
+            (FixedI64, FixedU64(LeEqU64)),
+            (FixedI128, FixedU128(LeEqU128)),
+        }
+    )* };
+}
+
+compile_time_fixed! {
+    FixedI8, FixedU8(LeEqU8),
+    FixedI16, FixedU16(LeEqU16),
+    FixedI32, FixedU32(LeEqU32),
+    FixedI64, FixedU64(LeEqU64),
+    FixedI128, FixedU128(LeEqU128),
+}
+
+macro_rules! compile_time_int {
+    ($FixedI:ident, $FixedU:ident($LeEqU:ident); $(($IntI:ident, $IntU:ident),)*) => { $(
+        compile_time! { $FixedI, $FixedU($LeEqU); int $IntI, $IntU }
+        compile_time! { int $IntI, $IntU; $FixedI, $FixedU($LeEqU) }
+    )* };
+    ($($FixedI:ident, $FixedU:ident($LeEqU:ident),)*) => { $(
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$FixedI<Frac>> for bool {
+                <$FixedI<Frac>>::INT_NBITS > 1
+            }
+        }
+
+        compile_time! {
+            impl<Frac: $LeEqU> StaticCast<$FixedU<Frac>> for bool {
+                <$FixedU<Frac>>::INT_NBITS >= 1
+            }
+        }
+
+        compile_time_int! {
+            $FixedI, $FixedU($LeEqU);
+            (i8, u8),
+            (i16, u16),
+            (i32, u32),
+            (i64, u64),
+            (i128, u128),
+            (isize, usize),
+        }
+    )* };
+}
+
+compile_time_int! {
+    FixedI8, FixedU8(LeEqU8),
+    FixedI16, FixedU16(LeEqU16),
+    FixedI32, FixedU32(LeEqU32),
+    FixedI64, FixedU64(LeEqU64),
+    FixedI128, FixedU128(LeEqU128),
+}
+
+macro_rules! compile_time_float {
+    ($Fixed:ident($LeEqU:ident); $($Float:ident,)*) => { $(
+        compile_time! { $Fixed($LeEqU); float $Float }
+        compile_time! { float $Float; $Fixed($LeEqU) }
+    )* };
+    ($($Fixed:ident($LeEqU:ident),)*) => { $(
+        compile_time_float! {
+            $Fixed($LeEqU);
+            f32, f64,
+        }
+        #[cfg(feature = "f16")]
+        compile_time_float! {
+            $Fixed($LeEqU);
+            f16, bf16,
+        }
+    )* };
+}
+
+compile_time_float! {
     FixedI8(LeEqU8), FixedI16(LeEqU16), FixedI32(LeEqU32), FixedI64(LeEqU64), FixedI128(LeEqU128),
     FixedU8(LeEqU8), FixedU16(LeEqU16), FixedU32(LeEqU32), FixedU64(LeEqU64), FixedU128(LeEqU128),
 }
