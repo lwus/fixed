@@ -674,6 +674,7 @@ mod tests {
     fn rounding() {
         let i = U8F8::from_bits(0xFF80);
         assert_eq!(format!("{}", i), "255.5");
+        assert_eq!(format!("{:?}", i), "255.5");
         assert_eq!(format!("{:.0}", i), "256");
         assert_eq!(format!("{:b}", i), "11111111.1");
         assert_eq!(format!("{:.0b}", i), "100000000");
@@ -684,6 +685,7 @@ mod tests {
 
         let i = U8F8::from_bits(0xFE80);
         assert_eq!(format!("{}", i), "254.5");
+        assert_eq!(format!("{:?}", i), "254.5");
         assert_eq!(format!("{:.0}", i), "254");
         assert_eq!(format!("{:b}", i), "11111110.1");
         assert_eq!(format!("{:.0b}", i), "11111110");
@@ -694,6 +696,7 @@ mod tests {
 
         let i = U8F8::from_bits(0xDDDD);
         assert_eq!(format!("{}", i), "221.863");
+        assert_eq!(format!("{:?}", i), "221.863");
         assert_eq!(format!("{:.0}", i), "222");
         assert_eq!(format!("{:.1}", i), "221.9");
         assert_eq!(format!("{:.2}", i), "221.86");
