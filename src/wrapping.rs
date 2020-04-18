@@ -694,10 +694,17 @@ impl<F: FixedSigned> Wrapping<F> {
     /// # Examples
     ///
     /// ```rust
-    /// use fixed::{types::I16F16, Wrapping};
+    /// use fixed::{
+    ///     types::{I0F32, I1F31, I16F16},
+    ///     Wrapping,
+    /// };
     /// assert_eq!(Wrapping(<I16F16>::from_num(-3.9)).signum(), Wrapping(I16F16::from_num(-1)));
     /// assert_eq!(Wrapping(<I16F16>::from_num(0)).signum(), Wrapping(I16F16::from_num(0)));
     /// assert_eq!(Wrapping(<I16F16>::from_num(3.9)).signum(), Wrapping(I16F16::from_num(1)));
+    ///
+    /// assert_eq!(Wrapping(<I1F31>::from_num(0.5)).signum(), Wrapping(I1F31::from_num(-1)));
+    /// assert_eq!(Wrapping(<I0F32>::from_num(0.25)).signum(), Wrapping(I0F32::from_num(0)));
+    /// assert_eq!(Wrapping(<I0F32>::from_num(-0.5)).signum(), Wrapping(I0F32::from_num(0)));
     /// ```
     ///
     /// [`I0F16`]: types/type.I0F16.html

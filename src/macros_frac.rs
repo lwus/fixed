@@ -16,7 +16,7 @@
 macro_rules! fixed_frac {
     (
         $Fixed:ident[$s_fixed:expr](
-            $Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr, $s_nbits_m4:expr
+            $Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr, $s_nbits_m1:expr, $s_nbits_m4:expr
         ),
         $UInner:ty, $Signedness:tt
     ) => {
@@ -348,6 +348,50 @@ assert_eq!(Fix::from_num(7.5).rem_euclid_int(2), Fix::from_num(1.5));
                 }
             }
 
+            if_signed! {
+                $Signedness;
+                comment! {
+                    "Checked signum. Returns a number representing the
+sign of `self`, or [`None`] on overflow.
+
+Overflow can only occur
+  * if the value is positive and the fixed-point number has zero
+    or one integer bits such that it cannot hold the value 1.
+  * if the value is negative and the fixed-point number has zero
+    integer bits, such that it cannot hold the value −1.
+
+# Examples
+
+```rust
+use fixed::{
+    types::extra::{U4, U", $s_nbits_m1, ", U", $s_nbits, "},
+    ", $s_fixed, ",
+};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(5).checked_signum(), Some(Fix::from_num(1)));
+assert_eq!(Fix::from_num(0).checked_signum(), Some(Fix::from_num(0)));
+assert_eq!(Fix::from_num(-5).checked_signum(), Some(Fix::from_num(-1)));
+
+type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
+type ZeroIntBits = ", $s_fixed, "<U", $s_nbits, ">;
+assert_eq!(OneIntBit::from_num(0.5).checked_signum(), None);
+assert_eq!(ZeroIntBits::from_num(0.25).checked_signum(), None);
+assert_eq!(ZeroIntBits::from_num(-0.5).checked_signum(), None);
+```
+
+[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
+";
+                    #[inline]
+                    pub fn checked_signum(self) -> Option<$Fixed<Frac>> {
+                        match self.to_bits().cmp(&0) {
+                            Ordering::Equal => Some(Self::from_bits(0)),
+                            Ordering::Greater => Self::checked_from_num(1),
+                            Ordering::Less => Self::checked_from_num(-1),
+                        }
+                    }
+                }
+            }
+
             comment! {
                 "Checked multiplication. Returns the product, or [`None`] on overflow.
 
@@ -584,6 +628,48 @@ assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(20), None);
                 }
             }
 
+            if_signed! {
+                $Signedness;
+                comment! {
+                    "Saturating signum. Returns a number representing
+the sign of `self`, saturating on overflow.
+
+Overflow can only occur
+  * if the value is positive and the fixed-point number has zero
+    or one integer bits such that it cannot hold the value 1.
+  * if the value is negative and the fixed-point number has zero
+    integer bits, such that it cannot hold the value −1.
+
+# Examples
+
+```rust
+use fixed::{
+    types::extra::{U4, U", $s_nbits_m1, ", U", $s_nbits, "},
+    ", $s_fixed, ",
+};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(5).saturating_signum(), 1);
+assert_eq!(Fix::from_num(0).saturating_signum(), 0);
+assert_eq!(Fix::from_num(-5).saturating_signum(), -1);
+
+type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
+type ZeroIntBits = ", $s_fixed, "<U", $s_nbits, ">;
+assert_eq!(OneIntBit::from_num(0.5).saturating_signum(), OneIntBit::MAX);
+assert_eq!(ZeroIntBits::from_num(0.25).saturating_signum(), ZeroIntBits::MAX);
+assert_eq!(ZeroIntBits::from_num(-0.5).saturating_signum(), ZeroIntBits::MIN);
+```
+";
+                    #[inline]
+                    pub fn saturating_signum(self) -> $Fixed<Frac> {
+                        match self.to_bits().cmp(&0) {
+                            Ordering::Equal => Self::from_bits(0),
+                            Ordering::Greater => Self::saturating_from_num(1),
+                            Ordering::Less => Self::saturating_from_num(-1),
+                        }
+                    }
+                }
+            }
+
             comment! {
                 "Saturating multiplication. Returns the product, saturating on overflow.
 
@@ -681,6 +767,48 @@ assert_eq!(Fix::MIN.saturating_div_euclid(Fix::from_num(0.25)), Fix::MIN);
                             Self::MIN
                         }
                     })
+                }
+            }
+
+            if_signed! {
+                $Signedness;
+                comment! {
+                    "Wrapping signum. Returns a number representing
+the sign of `self`, wrapping on overflow.
+
+Overflow can only occur
+  * if the value is positive and the fixed-point number has zero
+    or one integer bits such that it cannot hold the value 1.
+  * if the value is negative and the fixed-point number has zero
+    integer bits, such that it cannot hold the value −1.
+
+# Examples
+
+```rust
+use fixed::{
+    types::extra::{U4, U", $s_nbits_m1, ", U", $s_nbits, "},
+    ", $s_fixed, ",
+};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(5).wrapping_signum(), 1);
+assert_eq!(Fix::from_num(0).wrapping_signum(), 0);
+assert_eq!(Fix::from_num(-5).wrapping_signum(), -1);
+
+type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
+type ZeroIntBits = ", $s_fixed, "<U", $s_nbits, ">;
+assert_eq!(OneIntBit::from_num(0.5).wrapping_signum(), -1);
+assert_eq!(ZeroIntBits::from_num(0.25).wrapping_signum(), 0);
+assert_eq!(ZeroIntBits::from_num(-0.5).wrapping_signum(), 0);
+```
+";
+                    #[inline]
+                    pub fn wrapping_signum(self) -> $Fixed<Frac> {
+                        match self.to_bits().cmp(&0) {
+                            Ordering::Equal => Self::from_bits(0),
+                            Ordering::Greater => Self::wrapping_from_num(1),
+                            Ordering::Less => Self::wrapping_from_num(-1),
+                        }
+                    }
                 }
             }
 
@@ -829,6 +957,53 @@ assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(20), Fix::from_num(-3.5))
                 #[inline]
                 pub fn wrapping_rem_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     self.overflowing_rem_euclid_int(rhs).0
+                }
+            }
+
+            if_signed! {
+                $Signedness;
+                comment! {
+                    "Overflowing signum.
+
+Returns a [tuple] of the signum and a [`bool`] indicating whether an
+overflow has occurred. On overflow, the wrapped value is returned.
+
+Overflow can only occur
+  * if the value is positive and the fixed-point number has zero
+    or one integer bits such that it cannot hold the value 1.
+  * if the value is negative and the fixed-point number has zero
+    integer bits, such that it cannot hold the value −1.
+
+# Examples
+
+```rust
+use fixed::{
+    types::extra::{U4, U", $s_nbits_m1, ", U", $s_nbits, "},
+    ", $s_fixed, ",
+};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(5).overflowing_signum(), (Fix::from_num(1), false));
+assert_eq!(Fix::from_num(0).overflowing_signum(), (Fix::from_num(0), false));
+assert_eq!(Fix::from_num(-5).overflowing_signum(), (Fix::from_num(-1), false));
+
+type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
+type ZeroIntBits = ", $s_fixed, "<U", $s_nbits, ">;
+assert_eq!(OneIntBit::from_num(0.5).overflowing_signum(), (OneIntBit::from_num(-1), true));
+assert_eq!(ZeroIntBits::from_num(0.25).overflowing_signum(), (ZeroIntBits::from_num(0), true));
+assert_eq!(ZeroIntBits::from_num(-0.5).overflowing_signum(), (ZeroIntBits::from_num(0), true));
+```
+
+[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
+";
+                    #[inline]
+                    pub fn overflowing_signum(self) -> ($Fixed<Frac>, bool) {
+                        match self.to_bits().cmp(&0) {
+                            Ordering::Equal => (Self::from_bits(0), false),
+                            Ordering::Greater => Self::overflowing_from_num(1),
+                            Ordering::Less => Self::overflowing_from_num(-1),
+                        }
+                    }
                 }
             }
 

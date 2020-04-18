@@ -8,7 +8,19 @@ as-is, without any warranty. -->
 Version 1.0.0 (unreleased)
 ==========================
 
+  * The following method were added to signed fixed-point types and to
+    the [`FixedSigned`][tfs-1-0] trait:
+	  * [`checked_signum`][f-csig-1-0],
+        [`saturating_signum`][f-ssig-1-0],
+        [`wrapping_signum`][f-wsig-1-0],
+        [`overflowing_signum`][f-osig-1-0]
   * All deprecated items were removed.
+
+[f-csig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_signum
+[f-osig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_signum
+[f-ssig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_signum
+[f-wsig-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_signum
+[tfs-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
 
 Version 0.5.5 (2020-04-16)
 ==========================

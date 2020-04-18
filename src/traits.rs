@@ -1052,15 +1052,47 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_abs(self) -> Option<Self>;
 
+    /// Checked signum. Returns a number representing the sign of
+    /// `self`, or [`None`] on overflow.
+    ///
+    /// Overflow can only occur
+    ///   * if the value is positive and the fixed-point number has zero
+    ///     or one integer bits such that it cannot hold the value 1.
+    ///   * if the value is negative and the fixed-point number has zero
+    ///         integer bits, such that it cannot hold the value −1.
+    ///
+    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
+    fn checked_signum(self) -> Option<Self>;
+
     /// Saturating absolute value. Returns the absolute value, saturating on overflow.
     ///
     /// Overflow can only occur when trying to find the absolute value of the minimum value.
     fn saturating_abs(self) -> Self;
 
+    /// Saturating signum. Returns a number representing the sign of
+    /// `self`, saturating on overflow.
+    ///
+    /// Overflow can only occur
+    ///   * if the value is positive and the fixed-point number has zero
+    ///     or one integer bits such that it cannot hold the value 1.
+    ///   * if the value is negative and the fixed-point number has zero
+    ///         integer bits, such that it cannot hold the value −1.
+    fn saturating_signum(self) -> Self;
+
     /// Wrapping absolute value. Returns the absolute value, wrapping on overflow.
     ///
     /// Overflow can only occur when trying to find the absolute value of the minimum value.
     fn wrapping_abs(self) -> Self;
+
+    /// Wrapping signum. Returns a number representing the sign of
+    /// `self`, wrapping on overflow.
+    ///
+    /// Overflow can only occur
+    ///   * if the value is positive and the fixed-point number has zero
+    ///     or one integer bits such that it cannot hold the value 1.
+    ///   * if the value is negative and the fixed-point number has zero
+    ///         integer bits, such that it cannot hold the value −1.
+    fn wrapping_signum(self) -> Self;
 
     /// Overflowing absolute value.
     ///
@@ -1071,6 +1103,22 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_abs(self) -> (Self, bool);
+
+    /// Overflowing signum.
+    ///
+    /// Returns a [tuple] of the signum and a [`bool`], indicating
+    /// whether an overflow has occurred. On overflow, the wrapped
+    /// value is returned.
+    ///
+    /// Overflow can only occur
+    ///   * if the value is positive and the fixed-point number has zero
+    ///     or one integer bits such that it cannot hold the value 1.
+    ///   * if the value is negative and the fixed-point number has zero
+    ///         integer bits, such that it cannot hold the value −1.
+    ///
+    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
+    fn overflowing_signum(self) -> (Self, bool);
 }
 
 /// This trait provides methods common to all unsigned fixed-point numbers.
@@ -2039,9 +2087,13 @@ macro_rules! impl_fixed {
                 trait_delegate! { fn abs(self) -> Self }
                 trait_delegate! { fn signum(self) -> Self }
                 trait_delegate! { fn checked_abs(self) -> Option<Self> }
+                trait_delegate! { fn checked_signum(self) -> Option<Self> }
                 trait_delegate! { fn saturating_abs(self) -> Self }
+                trait_delegate! { fn saturating_signum(self) -> Self }
                 trait_delegate! { fn wrapping_abs(self) -> Self }
+                trait_delegate! { fn wrapping_signum(self) -> Self }
                 trait_delegate! { fn overflowing_abs(self) -> (Self, bool) }
+                trait_delegate! { fn overflowing_signum(self) -> (Self, bool) }
                 trait_delegate! { fn is_positive(self) -> bool }
                 trait_delegate! { fn is_negative(self) -> bool }
             }

@@ -419,7 +419,7 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
         }
         // inherent methods that require Frac bounds, and cannot be const
         fixed_frac! {
-            $Fixed[$s_fixed]($Inner[$s_inner], $LeEqU, $s_nbits, $s_nbits_m4),
+            $Fixed[$s_fixed]($Inner[$s_inner], $LeEqU, $s_nbits, $s_nbits_m1, $s_nbits_m4),
             $UInner, $Signedness
         }
         fixed_const! {
