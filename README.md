@@ -74,6 +74,10 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.0.0 news (unreleased)
+
+  * All deprecated items were removed.
+
 ### Version 0.5.5 news (2020-04-16)
 
   * Bug fix: an incorrect result could be given when comparing a

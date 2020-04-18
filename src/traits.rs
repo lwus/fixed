@@ -997,62 +997,6 @@ where
     /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_shr(self, rhs: u32) -> (Self, bool);
-
-    /// Returns the smallest value that can be represented.
-    #[inline]
-    #[deprecated(since = "0.5.5", note = "replaced by `MIN`")]
-    fn min_value() -> Self {
-        Self::MIN
-    }
-
-    /// Returns the largest value that can be represented.
-    #[inline]
-    #[deprecated(since = "0.5.5", note = "replaced by `MAX`")]
-    fn max_value() -> Self {
-        Self::MAX
-    }
-
-    /// Returns the number of integer bits.
-    #[inline]
-    #[deprecated(since = "0.5.5", note = "replaced by `INT_NBITS`")]
-    fn int_nbits() -> u32 {
-        Self::INT_NBITS
-    }
-
-    /// Returns the number of fractional bits.
-    #[inline]
-    #[deprecated(since = "0.5.5", note = "replaced by `FRAC_NBITS`")]
-    fn frac_nbits() -> u32 {
-        Self::FRAC_NBITS
-    }
-
-    /// Remainder for division by an integer.
-    ///
-    /// # Panics
-    ///
-    /// Panics if the divisor is zero.
-    #[inline]
-    #[deprecated(
-        since = "0.5.3",
-        note = "cannot overflow, use `%` or `Rem::rem` instead"
-    )]
-    fn wrapping_rem_int(self, rhs: Self::Bits) -> Self {
-        self % rhs
-    }
-
-    /// Remainder for division by an integer.
-    ///
-    /// # Panics
-    ///
-    /// Panics if the divisor is zero.
-    #[inline]
-    #[deprecated(
-        since = "0.5.3",
-        note = "cannot overflow, use `%` or `Rem::rem` instead"
-    )]
-    fn overflowing_rem_int(self, rhs: Self::Bits) -> (Self, bool) {
-        (self % rhs, false)
-    }
 }
 
 /// This trait provides methods common to all signed fixed-point numbers.
