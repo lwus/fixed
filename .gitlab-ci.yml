@@ -110,9 +110,11 @@ pages:
     - cargo/
   script:
   - rustup toolchain install --profile minimal nightly-$TARGET
+  - rm -rf public
+  - mkdir public
+  - cp doc/index.html public
   - cargo +nightly-$TARGET doc --no-deps --features "az f16 serde std"
-  - cp doc/index.html target/doc
-  - mv target/doc public
+  - mv target/doc public/dev
   artifacts:
     paths:
     - public
