@@ -303,7 +303,7 @@ use core::{
 ///
 /// [prelude]: https://doc.rust-lang.org/nightly/std/prelude/index.html
 pub mod prelude {
-    pub use crate::traits::{FromFixed, ToFixed};
+    pub use crate::traits::{FromFixed, LossyFrom, LossyInto, ToFixed};
 }
 
 #[macro_use]

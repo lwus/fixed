@@ -82,6 +82,8 @@ The conversions supported cover the following cases.
         [`saturating_signum`][f-ssig-0-5-6],
         [`wrapping_signum`][f-wsig-0-5-6],
         [`overflowing_signum`][f-osig-0-5-6]
+  * The [`LossyFrom`][lf-0-5-6] and [`LossyInto`][li-0-5-6] traits
+    were added to [the prelude][pre-0-5-6].
   * Casts deprecated in version 0.3.1 of the *az* crate were marked as
     deprecated.
 
@@ -89,6 +91,9 @@ The conversions supported cover the following cases.
 [f-osig-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_signum
 [f-ssig-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_signum
 [f-wsig-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_signum
+[lf-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LossyFrom.html
+[li-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LossyInto.html
+[pre-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/prelude/index.html
 [tfs-0-5-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
 
 ### Version 0.5.5 news (2020-04-16)
