@@ -74,17 +74,17 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
-### Version 0.5.6 news (2020-05-01)
+### Version 1.0.0 news (unreleased)
 
-**This release is meant to be the last release before version 1.0.0:**
-The plan is that the only differences between 0.5.6 and 1.0.0 will be
-dependency updates and the removal of deprecated items.
+  * All deprecated items were removed.
+
+### Version 0.5.6 news (2020-05-01)
 
 Other news in this release:
 
   * The following method were added to signed fixed-point types and to
     the [`FixedSigned`][tfs-0-5-6] trait:
-	  * [`checked_signum`][f-csig-0-5-6],
+      * [`checked_signum`][f-csig-0-5-6],
         [`saturating_signum`][f-ssig-0-5-6],
         [`wrapping_signum`][f-wsig-0-5-6],
         [`overflowing_signum`][f-osig-0-5-6]

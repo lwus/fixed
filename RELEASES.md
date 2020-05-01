@@ -5,12 +5,17 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.0.0 (unreleased)
+==========================
+
+  * All deprecated items were removed.
+
 Version 0.5.6 (2020-05-01)
 ==========================
 
   * The following method were added to signed fixed-point types and to
     the `FixedSigned` trait:
-	  * `checked_signum`, `saturating_signum`, `wrapping_signum`,
+      * `checked_signum`, `saturating_signum`, `wrapping_signum`,
         `overflowing_signum`
   * The `LossyFrom` and `LossyInto` traits were added to the prelude.
   * Casts deprecated in version 0.3.1 of the *az* crate were marked as

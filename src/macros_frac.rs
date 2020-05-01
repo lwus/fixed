@@ -1250,42 +1250,6 @@ assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3
                     }
                 }
             }
-
-            /// Returns the number of integer bits.
-            #[inline]
-            #[deprecated(since = "0.5.5", note = "use `INT_NBITS` instead")]
-            pub fn int_nbits() -> u32 {
-                Self::INT_NBITS
-            }
-
-            /// Returns the number of fractional bits.
-            #[inline]
-            #[deprecated(since = "0.5.5", note = "use `FRAC_NBITS` instead")]
-            pub fn frac_nbits() -> u32 {
-                Self::FRAC_NBITS
-            }
-
-            /// Remainder for division by an integer.
-            ///
-            /// # Panics
-            ///
-            /// Panics if the divisor is zero.
-            #[inline]
-            #[deprecated(since = "0.5.3", note = "cannot overflow, use `%` or `Rem::rem` instead")]
-            pub fn wrapping_rem_int(self, rhs: $Inner) -> $Fixed<Frac> {
-                self % rhs
-            }
-
-            /// Remainder for division by an integer.
-            ///
-            /// # Panics
-            ///
-            /// Panics if the divisor is zero.
-            #[inline]
-            #[deprecated(since = "0.5.3", note = "cannot overflow, use `%` or `Rem::rem` instead")]
-            pub fn overflowing_rem_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
-                (self % rhs, false)
-            }
         }
     };
 }
