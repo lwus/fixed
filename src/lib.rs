@@ -31,9 +31,9 @@ integer. When `Frac` = <i>n</i>, the value <i>x</i> lies in the range
 −0.5 ≤ <i>x</i> < 0.5 for signed numbers, and in the range
 0 ≤ <i>x</i> < 1 for unsigned numbers.
 
-Currently the [*typenum* crate] is used for the fractional bit count
-`Frac`; it is planned to move to [const generics] in version 2 when
-they are supported by the Rust compiler.
+In version 1 the [*typenum* crate] is used for the fractional bit
+count `Frac`; the plan is to to have a major version 2 with [const
+generics] when they are supported by the Rust compiler.
 
 The main features are
 
@@ -353,9 +353,9 @@ macro_rules! fixed {
             $description,
             " number with `Frac` fractional bits.
 
-Currently `Frac` is an [`Unsigned`] as provided by the
-[typenum crate]; it is planned to move to [const generics] in version
-2 when they are supported by the Rust compiler.
+`Frac` is an [`Unsigned`] as provided by the [*typenum* crate]; the
+plan is to move to [const generics] in version 2 when they are
+supported by the Rust compiler.
 
 # Examples
 
@@ -371,9 +371,9 @@ assert_eq!(two_point_75, 2.75);
 assert_eq!(two_point_75.to_string(), \"2.8\");
 ```
 
+[*typenum* crate]: https://crates.io/crates/typenum
 [`Unsigned`]: https://docs.rs/typenum/^1.3/typenum/marker_traits/trait.Unsigned.html
 [const generics]: https://github.com/rust-lang/rust/issues/44580
-[typenum crate]: https://crates.io/crates/typenum
 ";
             #[repr(transparent)]
             pub struct $Fixed<Frac> {
