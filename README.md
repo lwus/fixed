@@ -22,9 +22,9 @@ integer. When `Frac` = <i>n</i>, the value <i>x</i> lies in the range
 −0.5 ≤ <i>x</i> < 0.5 for signed numbers, and in the range
 0 ≤ <i>x</i> < 1 for unsigned numbers.
 
-Currently the [*typenum* crate] is used for the fractional bit count
-`Frac`; it is planned to move to [const generics] in version 2 when
-they are supported by the Rust compiler.
+In version 1 the [*typenum* crate] is used for the fractional bit
+count `Frac`; the plan is to to have a major version 2 with [const
+generics] when they are supported by the Rust compiler.
 
 The main features are
 
