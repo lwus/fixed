@@ -712,13 +712,7 @@ impl<F: FixedSigned> Wrapping<F> {
     /// [`Wrapping`]: struct.Wrapping.html
     #[inline]
     pub fn signum(self) -> Wrapping<F> {
-        if self.is_positive() {
-            Self::from_num(1)
-        } else if self.is_negative() {
-            Self::from_num(-1)
-        } else {
-            Self::from_num(0)
-        }
+        Wrapping(self.0.wrapping_signum())
     }
 }
 
