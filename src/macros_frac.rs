@@ -20,6 +20,8 @@ macro_rules! fixed_frac {
         ),
         $UInner:ty, $Signedness:tt
     ) => {
+        /// The implementation of items in this block depends on the
+        /// number of fractional bits `Frac`.
         impl<Frac: $LeEqU> $Fixed<Frac> {
             comment! {
                 "The number of integer bits.
