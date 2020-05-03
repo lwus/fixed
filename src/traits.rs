@@ -1218,7 +1218,6 @@ where
 /// ```rust
 /// use fixed::traits::FromFixed;
 /// use fixed::types::U8F8;
-/// # use std::i8; // TODO when rustc requirement >= 1.43.0, remove this
 /// // 0x87.65
 /// let f = U8F8::from_bits(0x8765);
 /// assert_eq!(f32::from_fixed(f), f32::from(0x8765u16) / 256.0);

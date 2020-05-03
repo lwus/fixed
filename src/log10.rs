@@ -124,7 +124,7 @@ fn int_part_log10_less_than_16(mut val: u64) -> i32 {
 // MAX / 100_000_000 < val <= MAX
 // -8 <= log <= -1
 fn frac_part_log10_greater_equal_m8_u32(mut val: u32) -> i32 {
-    const MAX: u32 = u32::max_value();
+    const MAX: u32 = u32::MAX;
     debug_assert!(val > MAX / 100_000_000);
     let mut log = 0;
     if val <= MAX / 10_000 {
@@ -146,7 +146,7 @@ fn frac_part_log10_greater_equal_m8_u32(mut val: u32) -> i32 {
 // MAX / 100_000_000 < val <= MAX
 // -8 <= log <= 1
 fn frac_part_log10_greater_equal_m8_u64(mut val: u64) -> i32 {
-    const MAX: u64 = u64::max_value();
+    const MAX: u64 = u64::MAX;
     debug_assert!(val > MAX / 100_000_000);
     let mut log = 0;
     if val <= MAX / 10_000 {
@@ -186,7 +186,7 @@ impl IntFracLog10 for u32 {
     // 0 < val <= MAX
     // -10 <= log <= -1
     fn frac_part_log10(mut self) -> i32 {
-        const MAX: u32 = u32::max_value();
+        const MAX: u32 = u32::MAX;
         if self <= MAX / 100_000_000 {
             self *= 100_000_000;
             // At this point, we have shifted out 8 digits, and we can only shift out 2 more.
@@ -228,7 +228,7 @@ impl IntFracLog10 for u64 {
     // 0 < val <= MAX
     // -20 <= log <= -1
     fn frac_part_log10(mut self) -> i32 {
-        const MAX: u64 = u64::max_value();
+        const MAX: u64 = u64::MAX;
         let mut log = 0;
         if self <= MAX / 10_000_000_000_000_000 {
             // After this, we can only check up to -4 more because -20 <= log <= -16.
@@ -265,21 +265,21 @@ impl IntFracLog10 for u128 {
         let mut log = 0;
         if self >= 100_000_000_000_000_000_000_000_000_000_000 {
             self /= 100_000_000_000_000_000_000_000_000_000_000;
-            debug_assert!(self <= u32::max_value() as u128);
+            debug_assert!(self <= u32::MAX as u128);
             return 32 + int_part_log10_less_than_8(self as u32);
         }
         if self >= 10_000_000_000_000_000 {
             self /= 10_000_000_000_000_000;
             log += 16;
         }
-        debug_assert!(self <= u64::max_value() as u128);
+        debug_assert!(self <= u64::MAX as u128);
         log + int_part_log10_less_than_16(self as u64)
     }
 
     // 0 < val <= MAX
     // -39 <= log <= -1
     fn frac_part_log10(mut self) -> i32 {
-        const MAX: u128 = u128::max_value();
+        const MAX: u128 = u128::MAX;
         let mut log = 0;
         if self <= MAX / 100_000_000_000_000_000_000_000_000_000_000 {
             self *= 100_000_000_000_000_000_000_000_000_000_000;
@@ -328,7 +328,7 @@ mod tests {
 
     macro_rules! check_loop {
         ($T:ty) => {
-            for i in 0..=<$T>::max_value().int_part_log10() {
+            for i in 0..=<$T>::MAX.int_part_log10() {
                 let p = (10 as $T).pow(i as u32);
                 if i > 0 {
                     assert_eq!((p - 1).int_part_log10(), i - 1);
@@ -338,7 +338,7 @@ mod tests {
             }
 
             for i in 0..-(1 as $T).frac_part_log10() {
-                let p = <$T>::max_value() / (10 as $T).pow(i as u32);
+                let p = <$T>::MAX / (10 as $T).pow(i as u32);
                 if p > 1 {
                     assert_eq!((p - 1).frac_part_log10(), -1 - i);
                 }
@@ -353,9 +353,9 @@ mod tests {
     #[test]
     fn log10_u8() {
         assert_eq!(1u8.int_part_log10(), 0);
-        assert_eq!(u8::max_value().int_part_log10(), 2);
+        assert_eq!(u8::MAX.int_part_log10(), 2);
         assert_eq!(1u8.frac_part_log10(), -3);
-        assert_eq!(u8::max_value().frac_part_log10(), -1);
+        assert_eq!(u8::MAX.frac_part_log10(), -1);
 
         check_loop! { u8 }
     }
@@ -363,9 +363,9 @@ mod tests {
     #[test]
     fn log10_u16() {
         assert_eq!(1u16.int_part_log10(), 0);
-        assert_eq!(u16::max_value().int_part_log10(), 4);
+        assert_eq!(u16::MAX.int_part_log10(), 4);
         assert_eq!(1u16.frac_part_log10(), -5);
-        assert_eq!(u16::max_value().frac_part_log10(), -1);
+        assert_eq!(u16::MAX.frac_part_log10(), -1);
 
         check_loop! { u16 }
     }
@@ -373,9 +373,9 @@ mod tests {
     #[test]
     fn log10_u32() {
         assert_eq!(1u32.int_part_log10(), 0);
-        assert_eq!(u32::max_value().int_part_log10(), 9);
+        assert_eq!(u32::MAX.int_part_log10(), 9);
         assert_eq!(1u32.frac_part_log10(), -10);
-        assert_eq!(u32::max_value().frac_part_log10(), -1);
+        assert_eq!(u32::MAX.frac_part_log10(), -1);
 
         check_loop! { u32 }
     }
@@ -383,9 +383,9 @@ mod tests {
     #[test]
     fn log10_u64() {
         assert_eq!(1u64.int_part_log10(), 0);
-        assert_eq!(u64::max_value().int_part_log10(), 19);
+        assert_eq!(u64::MAX.int_part_log10(), 19);
         assert_eq!(1u64.frac_part_log10(), -20);
-        assert_eq!(u64::max_value().frac_part_log10(), -1);
+        assert_eq!(u64::MAX.frac_part_log10(), -1);
 
         check_loop! { u64 }
     }
@@ -393,9 +393,9 @@ mod tests {
     #[test]
     fn log10_u128() {
         assert_eq!(1u128.int_part_log10(), 0);
-        assert_eq!(u128::max_value().int_part_log10(), 38);
+        assert_eq!(u128::MAX.int_part_log10(), 38);
         assert_eq!(1u128.frac_part_log10(), -39);
-        assert_eq!(u128::max_value().frac_part_log10(), -1);
+        assert_eq!(u128::MAX.frac_part_log10(), -1);
 
         check_loop! { u128 }
     }

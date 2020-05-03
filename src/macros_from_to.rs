@@ -208,7 +208,6 @@ use fixed::{
     types::I16F16,
     ", $s_fixed, ",
 };
-# use std::", $s_inner, "; // TODO when rustc requirement >= 1.43.0, remove this
 type Fix = ", $s_fixed, "<U4>;
 
 // 1.75 is 1.11 in binary
@@ -357,7 +356,7 @@ assert_eq!(one_point_625.checked_to_num::<f32>(), Some(1.625f32));
         }
 
         comment! {
-                "Creates a fixed-point number from another number,
+            "Creates a fixed-point number from another number,
 saturating if it does not fit.
 
 The other number can be:
@@ -386,12 +385,7 @@ use fixed::{
     types::I16F16,
     ", $s_fixed, ",
 };
-", if_signed_else_empty_str!(
-        $Signedness,
-        // TODO when rustc requirement >= 1.43.0, remove this
-        "# use std::", $s_inner, ";
-"),
-                "type Fix = ", $s_fixed, "<U4>;
+type Fix = ", $s_fixed, "<U4>;
 
 // 1.75 is 1.11 in binary
 let src = I16F16::from_bits(0b111 << (16 - 2));
@@ -401,24 +395,24 @@ assert_eq!(Fix::saturating_from_num(too_large), Fix::MAX);
 
 assert_eq!(Fix::saturating_from_num(3), Fix::from_bits(3 << 4));
 let too_small = ",
-                if_signed_unsigned! {
-                    $Signedness,
-                    concat!($s_inner, "::MIN"),
-                    "-1",
-                },
-                ";
+            if_signed_unsigned! {
+                $Signedness,
+                concat!($s_inner, "::MIN"),
+                "-1",
+            },
+            ";
 assert_eq!(Fix::saturating_from_num(too_small), Fix::MIN);
 
 // 1.75 is 1.11 in binary
 let expected = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(Fix::saturating_from_num(1.75f32), expected);
 assert_eq!(Fix::saturating_from_num(",
-                if_signed_unsigned! {
-                    $Signedness,
-                    "-1.75f64), -",
-                    "1.75f64), ",
-                },
-                "expected);
+            if_signed_unsigned! {
+                $Signedness,
+                "-1.75f64), -",
+                "1.75f64), ",
+            },
+            "expected);
 assert_eq!(Fix::saturating_from_num(2e38), Fix::MAX);
 assert_eq!(Fix::saturating_from_num(std::f64::NEG_INFINITY), Fix::MIN);
 ```
@@ -444,14 +438,14 @@ assert_eq!(Fix::saturating_from_num(std::f64::NEG_INFINITY), Fix::MIN);
 [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
 [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
 ";
-                #[inline]
-                pub fn saturating_from_num<Src: ToFixed>(src: Src) -> $Fixed<Frac> {
-                    src.saturating_to_fixed()
-                }
+            #[inline]
+            pub fn saturating_from_num<Src: ToFixed>(src: Src) -> $Fixed<Frac> {
+                src.saturating_to_fixed()
             }
+        }
 
         comment! {
-                "Converts a fixed-point number to another number,
+            "Converts a fixed-point number to another number,
 saturating the value if it does not fit.
 
 The other number can be:
@@ -476,12 +470,7 @@ use fixed::{
     types::I16F16,
     ", $s_fixed, ",
 };
-", if_unsigned_else_empty_str!(
-        $Signedness,
-        // TODO when rustc requirement >= 1.43.0, remove this
-        "# use std::i", $s_nbits, ";
-"),
-                "type Fix = ", $s_fixed, "<U4>;
+type Fix = ", $s_fixed, "<U4>;
 
 // 1.75 is 1.11 in binary
 let src = Fix::from_bits(0b111 << (4 - 2));
@@ -496,15 +485,15 @@ let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
 assert_eq!(two_point_5.saturating_to_num::<i32>(), 2);
 type AllInt = ", $s_fixed, "<U0>;
 assert_eq!(",
-                if_signed_unsigned! {
-                    $Signedness,
-                    concat!("AllInt::from_bits(-1).saturating_to_num::<u", $s_nbits, ">(), 0"),
-                    concat!(
-                        "AllInt::MAX.saturating_to_num::<i", $s_nbits, ">(), ",
-                        "i", $s_nbits, "::MAX",
-                    ),
-                },
-                ");
+            if_signed_unsigned! {
+                $Signedness,
+                concat!("AllInt::from_bits(-1).saturating_to_num::<u", $s_nbits, ">(), 0"),
+                concat!(
+                    "AllInt::MAX.saturating_to_num::<i", $s_nbits, ">(), ",
+                    "i", $s_nbits, "::MAX",
+                ),
+            },
+            ");
 
 // 1.625 is 1.101 in binary
 let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
@@ -531,11 +520,11 @@ assert_eq!(one_point_625.saturating_to_num::<f32>(), 1.625f32);
 [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
 [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
 ";
-                #[inline]
-                pub fn saturating_to_num<Dst: FromFixed>(self) -> Dst {
-                    Dst::saturating_from_fixed(self)
-                }
+            #[inline]
+            pub fn saturating_to_num<Dst: FromFixed>(self) -> Dst {
+                Dst::saturating_from_fixed(self)
             }
+        }
 
         comment! {
             "Creates a fixed-point number from another number,
@@ -618,7 +607,7 @@ assert_eq!(Fix::wrapping_from_num(large), wrapped);
         }
 
         comment! {
-                "Converts a fixed-point number to another number,
+            "Converts a fixed-point number to another number,
 wrapping the value on overflow.
 
 The other number can be:
@@ -643,12 +632,7 @@ use fixed::{
     types::I16F16,
     ", $s_fixed, ",
 };
-", if_signed_else_empty_str!(
-        $Signedness,
-        // TODO when rustc requirement >= 1.43.0, remove this
-        "# use std::u", $s_nbits, ";
-"),
-                "type Fix = ", $s_fixed, "<U4>;
+type Fix = ", $s_fixed, "<U4>;
 
 // 1.75 is 1.11 in binary
 let src = Fix::from_bits(0b111 << (4 - 2));
@@ -663,15 +647,15 @@ let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
 assert_eq!(two_point_5.wrapping_to_num::<i32>(), 2);
 type AllInt = ", $s_fixed, "<U0>;
 assert_eq!(",
-                if_signed_unsigned! {
-                    $Signedness,
-                    concat!(
-                        "AllInt::from_bits(-1).wrapping_to_num::<u", $s_nbits, ">(), ",
-                        "u", $s_nbits, "::MAX",
-                    ),
-                    concat!("AllInt::MAX.wrapping_to_num::<i", $s_nbits, ">(), -1"),
-                },
-                ");
+            if_signed_unsigned! {
+                $Signedness,
+                concat!(
+                    "AllInt::from_bits(-1).wrapping_to_num::<u", $s_nbits, ">(), ",
+                    "u", $s_nbits, "::MAX",
+                ),
+                concat!("AllInt::MAX.wrapping_to_num::<i", $s_nbits, ">(), -1"),
+            },
+            ");
 
 // 1.625 is 1.101 in binary
 let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
@@ -698,11 +682,11 @@ assert_eq!(one_point_625.wrapping_to_num::<f32>(), 1.625f32);
 [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
 [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
 ";
-                #[inline]
-                pub fn wrapping_to_num<Dst: FromFixed>(self) -> Dst {
-                    Dst::wrapping_from_fixed(self)
-                }
+            #[inline]
+            pub fn wrapping_to_num<Dst: FromFixed>(self) -> Dst {
+                Dst::wrapping_from_fixed(self)
             }
+        }
 
         comment! {
             "Creates a fixed-point number from another number.

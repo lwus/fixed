@@ -20,7 +20,6 @@ macro_rules! fixed_no_frac {
         $UInner:ty, $Signedness:tt
     ) => {
         impl<Frac> $Fixed<Frac> {
-            // TODO when rustc requirement >= 1.43.0, use MIN instead of min_value()
             comment! {
                 "The smallest value that can be represented.
 
@@ -28,15 +27,13 @@ macro_rules! fixed_no_frac {
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
-# use std::", $s_inner, "; // TODO when rustc requirement >= 1.43.0, remove this
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::MIN, Fix::from_bits(", $s_inner, "::MIN));
 ```
 ";
-                pub const MIN: $Fixed<Frac> = Self::from_bits(<$Inner>::min_value());
+                pub const MIN: $Fixed<Frac> = Self::from_bits(<$Inner>::MIN);
             }
 
-            // TODO when rustc requirement >= 1.43.0, use MAX instead of max_value()
             comment! {
                 "The largest value that can be represented.
 
@@ -44,12 +41,11 @@ assert_eq!(Fix::MIN, Fix::from_bits(", $s_inner, "::MIN));
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
-# use std::", $s_inner, "; // TODO when rustc requirement >= 1.43.0, remove this
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::MAX, Fix::from_bits(", $s_inner, "::MAX));
 ```
 ";
-                pub const MAX: $Fixed<Frac> = Self::from_bits(<$Inner>::max_value());
+                pub const MAX: $Fixed<Frac> = Self::from_bits(<$Inner>::MAX);
             }
 
             comment! {
@@ -411,7 +407,7 @@ assert!(half.is_power_of_two());
 ";
                     #[inline]
                     pub const fn is_power_of_two(self) -> bool {
-                        self.count_ones() == 1
+                        self.to_bits().is_power_of_two()
                     }
                 }
             }

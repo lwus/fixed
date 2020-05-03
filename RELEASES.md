@@ -8,6 +8,7 @@ as-is, without any warranty. -->
 Version 1.0.0 (unreleased)
 ==========================
 
+  * The crate now requires rustc version 1.43.0 or later.
   * All deprecated items were removed.
 
 Version 0.5.6 (2020-05-01)
@@ -90,7 +91,7 @@ Version 0.5.1 (2019-12-22)
 Version 0.5.0 (2019-12-06)
 ==========================
 
-  * The *fixed* crate now requires rustc version 1.39.0 or later.
+  * The crate now requires rustc version 1.39.0 or later.
   * The following methods were added to all fixed-point types and to
     the `Fixed` trait:
       * `from_be_bytes`, `from_le_bytes`, `from_ne_bytes`
@@ -139,7 +140,7 @@ Version 0.4.4 (2019-08-24)
 Version 0.4.3 (2019-08-20)
 ==========================
 
-  * The *fixed* crate now requires rustc version 1.34.0 or later.
+  * The crate now requires rustc version 1.34.0 or later.
   * The precision argument is no longer ignored when formatting
     fixed-point numbers; precision should now be handled the same as
     for primitive floating-point numbers in the standard library.
@@ -187,7 +188,7 @@ Version 0.4.1 (2019-08-12)
 Version 0.4.0 (2019-08-08)
 ==========================
 
-  * The *fixed* crate now requires rustc version 1.31.0 or later.
+  * The crate now requires rustc version 1.31.0 or later.
   * The `traits` module was added, with its traits `Fixed`,
     `FixedSigned`, `FixedUnsigned`, `FromFixed`, `ToFixed`,
     `LossyFrom` and `LossyInto`.

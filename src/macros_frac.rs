@@ -144,7 +144,6 @@ assert_eq!(Fix::from_num(0.1875).checked_int_log2(), Some(-3));
                 }
             }
 
-            // TODO when rustc requirement >= 1.43.0, use MAX instead of max_value()
             comment! {
                 "Checked integer base-10 logarithm, rounded down.
 Returns the logarithm or [`None`] if the fixed-point number is

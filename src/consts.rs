@@ -266,11 +266,9 @@ mod tests {
         assert_eq!(f16::from_fixed(SQRT_2), f16::SQRT_2);
         assert_eq!(f16::from_fixed(FRAC_1_SQRT_2), f16::FRAC_1_SQRT_2);
         assert_eq!(f16::from_fixed(E), f16::E);
-        // TODO if half crate adds LOG2_10, use f16::LOG2_10
-        assert_eq!(f16::from_fixed(LOG2_10), f16::from_f32(10f32.log2()));
+        assert_eq!(f16::from_fixed(LOG2_10), f16::from_bits(0x42A5));
         assert_eq!(f16::from_fixed(LOG2_E), f16::LOG2_E);
-        // TODO if half crate adds LOG10_2, use f16::LOG10_2
-        assert_eq!(f16::from_fixed(LOG10_2), f16::from_f32(2f32.log10()));
+        assert_eq!(f16::from_fixed(LOG10_2), f16::from_bits(0x34D1));
         assert_eq!(f16::from_fixed(LOG10_E), f16::LOG10_E);
         assert_eq!(f16::from_fixed(LN_2), f16::LN_2);
         assert_eq!(f16::from_fixed(LN_10), f16::LN_10);
@@ -308,11 +306,9 @@ mod tests {
         assert_eq!(bf16::from_fixed(SQRT_2), bf16::SQRT_2);
         assert_eq!(bf16::from_fixed(FRAC_1_SQRT_2), bf16::FRAC_1_SQRT_2);
         assert_eq!(bf16::from_fixed(E), bf16::E);
-        // TODO if half crate adds LOG2_10, use bf16::LOG2_10
-        assert_eq!(bf16::from_fixed(LOG2_10), bf16::from_f32(10f32.log2()));
+        assert_eq!(bf16::from_fixed(LOG2_10), bf16::from_bits(0x4055));
         assert_eq!(bf16::from_fixed(LOG2_E), bf16::LOG2_E);
-        // TODO if half crate adds LOG10_2, use bf16::LOG10_2
-        assert_eq!(bf16::from_fixed(LOG10_2), bf16::from_f32(2f32.log10()));
+        assert_eq!(bf16::from_fixed(LOG10_2), bf16::from_bits(0x3E9A));
         assert_eq!(bf16::from_fixed(LOG10_E), bf16::LOG10_E);
         assert_eq!(bf16::from_fixed(LN_2), bf16::LN_2);
         assert_eq!(bf16::from_fixed(LN_10), bf16::LN_10);
@@ -342,11 +338,9 @@ mod tests {
         assert_eq!(f32::from_fixed(SQRT_2), f32::consts::SQRT_2);
         assert_eq!(f32::from_fixed(FRAC_1_SQRT_2), f32::consts::FRAC_1_SQRT_2);
         assert_eq!(f32::from_fixed(E), f32::consts::E);
-        // TODO when rustc requirement >= 1.43.0, use f32::consts::LOG2_10
-        assert_eq!(f32::from_fixed(LOG2_10), 10f32.log2());
+        assert_eq!(f32::from_fixed(LOG2_10), f32::consts::LOG2_10);
         assert_eq!(f32::from_fixed(LOG2_E), f32::consts::LOG2_E);
-        // TODO when rustc requirement >= 1.43.0, use f32::consts::LOG10_2
-        assert_eq!(f32::from_fixed(LOG10_2), 2f32.log10());
+        assert_eq!(f32::from_fixed(LOG10_2), f32::consts::LOG10_2);
         assert_eq!(f32::from_fixed(LOG10_E), f32::consts::LOG10_E);
         assert_eq!(f32::from_fixed(LN_2), f32::consts::LN_2);
         assert_eq!(f32::from_fixed(LN_10), f32::consts::LN_10);
@@ -376,11 +370,9 @@ mod tests {
         assert_eq!(f64::from_fixed(SQRT_2), f64::consts::SQRT_2);
         assert_eq!(f64::from_fixed(FRAC_1_SQRT_2), f64::consts::FRAC_1_SQRT_2);
         assert_eq!(f64::from_fixed(E), f64::consts::E);
-        // TODO when rustc requirement >= 1.43.0, use f64::consts::LOG2_10
-        assert_eq!(f64::from_fixed(LOG2_10), 10f64.log2());
+        assert_eq!(f64::from_fixed(LOG2_10), f64::consts::LOG2_10);
         assert_eq!(f64::from_fixed(LOG2_E), f64::consts::LOG2_E);
-        // TODO when rustc requirement >= 1.43.0, use f64::consts::LOG10_2
-        assert_eq!(f64::from_fixed(LOG10_2), 2f64.log10());
+        assert_eq!(f64::from_fixed(LOG10_2), f64::consts::LOG10_2);
         assert_eq!(f64::from_fixed(LOG10_E), f64::consts::LOG10_E);
         assert_eq!(f64::from_fixed(LN_2), f64::consts::LN_2);
         assert_eq!(f64::from_fixed(LN_10), f64::consts::LN_10);

@@ -76,6 +76,7 @@ The conversions supported cover the following cases.
 
 ### Version 1.0.0 news (unreleased)
 
+  * The crate now requires rustc version 1.43.0 or later.
   * All deprecated items were removed.
 
 ### Version 0.5.6 news (2020-05-01)
@@ -173,7 +174,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 fixed = "0.5.6"
 ```
 
-The *fixed* crate requires rustc version 1.39.0 or later.
+The *fixed* crate requires rustc version 1.43.0 or later.
 
 ## Optional features
 
