@@ -19,6 +19,8 @@ macro_rules! fixed_no_frac {
         $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UInner:ty, $Signedness:tt
     ) => {
+        /// The implementation of items in this block is independent
+        /// of the number of fractional bits `Frac`.
         impl<Frac> $Fixed<Frac> {
             // TODO when rustc requirement >= 1.43.0, use MIN instead of min_value()
             comment! {
