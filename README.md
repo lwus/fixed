@@ -78,6 +78,11 @@ The conversions supported cover the following cases.
 
   * The crate now requires rustc version 1.43.0 or later.
   * All deprecated items were removed.
+  * The [`PHI`][phi-1-0] and [`FRAC\_1\_PHI`][f1phi-1-0] constants
+    were added.
+
+[f1phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
+[phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
 
 ### Version 0.5.6 news (2020-05-01)
 
