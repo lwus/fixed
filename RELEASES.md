@@ -5,6 +5,11 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 0.5.7 (unreleased)
+==========================
+
+  * The `PHI` and `FRAC_1_PHI` constants were added.
+
 Version 0.5.6 (2020-05-01)
 ==========================
 

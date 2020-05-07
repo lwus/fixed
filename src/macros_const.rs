@@ -132,6 +132,9 @@ let _ = Fix::LN_2;
 
                 /// ln 2 = 0.693147…
                 pub const LN_2: $Fixed<Frac> = shift!(LN_2, $Fixed<Frac>);
+
+                /// Φ = 1/φ = 0.618033…
+                pub const FRAC_1_PHI: $Fixed<Frac> = shift!(FRAC_1_PHI, $Fixed<Frac>);
             }
         }
 
@@ -198,6 +201,9 @@ let _ = Fix::LOG2_E;
 
                 /// log<sub>2</sub> e = 1.44269…
                 pub const LOG2_E: $Fixed<Frac> = shift!(LOG2_E, 127, $Fixed<Frac>);
+
+                /// φ = 1.61803…
+                pub const PHI: $Fixed<Frac> = shift!(PHI, 127, $Fixed<Frac>);
             }
         }
 

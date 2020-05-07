@@ -109,6 +109,8 @@ fn main() {
     print("log<sub>10</sub> e", "LOG10_E", float(1).exp().log10());
     print("ln 2", "LN_2", float(2).ln());
     print("ln 10", "LN_10", float(10).ln());
+    print("φ", "PHI", float(1.25).sqrt() + 0.5);
+    print("Φ = 1/φ", "FRAC_1_PHI", float(1.25).sqrt() - 0.5);
 }
 ```
 */
@@ -225,6 +227,14 @@ pub const LN_2: U0F128 = U0F128::from_bits(0xB172_17F7_D1CF_79AB_C9E3_B398_03F2_
 // LN_10 = 2.302585092994045684017991454684364207601...
 pub const LN_10: U2F126 = U2F126::from_bits(0x935D_8DDD_AAA8_AC16_EA56_D62B_82D3_0A28);
 
+/// φ = 1.61803…
+// PHI = 1.618033988749894848204586834365638117720...
+pub const PHI: U1F127 = U1F127::from_bits(0xCF1B_BCDC_BFA5_3E0A_F9CE_6030_2E76_E41A);
+
+/// Φ = 1/φ = 0.618033…
+// FRAC_1_PHI = 0.6180339887498948482045868343656381177203...
+pub const FRAC_1_PHI: U0F128 = U0F128::from_bits(0x9E37_79B9_7F4A_7C15_F39C_C060_5CED_C834);
+
 #[cfg(test)]
 #[allow(clippy::cognitive_complexity, clippy::float_cmp)]
 mod tests {
@@ -274,6 +284,11 @@ mod tests {
         assert_eq!(f16::from_fixed(LOG10_E), f16::LOG10_E);
         assert_eq!(f16::from_fixed(LN_2), f16::LN_2);
         assert_eq!(f16::from_fixed(LN_10), f16::LN_10);
+        assert_eq!(f16::from_fixed(PHI), f16::from_f32(1.25f32.sqrt() + 0.5));
+        assert_eq!(
+            f16::from_fixed(FRAC_1_PHI),
+            f16::from_f32(1.25f32.sqrt() - 0.5)
+        );
     }
 
     #[cfg(feature = "f16")]
@@ -316,6 +331,11 @@ mod tests {
         assert_eq!(bf16::from_fixed(LOG10_E), bf16::LOG10_E);
         assert_eq!(bf16::from_fixed(LN_2), bf16::LN_2);
         assert_eq!(bf16::from_fixed(LN_10), bf16::LN_10);
+        assert_eq!(bf16::from_fixed(PHI), f16::from_f32(1.25f32.sqrt() + 0.5));
+        assert_eq!(
+            bf16::from_fixed(FRAC_1_PHI),
+            f16::from_f32(1.25f32.sqrt() - 0.5)
+        );
     }
 
     #[test]
@@ -350,6 +370,8 @@ mod tests {
         assert_eq!(f32::from_fixed(LOG10_E), f32::consts::LOG10_E);
         assert_eq!(f32::from_fixed(LN_2), f32::consts::LN_2);
         assert_eq!(f32::from_fixed(LN_10), f32::consts::LN_10);
+        assert_eq!(f32::from_fixed(PHI), 1.25f32.sqrt() + 0.5);
+        assert_eq!(f32::from_fixed(FRAC_1_PHI), (1.25f64.sqrt() - 0.5) as f32);
     }
 
     #[test]
@@ -384,6 +406,9 @@ mod tests {
         assert_eq!(f64::from_fixed(LOG10_E), f64::consts::LOG10_E);
         assert_eq!(f64::from_fixed(LN_2), f64::consts::LN_2);
         assert_eq!(f64::from_fixed(LN_10), f64::consts::LN_10);
+        assert_eq!(f64::from_fixed(PHI), 1.25f64.sqrt() + 0.5);
+        // Since 0.5 < FRAC_1_PHI < 1.0, we use EPSILON / 2.
+        assert!((f64::from_fixed(FRAC_1_PHI) - (1.25f64.sqrt() - 0.5)).abs() <= f64::EPSILON / 2.0);
     }
 
     fn compare_parse<F: Fixed>(f: F, s: &str)
@@ -425,5 +450,7 @@ mod tests {
         compare_parse(LOG10_E, "0.4342944819032518276511289189166050822943");
         compare_parse(LN_2, "0.6931471805599453094172321214581765680755");
         compare_parse(LN_10, "2.302585092994045684017991454684364207601");
+        compare_parse(PHI, "1.618033988749894848204586834365638117720");
+        compare_parse(FRAC_1_PHI, "0.6180339887498948482045868343656381177203");
     }
 }

@@ -74,6 +74,14 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 0.5.7 news (unreleased)
+
+  * The [`PHI`][phi-0-5-7] and [`FRAC_1_PHI`][f1phi--0-5-7] constants
+    were added.
+
+[f1phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
+[phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
+
 ### Version 0.5.6 news (2020-05-01)
 
 **This release is meant to be the last release before version 1.0.0:**
