@@ -81,7 +81,7 @@ where
 }
 
 fn main() {
-    print("τ", "TAU", float(Constant::Pi) * 2);
+    print("A turn, τ", "TAU", float(Constant::Pi) * 2);
     print("τ/2", "FRAC_TAU_2", float(Constant::Pi));
     print("τ/3", "FRAC_TAU_3", float(Constant::Pi) * 2 / 3);
     print("τ/4", "FRAC_TAU_4", float(Constant::Pi) / 2);
@@ -91,7 +91,7 @@ fn main() {
     print("1/τ", "FRAC_1_TAU", 0.5 / float(Constant::Pi));
     print("2/τ", "FRAC_2_TAU", 1 / float(Constant::Pi));
     print("4/τ", "FRAC_4_TAU", 2 / float(Constant::Pi));
-    print("π", "PI", float(Constant::Pi));
+    print("Archimedes’ constant, π", "PI", float(Constant::Pi));
     print("π/2", "FRAC_PI_2", float(Constant::Pi) / 2);
     print("π/3", "FRAC_PI_3", float(Constant::Pi) / 3);
     print("π/4", "FRAC_PI_4", float(Constant::Pi) / 4);
@@ -102,20 +102,20 @@ fn main() {
     print("2/√π", "FRAC_2_SQRT_PI", 2 / float(Constant::Pi).sqrt());
     print("√2", "SQRT_2", float(2).sqrt());
     print("1/√2", "FRAC_1_SQRT_2", float(0.5).sqrt());
-    print("e", "E", float(1).exp());
+    print("Euler’s number, e", "E", float(1).exp());
     print("log<sub>2</sub> 10", "LOG2_10", float(10).log2());
     print("log<sub>2</sub> e", "LOG2_E", float(1).exp().log2());
     print("log<sub>10</sub> 2", "LOG10_2", float(2).log10());
     print("log<sub>10</sub> e", "LOG10_E", float(1).exp().log10());
     print("ln 2", "LN_2", float(2).ln());
     print("ln 10", "LN_10", float(10).ln());
-    print("φ", "PHI", float(1.25).sqrt() + 0.5);
-    print("Φ = 1/φ", "FRAC_1_PHI", float(1.25).sqrt() - 0.5);
+    print("The golden ratio, φ", "PHI", float(1.25).sqrt() + 0.5);
+    print("The golden ratio conjugate, Φ = 1/φ", "FRAC_1_PHI", float(1.25).sqrt() - 0.5);
 }
 ```
 */
 
-/// τ = 6.28318…
+/// A turn, τ = 6.28318…
 // TAU = 6.283185307179586476925286766559005768394...
 pub const TAU: U3F125 = U3F125::from_bits(0xC90F_DAA2_2168_C234_C4C6_628B_80DC_1CD1);
 
@@ -155,7 +155,7 @@ pub const FRAC_2_TAU: U0F128 = U0F128::from_bits(0x517C_C1B7_2722_0A94_FE13_ABE8
 // FRAC_4_TAU = 0.6366197723675813430755350534900574481378...
 pub const FRAC_4_TAU: U0F128 = U0F128::from_bits(0xA2F9_836E_4E44_1529_FC27_57D1_F534_DDC0);
 
-/// π = 3.14159…
+/// Archimedes’ constant, π = 3.14159…
 // PI = 3.141592653589793238462643383279502884197...
 pub const PI: U2F126 = U2F126::from_bits(0xC90F_DAA2_2168_C234_C4C6_628B_80DC_1CD1);
 
@@ -199,7 +199,7 @@ pub const SQRT_2: U1F127 = U1F127::from_bits(0xB504_F333_F9DE_6484_597D_89B3_754
 // FRAC_1_SQRT_2 = 0.7071067811865475244008443621048490392848...
 pub const FRAC_1_SQRT_2: U0F128 = U0F128::from_bits(0xB504_F333_F9DE_6484_597D_89B3_754A_BE9F);
 
-/// e = 2.71828…
+/// Euler’s number, e = 2.71828…
 // E = 2.718281828459045235360287471352662497757...
 pub const E: U2F126 = U2F126::from_bits(0xADF8_5458_A2BB_4A9A_AFDC_5620_273D_3CF1);
 
@@ -227,11 +227,11 @@ pub const LN_2: U0F128 = U0F128::from_bits(0xB172_17F7_D1CF_79AB_C9E3_B398_03F2_
 // LN_10 = 2.302585092994045684017991454684364207601...
 pub const LN_10: U2F126 = U2F126::from_bits(0x935D_8DDD_AAA8_AC16_EA56_D62B_82D3_0A28);
 
-/// φ = 1.61803…
+/// The golden ratio, φ = 1.61803…
 // PHI = 1.618033988749894848204586834365638117720...
 pub const PHI: U1F127 = U1F127::from_bits(0xCF1B_BCDC_BFA5_3E0A_F9CE_6030_2E76_E41A);
 
-/// Φ = 1/φ = 0.618033…
+/// The golden ratio conjugate, Φ = 1/φ = 0.618033…
 // FRAC_1_PHI = 0.6180339887498948482045868343656381177203...
 pub const FRAC_1_PHI: U0F128 = U0F128::from_bits(0x9E37_79B9_7F4A_7C15_F39C_C060_5CED_C834);
 
