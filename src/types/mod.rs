@@ -14,8 +14,7 @@
 // <https://opensource.org/licenses/MIT>.
 
 /*!
-This module provides type aliases for all supported fixed-point
-numbers.
+Type aliases for all supported fixed-point numbers.
 */
 
 use crate::{

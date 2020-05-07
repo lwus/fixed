@@ -14,7 +14,7 @@
 // <https://opensource.org/licenses/MIT>.
 
 /*!
-This module contains constants.
+Mathematical constants.
 
 The constants have the maximum precision possible for a fixed-point
 number, and are rounded down at that precision.

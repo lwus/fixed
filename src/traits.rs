@@ -14,7 +14,7 @@
 // <https://opensource.org/licenses/MIT>.
 
 /*!
-This module contains traits.
+Traits for conversions and for generic use of fixed-point numbers.
 */
 
 use crate::{
