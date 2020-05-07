@@ -331,10 +331,10 @@ mod tests {
         assert_eq!(bf16::from_fixed(LOG10_E), bf16::LOG10_E);
         assert_eq!(bf16::from_fixed(LN_2), bf16::LN_2);
         assert_eq!(bf16::from_fixed(LN_10), bf16::LN_10);
-        assert_eq!(bf16::from_fixed(PHI), f16::from_f32(1.25f32.sqrt() + 0.5));
+        assert_eq!(bf16::from_fixed(PHI), bf16::from_f32(1.25f32.sqrt() + 0.5));
         assert_eq!(
             bf16::from_fixed(FRAC_1_PHI),
-            f16::from_f32(1.25f32.sqrt() - 0.5)
+            bf16::from_f32(1.25f32.sqrt() - 0.5)
         );
     }
 

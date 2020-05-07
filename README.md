@@ -76,9 +76,12 @@ The conversions supported cover the following cases.
 
 ### Version 0.5.7 news (unreleased)
 
-  * The [`PHI`][phi-0-5-7] and [`FRAC_1_PHI`][f1phi--0-5-7] constants
-    were added.
+  * The [`PHI`][phi-0-5-7] and [`FRAC_1_PHI`][f1phi-0-5-7] constants
+    were added to the [`consts`][cons-0-5-7] module and as
+    [associated constants][f-phi-0-5-7] for fixed-point types.
 
+[cons-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
+[f-phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.PHI
 [f1phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
 [phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
 
@@ -92,7 +95,7 @@ Other news in this release:
 
   * The following method were added to signed fixed-point types and to
     the [`FixedSigned`][tfs-0-5-6] trait:
-	  * [`checked_signum`][f-csig-0-5-6],
+      * [`checked_signum`][f-csig-0-5-6],
         [`saturating_signum`][f-ssig-0-5-6],
         [`wrapping_signum`][f-wsig-0-5-6],
         [`overflowing_signum`][f-osig-0-5-6]
