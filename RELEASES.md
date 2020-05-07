@@ -10,9 +10,12 @@ Version 1.0.0 (unreleased)
 
   * The crate now requires rustc version 1.43.0 or later.
   * All deprecated items were removed.
-  * The [`PHI`][phi-1-0] and [`FRAC\_1\_PHI`][f1phi-1-0] constants
-    were added.
+  * The [`PHI`][phi-1-0] and [`FRAC_1_PHI`][f1phi-1-0] constants were
+    added to the [`consts`][cons-1-0] module and as
+    [associated constants][f-phi-1-0] for fixed-point types.
 
+[cons-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
+[f-phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.PHI
 [f1phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
 [phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
 
