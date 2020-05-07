@@ -287,12 +287,12 @@ use core::{
     mem,
 };
 
-/// A prelude for users of the *fixed* crate.
+/// A prelude to import useful traits.
 ///
-/// This prelude is similar to the [standard library’s
-/// prelude][prelude] in that you’ll almost always want to import its
-/// entire contents, but unlike the standard library’s prelude you’ll
-/// have to do so manually:
+/// This prelude is similar to the
+/// [standard library’s prelude][prelude] in that you’ll almost always
+/// want to import its entire contents, but unlike the standard
+/// library’s prelude you’ll have to do so manually:
 ///
 /// ```
 /// # #[allow(unused_imports)]
