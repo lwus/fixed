@@ -1162,7 +1162,7 @@ pub trait FixedUnsigned: Fixed {
 ///
 /// ```rust
 /// use fixed::traits::LosslessTryFrom;
-/// use fixed::types::{I4F12, I24F8};
+/// use fixed::types::{I24F8, I4F12};
 /// // original is 0x000001.23, lossless is 0x1.230
 /// let original = I24F8::from_bits(0x0000_0123);
 /// let lossless = I4F12::lossless_try_from(original);
@@ -1189,7 +1189,7 @@ pub trait LosslessTryFrom<Src>: Sized {
 ///
 /// ```rust
 /// use fixed::traits::LosslessTryInto;
-/// use fixed::types::{I4F12, I24F8};
+/// use fixed::types::{I24F8, I4F12};
 /// // original is 0x000001.23, lossless is 0x1.230
 /// let original = I24F8::from_bits(0x0000_0123);
 /// let lossless: Option<I4F12> = original.lossless_try_into();
