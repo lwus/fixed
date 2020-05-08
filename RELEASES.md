@@ -9,14 +9,18 @@ Version 1.0.0 (unreleased)
 ==========================
 
   * The crate now requires rustc version 1.43.0 or later.
-  * All deprecated items were removed.
+  * The [`LosslessTryFrom`][ltf-1-0] and [`LosslessTryInto`][lti-1-0]
+    traits were added.
   * The [`PHI`][phi-1-0] and [`FRAC_1_PHI`][f1phi-1-0] constants were
     added to the [`consts`][cons-1-0] module and as
     [associated constants][f-phi-1-0] for fixed-point types.
+  * All deprecated items were removed.
 
 [cons-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
 [f-phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.PHI
 [f1phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
+[ltf-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryFrom.html
+[lti-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryInto.html
 [phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
 
 Version 0.5.6 (2020-05-01)

@@ -1153,6 +1153,70 @@ pub trait FixedUnsigned: Fixed {
     fn checked_next_power_of_two(self) -> Option<Self>;
 }
 
+/// This trait provides lossless conversions that might be fallible.
+///
+/// This trait is implemented for conversions between integer
+/// primitives, floating-point primitives and fixed-point numbers.
+///
+/// # Examples
+///
+/// ```rust
+/// use fixed::traits::LosslessTryFrom;
+/// use fixed::types::{I4F12, I24F8};
+/// // original is 0x000001.23, lossless is 0x1.230
+/// let original = I24F8::from_bits(0x0000_0123);
+/// let lossless = I4F12::lossless_try_from(original);
+/// assert_eq!(lossless, Some(I4F12::from_bits(0x1230)));
+/// // too_large is 0x000012.34, 0x12.340 does not fit in I4F12
+/// let too_large = I24F8::from_bits(0x0000_1234);
+/// let overflow = I4F12::lossless_try_from(too_large);
+/// assert_eq!(overflow, None);
+/// ```
+pub trait LosslessTryFrom<Src>: Sized {
+    /// Performs the conversion.
+    fn lossless_try_from(src: Src) -> Option<Self>;
+}
+
+/// This trait provides lossless conversions that might be fallible.
+/// This is the reciprocal of [`LosslessTryFrom`].
+///
+/// Usually [`LosslessTryFrom`] should be implemented instead of this
+/// trait; there is a blanket implementation which provides this trait
+/// when [`LosslessTryFrom`] is implemented (similar to [`Into`] and
+/// [`From`]).
+///
+/// # Examples
+///
+/// ```rust
+/// use fixed::traits::LosslessTryInto;
+/// use fixed::types::{I4F12, I24F8};
+/// // original is 0x000001.23, lossless is 0x1.230
+/// let original = I24F8::from_bits(0x0000_0123);
+/// let lossless: Option<I4F12> = original.lossless_try_into();
+/// assert_eq!(lossless, Some(I4F12::from_bits(0x1230)));
+/// // too_large is 0x000012.34, 0x12.340 does not fit in I4F12
+/// let too_large = I24F8::from_bits(0x0000_1234);
+/// let overflow: Option<I4F12> = too_large.lossless_try_into();
+/// assert_eq!(overflow, None);
+/// ```
+///
+/// [`From`]: https://doc.rust-lang.org/nightly/core/convert/trait.From.html
+/// [`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
+/// [`LosslessTryFrom`]: trait.LosslessTryFrom.html
+pub trait LosslessTryInto<Dst> {
+    /// Performs the conversion.
+    fn lossless_try_into(self) -> Option<Dst>;
+}
+
+impl<Src, Dst> LosslessTryInto<Dst> for Src
+where
+    Dst: LosslessTryFrom<Src>,
+{
+    fn lossless_try_into(self) -> Option<Dst> {
+        Dst::lossless_try_from(self)
+    }
+}
+
 /// This trait provides infallible conversions that might be lossy.
 ///
 /// This trait is implemented for conversions between integer
@@ -1162,11 +1226,11 @@ pub trait FixedUnsigned: Fixed {
 ///
 /// ```rust
 /// use fixed::traits::LossyFrom;
-/// use fixed::types::{I12F4, I4F60};
-/// // original is 0x1.234
-/// let original = I4F60::from_bits(0x1234i64 << (60 - 12));
+/// use fixed::types::{I12F4, I8F24};
+/// // original is 0x12.345678, lossy is 0x012.3
+/// let original = I8F24::from_bits(0x1234_5678);
 /// let lossy = I12F4::lossy_from(original);
-/// assert_eq!(lossy, I12F4::from_bits(0x0012));
+/// assert_eq!(lossy, I12F4::from_bits(0x0123));
 /// ```
 pub trait LossyFrom<Src> {
     /// Performs the conversion.
@@ -1184,11 +1248,11 @@ pub trait LossyFrom<Src> {
 ///
 /// ```rust
 /// use fixed::traits::LossyInto;
-/// use fixed::types::{I12F4, I4F12};
-/// // original is 0x1.234
-/// let original = I4F12::from_bits(0x1234);
+/// use fixed::types::{I12F4, I8F24};
+/// // original is 0x12.345678, lossy is 0x012.3
+/// let original = I8F24::from_bits(0x1234_5678);
 /// let lossy: I12F4 = original.lossy_into();
-/// assert_eq!(lossy, I12F4::from_bits(0x0012));
+/// assert_eq!(lossy, I12F4::from_bits(0x0123));
 /// ```
 ///
 /// [`From`]: https://doc.rust-lang.org/nightly/core/convert/trait.From.html

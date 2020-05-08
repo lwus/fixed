@@ -15,7 +15,7 @@
 
 use crate::{
     helpers::IntHelper,
-    traits::LossyFrom,
+    traits::{LosslessTryFrom, LossyFrom},
     types::extra::{
         Diff, IsLessOrEqual, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8, True, U0, U1, U127, U128,
         U15, U16, U31, U32, U63, U64, U7, U8,
@@ -91,10 +91,47 @@ macro_rules! convert {
     };
 }
 
+macro_rules! convert_lossless {
+    (
+        ($Src:ident, $SrcBits:ident, $SrcLeEqU:ident) ->
+            ($Dst:ident, $DstBits:ident, $DstLeEqU:ident)
+    ) => {
+        // lossless because Src::FRAC_NBITS <= Dst::FRAC_NBITS
+        impl<FracSrc: $SrcLeEqU, FracDst: $DstLeEqU> LosslessTryFrom<$Src<FracSrc>>
+            for $Dst<FracDst>
+        where
+            FracSrc: IsLessOrEqual<FracDst, Output = True>,
+        {
+            /// Converts a fixed-pint number.
+            ///
+            /// This conversion may fail (fallible) but does not lose
+            /// precision (lossless).
+            #[inline]
+            fn lossless_try_from(src: $Src<FracSrc>) -> Option<Self> {
+                src.checked_to_num()
+            }
+        }
+    };
+    ($Src:ident, $SrcBits:ident, $SrcLeEqU:ident) => {
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedI8, U8, LeEqU8) }
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedI16, U16, LeEqU16) }
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedI32, U32, LeEqU32) }
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedI64, U64, LeEqU64) }
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedI128, U128, LeEqU128) }
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedU8, U8, LeEqU8) }
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedU16, U16, LeEqU16) }
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedU32, U32, LeEqU32) }
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedU64, U64, LeEqU64) }
+        convert_lossless! { ($Src, $SrcBits, $SrcLeEqU) -> (FixedU128, U128, LeEqU128) }
+    };
+}
+
 macro_rules! convert_lossy {
     (
         ($SrcU:ident, $SrcI:ident, $SrcBits:ident, $SrcLeEqU:ident) ->
-            ($DstU:ident, $DstI:ident, $DstBits:ident, $DstBitsM1:ident, $DstLeEqU:ident)) => {
+            ($DstU:ident, $DstI:ident, $DstBits:ident, $DstBitsM1:ident, $DstLeEqU:ident)
+    ) => {
+        // unsigned -> unsigned, infallible because Src::INT_NBITS <= Dst::INT_NBITS
         impl<FracSrc: $SrcLeEqU, FracDst: $DstLeEqU> LossyFrom<$SrcU<FracSrc>> for $DstU<FracDst>
         where
             $SrcBits: Sub<FracSrc>,
@@ -113,6 +150,7 @@ macro_rules! convert_lossy {
             }
         }
 
+        // signed -> signed, infallible because Src::INT_NBITS <= Dst::INT_NBITS
         impl<FracSrc: $SrcLeEqU, FracDst: $DstLeEqU> LossyFrom<$SrcI<FracSrc>> for $DstI<FracDst>
         where
             $SrcBits: Sub<FracSrc>,
@@ -131,6 +169,7 @@ macro_rules! convert_lossy {
             }
         }
 
+        // signed -> signed, infallible because Src::INT_NBITS <= Dst::INT_NBITS - 1
         impl<FracSrc: $SrcLeEqU, FracDst: $DstLeEqU> LossyFrom<$SrcU<FracSrc>> for $DstI<FracDst>
         where
             $SrcBits: Sub<FracSrc>,
@@ -181,6 +220,17 @@ convert! { (FixedU32, FixedI32, U32, LeEqU32) -> (FixedU64, FixedI64, U64, U63, 
 convert! { (FixedU32, FixedI32, U32, LeEqU32) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
 
 convert! { (FixedU64, FixedI64, U64, LeEqU64) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
+
+convert_lossless! { FixedI8, U8, LeEqU8 }
+convert_lossless! { FixedI16, U16, LeEqU16 }
+convert_lossless! { FixedI32, U32, LeEqU32 }
+convert_lossless! { FixedI64, U64, LeEqU64 }
+convert_lossless! { FixedI128, U128, LeEqU128 }
+convert_lossless! { FixedU8, U8, LeEqU8 }
+convert_lossless! { FixedU16, U16, LeEqU16 }
+convert_lossless! { FixedU32, U32, LeEqU32 }
+convert_lossless! { FixedU64, U64, LeEqU64 }
+convert_lossless! { FixedU128, U128, LeEqU128 }
 
 convert_lossy! { FixedU8, FixedI8, U8, LeEqU8 }
 convert_lossy! { FixedU16, FixedI16, U16, LeEqU16 }

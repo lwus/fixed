@@ -68,6 +68,10 @@ The conversions supported cover the following cases.
     numeric primitives are provided using the [`LossyFrom`] and
     [`LossyInto`] traits. The source can have more fractional bits
     than the destination.
+  * Checked lossless conversions between fixed-point numbers and
+    numeric primitives are provided using the [`LosslessTryFrom`] and
+    [`LosslessTryInto`] traits. The source cannot have more fractional
+    bits than the destination.
   * Checked conversions between fixed-point numbers and numeric
     primitives are provided using the [`FromFixed`] and [`ToFixed`]
     traits, or using the [`from_num`] and [`to_num`] methods and
@@ -218,6 +222,8 @@ additional terms or conditions.
 [`I4F12`]: types/type.I4F12.html
 [`I4F4`]: types/type.I4F4.html
 [`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
+[`LosslessTryFrom`]: traits/trait.LosslessTryFrom.html
+[`LosslessTryInto`]: traits/trait.LosslessTryInto.html
 [`LossyFrom`]: traits/trait.LossyFrom.html
 [`LossyInto`]: traits/trait.LossyInto.html
 [`LowerHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html
@@ -303,7 +309,9 @@ use core::{
 ///
 /// [prelude]: https://doc.rust-lang.org/nightly/std/prelude/index.html
 pub mod prelude {
-    pub use crate::traits::{FromFixed, LossyFrom, LossyInto, ToFixed};
+    pub use crate::traits::{
+        FromFixed, LosslessTryFrom, LosslessTryInto, LossyFrom, LossyInto, ToFixed,
+    };
 }
 
 #[macro_use]
