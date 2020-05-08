@@ -578,6 +578,47 @@ fixed_to_int! { (FixedU64, FixedI64) -> wider (u128, i128) }
 
 fixed_to_int! { (FixedU128, FixedI128) -> (u128, i128) }
 
+macro_rules! fixed_to_int_lossless {
+    ($Src:ty, $Dst:ident) => {
+        impl LosslessTryFrom<$Src> for $Dst {
+            /// Converts a fixed-point number to an integer.
+            ///
+            /// This conversion may fail (fallible) but cannot lose
+            /// any fractional bits (lossless).
+            #[inline]
+            fn lossless_try_from(src: $Src) -> Option<Self> {
+                $Dst::checked_from_fixed(src)
+            }
+        }
+    };
+
+    ($Src:ty) => {
+        fixed_to_int_lossless! { $Src, i8 }
+        fixed_to_int_lossless! { $Src, i16 }
+        fixed_to_int_lossless! { $Src, i32 }
+        fixed_to_int_lossless! { $Src, i64 }
+        fixed_to_int_lossless! { $Src, i128 }
+        fixed_to_int_lossless! { $Src, isize }
+        fixed_to_int_lossless! { $Src, u8 }
+        fixed_to_int_lossless! { $Src, u16 }
+        fixed_to_int_lossless! { $Src, u32 }
+        fixed_to_int_lossless! { $Src, u64 }
+        fixed_to_int_lossless! { $Src, u128 }
+        fixed_to_int_lossless! { $Src, usize }
+    };
+}
+
+fixed_to_int_lossless! { FixedI8<U0>}
+fixed_to_int_lossless! { FixedI16<U0>}
+fixed_to_int_lossless! { FixedI32<U0>}
+fixed_to_int_lossless! { FixedI64<U0>}
+fixed_to_int_lossless! { FixedI128<U0>}
+fixed_to_int_lossless! { FixedU8<U0>}
+fixed_to_int_lossless! { FixedU16<U0>}
+fixed_to_int_lossless! { FixedU32<U0>}
+fixed_to_int_lossless! { FixedU64<U0>}
+fixed_to_int_lossless! { FixedU128<U0>}
+
 macro_rules! fixed_to_int_lossy {
     (
         ($SrcU:ident, $SrcI:ident, $SrcBits:ident, $SrcLeEqU:ident) ->
