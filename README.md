@@ -59,6 +59,10 @@ The conversions supported cover the following cases.
     numeric primitives are provided using the [`LossyFrom`] and
     [`LossyInto`] traits. The source can have more fractional bits
     than the destination.
+  * Checked lossless conversions between fixed-point numbers and
+    numeric primitives are provided using the [`LosslessTryFrom`] and
+    [`LosslessTryInto`] traits. The source cannot have more fractional
+    bits than the destination.
   * Checked conversions between fixed-point numbers and numeric
     primitives are provided using the [`FromFixed`] and [`ToFixed`]
     traits, or using the [`from_num`] and [`to_num`] methods and
@@ -76,6 +80,8 @@ The conversions supported cover the following cases.
 
 ### Version 0.5.7 news (unreleased)
 
+  * The [`LosslessTryFrom`][ltf-0-5-7] and
+    [`LosslessTryInto`][lti-0-5-7] traits were added.
   * The [`PHI`][phi-0-5-7] and [`FRAC_1_PHI`][f1phi-0-5-7] constants
     were added to the [`consts`][cons-0-5-7] module and as
     [associated constants][f-phi-0-5-7] for fixed-point types.
@@ -83,6 +89,8 @@ The conversions supported cover the following cases.
 [cons-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
 [f-phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.PHI
 [f1phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
+[ltf-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryFrom.html
+[lti-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryInto.html
 [phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
 
 ### Version 0.5.6 news (2020-05-01)
@@ -256,6 +264,8 @@ additional terms or conditions.
 [`I4F12`]: https://docs.rs/fixed/0.5.6/fixed/types/type.I4F12.html
 [`I4F4`]: https://docs.rs/fixed/0.5.6/fixed/types/type.I4F4.html
 [`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
+[`LosslessTryFrom`]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryFrom.html
+[`LosslessTryInto`]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryInto.html
 [`LossyFrom`]: https://docs.rs/fixed/0.5.6/fixed/traits/trait.LossyFrom.html
 [`LossyInto`]: https://docs.rs/fixed/0.5.6/fixed/traits/trait.LossyInto.html
 [`LowerHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html

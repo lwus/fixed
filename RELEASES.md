@@ -8,6 +8,7 @@ as-is, without any warranty. -->
 Version 0.5.7 (unreleased)
 ==========================
 
+  * The `LosslessTryFrom` and `LosslessTryInto` traits were added.
   * The `PHI` and `FRAC_1_PHI` constants were added to the `consts`
     module and as associated constants for fixed-point types.
 
