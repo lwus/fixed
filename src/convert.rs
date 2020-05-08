@@ -989,85 +989,135 @@ into! { f64: f64 }
 /// The first snippet succeeds, and acts as a control.
 ///
 /// ```rust
-/// use fixed::{traits::LossyFrom, types::*};
+/// use fixed::{
+///     traits::{LosslessTryFrom, LossyFrom},
+///     types::*,
+/// };
 /// let _ = I8F8::from(I4F4::default());
 /// let _ = I8F8::from(U7F1::default());
 /// let _ = U8F8::from(U4F4::default());
+/// let _ = I8F8::lossless_try_from(U8F8::default());
+/// let _ = I8F8::lossless_try_from(I56F8::default());
+/// let _ = U8F8::lossless_try_from(U56F8::default());
 /// let _ = I8F8::lossy_from(I8F56::default());
 /// let _ = I8F8::lossy_from(U7F57::default());
 /// let _ = U8F8::lossy_from(U8F56::default());
 /// let _ = usize::from(U16F0::default());
 /// let _ = isize::from(I16F0::default());
 /// let _ = isize::from(U8F0::default());
+/// let _ = usize::lossless_try_from(I8F0::default());
+/// let _ = usize::lossless_try_from(I16F0::default());
+/// let _ = isize::lossless_try_from(U16F0::default());
 /// ```
 ///
 /// The rest of the tests should all fail compilation.
 ///
+/// Not enough fractional bits.
 /// ```compile_fail
 /// use fixed::types::*;
 /// let _ = I8F8::from(I7F9::default());
 /// ```
 /// ```compile_fail
+/// use fixed::{traits::LosslessTryFrom, types::*};
+/// let _ = I8F8::lossless_try_from(I7F9::default());
+/// ```
+///
+/// Not enough integer bits.
+/// ```compile_fail
 /// use fixed::types::*;
 /// let _ = I8F8::from(I9F7::default());
 /// ```
+/// ```compile_fail
+/// use fixed::{traits::LossyFrom, types::*};
+/// let _ = I8F8::lossy_from(I9F7::default());
+/// ```
 ///
+/// Not enough integer bits for unsigned to signed.
 /// ```compile_fail
 /// use fixed::types::*;
 /// let _ = I8F8::from(U8F0::default());
 /// ```
+/// ```compile_fail
+/// use fixed::{traits::LossyFrom, types::*};
+/// let _ = I8F8::lossy_from(U8F0::default());
+/// ```
 ///
+/// Not  enough fractional bits.
 /// ```compile_fail
 /// use fixed::types::*;
 /// let _ = U8F8::from(U7F9::default());
 /// ```
 /// ```compile_fail
+/// use fixed::{traits::LosslessTryFrom, types::*};
+/// let _ = U8F8::lossless_try_from(U7F9::default());
+/// ```
+///
+/// Not enough integer bits.
+/// ```compile_fail
 /// use fixed::types::*;
 /// let _ = U8F8::from(U9F7::default());
 /// ```
 /// ```compile_fail
+/// use fixed::{traits::LossyFrom, types::*};
+/// let _ = U8F8::lossy_from(U9F7::default());
+/// ```
+///
+/// Signed to unsigned.
+/// ```compile_fail
 /// use fixed::types::*;
 /// let _ = U8F8::from(I4F4::default());
-/// ```
-///
-/// ```compile_fail
-/// use fixed::{traits::LossyFrom, types::*};
-/// let _ = I8F8::lossy_from(I9F55::default());
-/// ```
-///
-/// ```compile_fail
-/// use fixed::{traits::LossyFrom, types::*};
-/// let _ = I8F8::lossy_from(U8F56::default());
-/// ```
-///
-/// ```compile_fail
-/// use fixed::{traits::LossyFrom, types::*};
-/// let _ = U8F8::lossy_from(U9F55::default());
 /// ```
 /// ```compile_fail
 /// use fixed::{traits::LossyFrom, types::*};
 /// let _ = U8F8::lossy_from(I4F4::default());
 /// ```
 ///
+/// Not enough fractional bits.
+/// ```compile_fail
+/// use fixed::{traits::LosslessTryFrom, types::*};
+/// let _ = I8F8::lossless_try_from(I55F9::default());
+/// ```
+///
+/// Not enough integer bits.
+/// ```compile_fail
+/// use fixed::{traits::LossyFrom, types::*};
+/// let _ = I8F8::lossy_from(I9F55::default());
+/// ```
+/// ```compile_fail
+/// use fixed::{traits::LossyFrom, types::*};
+/// let _ = U8F8::lossy_from(U9F55::default());
+/// ```
+///
+/// Signed to unsigned.
+/// ```compile_fail
+/// use fixed::{traits::LossyFrom, types::*};
+/// let _ = I8F8::lossy_from(U8F56::default());
+/// ```
+///
+/// Not enough fractional bits.
 /// ```compile_fail
 /// use fixed::types::*;
 /// let _ = usize::from(U16F16::default());
 /// ```
 /// ```compile_fail
 /// use fixed::types::*;
-/// let _ = usize::from(I16F0::default());
-/// ```
-/// ```compile_fail
-/// use fixed::types::*;
 /// let _ = isize::from(I16F16::default());
 /// ```
-/// ```compile_fail
-/// use fixed::types::*;
-/// let _ = isize::from(U16F0::default());
-/// ```
+///
+/// usize from i8 or i16.
 /// ```compile_fail
 /// use fixed::types::*;
 /// let _ = usize::from(I8F0::default());
+/// ```
+/// ```compile_fail
+/// use fixed::types::*;
+/// let _ = usize::from(I16F0::default());
+/// ```
+///
+/// isize form u16.
+/// ```compile_fail
+/// use fixed::types::*;
+/// let _ = isize::from(U16F0::default());
 /// ```
 fn _compile_fail_tests() {}
 
