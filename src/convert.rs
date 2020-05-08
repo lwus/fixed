@@ -15,7 +15,7 @@
 
 use crate::{
     helpers::IntHelper,
-    traits::{LosslessTryFrom, LossyFrom},
+    traits::{FromFixed, LosslessTryFrom, LossyFrom, ToFixed},
     types::extra::{
         Diff, IsLessOrEqual, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8, True, U0, U1, U127, U128,
         U15, U16, U31, U32, U63, U64, U7, U8,
@@ -108,7 +108,7 @@ macro_rules! convert_lossless {
             /// precision (lossless).
             #[inline]
             fn lossless_try_from(src: $Src<FracSrc>) -> Option<Self> {
-                src.checked_to_num()
+                Self::checked_from_fixed(src)
             }
         }
     };
@@ -244,7 +244,7 @@ macro_rules! lossy {
             /// Converts a number.
             ///
             /// This conversion never fails (infallible) and does not
-            /// lose any precision, so it is actually lossless.
+            /// lose any precision (lossless).
             #[inline]
             fn lossy_from(src: $Src) -> Self {
                 src
@@ -256,7 +256,7 @@ macro_rules! lossy {
             /// Converts a number.
             ///
             /// This conversion never fails (infallible) and does not
-            /// lose any precision, so it is actually lossless.
+            /// lose any precision (lossless).
             #[inline]
             fn lossy_from(src: $Src) -> Self {
                 src.into()
@@ -266,6 +266,61 @@ macro_rules! lossy {
 }
 
 macro_rules! int_to_fixed {
+    ($Src:ident, $Dst:ident, $LeEqU:ident) => {
+        impl<Frac: $LeEqU> LosslessTryFrom<$Src> for $Dst<Frac> {
+            /// Converts an integer to a fixed-point number.
+            ///
+            /// This conversion may fail (fallible) but cannot lose
+            /// any fractional bits (lossless).
+            #[inline]
+            fn lossless_try_from(src: $Src) -> Option<Self> {
+                src.checked_to_fixed()
+            }
+        }
+    };
+
+    ($Src:ident $(, $Dst:ty)?) => {
+        $(impl From<$Src> for $Dst {
+            /// Converts an integer to a fixed-point number.
+            ///
+            /// This conversion never fails (infallible) and cannot
+            /// lose any fractional bits (lossless).
+            #[inline]
+            fn from(src: $Src) -> Self {
+                Self::from_bits(src)
+            }
+        })?
+
+        int_to_fixed! { $Src, FixedI8, LeEqU8 }
+        int_to_fixed! { $Src, FixedI16, LeEqU16 }
+        int_to_fixed! { $Src, FixedI32, LeEqU32 }
+        int_to_fixed! { $Src, FixedI64, LeEqU64 }
+        int_to_fixed! { $Src, FixedI128, LeEqU128 }
+        int_to_fixed! { $Src, FixedU8, LeEqU8 }
+        int_to_fixed! { $Src, FixedU16, LeEqU16 }
+        int_to_fixed! { $Src, FixedU32, LeEqU32 }
+        int_to_fixed! { $Src, FixedU64, LeEqU64 }
+        int_to_fixed! { $Src, FixedU128, LeEqU128 }
+
+        $(lossy! { $Src: Into $Dst })?
+    };
+}
+
+int_to_fixed! { bool }
+int_to_fixed! { i8, FixedI8<U0> }
+int_to_fixed! { i16, FixedI16<U0> }
+int_to_fixed! { i32, FixedI32<U0> }
+int_to_fixed! { i64, FixedI64<U0> }
+int_to_fixed! { i128, FixedI128<U0> }
+int_to_fixed! { isize }
+int_to_fixed! { u8, FixedU8<U0> }
+int_to_fixed! { u16, FixedU16<U0> }
+int_to_fixed! { u32, FixedU32<U0> }
+int_to_fixed! { u64, FixedU64<U0> }
+int_to_fixed! { u128, FixedU128<U0> }
+int_to_fixed! { usize }
+
+macro_rules! int_to_wider_fixed {
     (
         ($SrcU:ident, $SrcI:ident, $SrcBits:ident, $SrcLeEqU:ident) ->
             ($DstU:ident, $DstI:ident, $DstBits:ident, $DstBitsM1:ident, $DstLeEqU:ident)
@@ -366,54 +421,18 @@ macro_rules! int_to_fixed {
             }
         }
     };
-
-    (($SrcU:ident, $SrcI:ident) -> ($DstU:ident, $DstI:ident)) => {
-        impl From<$SrcU> for $DstU<U0> {
-            /// Converts an integer to a fixed-point number.
-            ///
-            /// This conversion never fails (infallible) and cannot
-            /// lose any fractional bits (lossless).
-            #[inline]
-            fn from(src: $SrcU) -> Self {
-                Self::from_bits(src)
-            }
-        }
-
-        impl From<$SrcI> for $DstI<U0> {
-            /// Converts an integer to a fixed-point number.
-            ///
-            /// This conversion never fails (infallible) and cannot
-            /// lose any fractional bits (lossless).
-            #[inline]
-            fn from(src: $SrcI) -> Self {
-                Self::from_bits(src)
-            }
-        }
-
-        lossy! { $SrcU: Into $DstU<U0> }
-        lossy! { $SrcI: Into $DstI<U0> }
-    };
 }
 
-int_to_fixed! { (u8, i8) -> (FixedU8, FixedI8) }
-int_to_fixed! { (u8, i8, U8, LeEqU8) -> (FixedU16, FixedI16, U16, U15, LeEqU16) }
-int_to_fixed! { (u8, i8, U8, LeEqU8) -> (FixedU32, FixedI32, U32, U31, LeEqU32) }
-int_to_fixed! { (u8, i8, U8, LeEqU8) -> (FixedU64, FixedI64, U64, U63, LeEqU64) }
-int_to_fixed! { (u8, i8, U8, LeEqU8) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
-
-int_to_fixed! { (u16, i16) -> (FixedU16, FixedI16) }
-int_to_fixed! { (u16, i16, U16, LeEqU16) -> (FixedU32, FixedI32, U32, U31, LeEqU32) }
-int_to_fixed! { (u16, i16, U16, LeEqU16) -> (FixedU64, FixedI64, U64, U63, LeEqU64) }
-int_to_fixed! { (u16, i16, U16, LeEqU16) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
-
-int_to_fixed! { (u32, i32) -> (FixedU32, FixedI32) }
-int_to_fixed! { (u32, i32, U32, LeEqU32) -> (FixedU64, FixedI64, U64, U63, LeEqU64) }
-int_to_fixed! { (u32, i32, U32, LeEqU32) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
-
-int_to_fixed! { (u64, i64) -> (FixedU64, FixedI64) }
-int_to_fixed! { (u64, i64, U64, LeEqU64) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
-
-int_to_fixed! { (u128, i128) -> (FixedU128, FixedI128) }
+int_to_wider_fixed! { (u8, i8, U8, LeEqU8) -> (FixedU16, FixedI16, U16, U15, LeEqU16) }
+int_to_wider_fixed! { (u8, i8, U8, LeEqU8) -> (FixedU32, FixedI32, U32, U31, LeEqU32) }
+int_to_wider_fixed! { (u8, i8, U8, LeEqU8) -> (FixedU64, FixedI64, U64, U63, LeEqU64) }
+int_to_wider_fixed! { (u8, i8, U8, LeEqU8) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
+int_to_wider_fixed! { (u16, i16, U16, LeEqU16) -> (FixedU32, FixedI32, U32, U31, LeEqU32) }
+int_to_wider_fixed! { (u16, i16, U16, LeEqU16) -> (FixedU64, FixedI64, U64, U63, LeEqU64) }
+int_to_wider_fixed! { (u16, i16, U16, LeEqU16) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
+int_to_wider_fixed! { (u32, i32, U32, LeEqU32) -> (FixedU64, FixedI64, U64, U63, LeEqU64) }
+int_to_wider_fixed! { (u32, i32, U32, LeEqU32) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
+int_to_wider_fixed! { (u64, i64, U64, LeEqU64) -> (FixedU128, FixedI128, U128, U127, LeEqU128) }
 
 macro_rules! bool_to_fixed {
     ($DstU:ident, $DstI:ident, $DstBits:ident, $DstBitsM1:ident, $DstLeEqU:ident) => {
