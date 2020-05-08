@@ -23,7 +23,7 @@ use crate::{
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
-use core::ops::Sub;
+use core::{convert::TryFrom, ops::Sub};
 #[cfg(feature = "f16")]
 use {
     crate::types::extra::U24,
@@ -241,33 +241,6 @@ convert_lossy! { FixedU32, FixedI32, U32, LeEqU32 }
 convert_lossy! { FixedU64, FixedI64, U64, LeEqU64 }
 convert_lossy! { FixedU128, FixedI128, U128, LeEqU128 }
 
-macro_rules! lossy {
-    ($Src:ty) => {
-        impl LossyFrom<$Src> for $Src {
-            /// Converts a number.
-            ///
-            /// This conversion never fails (infallible) and actually
-            /// does not lose any precision (lossless).
-            #[inline]
-            fn lossy_from(src: $Src) -> Self {
-                src
-            }
-        }
-    };
-    ($Src:ty: Into $($Dst:ty),*) => { $(
-        impl LossyFrom<$Src> for $Dst {
-            /// Converts a number.
-            ///
-            /// This conversion never fails (infallible) and actually
-            /// does not lose any precision (lossless).
-            #[inline]
-            fn lossy_from(src: $Src) -> Self {
-                src.into()
-            }
-        }
-    )* };
-}
-
 macro_rules! int_to_fixed {
     ($Src:ident, $Dst:ident, $LeEqU:ident) => {
         impl<Frac: $LeEqU> LosslessTryFrom<$Src> for $Dst<Frac> {
@@ -305,7 +278,16 @@ macro_rules! int_to_fixed {
         int_to_fixed! { $Src, FixedU64, LeEqU64 }
         int_to_fixed! { $Src, FixedU128, LeEqU128 }
 
-        $(lossy! { $Src: Into $Dst })?
+        $(impl LossyFrom<$Src> for $Dst {
+            /// Converts an integer to a fixed-point number.
+            ///
+            /// This conversion never fails (infallible) and actually
+            /// does not lose any precision (lossless).
+            #[inline]
+            fn lossy_from(src: $Src) -> Self {
+                Self::from_bits(src)
+            }
+        })?
     };
 }
 
@@ -823,19 +805,30 @@ macro_rules! int_to_float_lossy_lossless {
                 /// nearest, with ties rounded to even.
                 #[inline]
                 fn lossy_from(src: $Int) -> $Lossy {
-                    src.to_repr_fixed().to_num()
+                    Self::from_fixed(src.to_repr_fixed())
                 }
             }
         )*
         $(
+            impl LosslessTryFrom<$Int> for $Lossless {
+                /// Converts an integer to a floating-point number.
+                ///
+                /// This conversion actually never fails (infallible)
+                /// and does not lose precision (lossless).
+                #[inline]
+                fn lossless_try_from(src: $Int) -> Option<$Lossless> {
+                    Some(Self::from_fixed(src.to_repr_fixed()))
+                }
+            }
+
             impl LossyFrom<$Int> for $Lossless {
                 /// Converts an integer to a floating-point number.
                 ///
-                /// This conversion never fails (infallible) and does
-                /// not lose precision (lossless).
+                /// This conversion never fails (infallible) and
+                /// actually does not lose precision (lossless).
                 #[inline]
                 fn lossy_from(src: $Int) -> $Lossless {
-                    src.to_repr_fixed().to_num()
+                    Self::from_fixed(src.to_repr_fixed())
                 }
             }
         )*
@@ -880,130 +873,115 @@ int_to_float_lossy_lossless! { u128 -> f32 f64; }
 int_to_float_lossy_lossless! { usize -> bf16 f16; }
 int_to_float_lossy_lossless! { usize -> f32 f64; }
 
-lossy! { bool }
-lossy! { bool: Into i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, u128, usize }
-lossy! { i8 }
-lossy! { i8: Into i16, i32, i64, i128, isize }
-lossy! { i16 }
-lossy! { i16: Into i32, i64, i128, isize }
-lossy! { i32 }
-lossy! { i32: Into i64, i128 }
-lossy! { i64 }
-lossy! { i64: Into i128 }
-lossy! { i128 }
-lossy! { isize }
-lossy! { u8 }
-lossy! { u8: Into i16, i32, i64, i128, isize, u16, u32, u64, u128, usize }
-lossy! { u16 }
-lossy! { u16: Into i32, i64, i128, u32, u64, u128, usize }
-lossy! { u32 }
-lossy! { u32: Into i64, i128, u64, u128 }
-lossy! { u64 }
-lossy! { u64: Into i128, u128 }
-lossy! { u128 }
-lossy! { usize }
+macro_rules! into {
+    ($Src:ty: $($Dst:ty),*) => { $(
+        impl LosslessTryFrom<$Src> for $Dst {
+            /// Converts a number.
+            ///
+            /// This conversion actually never fails (infallible) and
+            /// does not lose any precision (lossless).
+            #[inline]
+            fn lossless_try_from(src: $Src) -> Option<Self> {
+                Some(Self::from(src))
+            }
+        }
+
+        impl LossyFrom<$Src> for $Dst {
+            /// Converts a number.
+            ///
+            /// This conversion never fails (infallible) and actually
+            /// does not lose any precision (lossless).
+            #[inline]
+            fn lossy_from(src: $Src) -> Self {
+                Self::from(src)
+            }
+        }
+    )* };
+}
+
+macro_rules! try_into {
+    ($Src:ty: $($Dst:ty),*) => { $(
+        impl LosslessTryFrom<$Src> for $Dst {
+            /// Converts a number.
+            ///
+            /// This conversion may fail (fallible) but does not lose
+            /// any precision (lossless).
+            #[inline]
+            fn lossless_try_from(src: $Src) -> Option<Self> {
+                Self::try_from(src).ok()
+            }
+        }
+    )* };
+}
+
+into! { bool: bool, i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, u128, usize }
+
+into! { i8: i8, i16, i32, i64, i128, isize }
+try_into! { i8: u8, u16, u32, u64, u128, usize }
+into! { i16: i16, i32, i64, i128, isize }
+try_into! { i16: i8, u8, u16, u32, u64, u128, usize }
+into! { i32: i32, i64, i128 }
+try_into! { i32: i8, i16, isize, u8, u16, u32, u64, u128, usize }
+into! { i64: i64, i128 }
+try_into! { i64: i8, i16, i32, isize, u8, u16, u32, u64, u128, usize }
+into! { i128: i128 }
+try_into! { i128: i8, i16, i32, i64, isize, u8, u16, u32, u64, u128, usize }
+into! { isize: isize }
+try_into! { isize: i8, i16, i32, i64, i128, u8, u16, u32, u64, u128, usize }
+
+into! { u8: i16, i32, i64, i128, isize, u8, u16, u32, u64, u128, usize }
+try_into! { u8: i8 }
+into! { u16: i32, i64, i128, u16, u32, u64, u128, usize }
+try_into! { u16: i8, i16, isize, u8 }
+into! { u32: i64, i128, u32, u64, u128 }
+try_into! { u32: i8, i16, i32, isize, u8, u16, usize }
+into! { u64: i128, u64, u128 }
+try_into! { u64: i8, i16, i32, i64, isize, u8, u16, u32, usize }
+into! { u128: u128 }
+try_into! { u128: i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, usize }
+into! { usize: usize }
+try_into! { usize: i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, u128 }
+
+macro_rules! lossy {
+    ($Src:ty: $Dst:ty; $src:ident -> $conv:expr) => {
+        impl LossyFrom<$Src> for $Dst {
+            #[inline]
+            /// Converts a number.
+            ///
+            /// This conversion never fails (infallible) but may lose
+            /// precision (lossy). Rounding is to the nearest, with
+            /// ties rounded to even.
+            fn lossy_from($src: $Src) -> $Dst {
+                $conv
+            }
+        }
+    };
+}
 
 #[cfg(feature = "f16")]
-lossy! { f16 }
+into! { f16: f16 }
 #[cfg(feature = "f16")]
-impl LossyFrom<f16> for bf16 {
-    #[inline]
-    /// Converts a number.
-    ///
-    /// This conversion never fails (infallible) but may lose
-    /// precision (lossy). Rounding is to the nearest, with ties
-    /// rounded to even.
-    fn lossy_from(src: f16) -> bf16 {
-        bf16::from_f32(src.into())
-    }
-}
+lossy! { f16: bf16; src -> bf16::from_f32(src.into()) }
 #[cfg(feature = "f16")]
-lossy! { f16: Into f32 }
-#[cfg(feature = "f16")]
-lossy! { f16: Into f64 }
+into! { f16: f32, f64 }
 
 #[cfg(feature = "f16")]
-impl LossyFrom<bf16> for f16 {
-    #[inline]
-    /// Converts a number.
-    ///
-    /// This conversion never fails (infallible) but may lose
-    /// precision (lossy). Rounding is to the nearest, with ties
-    /// rounded to even.
-    fn lossy_from(src: bf16) -> f16 {
-        f16::from_f32(src.into())
-    }
-}
+lossy! { bf16: f16; src -> f16::from_f32(src.into()) }
 #[cfg(feature = "f16")]
-lossy! { bf16 }
-#[cfg(feature = "f16")]
-lossy! { bf16: Into f32 }
-#[cfg(feature = "f16")]
-lossy! { bf16: Into f64 }
+into! { bf16: bf16, f32, f64 }
 
 #[cfg(feature = "f16")]
-impl LossyFrom<f32> for f16 {
-    #[inline]
-    /// Converts a number.
-    ///
-    /// This conversion never fails (infallible) but may lose
-    /// precision (lossy). Rounding is to the nearest, with ties
-    /// rounded to even.
-    fn lossy_from(src: f32) -> Self {
-        f16::from_f32(src)
-    }
-}
+lossy! { f32: f16; src -> f16::from_f32(src) }
 #[cfg(feature = "f16")]
-impl LossyFrom<f32> for bf16 {
-    #[inline]
-    /// Converts a number.
-    ///
-    /// This conversion never fails (infallible) but may lose
-    /// precision (lossy). Rounding is to the nearest, with ties
-    /// rounded to even.
-    fn lossy_from(src: f32) -> Self {
-        bf16::from_f32(src)
-    }
-}
-lossy! { f32 }
-lossy! { f32: Into f64 }
+lossy! { f32: bf16; src -> bf16::from_f32(src) }
+into! { f32: f32, f64 }
 
 #[cfg(feature = "f16")]
-impl LossyFrom<f64> for f16 {
-    #[inline]
-    /// Converts a number.
-    ///
-    /// This conversion never fails (infallible) but may lose
-    /// precision (lossy). Rounding is to the nearest, with ties
-    /// rounded to even.
-    fn lossy_from(src: f64) -> Self {
-        f16::from_f64(src)
-    }
-}
+lossy! { f64: f16; src -> f16::from_f64(src) }
 #[cfg(feature = "f16")]
-impl LossyFrom<f64> for bf16 {
-    #[inline]
-    /// Converts a number.
-    ///
-    /// This conversion never fails (infallible) but may lose
-    /// precision (lossy). Rounding is to the nearest, with ties
-    /// rounded to even.
-    fn lossy_from(src: f64) -> Self {
-        bf16::from_f64(src)
-    }
-}
-impl LossyFrom<f64> for f32 {
-    /// Converts a number.
-    ///
-    /// This conversion never fails (infallible) but may lose
-    /// precision (lossy). Rounding is to the nearest, with ties
-    /// rounded to even.
-    #[inline]
-    fn lossy_from(src: f64) -> Self {
-        src as f32
-    }
-}
-lossy! { f64 }
+lossy! { f64: bf16; src -> bf16::from_f64(src) }
+lossy! { f64: f32; src -> src as f32 }
+into! { f64: f64 }
 
 /// These are doc tests that should not appear in the docs, but are
 /// useful as doc tests can check to ensure compilation failure.
