@@ -25,7 +25,10 @@ use crate::{
 };
 use core::ops::Sub;
 #[cfg(feature = "f16")]
-use half::{bf16, f16};
+use {
+    crate::types::extra::U24,
+    half::{bf16, f16},
+};
 
 macro_rules! convert {
     (
@@ -243,8 +246,8 @@ macro_rules! lossy {
         impl LossyFrom<$Src> for $Src {
             /// Converts a number.
             ///
-            /// This conversion never fails (infallible) and does not
-            /// lose any precision (lossless).
+            /// This conversion never fails (infallible) and actually
+            /// does not lose any precision (lossless).
             #[inline]
             fn lossy_from(src: $Src) -> Self {
                 src
@@ -255,8 +258,8 @@ macro_rules! lossy {
         impl LossyFrom<$Src> for $Dst {
             /// Converts a number.
             ///
-            /// This conversion never fails (infallible) and does not
-            /// lose any precision (lossless).
+            /// This conversion never fails (infallible) and actually
+            /// does not lose any precision (lossless).
             #[inline]
             fn lossy_from(src: $Src) -> Self {
                 src.into()
@@ -700,6 +703,39 @@ fixed_to_int_lossy! { FixedU32, FixedI32, U32, LeEqU32 }
 fixed_to_int_lossy! { FixedU64, FixedI64, U64, LeEqU64 }
 fixed_to_int_lossy! { FixedU128, FixedI128, U128, LeEqU128 }
 
+// f16 has minimum subnormal == 2 ^ -(14 + 10) => 24 fractional bits
+// bf16 has minimum subnormal == 2 ^ -(126 + 7) => 133 fractional bits
+// f32 has minimum subnormal == 2 ^ -(126 + 23) => 149 fractional bits
+// f64 has minimum subnormal == 2 ^ -(1022 + 52) => 1074 fractional bits
+//
+// The only lossless float to fixed possible is from f16 to
+// fixed-point numbers with 24 or more fractional bits.
+#[cfg(feature = "f16")]
+macro_rules! float_to_fixed {
+    ($Src:ident, $Dst:ident, $LeEqU:ident) => {
+        impl<Frac: $LeEqU> LosslessTryFrom<$Src> for $Dst<Frac>
+        where
+            U24: IsLessOrEqual<Frac, Output = True>,
+        {
+            /// Converts a floating-point number to a fixed-point
+            /// number.
+            ///
+            /// This conversion may fail (fallible) but cannot lose
+            /// any fractional bits (lossless).
+            #[inline]
+            fn lossless_try_from(src: $Src) -> Option<Self> {
+                src.checked_to_fixed()
+            }
+        }
+    };
+}
+#[cfg(feature = "f16")]
+float_to_fixed! { f16, FixedI32, LeEqU32 }
+#[cfg(feature = "f16")]
+float_to_fixed! { f16, FixedI64, LeEqU64 }
+#[cfg(feature = "f16")]
+float_to_fixed! { f16, FixedI128, LeEqU128 }
+
 macro_rules! fixed_to_float {
     ($Fixed:ident($LeEqU:ident) -> $Float:ident) => {
         impl<Frac: $LeEqU> From<$Fixed<Frac>> for $Float {
@@ -709,7 +745,18 @@ macro_rules! fixed_to_float {
             /// lose any precision (lossless).
             #[inline]
             fn from(src: $Fixed<Frac>) -> $Float {
-                src.to_num()
+                $Float::from_fixed(src)
+            }
+        }
+
+        impl<Frac: $LeEqU> LosslessTryFrom<$Fixed<Frac>> for $Float {
+            /// Converts a fixed-point number to a floating-point number.
+            ///
+            /// This conversion actually never fails (infallible) but
+            /// does not lose any precision (lossless).
+            #[inline]
+            fn lossless_try_from(src: $Fixed<Frac>) -> Option<$Float> {
+                Some($Float::from_fixed(src))
             }
         }
     };
