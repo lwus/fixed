@@ -12,6 +12,9 @@ Version 0.5.7 (unreleased)
   * The following methods were added to all fixed-point types, to the
     `Fixed` trait, and to the `Wrapping` wrapper:
       * `leading_ones`, `trailing_ones`
+  * The following method was added to unsigned fixed-point types and
+    to the `FixedUnsigned` trait:
+      * `wrapping_next_power_of_two`
   * The `PHI` and `FRAC_1_PHI` constants were added to the `consts`
     module and as associated constants for fixed-point types.
 

@@ -1213,6 +1213,10 @@ pub trait FixedUnsigned: Fixed {
     ///
     /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_next_power_of_two(self) -> Option<Self>;
+
+    /// Returns the smallest power of two that is ≥ `self`, wrapping
+    /// to 0 if the next power of two is too large to represent.
+    fn wrapping_next_power_of_two(self) -> Self;
 }
 
 /// This trait provides lossless conversions that might be fallible.
@@ -2233,6 +2237,7 @@ macro_rules! impl_fixed {
                 trait_delegate! { fn is_power_of_two(self) -> bool }
                 trait_delegate! { fn next_power_of_two(self) -> Self }
                 trait_delegate! { fn checked_next_power_of_two(self) -> Option<Self> }
+                trait_delegate! { fn wrapping_next_power_of_two(self) -> Self }
             }
         }
     };

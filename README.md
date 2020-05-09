@@ -86,6 +86,9 @@ The conversions supported cover the following cases.
     [`Fixed`][tf-0-5-7] trait, and to the [`Wrapping`][wr-0-5-7]
     wrapper:
       * [`leading_ones`][f-lo-0-5-7], [`trailing_ones`][f-to-0-5-7]
+  * The following method was added to unsigned fixed-point types and
+    to the [`FixedUnsigned`][tfu-0-5-7] trait:
+      * [`wrapping_next_power_of_two`][f-wnpot-0-5-7]
   * The [`PHI`][phi-0-5-7] and [`FRAC_1_PHI`][f1phi-0-5-7] constants
     were added to the [`consts`][cons-0-5-7] module and as
     [associated constants][f-phi-0-5-7] for fixed-point types.
@@ -94,11 +97,13 @@ The conversions supported cover the following cases.
 [f-lo-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.leading_ones
 [f-phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.PHI
 [f-to-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.trailing_ones
+[f-wnpot-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
 [f1phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
 [ltf-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryFrom.html
 [lti-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryInto.html
 [phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
 [tf-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[tfu-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedUnsigned.html
 [wr-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 
 ### Version 0.5.6 news (2020-05-01)
