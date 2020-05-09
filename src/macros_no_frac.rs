@@ -1202,6 +1202,32 @@ assert_eq!(Fix::MIN.wrapping_abs(), Fix::MIN);
                 }
             }
 
+            if_unsigned! {
+                $Signedness;
+                comment! {
+                    "Returns the smallest power of two that is ≥ `self`,
+wrapping to 0 if the next power of two is too large to represent.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+// 3/8 is 0.0110
+let three_eights = Fix::from_bits(0b0110);
+// 1/2 is 0.1000
+let half = Fix::from_bits(0b1000);
+assert_eq!(three_eights.wrapping_next_power_of_two(), half);
+assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
+```
+";
+                    #[inline]
+                    pub fn wrapping_next_power_of_two(self) -> $Fixed<Frac> {
+                        self.checked_next_power_of_two().unwrap_or(Self::from_bits(0))
+                    }
+                }
+            }
+
             comment! {
                 "Overflowing negation.
 

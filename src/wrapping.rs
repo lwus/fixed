@@ -468,8 +468,8 @@ impl<F: Fixed> Wrapping<F> {
     /// # Examples
     ///
     /// ```rust
-    /// use fixed::{types::I16F16, Wrapping};
-    /// let w = Wrapping(I16F16::from_bits(0xFF00_00FF));
+    /// use fixed::{types::U16F16, Wrapping};
+    /// let w = Wrapping(U16F16::from_bits(0xFF00_00FF));
     /// assert_eq!(w.leading_ones(), w.0.leading_ones());
     /// ```
     #[inline]
@@ -496,8 +496,8 @@ impl<F: Fixed> Wrapping<F> {
     /// # Examples
     ///
     /// ```rust
-    /// use fixed::{types::I16F16, Wrapping};
-    /// let w = Wrapping(I16F16::from_bits(0xFF00_00FF));
+    /// use fixed::{types::U16F16, Wrapping};
+    /// let w = Wrapping(U16F16::from_bits(0xFF00_00FF));
     /// assert_eq!(w.trailing_ones(), w.0.trailing_ones());
     /// ```
     #[inline]
@@ -780,7 +780,7 @@ impl<F: FixedUnsigned> Wrapping<F> {
     /// ```
     #[inline]
     pub fn next_power_of_two(self) -> Wrapping<F> {
-        Wrapping(self.0.checked_next_power_of_two().unwrap_or_default())
+        Wrapping(self.0.wrapping_next_power_of_two())
     }
 }
 
