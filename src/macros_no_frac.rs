@@ -246,6 +246,7 @@ assert_eq!(f.count_ones(), 3);
                     self.to_bits().count_ones()
                 }
             }
+
             comment! {
                 "Returns the number of zeros in the binary
 representation.
@@ -264,6 +265,27 @@ assert_eq!(f.count_zeros(), 3);
                     self.to_bits().count_zeros()
                 }
             }
+
+            comment! {
+                "Returns the number of leading ones in the binary
+representation.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let all_ones = !Fix::from_bits(0);
+let f = all_ones - Fix::from_bits(0b10_0000);
+assert_eq!(f.leading_ones(), ", $s_nbits, " - 6);
+```
+";
+                #[inline]
+                pub const fn leading_ones(self) -> u32 {
+                    (!self.to_bits()).leading_zeros()
+                }
+            }
+
             comment! {
                 "Returns the number of leading zeros in the binary
 representation.
@@ -282,6 +304,26 @@ assert_eq!(f.leading_zeros(), ", $s_nbits, " - 6);
                     self.to_bits().leading_zeros()
                 }
             }
+
+            comment! {
+                "Returns the number of trailing ones in the binary
+representation.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let f = Fix::from_bits(0b101_1111);
+assert_eq!(f.trailing_ones(), 5);
+```
+";
+                #[inline]
+                pub const fn trailing_ones(self) -> u32 {
+                    (!self.to_bits()).trailing_zeros()
+                }
+            }
+
             comment! {
                 "Returns the number of trailing zeros in the binary
 representation.
@@ -300,6 +342,7 @@ assert_eq!(f.trailing_zeros(), 5);
                     self.to_bits().trailing_zeros()
                 }
             }
+
             comment! {
                 "Shifts to the left by `n` bits, wrapping the
 truncated bits to the right end.
@@ -320,6 +363,7 @@ assert_eq!(Fix::from_bits(bits).rotate_left(3), Fix::from_bits(rot));
                     Self::from_bits(self.to_bits().rotate_left(n))
                 }
             }
+
             comment! {
                 "Shifts to the right by `n` bits, wrapping the
 truncated bits to the left end.
