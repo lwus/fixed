@@ -9,13 +9,16 @@ Version 0.5.7 (unreleased)
 ==========================
 
   * The `LosslessTryFrom` and `LosslessTryInto` traits were added.
+  * The following methods were added to all fixed-point types, to the
+    `Fixed` trait, and to the `Wrapping` wrapper:
+      * `leading_ones`, `trailing_ones`
   * The `PHI` and `FRAC_1_PHI` constants were added to the `consts`
     module and as associated constants for fixed-point types.
 
 Version 0.5.6 (2020-05-01)
 ==========================
 
-  * The following method were added to signed fixed-point types and to
+  * The following methods were added to signed fixed-point types and to
     the `FixedSigned` trait:
       * `checked_signum`, `saturating_signum`, `wrapping_signum`,
         `overflowing_signum`

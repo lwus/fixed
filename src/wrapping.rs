@@ -463,6 +463,20 @@ impl<F: Fixed> Wrapping<F> {
         self.0.count_zeros()
     }
 
+    /// Returns the number of leading ones in the binary representation.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// let w = Wrapping(I16F16::from_bits(0xFF00_00FF));
+    /// assert_eq!(w.leading_ones(), w.0.leading_ones());
+    /// ```
+    #[inline]
+    pub fn leading_ones(self) -> u32 {
+        self.0.leading_ones()
+    }
+
     /// Returns the number of leading zeros in the binary representation.
     ///
     /// # Examples
@@ -475,6 +489,20 @@ impl<F: Fixed> Wrapping<F> {
     #[inline]
     pub fn leading_zeros(self) -> u32 {
         self.0.leading_zeros()
+    }
+
+    /// Returns the number of trailing ones in the binary representation.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// let w = Wrapping(I16F16::from_bits(0xFF00_00FF));
+    /// assert_eq!(w.trailing_ones(), w.0.trailing_ones());
+    /// ```
+    #[inline]
+    pub fn trailing_ones(self) -> u32 {
+        self.0.trailing_ones()
     }
 
     /// Returns the number of trailing zeros in the binary representation.

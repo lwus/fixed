@@ -608,8 +608,14 @@ where
     /// Returns the number of zeros in the binary representation.
     fn count_zeros(self) -> u32;
 
+    /// Returns the number of leading ones in the binary representation.
+    fn leading_ones(self) -> u32;
+
     /// Returns the number of leading zeros in the binary representation.
     fn leading_zeros(self) -> u32;
+
+    /// Returns the number of trailing ones in the binary representation.
+    fn trailing_ones(self) -> u32;
 
     /// Returns the number of trailing zeros in the binary representation.
     fn trailing_zeros(self) -> u32;
@@ -1989,7 +1995,9 @@ macro_rules! impl_fixed {
             trait_delegate! { fn overflowing_round_ties_to_even(self) -> (Self, bool) }
             trait_delegate! { fn count_ones(self) -> u32 }
             trait_delegate! { fn count_zeros(self) -> u32 }
+            trait_delegate! { fn leading_ones(self) -> u32 }
             trait_delegate! { fn leading_zeros(self) -> u32 }
+            trait_delegate! { fn trailing_ones(self) -> u32 }
             trait_delegate! { fn trailing_zeros(self) -> u32 }
             trait_delegate! { fn int_log2(self) -> i32 }
             trait_delegate! { fn int_log10(self) -> i32 }

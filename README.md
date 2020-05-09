@@ -82,16 +82,24 @@ The conversions supported cover the following cases.
 
   * The [`LosslessTryFrom`][ltf-0-5-7] and
     [`LosslessTryInto`][lti-0-5-7] traits were added.
+  * The following methods were added to all fixed-point types, to the
+    [`Fixed`][tf-0-5-7] trait, and to the [`Wrapping`][wr-0-5-7]
+    wrapper:
+      * [`leading_ones`][f-lo-0-5-7], [`trailing_ones`][f-to-0-5-7]
   * The [`PHI`][phi-0-5-7] and [`FRAC_1_PHI`][f1phi-0-5-7] constants
     were added to the [`consts`][cons-0-5-7] module and as
     [associated constants][f-phi-0-5-7] for fixed-point types.
 
 [cons-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
+[f-lo-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.leading_ones
 [f-phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.PHI
+[f-to-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.trailing_ones
 [f1phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
 [ltf-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryFrom.html
 [lti-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryInto.html
 [phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
+[tf-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[wr-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 
 ### Version 0.5.6 news (2020-05-01)
 
@@ -101,7 +109,7 @@ dependency updates and the removal of deprecated items.
 
 Other news in this release:
 
-  * The following method were added to signed fixed-point types and to
+  * The following methods were added to signed fixed-point types and to
     the [`FixedSigned`][tfs-0-5-6] trait:
       * [`checked_signum`][f-csig-0-5-6],
         [`saturating_signum`][f-ssig-0-5-6],
