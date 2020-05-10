@@ -20,7 +20,8 @@ macro_rules! fixed_from_to {
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -102,10 +103,12 @@ assert_eq!(Fix::from_num(",
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
-    [`usize`]. Any fractional bits are truncated.
+    [`usize`]. Any fractional bits are discarded, which rounds towards
+    −∞.
   * A floating-point number of type [`f32`] or [`f64`]. If the [`f16`
     feature] is enabled, it can also be of type [`f16`] or [`bf16`].
     For this conversion, the method rounds to the nearest, with ties
@@ -189,7 +192,8 @@ fits, otherwise returns [`None`].
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -276,10 +280,12 @@ fits, otherwise returns [`None`].
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
-    [`usize`]. Any fractional bits are truncated.
+    [`usize`]. Any fractional bits are discarded, which rounds towards
+    −∞.
   * A floating-point number of type [`f32`] or [`f64`]. If the [`f16`
     feature] is enabled, it can also be of type [`f16`] or [`bf16`].
     For this conversion, the method rounds to the nearest, with ties
@@ -362,7 +368,8 @@ saturating if it does not fit.
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -456,10 +463,12 @@ saturating the value if it does not fit.
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
-    [`usize`]. Any fractional bits are truncated.
+    [`usize`]. Any fractional bits are discarded, which rounds towards
+    −∞.
   * A floating-point number of type [`f32`] or [`f64`]. If the [`f16`
     feature] is enabled, it can also be of type [`f16`] or [`bf16`].
     For this conversion, the method rounds to the nearest, with ties
@@ -543,7 +552,8 @@ wrapping the value on overflow.
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -623,10 +633,12 @@ wrapping the value on overflow.
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
-    [`usize`]. Any fractional bits are truncated.
+    [`usize`]. Any fractional bits are discarded, which rounds towards
+    −∞.
   * A floating-point number of type [`f32`] or [`f64`]. If the [`f16`
     feature] is enabled, it can also be of type [`f16`] or [`bf16`].
     For this conversion, the method rounds to the nearest, with ties
@@ -713,7 +725,8 @@ returned.
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -799,10 +812,12 @@ overflow has occurred. On overflow, the wrapped value is returned.
 
 The other number can be:
 
-  * Another fixed-point number. Any extra fractional bits are truncated.
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
-    [`usize`]. Any fractional bits are truncated.
+    [`usize`]. Any fractional bits are discarded, which rounds towards
+    −∞.
   * A floating-point number of type [`f32`] or [`f64`]. If the [`f16`
     feature] is enabled, it can also be of type [`f16`] or [`bf16`].
     For this conversion, the method rounds to the nearest, with ties

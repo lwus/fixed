@@ -1363,7 +1363,7 @@ where
 pub trait FromFixed {
     /// Converts from a fixed-point number.
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     ///
     /// # Panics
     ///
@@ -1378,7 +1378,7 @@ pub trait FromFixed {
 
     /// Converts from a fixed-point number if it fits, otherwise returns [`None`].
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     ///
     /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_from_fixed<F: Fixed>(src: F) -> Option<Self>
@@ -1387,12 +1387,12 @@ pub trait FromFixed {
 
     /// Converts from a fixed-point number, saturating if it does not fit.
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     fn saturating_from_fixed<F: Fixed>(src: F) -> Self;
 
     /// Converts from a fixed-point number, wrapping if it does not fit.
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     fn wrapping_from_fixed<F: Fixed>(src: F) -> Self;
 
     /// Converts from a fixed-point number.
@@ -1401,7 +1401,7 @@ pub trait FromFixed {
     /// an overflow has occurred. On overflow, the wrapped value is
     /// returned.
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     ///
     /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
@@ -1436,7 +1436,7 @@ pub trait FromFixed {
 pub trait ToFixed {
     /// Converts to a fixed-point number.
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     ///
     /// # Panics
     ///
@@ -1454,14 +1454,14 @@ pub trait ToFixed {
 
     /// Converts to a fixed-point number if it fits, otherwise returns [`None`].
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     ///
     /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_to_fixed<F: Fixed>(self) -> Option<F>;
 
     /// Converts to a fixed-point number, saturating if it does not fit.
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     ///
     /// # Panics
     ///
@@ -1472,7 +1472,7 @@ pub trait ToFixed {
 
     /// Converts to a fixed-point number, wrapping if it does not fit.
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     ///
     /// # Panics
     ///
@@ -1487,7 +1487,7 @@ pub trait ToFixed {
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// Any extra fractional bits are truncated.
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
     ///
     /// # Panics
     ///
@@ -1561,7 +1561,7 @@ macro_rules! impl_int {
         impl FromFixed for $Int {
             /// Converts a fixed-point number to an integer.
             ///
-            /// Any fractional bits are truncated.
+            /// Any fractional bits are discarded, which rounds towards −∞.
             ///
             /// # Panics
             ///
@@ -1580,7 +1580,7 @@ macro_rules! impl_int {
 
             /// Converts a fixed-point number to an integer if it fits, otherwise returns [`None`].
             ///
-            /// Any fractional bits are truncated.
+            /// Any fractional bits are discarded, which rounds towards −∞.
             ///
             /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
@@ -1590,7 +1590,7 @@ macro_rules! impl_int {
 
             /// Converts a fixed-point number to an integer, saturating if it does not fit.
             ///
-            /// Any fractional bits are truncated.
+            /// Any fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn saturating_from_fixed<F: Fixed>(src: F) -> Self {
                 $Int::from_repr_fixed(FromFixed::saturating_from_fixed(src))
@@ -1598,7 +1598,7 @@ macro_rules! impl_int {
 
             /// Converts a fixed-point number to an integer, wrapping if it does not fit.
             ///
-            /// Any fractional bits are truncated.
+            /// Any fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn wrapping_from_fixed<F: Fixed>(src: F) -> Self {
                 $Int::from_repr_fixed(FromFixed::wrapping_from_fixed(src))
@@ -1610,7 +1610,7 @@ macro_rules! impl_int {
             /// an overflow has occurred. On overflow, the wrapped value is
             /// returned.
             ///
-            /// Any fractional bits are truncated.
+            /// Any fractional bits are discarded, which rounds towards −∞.
             ///
             /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
@@ -2064,7 +2064,7 @@ macro_rules! impl_fixed {
         impl<Frac: $LeEqU> FromFixed for $Fixed<Frac> {
             /// Converts a fixed-point number.
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 let (wrapped, overflow) = FromFixed::overflowing_from_fixed(src);
@@ -2075,7 +2075,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number if it fits, otherwise returns [`None`].
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             ///
             /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
@@ -2088,7 +2088,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number, saturating if it does not fit.
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn saturating_from_fixed<F: Fixed>(src: F) -> Self {
                 let conv = src.private_to_fixed_helper(Self::FRAC_NBITS, Self::INT_NBITS);
@@ -2118,7 +2118,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number, wrapping if it does not fit.
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn wrapping_from_fixed<F: Fixed>(src: F) -> Self {
                 let (wrapped, _) = FromFixed::overflowing_from_fixed(src);
@@ -2131,7 +2131,7 @@ macro_rules! impl_fixed {
             /// indicating whether an overflow has occurred. On
             /// overflow, the wrapped value is returned.
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             ///
             /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
@@ -2165,7 +2165,7 @@ macro_rules! impl_fixed {
         impl<Frac: $LeEqU> ToFixed for $Fixed<Frac> {
             /// Converts a fixed-point number.
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn to_fixed<F: Fixed>(self) -> F {
                 FromFixed::from_fixed(self)
@@ -2173,7 +2173,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number if it fits, otherwise returns [`None`].
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             ///
             /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
@@ -2183,7 +2183,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number, saturating if it does not fit.
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn saturating_to_fixed<F: Fixed>(self) -> F {
                 FromFixed::saturating_from_fixed(self)
@@ -2191,7 +2191,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number, wrapping if it does not fit.
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn wrapping_to_fixed<F: Fixed>(self) -> F {
                 FromFixed::wrapping_from_fixed(self)
@@ -2203,7 +2203,7 @@ macro_rules! impl_fixed {
             /// indicating whether an overflow has occurred. On
             /// overflow, the wrapped value is returned.
             ///
-            /// Any extra fractional bits are truncated.
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
             ///
             /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html

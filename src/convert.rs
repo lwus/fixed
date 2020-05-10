@@ -146,7 +146,7 @@ macro_rules! convert_lossy {
             /// This conversion never fails (infallible) but may lose
             /// precision (lossy). Any fractional bits in the source
             /// that cannot be represented in the destination are
-            /// truncated.
+            /// discarded, which rounds towards −∞.
             #[inline]
             fn lossy_from(src: $SrcU<FracSrc>) -> Self {
                 src.to_num()
@@ -165,7 +165,7 @@ macro_rules! convert_lossy {
             /// This conversion never fails (infallible) but may lose
             /// precision (lossy). Any fractional bits in the source
             /// that cannot be represented in the destination are
-            /// truncated.
+            /// discarded, which rounds towards −∞.
             #[inline]
             fn lossy_from(src: $SrcI<FracSrc>) -> Self {
                 src.to_num()
@@ -184,7 +184,7 @@ macro_rules! convert_lossy {
             /// This conversion never fails (infallible) but may lose
             /// precision (lossy). Any fractional bits in the source
             /// that cannot be represented in the destination are
-            /// truncated.
+            /// discarded, which rounds towards −∞.
             #[inline]
             fn lossy_from(src: $SrcU<FracSrc>) -> Self {
                 src.to_num()
@@ -618,7 +618,7 @@ macro_rules! fixed_to_int_lossy {
             ///
             /// This conversion never fails (infallible) but may lose
             /// precision (lossy). Any fractional bits in the source
-            /// are truncated.
+            /// are discarded, which rounds towards −∞.
             #[inline]
             fn lossy_from(src: $SrcU<FracSrc>) -> Self {
                 src.to_num()
@@ -634,7 +634,7 @@ macro_rules! fixed_to_int_lossy {
             ///
             /// This conversion never fails (infallible) but may lose
             /// precision (lossy). Any fractional bits in the source
-            /// are truncated.
+            /// are discarded, which rounds towards −∞.
             #[inline]
             fn lossy_from(src: $SrcI<FracSrc>) -> Self {
                 src.to_num()
@@ -650,7 +650,7 @@ macro_rules! fixed_to_int_lossy {
             ///
             /// This conversion never fails (infallible) but may lose
             /// precision (lossy). Any fractional bits in the source
-            /// are truncated.
+            /// are discarded, which rounds towards −∞.
             #[inline]
             fn lossy_from(src: $SrcU<FracSrc>) -> Self {
                 src.to_num()
