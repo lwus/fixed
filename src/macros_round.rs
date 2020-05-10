@@ -109,13 +109,18 @@ assert_eq!((-two_and_quarter).frac(), three_quarters);
             "Rounds to the next integer towards 0.
 
 ",
-            if_unsigned_else_empty_str! {
+            if_signed_unsigned! {
                 $Signedness,
-                "Note that for unsigned numbers, this is equivalent to [`floor`].
-
-",
+                "Note that for negative numbers, this is different
+from truncating/discarding the fractional bits. This is because in
+two’s-complement representations, the value of all the bits except for
+the most significant bit is positive; discarding positive bits would
+round towards −∞ unlike this method which rounds towards zero.",
+                "Note that for unsigned numbers, this is equivalent to [`floor`].",
             },
-            "# Examples
+            "
+
+# Examples
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
