@@ -276,9 +276,9 @@ mod tests {
         assert_eq!(f16::from_fixed(SQRT_2), f16::SQRT_2);
         assert_eq!(f16::from_fixed(FRAC_1_SQRT_2), f16::FRAC_1_SQRT_2);
         assert_eq!(f16::from_fixed(E), f16::E);
-        assert_eq!(f16::from_fixed(LOG2_10), f16::from_bits(0x42A5));
+        assert_eq!(f16::from_fixed(LOG2_10), f16::LOG2_10);
         assert_eq!(f16::from_fixed(LOG2_E), f16::LOG2_E);
-        assert_eq!(f16::from_fixed(LOG10_2), f16::from_bits(0x34D1));
+        assert_eq!(f16::from_fixed(LOG10_2), f16::LOG10_2);
         assert_eq!(f16::from_fixed(LOG10_E), f16::LOG10_E);
         assert_eq!(f16::from_fixed(LN_2), f16::LN_2);
         assert_eq!(f16::from_fixed(LN_10), f16::LN_10);
@@ -321,9 +321,9 @@ mod tests {
         assert_eq!(bf16::from_fixed(SQRT_2), bf16::SQRT_2);
         assert_eq!(bf16::from_fixed(FRAC_1_SQRT_2), bf16::FRAC_1_SQRT_2);
         assert_eq!(bf16::from_fixed(E), bf16::E);
-        assert_eq!(bf16::from_fixed(LOG2_10), bf16::from_bits(0x4055));
+        assert_eq!(bf16::from_fixed(LOG2_10), bf16::LOG2_10);
         assert_eq!(bf16::from_fixed(LOG2_E), bf16::LOG2_E);
-        assert_eq!(bf16::from_fixed(LOG10_2), bf16::from_bits(0x3E9A));
+        assert_eq!(bf16::from_fixed(LOG10_2), bf16::LOG10_2);
         assert_eq!(bf16::from_fixed(LOG10_E), bf16::LOG10_E);
         assert_eq!(bf16::from_fixed(LN_2), bf16::LN_2);
         assert_eq!(bf16::from_fixed(LN_10), bf16::LN_10);
