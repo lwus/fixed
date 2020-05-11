@@ -9,31 +9,20 @@ Version 1.0.0 (unreleased)
 ==========================
 
   * The crate now requires rustc version 1.43.0 or later.
-  * The [`LosslessTryFrom`][ltf-1-0] and [`LosslessTryInto`][lti-1-0]
-    traits were added.
-  * The following methods were added to all fixed-point types, to the
-    [`Fixed`][tf-1-0] trait, and to the [`Wrapping`][wr-1-0] wrapper:
-      * [`leading_ones`][f-lo-1-0], [`trailing_ones`][f-to-1-0]
-  * The following method was added to unsigned fixed-point types and
-    to the [`FixedUnsigned`][tfu-1-0] trait:
-      * [`wrapping_next_power_of_two`][f-wnpot-1-0]
-  * The [`PHI`][phi-1-0] and [`FRAC_1_PHI`][f1phi-1-0] constants were
-    added to the [`consts`][cons-1-0] module and as
-    [associated constants][f-phi-1-0] for fixed-point types.
   * All deprecated items were removed.
 
-[cons-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
-[f-lo-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.leading_ones
-[f-phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.PHI
-[f-to-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.trailing_ones
-[f-wnpot-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
-[f1phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
-[ltf-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryFrom.html
-[lti-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryInto.html
-[phi-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
-[tf-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
-[tfu-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedUnsigned.html
-[wr-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+Version 0.5.7 (2020-05-11)
+==========================
+
+  * The `LosslessTryFrom` and `LosslessTryInto` traits were added.
+  * The following methods were added to all fixed-point types, to the
+    `Fixed` trait, and to the `Wrapping` wrapper:
+      * `leading_ones`, `trailing_ones`
+  * The following method was added to unsigned fixed-point types and
+    to the `FixedUnsigned` trait:
+      * `wrapping_next_power_of_two`
+  * The `PHI` and `FRAC_1_PHI` constants were added to the `consts`
+    module and as associated constants for fixed-point types.
 
 Version 0.5.6 (2020-05-01)
 ==========================
