@@ -78,7 +78,19 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
-### Version 0.5.7 news (unreleased)
+### Version 0.5.7 news (2020-05-11)
+
+**This release is meant to be the last release before version 1.0.0.**
+The plan is that 1.0.0 will be released on 2020-06-05 with the
+following changes:
+  * The minimum rustc version will be changed to 1.44.0.
+  * The `{from,to}_{be,le,ne}_bytes` methods will be marked as const
+    functions (this requires rustc 1.44.0).
+  * Some dependency versions will be updated.
+  * All deprecated items will be removed.
+  * Any other minor fixes.
+
+Other news in this release:
 
   * The [`LosslessTryFrom`][ltf-0-5-7] and
     [`LosslessTryInto`][lti-0-5-7] traits were added.
@@ -93,24 +105,25 @@ The conversions supported cover the following cases.
     were added to the [`consts`][cons-0-5-7] module and as
     [associated constants][f-phi-0-5-7] for fixed-point types.
 
-[cons-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
-[f-lo-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.leading_ones
-[f-phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.PHI
-[f-to-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.trailing_ones
-[f-wnpot-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
-[f1phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_PHI.html
-[ltf-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryFrom.html
-[lti-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryInto.html
-[phi-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.PHI.html
-[tf-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
-[tfu-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedUnsigned.html
-[wr-0-5-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+[cons-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/consts/index.html
+[f-lo-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html#method.leading_ones
+[f-phi-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html#associatedconstant.PHI
+[f-to-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html#method.trailing_ones
+[f-wnpot-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
+[f1phi-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/consts/constant.FRAC_1_PHI.html
+[ltf-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/traits/trait.LosslessTryFrom.html
+[lti-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/traits/trait.LosslessTryInto.html
+[phi-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/consts/constant.PHI.html
+[tf-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/traits/trait.Fixed.html
+[tfu-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/traits/trait.FixedUnsigned.html
+[wr-0-5-7]: https://docs.rs/fixed/0.5.7/fixed/struct.Wrapping.html
 
 ### Version 0.5.6 news (2020-05-01)
 
-**This release is meant to be the last release before version 1.0.0:**
-The plan is that the only differences between 0.5.6 and 1.0.0 will be
-dependency updates and the removal of deprecated items.
+<strike>This release is meant to be the last release before version
+1.0.0: The plan is that the only differences between 0.5.6 and 1.0.0
+will be dependency updates and the removal of deprecated
+items.</strike>
 
 Other news in this release:
 
@@ -202,7 +215,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 
 ```toml
 [dependencies]
-fixed = "0.5.6"
+fixed = "0.5.7"
 ```
 
 The *fixed* crate requires rustc version 1.39.0 or later.
@@ -227,7 +240,7 @@ To enable features, you can add the dependency like this to
 
 ```toml
 [dependencies.fixed]
-version = "0.5.6"
+version = "0.5.7"
 features = ["f16", "serde"]
 ```
 
@@ -260,40 +273,40 @@ additional terms or conditions.
 [`Binary`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html
 [`Display`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html
 [`Error`]: https://doc.rust-lang.org/nightly/std/error/trait.Error.html
-[`FixedI128`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI128.html
-[`FixedI16`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI16.html
-[`FixedI32`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI32.html
-[`FixedI64`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI64.html
-[`FixedI8`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI8.html
-[`FixedU128`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedU128.html
-[`FixedU16`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedU16.html
-[`FixedU32`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedU32.html
-[`FixedU64`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedU64.html
-[`FixedU8`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedU8.html
-[`FromFixed`]: https://docs.rs/fixed/0.5.6/fixed/traits/trait.FromFixed.html
+[`FixedI128`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI128.html
+[`FixedI16`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI16.html
+[`FixedI32`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html
+[`FixedI64`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI64.html
+[`FixedI8`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI8.html
+[`FixedU128`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedU128.html
+[`FixedU16`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedU16.html
+[`FixedU32`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedU32.html
+[`FixedU64`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedU64.html
+[`FixedU8`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedU8.html
+[`FromFixed`]: https://docs.rs/fixed/0.5.7/fixed/traits/trait.FromFixed.html
 [`FromStr`]: https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html
 [`From`]: https://doc.rust-lang.org/nightly/core/convert/trait.From.html
-[`I20F12`]: https://docs.rs/fixed/0.5.6/fixed/types/type.I20F12.html
-[`I4F12`]: https://docs.rs/fixed/0.5.6/fixed/types/type.I4F12.html
-[`I4F4`]: https://docs.rs/fixed/0.5.6/fixed/types/type.I4F4.html
+[`I20F12`]: https://docs.rs/fixed/0.5.7/fixed/types/type.I20F12.html
+[`I4F12`]: https://docs.rs/fixed/0.5.7/fixed/types/type.I4F12.html
+[`I4F4`]: https://docs.rs/fixed/0.5.7/fixed/types/type.I4F4.html
 [`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
 [`LosslessTryFrom`]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryFrom.html
 [`LosslessTryInto`]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.LosslessTryInto.html
-[`LossyFrom`]: https://docs.rs/fixed/0.5.6/fixed/traits/trait.LossyFrom.html
-[`LossyInto`]: https://docs.rs/fixed/0.5.6/fixed/traits/trait.LossyInto.html
+[`LossyFrom`]: https://docs.rs/fixed/0.5.7/fixed/traits/trait.LossyFrom.html
+[`LossyInto`]: https://docs.rs/fixed/0.5.7/fixed/traits/trait.LossyInto.html
 [`LowerHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html
 [`Octal`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html
-[`ParseFixedError`]: https://docs.rs/fixed/0.5.6/fixed/struct.ParseFixedError.html
-[`ToFixed`]: https://docs.rs/fixed/0.5.6/fixed/traits/trait.ToFixed.html
-[`U12`]: https://docs.rs/fixed/0.5.6/fixed/types/extra/type.U12.html
-[`U20F12`]: https://docs.rs/fixed/0.5.6/fixed/types/type.U20F12.html
+[`ParseFixedError`]: https://docs.rs/fixed/0.5.7/fixed/struct.ParseFixedError.html
+[`ToFixed`]: https://docs.rs/fixed/0.5.7/fixed/traits/trait.ToFixed.html
+[`U12`]: https://docs.rs/fixed/0.5.7/fixed/types/extra/type.U12.html
+[`U20F12`]: https://docs.rs/fixed/0.5.7/fixed/types/type.U20F12.html
 [`UpperHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html
 [`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
-[`checked_from_num`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI32.html#method.checked_from_num
+[`checked_from_num`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html#method.checked_from_num
 [`f16`]: https://docs.rs/half/^1/half/struct.f16.html
-[`from_num`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI32.html#method.from_num
-[`from_str_binary`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI32.html#method.from_str_binary
-[`from_str_hex`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI32.html#method.from_str_hex
-[`from_str_octal`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI32.html#method.from_str_octal
-[`to_num`]: https://docs.rs/fixed/0.5.6/fixed/struct.FixedI32.html#method.to_num
+[`from_num`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html#method.from_num
+[`from_str_binary`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html#method.from_str_binary
+[`from_str_hex`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html#method.from_str_hex
+[`from_str_octal`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html#method.from_str_octal
+[`to_num`]: https://docs.rs/fixed/0.5.7/fixed/struct.FixedI32.html#method.to_num
 [const generics]: https://github.com/rust-lang/rust/issues/44580
