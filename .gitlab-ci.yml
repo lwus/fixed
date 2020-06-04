@@ -9,7 +9,7 @@ before_script:
   - getconf LONG_BIT
   - rustup self update
   - rustup --version
-  - rustup toolchain install --profile minimal beta-$TARGET 1.43.0-$TARGET
+  - rustup toolchain install --profile minimal beta-$TARGET 1.44.0-$TARGET
   - rustup component add --toolchain beta-$TARGET rustfmt clippy
   - if [ -d cargo/registry/cache ]; then rm -rf $CARGO_HOME/registry/cache; mkdir -p $CARGO_HOME/registry; cp -R cargo/registry/cache $CARGO_HOME/registry/; echo Copied registry/cache; fi
   - if [ -d $CARGO_HOME/registry/src ]; then rm -r $CARGO_HOME/registry/src; fi
@@ -50,8 +50,8 @@ x86_64-gnulinux:
   - cargo +beta-$TARGET test --features "fail-on-warnings az f16 serde std"
   - cargo +beta-$TARGET test --release --features "fail-on-warnings az f16 serde std"
   - cargo +beta-$TARGET fmt -- --check
-  - cargo +1.43.0-$TARGET test --lib --features "fail-on-warnings az f16 serde std"
-  - cargo +1.43.0-$TARGET test --release --lib --features "fail-on-warnings az f16 serde std"
+  - cargo +1.44.0-$TARGET test --lib --features "fail-on-warnings az f16 serde std"
+  - cargo +1.44.0-$TARGET test --release --lib --features "fail-on-warnings az f16 serde std"
 
 i686-gnulinux:
   image: i386/rust:1
@@ -82,8 +82,8 @@ i686-gnulinux:
   - cargo +beta-$TARGET test --features "fail-on-warnings f16 serde"
   - cargo +beta-$TARGET test --release --features "fail-on-warnings az f16 serde std"
   - cargo +beta-$TARGET fmt -- --check
-  - cargo +1.43.0-$TARGET test --lib --features "fail-on-warnings az f16 serde std"
-  - cargo +1.43.0-$TARGET test --release --lib --features "fail-on-warnings az f16 serde std"
+  - cargo +1.44.0-$TARGET test --lib --features "fail-on-warnings az f16 serde std"
+  - cargo +1.44.0-$TARGET test --release --lib --features "fail-on-warnings az f16 serde std"
 
 x86_64-gnulinux-tarpaulin:
   image: amd64/rust:1

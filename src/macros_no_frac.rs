@@ -107,7 +107,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub fn from_be_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
+                pub const fn from_be_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
                     $Fixed::from_bits(<$Inner>::from_be_bytes(bytes))
                 }
             }
@@ -128,7 +128,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub fn from_le_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
+                pub const fn from_le_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
                     $Fixed::from_bits(<$Inner>::from_le_bytes(bytes))
                 }
             }
@@ -153,7 +153,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub fn from_ne_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
+                pub const fn from_ne_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
                     $Fixed::from_bits(<$Inner>::from_ne_bytes(bytes))
                 }
             }
@@ -175,7 +175,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub fn to_be_bytes(self) -> [u8; $nbytes] {
+                pub const fn to_be_bytes(self) -> [u8; $nbytes] {
                     self.to_bits().to_be_bytes()
                 }
             }
@@ -197,7 +197,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub fn to_le_bytes(self) -> [u8; $nbytes] {
+                pub const fn to_le_bytes(self) -> [u8; $nbytes] {
                     self.to_bits().to_le_bytes()
                 }
             }
@@ -223,7 +223,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub fn to_ne_bytes(self) -> [u8; $nbytes] {
+                pub const fn to_ne_bytes(self) -> [u8; $nbytes] {
                     self.to_bits().to_ne_bytes()
                 }
             }

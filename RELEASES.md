@@ -8,8 +8,20 @@ as-is, without any warranty. -->
 Version 1.0.0 (unreleased)
 ==========================
 
-  * The crate now requires rustc version 1.43.0 or later.
+  * The crate now requires rustc version 1.44.0 or later.
+  * The following methods are now `const` functions:
+      * [`from_be_bytes`][f-fbb-1-0], [`from_le_bytes`][f-flb-1-0],
+        [`from_ne_bytes`][f-fnb-1-0]
+      * [`to_be_bytes`][f-tbb-1-0], [`to_le_bytes`][f-tlb-1-0],
+        [`to_ne_bytes`][f-tnb-1-0]
   * All deprecated items were removed.
+
+[f-fbb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be_bytes
+[f-flb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le_bytes
+[f-fnb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_ne_bytes
+[f-tbb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_be_bytes
+[f-tlb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le_bytes
+[f-tnb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_ne_bytes
 
 Version 0.5.7 (2020-05-11)
 ==========================
