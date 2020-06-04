@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.0.0 (unreleased)
+Version 1.0.0 (2020-06-04)
 ==========================
 
   * The crate now requires rustc version 1.44.0 or later.
@@ -16,12 +16,12 @@ Version 1.0.0 (unreleased)
         [`to_ne_bytes`][f-tnb-1-0]
   * All deprecated items were removed.
 
-[f-fbb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be_bytes
-[f-flb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le_bytes
-[f-fnb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_ne_bytes
-[f-tbb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_be_bytes
-[f-tlb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le_bytes
-[f-tnb-1-0]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_ne_bytes
+[f-fbb-1-0]: https://docs.rs/fixed/~1.0/fixed/struct.FixedI32.html#method.from_be_bytes
+[f-flb-1-0]: https://docs.rs/fixed/~1.0/fixed/struct.FixedI32.html#method.from_le_bytes
+[f-fnb-1-0]: https://docs.rs/fixed/~1.0/fixed/struct.FixedI32.html#method.from_ne_bytes
+[f-tbb-1-0]: https://docs.rs/fixed/~1.0/fixed/struct.FixedI32.html#method.to_be_bytes
+[f-tlb-1-0]: https://docs.rs/fixed/~1.0/fixed/struct.FixedI32.html#method.to_le_bytes
+[f-tnb-1-0]: https://docs.rs/fixed/~1.0/fixed/struct.FixedI32.html#method.to_ne_bytes
 
 Version 0.5.7 (2020-05-11)
 ==========================
