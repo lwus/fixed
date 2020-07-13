@@ -176,6 +176,18 @@ version = "1"
 features = ["f16", "serde"]
 ```
 
+## Experimental optional features
+
+It is not considered a breaking change if experimental features are
+removed. The removal of experimental features would however require a
+minor version bump. Similarly, on a minor version bump, optional
+dependencies can be updated to an incompatible newer version.
+
+There is one experimental feature:
+
+ 1. `num-traits`, disabled by default. This implements some traits
+    from the [*num-traits* crate] .
+
 ## License
 
 This crate is free software: you can redistribute it and/or modify it
@@ -198,6 +210,7 @@ additional terms or conditions.
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-sqrt* crate]: https://crates.io/crates/fixed-sqrt
 [*half* crate]: https://crates.io/crates/half
+[*num-traits* crate]: https://crates.io/crates/num-traits
 [*serde* crate]: https://crates.io/crates/serde
 [*typenum* crate]: https://crates.io/crates/typenum
 [LICENSE-APACHE]: https://www.apache.org/licenses/LICENSE-2.0
@@ -265,6 +278,8 @@ mod display;
 mod float_helper;
 mod from_str;
 mod helpers;
+#[cfg(feature = "num-traits")]
+mod impl_num_traits;
 mod int_helper;
 mod log10;
 #[cfg(feature = "serde")]

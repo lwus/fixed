@@ -28,6 +28,7 @@ std = []
 typenum = "1.10"
 az = { version = "1", optional = true }
 half = { version = "1.6", optional = true }
+num-traits = { version = "0.2.12", default-features = false, optional = true }
 serde = { version = "1.0.60", default-features = false, optional = true }
 
 [dev-dependencies]
@@ -37,7 +38,7 @@ criterion = "0.3"
 num-traits = { version = "0.2", default-features = false }
 
 [package.metadata.docs.rs]
-features = ["az", "f16", "serde", "std"]
+features = ["az", "f16", "num-traits", "serde", "std"]
 
 [[bench]]
 name = "bench_main"
