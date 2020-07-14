@@ -21,7 +21,11 @@ use crate::{
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
-use num_traits::{Bounded, One, Zero};
+use num_traits::{
+    Bounded, CheckedAdd, CheckedDiv, CheckedMul, CheckedNeg, CheckedRem, CheckedShl, CheckedShr,
+    CheckedSub, One, SaturatingAdd, SaturatingMul, SaturatingSub, WrappingAdd, WrappingMul,
+    WrappingNeg, WrappingShl, WrappingShr, WrappingSub, Zero,
+};
 
 macro_rules! impl_traits {
     ($Fixed:ident, $LeEqU:ident, $OneMaxFrac:ident) => {
@@ -54,6 +58,125 @@ macro_rules! impl_traits {
             #[inline]
             fn one() -> Self {
                 Self::from_bits(Self::from_bits(1).to_bits() << Frac::U32)
+            }
+        }
+
+        impl<Frac> CheckedAdd for $Fixed<Frac> {
+            #[inline]
+            fn checked_add(&self, v: &Self) -> Option<Self> {
+                (*self).checked_add(*v)
+            }
+        }
+
+        impl<Frac> CheckedSub for $Fixed<Frac> {
+            #[inline]
+            fn checked_sub(&self, v: &Self) -> Option<Self> {
+                (*self).checked_sub(*v)
+            }
+        }
+
+        impl<Frac> CheckedNeg for $Fixed<Frac> {
+            #[inline]
+            fn checked_neg(&self) -> Option<Self> {
+                (*self).checked_neg()
+            }
+        }
+
+        impl<Frac: $LeEqU> CheckedMul for $Fixed<Frac> {
+            #[inline]
+            fn checked_mul(&self, v: &Self) -> Option<Self> {
+                (*self).checked_mul(*v)
+            }
+        }
+
+        impl<Frac: $LeEqU> CheckedDiv for $Fixed<Frac> {
+            #[inline]
+            fn checked_div(&self, v: &Self) -> Option<Self> {
+                (*self).checked_div(*v)
+            }
+        }
+
+        impl<Frac> CheckedRem for $Fixed<Frac> {
+            #[inline]
+            fn checked_rem(&self, v: &Self) -> Option<Self> {
+                (*self).checked_rem(*v)
+            }
+        }
+
+        impl<Frac> CheckedShl for $Fixed<Frac> {
+            #[inline]
+            fn checked_shl(&self, rhs: u32) -> Option<Self> {
+                (*self).checked_shl(rhs)
+            }
+        }
+
+        impl<Frac> CheckedShr for $Fixed<Frac> {
+            #[inline]
+            fn checked_shr(&self, rhs: u32) -> Option<Self> {
+                (*self).checked_shr(rhs)
+            }
+        }
+
+        impl<Frac> SaturatingAdd for $Fixed<Frac> {
+            #[inline]
+            fn saturating_add(&self, v: &Self) -> Self {
+                (*self).saturating_add(*v)
+            }
+        }
+
+        impl<Frac> SaturatingSub for $Fixed<Frac> {
+            #[inline]
+            fn saturating_sub(&self, v: &Self) -> Self {
+                (*self).saturating_sub(*v)
+            }
+        }
+
+        impl<Frac: $LeEqU> SaturatingMul for $Fixed<Frac> {
+            #[inline]
+            fn saturating_mul(&self, v: &Self) -> Self {
+                (*self).saturating_mul(*v)
+            }
+        }
+
+        impl<Frac> WrappingAdd for $Fixed<Frac> {
+            #[inline]
+            fn wrapping_add(&self, v: &Self) -> Self {
+                (*self).wrapping_add(*v)
+            }
+        }
+
+        impl<Frac> WrappingSub for $Fixed<Frac> {
+            #[inline]
+            fn wrapping_sub(&self, v: &Self) -> Self {
+                (*self).wrapping_sub(*v)
+            }
+        }
+
+        impl<Frac> WrappingNeg for $Fixed<Frac> {
+            #[inline]
+            fn wrapping_neg(&self) -> Self {
+                (*self).wrapping_neg()
+            }
+        }
+
+        impl<Frac: $LeEqU> WrappingMul for $Fixed<Frac> {
+            #[inline]
+            fn wrapping_mul(&self, v: &Self) -> Self {
+                (*self).wrapping_mul(*v)
+            }
+        }
+
+        impl<Frac> WrappingShl for $Fixed<Frac> {
+            #[inline]
+            fn wrapping_shl(&self, rhs: u32) -> Self {
+                (*self).wrapping_shl(rhs)
+            }
+        }
+
+        impl<Frac> WrappingShr for $Fixed<Frac> {
+            #[inline]
+            fn wrapping_shr(&self, rhs: u32) -> Self {
+                (*self).wrapping_shr(rhs)
             }
         }
     };
