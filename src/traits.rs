@@ -36,32 +36,116 @@ use core::{
 };
 #[cfg(feature = "f16")]
 use half::{bf16, f16};
+#[cfg(feature = "num-traits")]
+use num_traits::{
+    bounds::Bounded,
+    identities::Zero,
+    ops::{
+        checked::{
+            CheckedAdd, CheckedDiv, CheckedMul, CheckedNeg, CheckedRem, CheckedShl, CheckedShr,
+            CheckedSub,
+        },
+        saturating::{SaturatingAdd, SaturatingMul, SaturatingSub},
+        wrapping::{WrappingAdd, WrappingMul, WrappingNeg, WrappingShl, WrappingShr, WrappingSub},
+    },
+};
 #[cfg(feature = "serde")]
 use serde::{de::Deserialize, ser::Serialize};
 
 macro_rules! comment_features {
     ($comment:expr) => {
-        #[cfg(all(not(feature = "f16"), not(feature = "serde")))]
+        #[cfg(all(
+            not(feature = "f16"),
+            not(feature = "num-traits"),
+            not(feature = "serde")
+        ))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures {}
         }
-        #[cfg(all(feature = "f16", not(feature = "serde")))]
-        doc_comment! {
-            $comment;
-            pub trait FixedOptionalFeatures: PartialOrd<f16> + PartialOrd<bf16> {}
-        }
-        #[cfg(all(not(feature = "f16"), feature = "serde"))]
+
+        #[cfg(all(not(feature = "f16"), not(feature = "num-traits"), feature = "serde"))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures: Serialize + for<'de> Deserialize<'de> {}
         }
-        #[cfg(all(feature = "f16", feature = "serde"))]
+
+        #[cfg(all(not(feature = "f16"), feature = "num-traits", not(feature = "serde")))]
+        doc_comment! {
+            $comment;
+            pub trait FixedOptionalFeatures
+            where
+                Self: Bounded + Zero,
+                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
+                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
+                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
+                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
+                Self: WrappingShl + WrappingShr,
+            {
+            }
+        }
+
+        #[cfg(all(not(feature = "f16"), feature = "num-traits", feature = "serde"))]
+        doc_comment! {
+            $comment;
+            pub trait FixedOptionalFeatures
+            where
+                Self: Bounded + Zero,
+                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
+                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
+                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
+                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
+                Self: WrappingShl + WrappingShr,
+                Self: Serialize + for<'de> Deserialize<'de>,
+            {
+            }
+        }
+
+        #[cfg(all(feature = "f16", not(feature = "num-traits"), not(feature = "serde")))]
+        doc_comment! {
+            $comment;
+            pub trait FixedOptionalFeatures: PartialOrd<f16> + PartialOrd<bf16> {}
+        }
+
+        #[cfg(all(feature = "f16", not(feature = "num-traits"), feature = "serde"))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures
             where
                 Self: PartialOrd<f16> + PartialOrd<bf16>,
+                Self: Serialize + for<'de> Deserialize<'de>,
+            {
+            }
+        }
+
+        #[cfg(all(feature = "f16", feature = "num-traits", not(feature = "serde")))]
+        doc_comment! {
+            $comment;
+            pub trait FixedOptionalFeatures
+            where
+                Self: PartialOrd<f16> + PartialOrd<bf16>,
+                Self: Bounded + Zero,
+                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
+                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
+                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
+                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
+                Self: WrappingShl + WrappingShr,
+            {
+            }
+        }
+
+        #[cfg(all(feature = "f16", feature = "num-traits", feature = "serde"))]
+        doc_comment! {
+            $comment;
+            pub trait FixedOptionalFeatures
+            where
+                Self: PartialOrd<f16> + PartialOrd<bf16>,
+                Self: Bounded + Zero,
+                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
+                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
+                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
+                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
+                Self: WrappingShl + WrappingShr,
                 Self: Serialize + for<'de> Deserialize<'de>,
             {
             }
@@ -77,13 +161,43 @@ depending on the crate’s [optional features].
     <code>[PartialOrd][`PartialOrd`]&lt;[f16][`f16`]&gt;</code> and
     <code>[PartialOrd][`PartialOrd`]&lt;[bf16][`bf16`]&gt;</code> are
     supertraits of [`Fixed`].
- 2. If the `serde` feature is enabled, [`Serialize`] and
+ 2. If the `num-traits` experimental feature is enabled, the following
+    are supertraits of [`Fixed`]:
+      * [`Bounded`], [`Zero`] (but *not* [`One`] because not all
+        fixed-point numbers can represent the value 1)
+      * [`CheckedAdd`], [`CheckedSub`], [`CheckedNeg`],
+        [`CheckedMul`], [`CheckedDiv`], [`CheckedRem`],
+        [`CheckedShl`], [`CheckedShr`]
+      * [`SaturatingAdd`], [`SaturatingSub`], [`SaturatingMul`]
+      * [`WrappingAdd`], [`WrappingSub`], [`WrappingNeg`],
+        [`WrappingMul`], [`WrappingShl`], [`WrappingShr`]
+ 3. If the `serde` feature is enabled, [`Serialize`] and
     [`Deserialize`] are supertraits of [`Fixed`].
 
+[`Bounded`]: https://docs.rs/num-traits/^0.2/num_traits/bounds/trait.Bounded.html
+[`CheckedAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedAdd.html
+[`CheckedDiv`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedDiv.html
+[`CheckedMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedMul.html
+[`CheckedNeg`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedNeg.html
+[`CheckedRem`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedRem.html
+[`CheckedShl`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedShl.html
+[`CheckedShr`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedShr.html
+[`CheckedSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedSub.html
 [`Deserialize`]: https://docs.rs/serde/^1/serde/de/trait.Deserialize.html
 [`Fixed`]: trait.Fixed.html
+[`One`]: https://docs.rs/num-traits/^0.2/num_traits/identities/trait.One.html
 [`PartialOrd`]: https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html
+[`SaturatingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingAdd.html
+[`SaturatingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingMul.html
+[`SaturatingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingSub.html
 [`Serialize`]: https://docs.rs/serde/^1/serde/ser/trait.Serialize.html
+[`WrappingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingAdd.html
+[`WrappingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingMul.html
+[`WrappingNeg`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingNeg.html
+[`WrappingShl`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingShl.html
+[`WrappingShr`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingShr.html
+[`WrappingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingSub.html
+[`Zero`]: https://docs.rs/num-traits/^0.2/num_traits/identities/trait.Zero.html
 [`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
 [`f16`]: https://docs.rs/half/^1/half/struct.f16.html
 [optional features]: ../index.html#optional-features

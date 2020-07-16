@@ -22,9 +22,16 @@ use crate::{
     FixedU8,
 };
 use num_traits::{
-    Bounded, CheckedAdd, CheckedDiv, CheckedMul, CheckedNeg, CheckedRem, CheckedShl, CheckedShr,
-    CheckedSub, One, SaturatingAdd, SaturatingMul, SaturatingSub, WrappingAdd, WrappingMul,
-    WrappingNeg, WrappingShl, WrappingShr, WrappingSub, Zero,
+    bounds::Bounded,
+    identities::{One, Zero},
+    ops::{
+        checked::{
+            CheckedAdd, CheckedDiv, CheckedMul, CheckedNeg, CheckedRem, CheckedShl, CheckedShr,
+            CheckedSub,
+        },
+        saturating::{SaturatingAdd, SaturatingMul, SaturatingSub},
+        wrapping::{WrappingAdd, WrappingMul, WrappingNeg, WrappingShl, WrappingShr, WrappingSub},
+    },
 };
 
 macro_rules! impl_traits {
