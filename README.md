@@ -78,6 +78,15 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.1.0 news (unreleased)
+
+  * The new experimental feature [`num-traits`][feat-nt-1-1] was
+    added, and relevant traits were added as supertraits to the
+    [`FixedOptionalFeatures`][fof-1-1] trait.
+
+[feat-nt-1-1]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[fof-1-1]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
+
 ### Version 1.0.0 news (2020-06-04)
 
   * The crate now requires rustc version 1.44.0 or later.

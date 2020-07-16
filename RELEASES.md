@@ -5,6 +5,16 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.1.0 (unreleased)
+==========================
+
+  * The new experimental feature [`num-traits`][feat-nt-1-1] was
+    added, and relevant traits were added as supertraits to the
+    [`FixedOptionalFeatures`][fof-1-1] trait.
+
+[feat-nt-1-1]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[fof-1-1]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
+
 Version 1.0.0 (2020-06-04)
 ==========================
 
