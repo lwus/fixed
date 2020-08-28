@@ -536,6 +536,64 @@ fixed! {
     U127, U126, U125, U124
 }
 
+/// Defines constant fixed-point numbers from integer expressions.
+///
+/// This macro is useful because [`from_num`] cannot be used in
+/// constant expressions.
+///
+/// # Examples
+///
+/// ```rust
+/// use fixed::{const_fixed_from_int, types::I16F16};
+/// const_fixed_from_int! {
+///     // define a constant using an integer
+///     const FIVE: I16F16 = 5;
+///     // define a constant using an integer expression
+///     const SUM: I16F16 = 3 + 2;
+/// }
+/// assert_eq!(FIVE, 5);
+/// assert_eq!(SUM, 5);
+/// ```
+///
+/// The following would fail to compile because
+/// <code>[i32][`i32`]::[MAX][`i32::MAX`]</code> is not representable
+/// by [`I16F16`].
+///
+/// ```compile_fail
+/// use fixed::{const_fixed_from_int, types::I16F16};
+/// const_fixed_from_int! {
+///     // fails because i32::MAX > I16F16::MAX
+///     const _OVERFLOW: I16F16 = i32::MAX;
+/// }
+/// ```
+///
+/// The following would fail to compile because [`I16F16`] is an alias
+/// for <code>[FixedI32][`FixedI32`]&lt;[U32][`U32`]&gt;</code>, and
+/// this macro can define [`FixedI32`] constants using [`i32`]
+/// expressions, not [`i16`] expressions.
+///
+/// ```compile_fail
+/// use fixed::{const_fixed_from_int, types::I16F16};
+/// const_fixed_from_int! {
+///     // fails because 0i16 is not of type i32
+///     const _MISMATCH: I16F16 = 0i16;
+/// }
+/// ```
+///
+/// [`FixedI32`]: struct.FixedI32.html
+/// [`I16F16`]: types/type.I16F16.html
+/// [`U32`]: types/extra/type.U32.html
+/// [`from_num`]: struct.FixedI32.html#method.from_num
+/// [`i16`]: https://doc.rust-lang.org/nightly/core/i16/index.html
+/// [`i32::MAX`]: https://doc.rust-lang.org/nightly/core/i32/constant.MAX.html
+/// [`i32`]: https://doc.rust-lang.org/nightly/core/i32/index.html
+#[macro_export]
+macro_rules! const_fixed_from_int {
+    ($(const $NAME:ident: $Fixed:ty = $int:expr;)*) => { $(
+        const $NAME: $Fixed = <$Fixed>::from_bits($int * (1 << <$Fixed>::FRAC_NBITS));
+    )* };
+}
+
 #[cfg(test)]
 #[allow(clippy::cognitive_complexity)]
 mod tests {

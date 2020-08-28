@@ -78,6 +78,14 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.2.0 news (unreleased)
+
+  * The [`const_fixed_from_int!`][cffi-1-2] macro was added to make it
+    easy to define constant fixed-point numbers using integer
+    expressions.
+
+[cffi-1-2]: https://tspiteri.gitlab.io/fixed/dev/fixed/macro.const_fixed_from_int.html
+
 ### Version 1.1.0 news (2020-07-21)
 
   * The new experimental feature [`num-traits`][feat-nt-1-1] was added
