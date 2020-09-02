@@ -594,6 +594,70 @@ macro_rules! const_fixed_from_int {
     )* };
 }
 
+/// These are doc tests that should not appear in the docs, but are
+/// useful as doc tests can check to ensure compilation failure.
+///
+/// The first snippet succeeds, and acts as a control.
+///
+/// ```rust
+/// use fixed::{const_fixed_from_int, types::*};
+/// const_fixed_from_int! {
+///     const ZERO0: I0F32 = 0;
+///     const ZERO1: I32F0 = 0;
+///     const ZERO2: U0F32 = 0;
+///     const ZERO3: U32F0 = 0;
+///
+///     const ONE0: I2F30 = 1;
+///     const ONE1: I32F0 = 1;
+///     const ONE2: U1F31 = 1;
+///     const ONE3: U32F0 = 1;
+///
+///     const MINUS_ONE0: I1F31 = -1;
+///     const MINUS_ONE1: I32F0 = -1;
+/// }
+/// assert_eq!(ZERO0, 0);
+/// assert_eq!(ZERO1, 0);
+/// assert_eq!(ZERO2, 0);
+/// assert_eq!(ZERO3, 0);
+/// assert_eq!(ONE0, 1);
+/// assert_eq!(ONE1, 1);
+/// assert_eq!(ONE2, 1);
+/// assert_eq!(ONE3, 1);
+/// assert_eq!(MINUS_ONE0, -1);
+/// assert_eq!(MINUS_ONE1, -1);
+/// ```
+///
+/// The rest of the tests should all fail compilation.
+///
+/// Not enough integer bits for 1.
+/// ```compile_fail
+/// use fixed::{const_fixed_from_int, types::*};
+/// const_fixed_from_int! {
+///     const _ONE: I0F32 = 1;
+/// }
+/// ```
+/// ```compile_fail
+/// use fixed::{const_fixed_from_int, types::*};
+/// const_fixed_from_int! {
+///     const _ONE: I1F31 = 1;
+/// }
+/// ```
+/// ```compile_fail
+/// use fixed::{const_fixed_from_int, types::*};
+/// const_fixed_from_int! {
+///     const _ONE: U0F32 = 1;
+/// }
+/// ```
+///
+/// Not enough integer bits for -1.
+/// ```compile_fail
+/// use fixed::{const_fixed_from_int, types::*};
+/// const_fixed_from_int! {
+///     const _MINUS_ONE: I0F32 = -1;
+/// }
+/// ```
+fn _compile_fail_tests() {}
+
 #[cfg(test)]
 #[allow(clippy::cognitive_complexity)]
 mod tests {
