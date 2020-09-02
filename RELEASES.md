@@ -8,7 +8,6 @@ as-is, without any warranty. -->
 Version 1.2.0 (unreleased)
 ==========================
 
-  * The crate now requires rustc version 1.46.0 or later.
   * The [`const_fixed_from_int!`][cffi-1-2] macro was added to make it
     easy to define constant fixed-point numbers using integer
     expressions.

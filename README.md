@@ -80,7 +80,6 @@ The conversions supported cover the following cases.
 
 ### Version 1.2.0 news (unreleased)
 
-  * The crate now requires rustc version 1.46.0 or later.
   * The [`const_fixed_from_int!`][cffi-1-2] macro was added to make it
     easy to define constant fixed-point numbers using integer
     expressions.
@@ -186,7 +185,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 fixed = "1.1"
 ```
 
-The *fixed* crate requires rustc version 1.46.0 or later.
+The *fixed* crate requires rustc version 1.44.0 or later.
 
 ## Optional features
 
