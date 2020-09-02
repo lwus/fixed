@@ -590,7 +590,25 @@ fixed! {
 #[macro_export]
 macro_rules! const_fixed_from_int {
     ($(const $NAME:ident: $Fixed:ty = $int:expr;)*) => { $(
-        const $NAME: $Fixed = <$Fixed>::from_bits($int * (1 << <$Fixed>::FRAC_NBITS));
+        const $NAME: $Fixed = <$Fixed>::from_bits({
+            // 0 should work even for no integer bits.
+            if $int == 0 {
+                0
+            } else {
+                // Fails to compile if $int is not zero and there are no integer bits.
+                let one_bits = <$Fixed>::from_bits(1).to_bits() << <$Fixed>::FRAC_NBITS;
+                if one_bits > 0 {
+                    // one_bits is positive: multiplication overflows if $int does not fit.
+                    $int * one_bits
+                } else if !$int == 0 {
+                    // one_bits is negative minimum for signed inner type and $int is -1.
+                    one_bits
+                } else {
+                    // one_bits is negative minimum and $int is not 0 or -1: overflow.
+                    1 / 0
+                }
+            }
+        });
     )* };
 }
 
