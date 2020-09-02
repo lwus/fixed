@@ -592,11 +592,14 @@ macro_rules! const_fixed_from_int {
     ($(const $NAME:ident: $Fixed:ty = $int:expr;)*) => { $(
         const $NAME: $Fixed = {
             const FRAC: u32 = <$Fixed>::FRAC_NBITS;
+            // Use $Fixed as type because there isn't a const way to use the inner type.
+            const INT: $Fixed = <$Fixed>::from_bits($int);
+            // LSB.to_bits() has a specific type, unlike the literal `1`.
+            const LSB: $Fixed = <$Fixed>::from_bits(1);
             // Divide shift into two parts for cases where $Fixed cannot represent 1.
-            // Use $Fixed as type because there isn't a const way to get the inner type.
-            const ONE_A: $Fixed = <$Fixed>::from_bits(1 << FRAC / 2);
-            const ONE_B: $Fixed = <$Fixed>::from_bits(1 << FRAC - FRAC / 2);
-            <$Fixed>::from_bits($int * ONE_A.to_bits() * ONE_B.to_bits())
+            const ONE_A: $Fixed = <$Fixed>::from_bits(LSB.to_bits() << FRAC / 2);
+            const ONE_B: $Fixed = <$Fixed>::from_bits(LSB.to_bits() << FRAC - FRAC / 2);
+            <$Fixed>::from_bits(INT.to_bits() * ONE_A.to_bits() * ONE_B.to_bits())
         };
     )* };
 }
