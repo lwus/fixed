@@ -670,6 +670,7 @@ macro_rules! const_fixed_from_int {
 /// const_fixed_from_int! {
 ///     const _MINUS_ONE: I0F32 = -1;
 /// }
+/// ```
 ///
 /// Not enough integer bits for -2.
 /// ```compile_fail
