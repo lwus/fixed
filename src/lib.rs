@@ -591,20 +591,22 @@ fixed! {
 macro_rules! const_fixed_from_int {
     ($(const $NAME:ident: $Fixed:ty = $int:expr;)*) => { $(
         const $NAME: $Fixed = <$Fixed>::from_bits({
+            let int = $int;
             // 0 should work even for no integer bits.
-            if $int == 0 {
-                0
+            if int == 0 {
+                // Use int here to clearly ensure that the type of int is the inner type.
+                int
             } else {
-                // Fails to compile if $int is not zero and there are no integer bits.
+                // Fails to compile if int is not zero and there are no integer bits.
                 let one_bits = <$Fixed>::from_bits(1).to_bits() << <$Fixed>::FRAC_NBITS;
                 if one_bits > 0 {
-                    // one_bits is positive: multiplication overflows if $int does not fit.
-                    $int * one_bits
-                } else if !$int == 0 {
-                    // one_bits is negative minimum for signed inner type and $int is -1.
+                    // one_bits is positive: multiplication overflows if int does not fit.
+                    int * one_bits
+                } else if !int == 0 {
+                    // one_bits is negative minimum for signed inner type and int is -1.
                     one_bits
                 } else {
-                    // one_bits is negative minimum and $int is not 0 or -1: overflow.
+                    // one_bits is negative minimum and int is not 0 or -1: overflow.
                     1 / 0
                 }
             }
@@ -620,29 +622,37 @@ macro_rules! const_fixed_from_int {
 /// ```rust
 /// use fixed::{const_fixed_from_int, types::*};
 /// const_fixed_from_int! {
-///     const ZERO0: I0F32 = 0;
-///     const ZERO1: I32F0 = 0;
-///     const ZERO2: U0F32 = 0;
-///     const ZERO3: U32F0 = 0;
+///     const ZERO_I0: I0F32 = 0;
+///     const ZERO_I1: I32F0 = 0;
+///     const ZERO_U0: U0F32 = 0;
+///     const ZERO_U1: U32F0 = 0;
 ///
-///     const ONE0: I2F30 = 1;
-///     const ONE1: I32F0 = 1;
-///     const ONE2: U1F31 = 1;
-///     const ONE3: U32F0 = 1;
+///     const ONE_I0: I2F30 = 1;
+///     const ONE_I1: I32F0 = 1;
+///     const ONE_U0: U1F31 = 1;
+///     const ONE_U1: U32F0 = 1;
 ///
-///     const MINUS_ONE0: I1F31 = -1;
-///     const MINUS_ONE1: I32F0 = -1;
+///     const MINUS_ONE_I0: I1F31 = -1;
+///     const MINUS_ONE_I1: I32F0 = -1;
+///
+///     const MINUS_TWO_I0: I2F30 = -2;
+///     const MINUS_TWO_I1: I32F0 = -2;
 /// }
-/// assert_eq!(ZERO0, 0);
-/// assert_eq!(ZERO1, 0);
-/// assert_eq!(ZERO2, 0);
-/// assert_eq!(ZERO3, 0);
-/// assert_eq!(ONE0, 1);
-/// assert_eq!(ONE1, 1);
-/// assert_eq!(ONE2, 1);
-/// assert_eq!(ONE3, 1);
-/// assert_eq!(MINUS_ONE0, -1);
-/// assert_eq!(MINUS_ONE1, -1);
+/// assert_eq!(ZERO_I0, 0);
+/// assert_eq!(ZERO_I1, 0);
+/// assert_eq!(ZERO_U0, 0);
+/// assert_eq!(ZERO_U1, 0);
+///
+/// assert_eq!(ONE_I0, 1);
+/// assert_eq!(ONE_I1, 1);
+/// assert_eq!(ONE_U0, 1);
+/// assert_eq!(ONE_U1, 1);
+///
+/// assert_eq!(MINUS_ONE_I0, -1);
+/// assert_eq!(MINUS_ONE_I1, -1);
+///
+/// assert_eq!(MINUS_TWO_I0, -2);
+/// assert_eq!(MINUS_TWO_I1, -2);
 /// ```
 ///
 /// The rest of the tests should all fail compilation.
@@ -672,6 +682,13 @@ macro_rules! const_fixed_from_int {
 /// use fixed::{const_fixed_from_int, types::*};
 /// const_fixed_from_int! {
 ///     const _MINUS_ONE: I0F32 = -1;
+/// }
+///
+/// Not enough integer bits for -2.
+/// ```compile_fail
+/// use fixed::{const_fixed_from_int, types::*};
+/// const_fixed_from_int! {
+///     const _MINUS_TWO: I1F31 = -2;
 /// }
 /// ```
 fn _compile_fail_tests() {}
