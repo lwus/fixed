@@ -5,14 +5,15 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.2.0 (unreleased)
+Version 1.2.0 (2020-09-02)
 ==========================
 
   * The [`const_fixed_from_int!`][cffi-1-2] macro was added to make it
     easy to define constant fixed-point numbers using integer
-    expressions.
+    expressions ([issue 20]).
 
-[cffi-1-2]: https://tspiteri.gitlab.io/fixed/dev/fixed/macro.const_fixed_from_int.html
+[cffi-1-2]: https://docs.rs/fixed/~1.2/fixed/macro.const_fixed_from_int.html
+[issue 20]: https://gitlab.com/tspiteri/fixed/-/issues/20
 
 Version 1.1.0 (2020-07-21)
 ==========================
