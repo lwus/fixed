@@ -679,6 +679,176 @@ assert_eq!(Fix::MAX.wrapping_round_ties_to_even(), Fix::MIN);
             }
         }
 
+        #[cfg(feature = "unwrapped")]
+        comment! {
+            "Unwrapped ceil. Rounds to the next integer towards +∞,
+panicking on overflow.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(2.5).unwrapped_ceil(), Fix::from_num(3));
+",
+            if_signed_else_empty_str! {
+                $Signedness,
+                "assert_eq!(Fix::from_num(-2.5).unwrapped_ceil(), Fix::from_num(-2));
+",
+            },
+            "```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_ceil();
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+            #[inline]
+            pub fn unwrapped_ceil(self) -> $Fixed<Frac> {
+                self.checked_ceil().expect("overflow")
+            }
+        }
+
+        #[cfg(feature = "unwrapped")]
+        comment! {
+            "Unwrapped floor. Rounds to the next integer towards −∞",
+            if_signed_unsigned! {
+                $Signedness,
+                ", panicking on overflow.
+
+Overflow can only occur when there are zero integer bits.
+
+# Panics
+
+Panics if the result does not fit.",
+                ". Cannot overflow for unsigned values.",
+            },
+            "
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(2.5).unwrapped_floor(), Fix::from_num(2));
+",
+            if_signed_else_empty_str! {
+                $Signedness,
+                "assert_eq!(Fix::from_num(-2.5).unwrapped_floor(), Fix::from_num(-3));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U", $s_nbits, ", ", $s_fixed, "};
+type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
+let _overflow = AllFrac::MIN.unwrapped_floor();
+",
+            },
+            "```
+
+[exp]: ../index.html#experimental-optional-features
+";
+            #[inline]
+            pub fn unwrapped_floor(self) -> $Fixed<Frac> {
+                self.checked_floor().expect("overflow")
+            }
+        }
+
+        #[cfg(feature = "unwrapped")]
+        comment! {
+            "Unwrapped round. Rounds to the next integer to the
+nearest, with ties rounded away from zero, and panicking on overflow.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(2.5).unwrapped_round(), Fix::from_num(3));
+",
+            if_signed_else_empty_str! {
+                $Signedness,
+                "assert_eq!(Fix::from_num(-2.5).unwrapped_round(), Fix::from_num(-3));
+",
+            },
+            "```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_round();
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+            #[inline]
+            pub fn unwrapped_round(self) -> $Fixed<Frac> {
+                self.checked_round().expect("overflow")
+            }
+        }
+
+        #[cfg(feature = "unwrapped")]
+        comment! {
+            "Unwrapped round. Rounds to the next integer to the
+nearest, with ties rounded to even, and panicking on overflow.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(2.5).unwrapped_round_ties_to_even(), Fix::from_num(2));
+assert_eq!(Fix::from_num(3.5).unwrapped_round_ties_to_even(), Fix::from_num(4));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_round_ties_to_even();
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+            #[inline]
+            pub fn unwrapped_round_ties_to_even(self) -> $Fixed<Frac> {
+                self.checked_round_ties_to_even().expect("overflow")
+            }
+        }
+
         comment! {
             "Overflowing ceil. Rounds to the next integer towards +∞.
 

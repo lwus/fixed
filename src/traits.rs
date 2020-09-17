@@ -674,6 +674,63 @@ where
     /// with ties rounded to even, and wrapping on overflow.
     fn wrapping_round_ties_to_even(self) -> Self;
 
+    
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped ceil. Rounds to the next integer towards +∞,
+    /// panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_ceil(self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped floor. Rounds to the next integer towards −∞,
+    /// panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_floor(self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped round. Rounds to the next integer to the nearest,
+    /// with ties rounded away from zero, and panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_round(self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped round. Rounds to the next integer to the nearest,
+    /// with ties rounded to even, and panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_round_ties_to_even(self) -> Self;
+
     /// Overflowing ceil. Rounds to the next integer towards +∞.
     ///
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
@@ -2050,6 +2107,14 @@ macro_rules! impl_fixed {
             trait_delegate! { fn wrapping_floor(self) -> Self }
             trait_delegate! { fn wrapping_round(self) -> Self }
             trait_delegate! { fn wrapping_round_ties_to_even(self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_ceil(self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_floor(self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_round(self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_round_ties_to_even(self) -> Self }
             trait_delegate! { fn overflowing_ceil(self) -> (Self, bool) }
             trait_delegate! { fn overflowing_floor(self) -> (Self, bool) }
             trait_delegate! { fn overflowing_round(self) -> (Self, bool) }
