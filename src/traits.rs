@@ -468,6 +468,7 @@ where
     /// [`wrapping_from_fixed`]: trait.FromFixed.html#tymethod.wrapping_from_fixed
     fn wrapping_to_num<Dst: FromFixed>(self) -> Dst;
 
+    #[cfg(feature = "unwrapped")]
     /// Creates a fixed-point number from another number, panicking on overflow.
     ///
     /// # Panics
@@ -475,6 +476,7 @@ where
     /// Panics if the value does not fit.
     fn unwrapped_from_num<Src: ToFixed>(src: Src) -> Self;
 
+    #[cfg(feature = "unwrapped")]
     /// Converts a fixed-point number to another number, panicking on overflow.
     ///
     /// # Panics
@@ -2271,7 +2273,9 @@ macro_rules! impl_fixed {
             trait_delegate! { fn saturating_to_num<Dst: FromFixed>(self) -> Dst }
             trait_delegate! { fn wrapping_from_num<Src: ToFixed>(val: Src) -> Self }
             trait_delegate! { fn wrapping_to_num<Dst: FromFixed>(self) -> Dst }
+            #[cfg(feature = "unwrapped")]
             trait_delegate! { fn unwrapped_from_num<Src: ToFixed>(val: Src) -> Self }
+            #[cfg(feature = "unwrapped")]
             trait_delegate! { fn unwrapped_to_num<Dst: FromFixed>(self) -> Dst }
             trait_delegate! { fn overflowing_from_num<Src: ToFixed>(val: Src) -> (Self, bool) }
             trait_delegate! { fn overflowing_to_num<Dst: FromFixed>(self) -> (Dst, bool) }
