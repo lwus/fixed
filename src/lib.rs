@@ -290,9 +290,13 @@ mod log10;
 mod serdeize;
 pub mod traits;
 pub mod types;
+#[cfg(feature = "unwrapped")]
+mod unwrapped;
 mod wide_div;
 mod wrapping;
 
+#[cfg(feature = "unwrapped")]
+pub use crate::unwrapped::Unwrapped;
 use crate::{
     arith::MulDivOverflow,
     from_str::FromStrRadix,
