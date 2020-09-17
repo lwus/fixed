@@ -688,7 +688,6 @@ where
     /// with ties rounded to even, and wrapping on overflow.
     fn wrapping_round_ties_to_even(self) -> Self;
 
-    
     #[cfg(feature = "unwrapped")]
     /// Unwrapped ceil. Rounds to the next integer towards +∞,
     /// panicking on overflow.
@@ -1210,7 +1209,7 @@ where
     ///
     /// [exp]: ../index.html#experimental-optional-features
     fn unwrapped_shr(self, rhs: u32) -> Self;
-    
+
     /// Overflowing negation.
     ///
     /// Returns a [tuple] of the negated value and a [`bool`],

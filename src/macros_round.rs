@@ -713,7 +713,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_ceil();
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_ceil(self) -> $Fixed<Frac> {
@@ -762,7 +762,7 @@ let _overflow = AllFrac::MIN.unwrapped_floor();
             },
             "```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_floor(self) -> $Fixed<Frac> {
@@ -804,7 +804,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_round();
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_round(self) -> $Fixed<Frac> {
@@ -841,7 +841,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_round_ties_to_even();
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_round_ties_to_even(self) -> $Fixed<Frac> {

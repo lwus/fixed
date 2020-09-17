@@ -1281,7 +1281,7 @@ let _overflow = Fix::from_num(5).unwrapped_neg();",
                 "
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_neg(self) -> $Fixed<Frac> {
@@ -1316,7 +1316,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_add(Fix::from_bits(1));
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1358,7 +1358,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MIN.unwrapped_sub(Fix::from_bits(1));
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1393,7 +1393,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_mul_int(4);
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
@@ -1450,7 +1450,7 @@ let _overflow = Fix::MIN.unwrapped_div_int(-1);
                 },
                 "```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
@@ -1488,7 +1488,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::from_num(1).unwrapped_shl(", $s_nbits, ");
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_shl(self, rhs: u32) -> $Fixed<Frac> {
@@ -1523,7 +1523,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::from_num(1).unwrapped_shr(", $s_nbits, ");
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_shr(self, rhs: u32) -> $Fixed<Frac> {
@@ -1562,7 +1562,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MIN.unwrapped_abs();
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                     #[inline]
                     pub fn unwrapped_abs(self) -> $Fixed<Frac> {
@@ -1604,7 +1604,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_next_power_of_two();
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                     #[inline]
                     pub fn unwrapped_next_power_of_two(self) -> $Fixed<Frac> {

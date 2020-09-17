@@ -999,7 +999,7 @@ type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
 let _overflow = OneIntBit::from_num(0.5).unwrapped_signum();
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                     #[inline]
                     pub fn unwrapped_signum(self) -> $Fixed<Frac> {
@@ -1035,7 +1035,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_mul(Fix::from_num(4));
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_mul(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1072,7 +1072,7 @@ let quarter = Fix::from_num(1) / 4;
 let _overflow = Fix::MAX.unwrapped_div(quarter);
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_div(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1110,7 +1110,7 @@ type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_div_euclid(Fix::from_num(0.25));
 ```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1169,7 +1169,7 @@ let _overflow = Fix::MIN.unwrapped_div_euclid_int(-1);
                 },
                 "```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_div_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
@@ -1227,7 +1227,7 @@ let _overflow = Fix::from_num(-7.5).unwrapped_rem_euclid_int(20);
                 },
                 "```
 
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_rem_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {

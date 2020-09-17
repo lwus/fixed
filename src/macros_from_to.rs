@@ -771,7 +771,7 @@ let _overflow = Fix::unwrapped_from_num(too_large);
 [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
 [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
 [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
 ";
             #[inline]
@@ -854,7 +854,7 @@ let _overflow = Fix::MAX.unwrapped_to_num::<TooFewIntBits>();
 [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
 [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
 [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[exp]: ../index.html#experimental-optional-features
+[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_to_num<Dst: FromFixed>(self) -> Dst {
