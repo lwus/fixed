@@ -700,6 +700,171 @@ assert_eq!(one_point_625.wrapping_to_num::<f32>(), 1.625f32);
             }
         }
 
+        #[cfg(feature = "unwrapped")]
+        comment! {
+            "Creates a fixed-point number from another number,
+panicking on overflow.
+
+The other number can be:
+
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
+  * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
+    [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
+    [`usize`].
+  * A floating-point number of type [`f32`] or [`f64`]. If the [`f16`
+    feature] is enabled, it can also be of type [`f16`] or [`bf16`].
+    For this conversion, the method rounds to the nearest, with ties
+    rounding to even.
+  * Any other number `src` for which [`ToFixed`] is implemented.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the value does not fit.
+
+For floating-point numbers, also panics if the value is not [finite].
+
+# Examples
+
+```rust
+use fixed::{
+    types::{extra::U4, I16F16},
+    ", $s_fixed, ",
+};
+type Fix = ", $s_fixed, "<U4>;
+
+// 1.75 is 1.11 in binary
+let src = I16F16::from_bits(0b111 << (16 - 2));
+assert_eq!(Fix::unwrapped_from_num(src), Fix::from_bits(0b111 << (4 - 2)));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{
+    types::extra::{U0, U4},
+    ", $s_fixed, ",
+};
+type Fix = ", $s_fixed, "<U4>;
+let too_large = ", $s_fixed, "::<U0>::from_bits(0b1101 << (", $s_nbits, " - 7));
+let _overflow = Fix::unwrapped_from_num(too_large);
+```
+
+[`ToFixed`]: traits/trait.ToFixed.html
+[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
+[`f16` feature]: index.html#optional-features
+[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
+[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
+[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
+[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
+[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
+[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
+[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
+[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
+[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
+[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
+[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
+[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
+[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
+[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
+[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
+[exp]: ../index.html#experimental-optional-features
+[finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+";
+            #[inline]
+            pub fn unwrapped_from_num<Src: ToFixed>(src: Src) -> $Fixed<Frac> {
+                match src.overflowing_to_fixed() {
+                    (_, true) => panic!("overflow"),
+                    (ans, false) => ans,
+                }
+            }
+        }
+
+        #[cfg(feature = "unwrapped")]
+        comment! {
+            "Converts a fixed-point number to another number,
+panicking on overflow.
+
+The other number can be:
+
+  * Another fixed-point number. Any extra fractional bits are
+    discarded, which rounds towards −∞.
+  * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
+    [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
+    [`usize`]. Any fractional bits are discarded, which rounds towards
+    −∞.
+  * A floating-point number of type [`f32`] or [`f64`]. If the [`f16`
+    feature] is enabled, it can also be of type [`f16`] or [`bf16`].
+    For this conversion, the method rounds to the nearest, with ties
+    rounding to even.
+  * Any other type `Dst` for which [`FromFixed`] is implemented.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the value does not fit.
+
+# Examples
+
+```rust
+use fixed::{
+    types::{extra::U4, I16F16},
+    ", $s_fixed, ",
+};
+type Fix = ", $s_fixed, "<U4>;
+
+// 1.75 is 1.11 in binary
+let src = Fix::from_bits(0b111 << (4 - 2));
+let expected = I16F16::from_bits(0b111 << (16 - 2));
+assert_eq!(src.unwrapped_to_num::<I16F16>(), expected);
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{
+    types::extra::{U4, U6},
+    ", $s_fixed, ",
+};
+type Fix = ", $s_fixed, "<U4>;
+type TooFewIntBits = ", $s_fixed, "<U6>;
+let _overflow = Fix::MAX.unwrapped_to_num::<TooFewIntBits>();
+```
+
+[`FromFixed`]: traits/trait.FromFixed.html
+[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
+[`f16` feature]: index.html#optional-features
+[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
+[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
+[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
+[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
+[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
+[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
+[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
+[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
+[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
+[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
+[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
+[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
+[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
+[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
+[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
+[exp]: ../index.html#experimental-optional-features
+";
+            #[inline]
+            pub fn unwrapped_to_num<Dst: FromFixed>(self) -> Dst {
+                match Dst::overflowing_from_fixed(self) {
+                    (_, true) => panic!("overflow"),
+                    (ans, false) => ans,
+                }
+            }
+        }
+
         comment! {
             "Creates a fixed-point number from another number.
 
