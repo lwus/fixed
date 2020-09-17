@@ -1035,6 +1035,168 @@ where
     /// bits, then shifts and returns the number.
     fn wrapping_shr(self, rhs: u32) -> Self;
 
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped negation. Returns the negated value, panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_neg(self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped addition. Returns the sum, panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_add(self, rhs: Self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped subtraction. Returns the difference, panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_sub(self, rhs: Self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped multiplication. Returns the product, panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_mul(self, rhs: Self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped division. Returns the quotient, panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero or if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_div(self, rhs: Self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped Euclidean division. Returns the quotient, panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero or if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_div_euclid(self, rhs: Self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped multiplication by an integer. Returns the product, panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_mul_int(self, rhs: Self::Bits) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped division by an integer. Returns the quotient, panicking on overflow.
+    ///
+    /// Overflow can only occur when dividing the minimum value by −1.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero or if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_div_int(self, rhs: Self::Bits) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped Euclidean division by an integer. Returns the
+    /// quotient, panicking on overflow.
+    ///
+    /// Overflow can only occur when dividing the minimum value by −1.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero or if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_div_euclid_int(self, rhs: Self::Bits) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped remainder for Euclidean division by an integer.
+    /// Returns the remainder, panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero or if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_rem_euclid_int(self, rhs: Self::Bits) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped shift left. Panics if `rhs` ≥ the number of bits.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `rhs` ≥ the number of bits.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_shl(self, rhs: u32) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped shift right. Panics if `rhs` ≥ the number of bits.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `rhs` ≥ the number of bits.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_shr(self, rhs: u32) -> Self;
+    
     /// Overflowing negation.
     ///
     /// Returns a [tuple] of the negated value and a [`bool`],
@@ -1271,6 +1433,41 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     ///         integer bits, such that it cannot hold the value −1.
     fn wrapping_signum(self) -> Self;
 
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped absolute value. Returns the absolute value, panicking on overflow.
+    ///
+    /// Overflow can only occur when trying to find the absolute value of the minimum value.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_abs(self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped signum. Returns a number representing the sign of
+    /// `self`, panicking on overflow.
+    ///
+    /// Overflow can only occur
+    ///   * if the value is positive and the fixed-point number has zero
+    ///     or one integer bits such that it cannot hold the value 1.
+    ///   * if the value is negative and the fixed-point number has zero
+    ///         integer bits, such that it cannot hold the value −1.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_signum(self) -> Self;
+
     /// Overflowing absolute value.
     ///
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
@@ -1332,6 +1529,20 @@ pub trait FixedUnsigned: Fixed {
     /// Returns the smallest power of two that is ≥ `self`, wrapping
     /// to 0 if the next power of two is too large to represent.
     fn wrapping_next_power_of_two(self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Returns the smallest power of two that is ≥ `self`, panicking
+    /// if the next power of two is too large to represent.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_next_power_of_two(self) -> Self;
 }
 
 /// This trait provides lossless conversions that might be fallible.
@@ -2169,6 +2380,30 @@ macro_rules! impl_fixed {
             trait_delegate! { fn wrapping_rem_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn wrapping_shl(self, rhs: u32) -> Self }
             trait_delegate! { fn wrapping_shr(self, rhs: u32) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_neg(self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_add(self, rhs: Self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_sub(self, rhs: Self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_mul(self, rhs: Self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_div(self, rhs: Self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_div_euclid(self, rhs: Self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_mul_int(self, rhs: Self::Bits) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_div_int(self, rhs: Self::Bits) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_div_euclid_int(self, rhs: Self::Bits) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_rem_euclid_int(self, rhs: Self::Bits) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_shl(self, rhs: u32) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_shr(self, rhs: u32) -> Self }
             trait_delegate! { fn overflowing_neg(self) -> (Self, bool) }
             trait_delegate! { fn overflowing_add(self, rhs: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_sub(self, rhs: Self) -> (Self, bool) }
@@ -2346,6 +2581,10 @@ macro_rules! impl_fixed {
                 trait_delegate! { fn saturating_signum(self) -> Self }
                 trait_delegate! { fn wrapping_abs(self) -> Self }
                 trait_delegate! { fn wrapping_signum(self) -> Self }
+                #[cfg(feature = "unwrapped")]
+                trait_delegate! { fn unwrapped_abs(self) -> Self }
+                #[cfg(feature = "unwrapped")]
+                trait_delegate! { fn unwrapped_signum(self) -> Self }
                 trait_delegate! { fn overflowing_abs(self) -> (Self, bool) }
                 trait_delegate! { fn overflowing_signum(self) -> (Self, bool) }
                 trait_delegate! { fn is_positive(self) -> bool }
@@ -2360,6 +2599,8 @@ macro_rules! impl_fixed {
                 trait_delegate! { fn next_power_of_two(self) -> Self }
                 trait_delegate! { fn checked_next_power_of_two(self) -> Option<Self> }
                 trait_delegate! { fn wrapping_next_power_of_two(self) -> Self }
+                #[cfg(feature = "unwrapped")]
+                trait_delegate! { fn unwrapped_next_power_of_two(self) -> Self }
             }
         }
     };

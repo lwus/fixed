@@ -961,6 +961,283 @@ assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(20), Fix::from_num(-3.5))
                 }
             }
 
+            #[cfg(feature = "unwrapped")]
+            if_signed! {
+                $Signedness;
+                comment! {
+                    "Unwrapped signum. Returns a number representing
+the sign of `self`, panicking on overflow.
+
+Overflow can only occur
+  * if the value is positive and the fixed-point number has zero
+    or one integer bits such that it cannot hold the value 1.
+  * if the value is negative and the fixed-point number has zero
+    integer bits, such that it cannot hold the value −1.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(5).unwrapped_signum(), 1);
+assert_eq!(Fix::from_num(0).unwrapped_signum(), 0);
+assert_eq!(Fix::from_num(-5).unwrapped_signum(), -1);
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U", $s_nbits_m1, ", ", $s_fixed, "};
+type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
+let _overflow = OneIntBit::from_num(0.5).unwrapped_signum();
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                    #[inline]
+                    pub fn unwrapped_signum(self) -> $Fixed<Frac> {
+                        self.checked_signum().expect("overflow")
+                    }
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped multiplication. Returns the product, panicking on overflow.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(3).unwrapped_mul(Fix::from_num(2)), Fix::from_num(6));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_mul(Fix::from_num(4));
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_mul(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    self.checked_mul(rhs).expect("overflow")
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped division. Returns the quotient, panicking on overflow.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the divisor is zero or if the division results in overflow.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let one_point_5 = Fix::from_bits(0b11 << (4 - 1));
+assert_eq!(Fix::from_num(3).unwrapped_div(Fix::from_num(2)), one_point_5);
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let quarter = Fix::from_num(1) / 4;
+let _overflow = Fix::MAX.unwrapped_div(quarter);
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_div(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    match self.overflowing_div(rhs) {
+                        (_, true) => panic!("overflow"),
+                        (ans, false) => ans,
+                    }
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped Euclidean division. Returns the quotient, panicking on overflow.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the divisor is zero or if the division results in overflow.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(7.5).unwrapped_div_euclid(Fix::from_num(2)), Fix::from_num(3));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_div_euclid(Fix::from_num(0.25));
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    match self.overflowing_div_euclid(rhs) {
+                        (_, true) => panic!("overflow"),
+                        (ans, false) => ans,
+                    }
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped Euclidean division by an integer. Returns the quotient",
+                if_signed_unsigned! {
+                    $Signedness,
+                    ", panicking on overflow.
+
+Overflow can only occur when dividing the minimum value by −1.",
+                    ".
+
+Can never overflow for unsigned values.",
+                },
+                "
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the divisor is zero",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    " or if the division results in overflow",
+                },
+                ".
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(7.5).unwrapped_div_euclid_int(2), Fix::from_num(3));
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "assert_eq!(Fix::from_num(-7.5).unwrapped_div_euclid_int(2), Fix::from_num(-4));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MIN.unwrapped_div_euclid_int(-1);
+",
+                },
+                "```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_div_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                    match self.overflowing_div_euclid_int(rhs) {
+                        (_, true) => panic!("overflow"),
+                        (ans, false) => ans,
+                    }
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped remainder for Euclidean division by an integer. Returns the remainder",
+                if_signed_unsigned! {
+                    $Signedness,
+                    ", panicking on overflow.
+
+Note that while remainder for Euclidean division cannot be negative,
+the wrapped value can be negative.",
+                    ".
+
+Can never overflow for unsigned values.",
+                },
+                "
+
+# Panics
+
+Panics if the divisor is zero",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    " or if the division results in overflow",
+                },
+                ".
+
+# Examples
+
+```rust
+use fixed::{types::extra::U", $s_nbits_m4, ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U", $s_nbits_m4, ">;
+assert_eq!(Fix::from_num(7.5).unwrapped_rem_euclid_int(2), Fix::from_num(1.5));
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "assert_eq!(Fix::from_num(-7.5).unwrapped_rem_euclid_int(2), Fix::from_num(0.5));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U", $s_nbits_m4, ", ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U", $s_nbits_m4, ">;
+// −8 ≤ Fix < 8, so the answer 12.5 overflows
+let _overflow = Fix::from_num(-7.5).unwrapped_rem_euclid_int(20);
+",
+                },
+                "```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_rem_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                    match self.overflowing_rem_euclid_int(rhs) {
+                        (_, true) => panic!("overflow"),
+                        (ans, false) => ans,
+                    }
+                }
+            }
+
             if_signed! {
                 $Signedness;
                 comment! {

@@ -1228,6 +1228,391 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
                 }
             }
 
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped negation. Returns the negated value, panicking on overflow.
+
+",
+                if_signed_unsigned! {
+                    $Signedness,
+                    "Overflow can only occur when negating the minimum value.",
+                    "Only zero can be negated without overflow.",
+                },
+                "
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+",
+                if_signed_unsigned! {
+                    $Signedness,
+                    concat!(
+                        "assert_eq!(Fix::from_num(5).unwrapped_neg(), Fix::from_num(-5));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MIN.unwrapped_neg();",
+                    ),
+                    concat!(
+                        "assert_eq!(Fix::from_num(0).unwrapped_neg(), Fix::from_num(0));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::from_num(5).unwrapped_neg();",
+                    ),
+                },
+                "
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_neg(self) -> $Fixed<Frac> {
+                    self.checked_neg().expect("overflow")
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped addition. Returns the sum, panicking on overflow.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(3).unwrapped_add(Fix::from_num(2)), Fix::from_num(5));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_add(Fix::from_bits(1));
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    self.checked_add(rhs).expect("overflow")
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped subtraction. Returns the difference, panicking on overflow.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+",
+                if_signed_unsigned! {
+                    $Signedness,
+                    "assert_eq!(Fix::from_num(3).unwrapped_sub(Fix::from_num(5)), Fix::from_num(-2));
+",
+                    "assert_eq!(Fix::from_num(5).unwrapped_sub(Fix::from_num(3)), Fix::from_num(2));
+",
+                },
+                "```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MIN.unwrapped_sub(Fix::from_bits(1));
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    self.checked_sub(rhs).expect("overflow")
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped multiplication by an integer. Returns the product, panicking on overflow.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(3).unwrapped_mul_int(2), Fix::from_num(6));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_mul_int(4);
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                    self.checked_mul_int(rhs).expect("overflow")
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped division by an integer. Returns the quotient",
+                if_signed_unsigned! {
+                    $Signedness,
+                    ", panicking on overflow.
+
+Overflow can only occur when dividing the minimum value by −1.",
+                    ".
+
+Can never overflow for unsigned values.",
+                },
+                "
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the divisor is zero",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    " or if the division results in overflow",
+                },
+                ".
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+// 1.5 is binary 1.1
+let one_point_5 = Fix::from_bits(0b11 << (4 - 1));
+assert_eq!(Fix::from_num(3).unwrapped_div_int(2), one_point_5);
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MIN.unwrapped_div_int(-1);
+",
+                },
+                "```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                    match self.overflowing_div_int(rhs) {
+                        (_, true) => panic!("overflow"),
+                        (ans, false) => ans,
+                    }
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped shift left. Panics if `rhs` ≥ ", $s_nbits, ".
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if `rhs` ≥ ", $s_nbits, ".
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!((Fix::from_num(1) / 2).unwrapped_shl(3), Fix::from_num(4));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::from_num(1).unwrapped_shl(", $s_nbits, ");
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_shl(self, rhs: u32) -> $Fixed<Frac> {
+                    self.checked_shl(rhs).expect("overflow")
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped shift right. Panics if `rhs` ≥ ", $s_nbits, ".
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if `rhs` ≥ ", $s_nbits, ".
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!((Fix::from_num(4)).unwrapped_shr(3), Fix::from_num(1) / 2);
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::from_num(1).unwrapped_shr(", $s_nbits, ");
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                #[inline]
+                pub fn unwrapped_shr(self, rhs: u32) -> $Fixed<Frac> {
+                    self.checked_shr(rhs).expect("overflow")
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            if_signed! {
+                $Signedness;
+                comment! {
+                    "Unwrapped absolute value. Returns the absolute value, panicking on overflow.
+
+Overflow can only occur when trying to find the absolute value of the minimum value.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(-5).unwrapped_abs(), Fix::from_num(5));
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MIN.unwrapped_abs();
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                    #[inline]
+                    pub fn unwrapped_abs(self) -> $Fixed<Frac> {
+                        self.checked_abs().expect("overflow")
+                    }
+                }
+            }
+
+            if_unsigned! {
+                $Signedness;
+                comment! {
+                    "Returns the smallest power of two that is ≥ `self`,
+panicking if the next power of two is too large to represent.
+
+This method is only available when the [`unwrapped` experimental
+feature][exp] is enabled.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+// 3/8 is 0.0110
+let three_eights = Fix::from_bits(0b0110);
+// 1/2 is 0.1000
+let half = Fix::from_bits(0b1000);
+assert_eq!(three_eights.unwrapped_next_power_of_two(), half);
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_next_power_of_two();
+```
+
+[exp]: ../index.html#experimental-optional-features
+";
+                    #[inline]
+                    pub fn unwrapped_next_power_of_two(self) -> $Fixed<Frac> {
+                        self.checked_next_power_of_two().expect("overflow")
+                    }
+                }
+            }
+
             comment! {
                 "Overflowing negation.
 
