@@ -23,6 +23,7 @@ autobenches = false
 f16 = ["half"]
 fail-on-warnings = []
 std = []
+unwrapped = []
 
 [dependencies]
 typenum = "1.10"

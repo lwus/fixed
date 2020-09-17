@@ -5,6 +5,15 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.3.0 (unreleased)
+==========================
+
+  * The new experimental feature [`unwrapped`][feat-un-1-3] was added,
+    providing arithmetic methods that panic on overflow even when
+    debug assertions are disabled.
+
+[feat-un-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+
 Version 1.2.0 (2020-09-02)
 ==========================
 

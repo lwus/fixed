@@ -78,6 +78,14 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.3.0 news (unreleased)
+
+  * The new experimental feature [`unwrapped`][feat-un-1-3] was added,
+    providing arithmetic methods that panic on overflow even when
+    debug assertions are disabled.
+
+[feat-un-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+
 ### Version 1.2.0 news (2020-09-02)
 
   * The [`const_fixed_from_int!`][cffi-1-2] macro was added to make it
@@ -206,6 +214,10 @@ There is one experimental feature:
 
  1. `num-traits`, disabled by default. This implements some traits
     from the [*num-traits* crate] .
+ 2. `unwrapped`, disabled by default. This adds methods for arithmetic
+    that panic on overflow even when debug assertions are disabled,
+    similar to how wrapping methods will wrap even when debug
+    assertions are enabled.
 
 ## License
 

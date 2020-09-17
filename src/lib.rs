@@ -187,6 +187,10 @@ There is one experimental feature:
 
  1. `num-traits`, disabled by default. This implements some traits
     from the [*num-traits* crate] .
+ 2. `unwrapped`, disabled by default. This adds methods for arithmetic
+    that panic on overflow even when debug assertions are disabled,
+    similar to how wrapping methods will wrap even when debug
+    assertions are enabled.
 
 ## License
 
