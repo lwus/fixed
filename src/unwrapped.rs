@@ -619,6 +619,35 @@ impl<F: Fixed> Unwrapped<F> {
         Unwrapped(self.0.rotate_right(n))
     }
 
+    /// Multiply and add. Returns `self` × `mul` + `add`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let half = Unwrapped(I16F16::from_num(0.5));
+    /// let three = Unwrapped(I16F16::from_num(3));
+    /// let four = Unwrapped(I16F16::from_num(4));
+    /// assert_eq!(three.mul_add(half, four), Unwrapped(I16F16::from_num(5.5)));
+    /// ```
+    ///
+    /// The following panics because of overflow.
+    ///
+    /// ```should_panic
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let one = Unwrapped(I16F16::from_num(1));
+    /// let max = Unwrapped(I16F16::MAX);
+    /// let _overflow = max.mul_add(one, one);
+    /// ```
+    #[inline]
+    pub fn mul_add(self, mul: Unwrapped<F>, add: Unwrapped<F>) -> Unwrapped<F> {
+        Unwrapped(self.0.unwrapped_mul_add(mul.0, add.0))
+    }
+
     /// Euclidean division.
     ///
     /// # Panics
@@ -639,7 +668,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```should_panic
     /// use fixed::{types::I16F16, Unwrapped};
     /// let quarter = Unwrapped(I16F16::from_num(0.25));
-    /// let _overflow = Unwrapped::MAX.div_euclid(quarter);
+    /// let _overflow = Unwrapped(I16F16::MAX).div_euclid(quarter);
     /// ```
     #[inline]
     pub fn div_euclid(self, divisor: Unwrapped<F>) -> Unwrapped<F> {

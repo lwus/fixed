@@ -8,8 +8,8 @@ as-is, without any warranty. -->
 Version 1.3.0 (unreleased)
 ==========================
 
-  * The following methods were added to all fixed-point types and to
-    the `Fixed` trait:
+  * The following methods were added to all fixed-point types, to the
+    [`Fixed`][tf-1-3] trait, and to the [`Wrapping`][w-1-3] wrapper:
       * [`mul_add`][f-ma-1-3], [`checked_mul_add`][f-cma-1-3],
         [`saturating_mul_add`][f-sma-1-3],
         [`wrapping_mul_add`][f-wma-1-3],
@@ -24,6 +24,8 @@ Version 1.3.0 (unreleased)
 [f-sma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_mul_add
 [f-wma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_mul_add
 [feat-un-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[tf-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[w-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 
 Version 1.2.0 (2020-09-02)
 ==========================

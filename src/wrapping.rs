@@ -570,6 +570,24 @@ impl<F: Fixed> Wrapping<F> {
         Wrapping(self.0.rotate_right(n))
     }
 
+    /// Multiply and add. Returns `self` × `mul` + `add`.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// let half = Wrapping(I16F16::from_num(0.5));
+    /// let three = Wrapping(I16F16::from_num(3));
+    /// let four = Wrapping(I16F16::from_num(4));
+    /// let max = Wrapping(I16F16::MAX);
+    /// assert_eq!(three.mul_add(half, four), Wrapping(I16F16::from_num(5.5)));
+    /// assert_eq!(max.mul_add(three, max), Wrapping(I16F16::from_bits(!0 << 2)));
+    /// ```
+    #[inline]
+    pub fn mul_add(self, mul: Wrapping<F>, add: Wrapping<F>) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_mul_add(mul.0, add.0))
+    }
+
     /// Euclidean division.
     ///
     /// # Panics
@@ -584,8 +602,8 @@ impl<F: Fixed> Wrapping<F> {
     /// let den = Wrapping(I16F16::from_num(2));
     /// assert_eq!(num.div_euclid(den), Wrapping(I16F16::from_num(3)));
     /// let quarter = Wrapping(I16F16::from_num(0.25));
-    /// let check = (Wrapping::MAX * 4i32).round_to_zero();
-    /// assert_eq!(Wrapping::MAX.div_euclid(quarter), check);
+    /// let check = (Wrapping(I16F16::MAX) * 4i32).round_to_zero();
+    /// assert_eq!(Wrapping(I16F16::MAX).div_euclid(quarter), check);
     /// ```
     #[inline]
     pub fn div_euclid(self, divisor: Wrapping<F>) -> Wrapping<F> {
