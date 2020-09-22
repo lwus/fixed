@@ -29,10 +29,10 @@ x86_64-gnulinux:
     - cargo/
   script:
   - rustup toolchain install --profile minimal beta-$TARGET 1.44.0-$TARGET
-  - cargo +beta-$TARGET test --features "fail-on-warnings az f16 num-traits serde std"
-  - cargo +beta-$TARGET test --release --features "fail-on-warnings az f16 num-traits serde std"
-  - cargo +1.44.0-$TARGET test --lib --features "fail-on-warnings az f16 num-traits serde std"
-  - cargo +1.44.0-$TARGET test --release --lib --features "fail-on-warnings az f16 num-traits serde std"
+  - cargo +beta-$TARGET test --features "fail-on-warnings az f16 num-traits serde std unwrapped"
+  - cargo +beta-$TARGET test --release --features "fail-on-warnings az f16 num-traits serde std unwrapped"
+  - cargo +1.44.0-$TARGET test --lib --features "fail-on-warnings az f16 num-traits serde std unwrapped"
+  - cargo +1.44.0-$TARGET test --release --lib --features "fail-on-warnings az f16 num-traits serde std unwrapped"
 
 i686-gnulinux:
   image: i386/rust:1
@@ -44,10 +44,10 @@ i686-gnulinux:
     - cargo/
   script:
   - rustup toolchain install --profile minimal beta-$TARGET 1.44.0-$TARGET
-  - cargo +beta-$TARGET test --features "fail-on-warnings az f16 num-traits serde std"
-  - cargo +beta-$TARGET test --release --features "fail-on-warnings az f16 num-traits serde std"
-  - cargo +1.44.0-$TARGET test --lib --features "fail-on-warnings az f16 num-traits serde std"
-  - cargo +1.44.0-$TARGET test --release --lib --features "fail-on-warnings az f16 num-traits serde std"
+  - cargo +beta-$TARGET test --features "fail-on-warnings az f16 num-traits serde std unwrapped"
+  - cargo +beta-$TARGET test --release --features "fail-on-warnings az f16 num-traits serde std unwrapped"
+  - cargo +1.44.0-$TARGET test --lib --features "fail-on-warnings az f16 num-traits serde std unwrapped"
+  - cargo +1.44.0-$TARGET test --release --lib --features "fail-on-warnings az f16 num-traits serde std unwrapped"
 
 x86_64-gnulinux-tidy:
   image: amd64/rust:1
@@ -61,37 +61,69 @@ x86_64-gnulinux-tidy:
   - rustup toolchain install --profile minimal beta-$TARGET
   - rustup component add --toolchain beta-$TARGET rustfmt clippy
   - cargo +beta-$TARGET fmt -- --check
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
 
 i686-gnulinux-tidy:
@@ -106,44 +138,77 @@ i686-gnulinux-tidy:
   - rustup toolchain install --profile minimal beta-$TARGET
   - rustup component add --toolchain beta-$TARGET rustfmt clippy
   - cargo +beta-$TARGET fmt -- --check
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16 unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az f16"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings az"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16 unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings f16"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings std unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings unwrapped"
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
+
 
 x86_64-gnulinux-tarpaulin:
   image: amd64/rust:1
   variables:
     TARGET: x86_64
-    REQ_COVERAGE: "82.5"
+    REQ_COVERAGE: "79.9"
   cache:
     key: $CI_JOB_NAME
     paths:
@@ -151,7 +216,7 @@ x86_64-gnulinux-tarpaulin:
   script:
   - rustup toolchain install --profile minimal beta-$TARGET
   - cargo +beta-$TARGET install --version 0.14.3 --locked cargo-tarpaulin
-  - stdbuf -oL cargo +beta-$TARGET tarpaulin -v --ignore-tests --exclude-files build.rs --features "az f16 num-traits serde std" | tee tarpaulin.log
+  - stdbuf -oL cargo +beta-$TARGET tarpaulin -v --ignore-tests --exclude-files build.rs --features "az f16 num-traits serde std unwrapped" | tee tarpaulin.log
   - echo "Check that coverage not less than $REQ_COVERAGE%"
   - tail -1 tarpaulin.log | awk '{ if ($1 < '$REQ_COVERAGE') { exit 1 } }'
 
@@ -168,7 +233,7 @@ pages:
   - rm -rf public
   - mkdir public
   - cp doc/index.html public
-  - cargo +nightly-$TARGET doc --no-deps --features "az f16 num-traits serde std"
+  - cargo +nightly-$TARGET doc --no-deps --features "az f16 num-traits serde std unwrapped"
   - mv target/doc public/dev
   artifacts:
     paths:
