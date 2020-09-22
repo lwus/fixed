@@ -238,14 +238,23 @@ macro_rules! fixed_arith {
 
         refs! { impl Mul for $Fixed($LeEqU) { mul } }
 
-        impl<Frac: $LeEqU> MulAssign<$Fixed<Frac>> for $Fixed<Frac> {
+        impl<Frac, RhsFrac: $LeEqU> MulAssign<$Fixed<RhsFrac>> for $Fixed<Frac> {
             #[inline]
-            fn mul_assign(&mut self, rhs: $Fixed<Frac>) {
-                *self = (*self).mul(rhs)
+            fn mul_assign(&mut self, rhs: $Fixed<RhsFrac>) {
+                let (ans, overflow) = self.to_bits().mul_overflow(rhs.to_bits(), RhsFrac::U32);
+                debug_assert!(!overflow, "overflow");
+                *self = Self::from_bits(ans);
             }
         }
 
-        refs_assign! { impl MulAssign for $Fixed($LeEqU) { mul_assign } }
+        impl<Frac, RhsFrac: $LeEqU> MulAssign<&'_ $Fixed<RhsFrac>> for $Fixed<Frac> {
+            #[inline]
+            fn mul_assign(&mut self, rhs: &$Fixed<RhsFrac>) {
+                let (ans, overflow) = self.to_bits().mul_overflow(rhs.to_bits(), RhsFrac::U32);
+                debug_assert!(!overflow, "overflow");
+                *self = Self::from_bits(ans);
+            }
+        }
 
         impl<Frac: $LeEqU> Div<$Fixed<Frac>> for $Fixed<Frac> {
             type Output = $Fixed<Frac>;

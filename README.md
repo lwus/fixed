@@ -80,8 +80,11 @@ The conversions supported cover the following cases.
 
 ### Version 1.3.0 news (unreleased)
 
+  * The [`MulAssign`] implementation on fixed-point numbers now
+    accepts an rhs fixed-point number with a different number of
+    fractional bits from `self`.
   * The following methods were added to all fixed-point types, to the
-    [`Fixed`][tf-1-3] trait, and to the [`Wrapping`][w-1-3] wrapper:
+    [`Fixed`][tf-ma-1-3] trait, and to the [`Wrapping`][w-ma-1-3] wrapper:
       * [`mul_add`][f-ma-1-3], [`checked_mul_add`][f-cma-1-3],
         [`saturating_mul_add`][f-sma-1-3],
         [`wrapping_mul_add`][f-wma-1-3],
@@ -90,14 +93,15 @@ The conversions supported cover the following cases.
     providing arithmetic methods that panic on overflow even when
     debug assertions are disabled.
 
+[`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
 [f-cma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_mul_add
 [f-ma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.mul_add
 [f-oma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_mul_add
 [f-sma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_mul_add
 [f-wma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_mul_add
 [feat-un-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
-[tf-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
-[w-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+[tf-ma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#tymethod.mul_add
+[w-ma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html#method.mul_add
 
 ### Version 1.2.0 news (2020-09-02)
 

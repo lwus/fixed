@@ -8,6 +8,9 @@ as-is, without any warranty. -->
 Version 1.3.0 (unreleased)
 ==========================
 
+  * The [`MulAssign`] implementation on fixed-point numbers now
+    accepts an rhs fixed-point number with a different number of
+    fractional bits from `self`.
   * The following methods were added to all fixed-point types, to the
     [`Fixed`][tf-1-3] trait, and to the [`Wrapping`][w-1-3] wrapper:
       * [`mul_add`][f-ma-1-3], [`checked_mul_add`][f-cma-1-3],
@@ -407,3 +410,5 @@ Version 0.1.0 (2018-08-10)
     for the number of fractional bits.
   * Many methods and trait implementations available for primitive
     integers are now also supported by the fixed-point numbers.
+
+[`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
