@@ -221,7 +221,7 @@ removed. The removal of experimental features would however require a
 minor version bump. Similarly, on a minor version bump, optional
 dependencies can be updated to an incompatible newer version.
 
-There is one experimental feature:
+There are two experimental feature:
 
  1. `num-traits`, disabled by default. This implements some traits
     from the [*num-traits* crate] .
