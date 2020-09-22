@@ -70,6 +70,7 @@ macro_rules! comment_features {
             pub trait FixedOptionalFeatures: Serialize + for<'de> Deserialize<'de> {}
         }
 
+        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
         #[cfg(all(not(feature = "f16"), feature = "num-traits", not(feature = "serde")))]
         doc_comment! {
             $comment;
@@ -85,6 +86,7 @@ macro_rules! comment_features {
             }
         }
 
+        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
         #[cfg(all(not(feature = "f16"), feature = "num-traits", feature = "serde"))]
         doc_comment! {
             $comment;
@@ -118,6 +120,7 @@ macro_rules! comment_features {
             }
         }
 
+        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
         #[cfg(all(feature = "f16", feature = "num-traits", not(feature = "serde")))]
         doc_comment! {
             $comment;
@@ -134,6 +137,7 @@ macro_rules! comment_features {
             }
         }
 
+        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
         #[cfg(all(feature = "f16", feature = "num-traits", feature = "serde"))]
         doc_comment! {
             $comment;

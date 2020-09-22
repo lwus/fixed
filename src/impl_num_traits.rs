@@ -29,6 +29,7 @@ use num_traits::{
             CheckedAdd, CheckedDiv, CheckedMul, CheckedNeg, CheckedRem, CheckedShl, CheckedShr,
             CheckedSub,
         },
+        mul_add::MulAdd,
         saturating::{SaturatingAdd, SaturatingMul, SaturatingSub},
         wrapping::{WrappingAdd, WrappingMul, WrappingNeg, WrappingShl, WrappingShr, WrappingSub},
     },
@@ -184,6 +185,14 @@ macro_rules! impl_traits {
             #[inline]
             fn wrapping_shr(&self, rhs: u32) -> Self {
                 (*self).wrapping_shr(rhs)
+            }
+        }
+
+        impl<Frac, MulFrac: $LeEqU> MulAdd<$Fixed<MulFrac>> for $Fixed<Frac> {
+            type Output = $Fixed<Frac>;
+            #[inline]
+            fn mul_add(self, a: $Fixed<MulFrac>, b: $Fixed<Frac>) -> $Fixed<Frac> {
+                self.mul_add(a, b)
             }
         }
     };
