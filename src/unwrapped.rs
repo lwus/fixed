@@ -926,21 +926,21 @@ macro_rules! op {
                 Unwrapped((self.0).$unwrapped(other.0))
             }
         }
-        impl<'a, F: Fixed> $Op<Unwrapped<F>> for &'a Unwrapped<F> {
+        impl<F: Fixed> $Op<Unwrapped<F>> for &Unwrapped<F> {
             type Output = Unwrapped<F>;
             #[inline]
             fn $op(self, other: Unwrapped<F>) -> Unwrapped<F> {
                 Unwrapped((self.0).$unwrapped(other.0))
             }
         }
-        impl<'a, F: Fixed> $Op<&'a Unwrapped<F>> for Unwrapped<F> {
+        impl<F: Fixed> $Op<&Unwrapped<F>> for Unwrapped<F> {
             type Output = Unwrapped<F>;
             #[inline]
             fn $op(self, other: &Unwrapped<F>) -> Unwrapped<F> {
                 Unwrapped((self.0).$unwrapped(other.0))
             }
         }
-        impl<'a, 'b, F: Fixed> $Op<&'a Unwrapped<F>> for &'b Unwrapped<F> {
+        impl<F: Fixed> $Op<&Unwrapped<F>> for &Unwrapped<F> {
             type Output = Unwrapped<F>;
             #[inline]
             fn $op(self, other: &Unwrapped<F>) -> Unwrapped<F> {
@@ -953,7 +953,7 @@ macro_rules! op {
                 self.0 = (self.0).$unwrapped(other.0);
             }
         }
-        impl<'a, F: Fixed> $OpAssign<&'a Unwrapped<F>> for Unwrapped<F> {
+        impl<F: Fixed> $OpAssign<&Unwrapped<F>> for Unwrapped<F> {
             #[inline]
             fn $op_assign(&mut self, other: &Unwrapped<F>) {
                 self.0 = (self.0).$unwrapped(other.0);
@@ -974,9 +974,9 @@ macro_rules! op_bitwise {
                 Unwrapped((self.0).$op(other.0))
             }
         }
-        impl<'a, F> $Op<Unwrapped<F>> for &'a Unwrapped<F>
+        impl<F> $Op<Unwrapped<F>> for &Unwrapped<F>
         where
-            &'a F: $Op<F, Output = F>,
+            for<'a> &'a F: $Op<F, Output = F>,
         {
             type Output = Unwrapped<F>;
             #[inline]
@@ -984,23 +984,23 @@ macro_rules! op_bitwise {
                 Unwrapped((self.0).$op(other.0))
             }
         }
-        impl<'a, F> $Op<&'a Unwrapped<F>> for Unwrapped<F>
+        impl<F> $Op<&Unwrapped<F>> for Unwrapped<F>
         where
-            F: $Op<&'a F, Output = F>,
+            for<'a> F: $Op<&'a F, Output = F>,
         {
             type Output = Unwrapped<F>;
             #[inline]
-            fn $op(self, other: &'a Unwrapped<F>) -> Unwrapped<F> {
+            fn $op(self, other: &Unwrapped<F>) -> Unwrapped<F> {
                 Unwrapped((self.0).$op(&other.0))
             }
         }
-        impl<'a, 'b, F> $Op<&'a Unwrapped<F>> for &'b Unwrapped<F>
+        impl<F> $Op<&Unwrapped<F>> for &Unwrapped<F>
         where
-            &'b F: $Op<&'a F, Output = F>,
+            for<'a, 'b> &'a F: $Op<&'b F, Output = F>,
         {
             type Output = Unwrapped<F>;
             #[inline]
-            fn $op(self, other: &'a Unwrapped<F>) -> Unwrapped<F> {
+            fn $op(self, other: &Unwrapped<F>) -> Unwrapped<F> {
                 Unwrapped((self.0).$op(&other.0))
             }
         }
@@ -1013,12 +1013,12 @@ macro_rules! op_bitwise {
                 (self.0).$op_assign(other.0);
             }
         }
-        impl<'a, F> $OpAssign<&'a Unwrapped<F>> for Unwrapped<F>
+        impl<F> $OpAssign<&Unwrapped<F>> for Unwrapped<F>
         where
-            F: $OpAssign<&'a F>,
+            for<'a> F: $OpAssign<&'a F>,
         {
             #[inline]
-            fn $op_assign(&mut self, other: &'a Unwrapped<F>) {
+            fn $op_assign(&mut self, other: &Unwrapped<F>) {
                 (self.0).$op_assign(&other.0);
             }
         }
@@ -1043,9 +1043,9 @@ macro_rules! op_shift {
                 Unwrapped((self.0).$op(checked))
             }
         }
-        impl<'a, F> $Op<$Rhs> for &'a Unwrapped<F>
+        impl<F> $Op<$Rhs> for &Unwrapped<F>
         where
-            &'a F: $Op<u32, Output = F>,
+            for<'a> &'a F: $Op<u32, Output = F>,
         {
             type Output = Unwrapped<F>;
             #[inline]
@@ -1056,7 +1056,7 @@ macro_rules! op_shift {
                 Unwrapped((self.0).$op(checked))
             }
         }
-        impl<'a, F> $Op<&'a $Rhs> for Unwrapped<F>
+        impl<F> $Op<&$Rhs> for Unwrapped<F>
         where
             F: $Op<u32, Output = F>,
         {
@@ -1069,9 +1069,9 @@ macro_rules! op_shift {
                 Unwrapped((self.0).$op(checked))
             }
         }
-        impl<'a, 'b, F> $Op<&'a $Rhs> for &'b Unwrapped<F>
+        impl<F> $Op<&$Rhs> for &Unwrapped<F>
         where
-            &'b F: $Op<u32, Output = F>,
+            for<'a> &'a F: $Op<u32, Output = F>,
         {
             type Output = Unwrapped<F>;
             #[inline]
@@ -1094,7 +1094,7 @@ macro_rules! op_shift {
                 (self.0).$op_assign(checked);
             }
         }
-        impl<'a, F> $OpAssign<&'a $Rhs> for Unwrapped<F>
+        impl<F> $OpAssign<&$Rhs> for Unwrapped<F>
         where
             F: $OpAssign<u32>,
         {
@@ -1117,7 +1117,7 @@ impl<F: Fixed> Neg for Unwrapped<F> {
     }
 }
 
-impl<'a, F: Fixed> Neg for &'a Unwrapped<F> {
+impl<F: Fixed> Neg for &Unwrapped<F> {
     type Output = Unwrapped<F>;
     #[inline]
     fn neg(self) -> Unwrapped<F> {
@@ -1140,9 +1140,9 @@ where
         Unwrapped((self.0).not())
     }
 }
-impl<'a, F> Not for &'a Unwrapped<F>
+impl<F> Not for &Unwrapped<F>
 where
-    &'a F: Not<Output = F>,
+    for<'a> &'a F: Not<Output = F>,
 {
     type Output = Unwrapped<F>;
     #[inline]
@@ -1216,14 +1216,14 @@ impl<'a, F: 'a + Fixed> Product<&'a Unwrapped<F>> for Unwrapped<F> {
 // example we cannot implement both these without triggering E0119:
 //
 //     impl<F: Fixed> Op<F::Bits> for Unwrapped<F> { /* ... */ }
-//     impl<'a, F: Fixed> Op<&'a F::Bits> for Unwrapped<F> { /* ... */ }
+//     impl<F: Fixed> Op<&F::Bits> for Unwrapped<F> { /* ... */ }
 //
 // To work around this, we provide implementations like this:
 //
 //     impl<Frac> Op<i8> for Unwrapped<FixedI8<Frac>> { /* ... */ }
-//     impl<'a, Frac> Op<&'a i8> for Unwrapped<FixedI8<Frac>> { /* ... */ }
+//     impl<Frac> Op<&i8> for Unwrapped<FixedI8<Frac>> { /* ... */ }
 //     impl<Frac> Op<i16> for Unwrapped<FixedI16<Frac>> { /* ... */ }
-//     impl<'a, Frac> Op<&'a i16> for Unwrapped<FixedI16<Frac>> { /* ... */ }
+//     impl<Frac> Op<&i16> for Unwrapped<FixedI16<Frac>> { /* ... */ }
 //     ...
 
 macro_rules! op_bits {
@@ -1239,21 +1239,21 @@ macro_rules! op_bits {
                 Unwrapped((self.0).$unwrapped(other))
             }
         }
-        impl<'a, Frac $(: $LeEqU)*> $Op<$Bits> for &'a Unwrapped<$Fixed<Frac>> {
+        impl<Frac $(: $LeEqU)*> $Op<$Bits> for &Unwrapped<$Fixed<Frac>> {
             type Output = Unwrapped<$Fixed<Frac>>;
             #[inline]
             fn $op(self, other: $Bits) -> Unwrapped<$Fixed<Frac>> {
                 Unwrapped((self.0).$unwrapped(other))
             }
         }
-        impl<'a, Frac $(: $LeEqU)*> $Op<&'a $Bits> for Unwrapped<$Fixed<Frac>> {
+        impl<Frac $(: $LeEqU)*> $Op<&$Bits> for Unwrapped<$Fixed<Frac>> {
             type Output = Unwrapped<$Fixed<Frac>>;
             #[inline]
             fn $op(self, other: &$Bits) -> Unwrapped<$Fixed<Frac>> {
                 Unwrapped((self.0).$unwrapped(*other))
             }
         }
-        impl<'a, 'b, Frac $(: $LeEqU)*> $Op<&'a $Bits> for &'b Unwrapped<$Fixed<Frac>> {
+        impl<Frac $(: $LeEqU)*> $Op<&$Bits> for &Unwrapped<$Fixed<Frac>> {
             type Output = Unwrapped<$Fixed<Frac>>;
             #[inline]
             fn $op(self, other: &$Bits) -> Unwrapped<$Fixed<Frac>> {
@@ -1266,7 +1266,7 @@ macro_rules! op_bits {
                 self.0 = (self.0).$unwrapped(other);
             }
         }
-        impl<'a, Frac $(: $LeEqU)*> $OpAssign<&'a $Bits> for Unwrapped<$Fixed<Frac>> {
+        impl<Frac $(: $LeEqU)*> $OpAssign<&$Bits> for Unwrapped<$Fixed<Frac>> {
             #[inline]
             fn $op_assign(&mut self, other: &$Bits) {
                 self.0 = (self.0).$unwrapped(*other);

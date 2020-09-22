@@ -32,7 +32,7 @@ use core::{
 
 macro_rules! refs {
     (impl $Imp:ident for $Fixed:ident$(($LeEqU:ident))* { $method:ident }) => {
-        impl<'a, Frac $(: $LeEqU)*> $Imp<$Fixed<Frac>> for &'a $Fixed<Frac> {
+        impl<Frac $(: $LeEqU)*> $Imp<$Fixed<Frac>> for &$Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -40,7 +40,7 @@ macro_rules! refs {
             }
         }
 
-        impl<'a, Frac $(: $LeEqU)*> $Imp<&'a $Fixed<Frac>> for $Fixed<Frac> {
+        impl<Frac $(: $LeEqU)*> $Imp<&$Fixed<Frac>> for $Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self, rhs: &$Fixed<Frac>) -> $Fixed<Frac> {
@@ -48,7 +48,7 @@ macro_rules! refs {
             }
         }
 
-        impl<'a, 'b, Frac $(: $LeEqU)*> $Imp<&'a $Fixed<Frac>> for &'b $Fixed<Frac> {
+        impl<Frac $(: $LeEqU)*> $Imp<&$Fixed<Frac>> for &$Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self, rhs: &$Fixed<Frac>) -> $Fixed<Frac> {
@@ -58,7 +58,7 @@ macro_rules! refs {
     };
 
     (impl $Imp:ident<$Inner:ty> for $Fixed:ident$(($LeEqU:ident))* { $method:ident }) => {
-        impl<'a, Frac $(: $LeEqU)*> $Imp<$Inner> for &'a $Fixed<Frac> {
+        impl<Frac $(: $LeEqU)*> $Imp<$Inner> for &$Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self, rhs: $Inner) -> $Fixed<Frac> {
@@ -66,7 +66,7 @@ macro_rules! refs {
             }
         }
 
-        impl<'a, Frac $(: $LeEqU)*> $Imp<&'a $Inner> for $Fixed<Frac> {
+        impl<Frac $(: $LeEqU)*> $Imp<&$Inner> for $Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self, rhs: &$Inner) -> $Fixed<Frac> {
@@ -74,7 +74,7 @@ macro_rules! refs {
             }
         }
 
-        impl<'a, 'b, Frac $(: $LeEqU)*> $Imp<&'a $Inner> for &'b $Fixed<Frac> {
+        impl<Frac $(: $LeEqU)*> $Imp<&$Inner> for &$Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self, rhs: &$Inner) -> $Fixed<Frac> {
@@ -86,7 +86,7 @@ macro_rules! refs {
 
 macro_rules! refs_assign {
     (impl $Imp:ident for $Fixed:ident$(($LeEqU:ident))* { $method:ident }) => {
-        impl<'a, Frac $(: $LeEqU)*> $Imp<&'a $Fixed<Frac>> for $Fixed<Frac> {
+        impl<Frac $(: $LeEqU)*> $Imp<&$Fixed<Frac>> for $Fixed<Frac> {
             #[inline]
             fn $method(&mut self, rhs: &$Fixed<Frac>) {
                 self.$method(*rhs);
@@ -95,7 +95,7 @@ macro_rules! refs_assign {
     };
 
     (impl $Imp:ident<$Inner:ty> for $Fixed:ident$(($LeEqU:ident))* { $method:ident }) => {
-        impl<'a, Frac $(: $LeEqU)*> $Imp<&'a $Inner> for $Fixed<Frac> {
+        impl<Frac $(: $LeEqU)*> $Imp<&$Inner> for $Fixed<Frac> {
             #[inline]
             fn $method(&mut self, rhs: &$Inner) {
                 self.$method(*rhs);
@@ -141,7 +141,7 @@ macro_rules! pass_one {
             }
         }
 
-        impl<'a, Frac> $Imp for &'a $Fixed<Frac> {
+        impl<Frac> $Imp for &$Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self) -> $Fixed<Frac> {
@@ -161,7 +161,7 @@ macro_rules! shift {
             }
         }
 
-        impl<'a, Frac> $Imp<$Rhs> for &'a $Fixed<Frac> {
+        impl<Frac> $Imp<$Rhs> for &$Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self, rhs: $Rhs) -> $Fixed<Frac> {
@@ -169,7 +169,7 @@ macro_rules! shift {
             }
         }
 
-        impl<'a, Frac> $Imp<&'a $Rhs> for $Fixed<Frac> {
+        impl<Frac> $Imp<&$Rhs> for $Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self, rhs: &$Rhs) -> $Fixed<Frac> {
@@ -177,7 +177,7 @@ macro_rules! shift {
             }
         }
 
-        impl<'a, 'b, Frac> $Imp<&'a $Rhs> for &'b $Fixed<Frac> {
+        impl<Frac> $Imp<&$Rhs> for &$Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn $method(self, rhs: &$Rhs) -> $Fixed<Frac> {
@@ -196,7 +196,7 @@ macro_rules! shift_assign {
             }
         }
 
-        impl<'a, Frac> $Imp<&'a $Rhs> for $Fixed<Frac> {
+        impl<Frac> $Imp<&$Rhs> for $Fixed<Frac> {
             #[inline]
             fn $method(&mut self, rhs: &$Rhs) {
                 self.$method(*rhs)
@@ -247,7 +247,7 @@ macro_rules! fixed_arith {
             }
         }
 
-        impl<Frac, RhsFrac: $LeEqU> MulAssign<&'_ $Fixed<RhsFrac>> for $Fixed<Frac> {
+        impl<Frac, RhsFrac: $LeEqU> MulAssign<&$Fixed<RhsFrac>> for $Fixed<Frac> {
             #[inline]
             fn mul_assign(&mut self, rhs: &$Fixed<RhsFrac>) {
                 let (ans, overflow) = self.to_bits().mul_overflow(rhs.to_bits(), RhsFrac::U32);
@@ -332,7 +332,7 @@ macro_rules! fixed_arith {
             }
         }
 
-        impl<'a, Frac: $LeEqU> Mul<&'a $Fixed<Frac>> for $Inner {
+        impl<Frac: $LeEqU> Mul<&$Fixed<Frac>> for $Inner {
             type Output = $Fixed<Frac>;
             #[inline]
             fn mul(self, rhs: &$Fixed<Frac>) -> $Fixed<Frac> {
@@ -340,7 +340,7 @@ macro_rules! fixed_arith {
             }
         }
 
-        impl<'a, Frac: $LeEqU> Mul<$Fixed<Frac>> for &'a $Inner {
+        impl<Frac: $LeEqU> Mul<$Fixed<Frac>> for &$Inner {
             type Output = $Fixed<Frac>;
             #[inline]
             fn mul(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -348,7 +348,7 @@ macro_rules! fixed_arith {
             }
         }
 
-        impl<'a, 'b, Frac: $LeEqU> Mul<&'a $Fixed<Frac>> for &'b $Inner {
+        impl<Frac: $LeEqU> Mul<&$Fixed<Frac>> for &$Inner {
             type Output = $Fixed<Frac>;
             #[inline]
             fn mul(self, rhs: &$Fixed<Frac>) -> $Fixed<Frac> {
