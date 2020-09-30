@@ -640,6 +640,7 @@ fn frac_is_half(bytes: &[u8], radix: u32) -> bool {
     bytes.len() == 1 && bytes[0] - b'0' == (radix as u8) / 2
 }
 
+// Only radices 2, 8, 10 and 16 are supported.
 pub(crate) trait FromStrRadix: Sized {
     type Err;
     fn from_str_radix(s: &str, radix: u32) -> Result<Self, Self::Err>;
@@ -785,7 +786,8 @@ macro_rules! impl_from_str {
                 2 => bin_str_int_to_bin(int),
                 8 => oct_str_int_to_bin(int),
                 16 => hex_str_int_to_bin(int),
-                _ => dec_str_int_to_bin(int),
+                10 => dec_str_int_to_bin(int),
+                _ => unreachable!(),
             };
             let remove_bits = <$BitsU as IntHelper>::NBITS - nbits;
             if nbits == 0 {
