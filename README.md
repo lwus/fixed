@@ -238,9 +238,11 @@ There are three experimental feature:
     that panic on overflow even when debug assertions are disabled,
     similar to how wrapping methods will wrap even when debug
     assertions are enabled.
- 3. `serde-str`, disabled by default. This makes serialization use the
-    number’s value in human-readable formats. The plan is for this to
-    be the only behavior in the next major version of the crate.
+ 3. `serde-str`, disabled by default. Fixed-point numbers are
+    serialized as strings showing the value when using human-readable
+    formats. This feature requires the `serde` and the `std` optional
+    features. **Warning:** numbers serialized when this feature is
+    enabled cannot be deserialized when this feature is disabled.
 
 ## License
 
