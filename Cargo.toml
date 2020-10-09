@@ -24,6 +24,7 @@ f16 = ["half"]
 fail-on-warnings = []
 std = []
 unwrapped = []
+serde-str = ["serde"]
 
 [dependencies]
 typenum = "1.10"

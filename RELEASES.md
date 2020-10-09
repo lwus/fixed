@@ -17,16 +17,19 @@ Version 1.3.0 (unreleased)
         [`saturating_mul_add`][f-sma-1-3],
         [`wrapping_mul_add`][f-wma-1-3],
         [`overflowing_mul_add`][f-oma-1-3]
-  * The new experimental feature [`unwrapped`][feat-un-1-3] was added,
-    providing arithmetic methods that panic on overflow even when
-    debug assertions are disabled.
+  * The new experimental feature [`unwrapped`][feat-exp-1-3] was
+    added, providing arithmetic methods that panic on overflow even
+    when debug assertions are disabled.
+  * The new experimental feature [`serde-str`][feat-exp-1-3] was
+    added, which makes serialization use the number’s value in
+    human-readable formats.
 
 [f-cma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_mul_add
 [f-ma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.mul_add
 [f-oma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_mul_add
 [f-sma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_mul_add
 [f-wma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_mul_add
-[feat-un-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[feat-exp-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [tf-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
 [w-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 

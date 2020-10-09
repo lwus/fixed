@@ -89,9 +89,12 @@ The conversions supported cover the following cases.
         [`saturating_mul_add`][f-sma-1-3],
         [`wrapping_mul_add`][f-wma-1-3],
         [`overflowing_mul_add`][f-oma-1-3]
-  * The new experimental feature [`unwrapped`][feat-un-1-3] was added,
-    providing arithmetic methods that panic on overflow even when
-    debug assertions are disabled.
+  * The new experimental feature [`unwrapped`][feat-exp-1-3] was
+    added, providing arithmetic methods that panic on overflow even
+    when debug assertions are disabled.
+  * The new experimental feature [`serde-str`][feat-exp-1-3] was
+    added, which makes serialization use the number’s value in
+    human-readable formats.
 
 [`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
 [f-cma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_mul_add
@@ -99,7 +102,7 @@ The conversions supported cover the following cases.
 [f-oma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_mul_add
 [f-sma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_mul_add
 [f-wma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_mul_add
-[feat-un-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[feat-exp-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [tf-ma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#tymethod.mul_add
 [w-ma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html#method.mul_add
 
@@ -227,7 +230,7 @@ removed. The removal of experimental features would however require a
 minor version bump. Similarly, on a minor version bump, optional
 dependencies can be updated to an incompatible newer version.
 
-There are two experimental feature:
+There are three experimental feature:
 
  1. `num-traits`, disabled by default. This implements some traits
     from the [*num-traits* crate] .
@@ -235,6 +238,9 @@ There are two experimental feature:
     that panic on overflow even when debug assertions are disabled,
     similar to how wrapping methods will wrap even when debug
     assertions are enabled.
+ 3. `serde-str`, disabled by default. This makes serialization use the
+    number’s value in human-readable formats. The plan is for this to
+    be the only behavior in the next major version of the crate.
 
 ## License
 

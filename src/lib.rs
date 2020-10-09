@@ -183,7 +183,7 @@ removed. The removal of experimental features would however require a
 minor version bump. Similarly, on a minor version bump, optional
 dependencies can be updated to an incompatible newer version.
 
-There are two experimental feature:
+There are three experimental feature:
 
  1. `num-traits`, disabled by default. This implements some traits
     from the [*num-traits* crate] .
@@ -191,6 +191,9 @@ There are two experimental feature:
     that panic on overflow even when debug assertions are disabled,
     similar to how wrapping methods will wrap even when debug
     assertions are enabled.
+ 3. `serde-str`, disabled by default. This makes serialization use the
+    number’s value in human-readable formats. The plan is for this to
+    be the only behavior in the next major version of the crate.
 
 ## License
 
