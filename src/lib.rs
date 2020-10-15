@@ -147,7 +147,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 
 ```toml
 [dependencies]
-fixed = "1.2"
+fixed = "1.3"
 ```
 
 The *fixed* crate requires rustc version 1.44.0 or later.
@@ -172,7 +172,7 @@ To enable features, you can add the dependency like this to
 
 ```toml
 [dependencies.fixed]
-version = "1.2"
+version = "1.3"
 features = ["f16", "serde"]
 ```
 
@@ -186,16 +186,20 @@ dependencies can be updated to an incompatible newer version.
 There are three experimental feature:
 
  1. `num-traits`, disabled by default. This implements some traits
-    from the [*num-traits* crate] .
+    from the [*num-traits* crate]. (The plan is to upgrade this to an
+    optional feature once *num-traits* reaches version 1.0.0.)
  2. `unwrapped`, disabled by default. This adds methods for arithmetic
     that panic on overflow even when debug assertions are disabled,
     similar to how wrapping methods will wrap even when debug
-    assertions are enabled.
+    assertions are enabled. (The plan is to always enable this
+    functionality but remove the experimental feature in version
+    1.4.0.)
  3. `serde-str`, disabled by default. Fixed-point numbers are
     serialized as strings showing the value when using human-readable
     formats. This feature requires the `serde` and the `std` optional
-    features. **Warning:** numbers serialized when this feature is
-    enabled cannot be deserialized when this feature is disabled.
+    features. (The plan is to upgrade this to an optional feature in
+    version 1.4.0.) **Warning:** numbers serialized when this feature
+    is enabled cannot be deserialized when this feature is disabled.
 
 ## License
 
@@ -267,7 +271,7 @@ additional terms or conditions.
 */
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(missing_docs)]
-#![doc(html_root_url = "https://docs.rs/fixed/~1.2")]
+#![doc(html_root_url = "https://docs.rs/fixed/~1.3")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
 

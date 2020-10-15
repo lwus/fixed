@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.3.0 (unreleased)
+Version 1.3.0 (2020-10-15)
 ==========================
 
   * The [`MulAssign`] implementation on fixed-point numbers now
@@ -24,14 +24,14 @@ Version 1.3.0 (unreleased)
     added, which makes serialization use the number’s value in
     human-readable formats.
 
-[f-cma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_mul_add
-[f-ma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.mul_add
-[f-oma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_mul_add
-[f-sma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_mul_add
-[f-wma-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_mul_add
-[feat-exp-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
-[tf-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
-[w-1-3]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+[f-cma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.checked_mul_add
+[f-ma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.mul_add
+[f-oma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.overflowing_mul_add
+[f-sma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.saturating_mul_add
+[f-wma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.wrapping_mul_add
+[feat-exp-1-3]: https://docs.rs/fixed/~1.3/fixed/#experimental-optional-features
+[tf-1-3]: https://docs.rs/fixed/~1.3/fixed/traits/trait.Fixed.html
+[w-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.Wrapping.html
 
 Version 1.2.0 (2020-09-02)
 ==========================
