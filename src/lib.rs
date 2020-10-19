@@ -146,7 +146,7 @@ The [*fixed-macro* crate] provides a convenient macro to write down
 fixed-point constants literally in the code.
 
 ```rust
-# #[cfg!(feature = "add-fixed-macro-dev-dependency-on-rustc-version-bump")] {
+# #[cfg(feature = "add-fixed-macro-dev-dependency-on-rustc-version-bump")] {
 use fixed::types::I16F16;
 use fixed_macro::fixed;
 
