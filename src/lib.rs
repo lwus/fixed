@@ -145,7 +145,7 @@ cannot use [`From`] as we have less fractional bits, so we use
 The [*fixed-macro* crate] provides a convenient macro to write down
 fixed-point constants literally in the code.
 
-```ignore
+```rust
 use fixed::types::I16F16;
 use fixed_macro::fixed;
 
