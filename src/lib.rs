@@ -140,6 +140,20 @@ number of fractional bits. Converting from [`I4F12`] to [`I4F4`]
 cannot use [`From`] as we have less fractional bits, so we use
 [`from_num`] instead.
 
+## Writing fixed-point constants and values literally
+
+The [*fixed-macro* crate] provides a convenient macro to write down
+fixed-point constants literally in the code.
+
+```ignore
+use fixed::types::I16F16;
+use fixed_macro::fixed;
+
+const NUM1: I16F16 = fixed!(12.75: I16F16);
+let num2 = NUM1 + fixed!(13.125: I16F16);
+assert_eq!(num2, 25.875);
+```
+
 ## Using the *fixed* crate
 
 The *fixed* crate is available on [crates.io][*fixed* crate]. To use
@@ -221,6 +235,7 @@ additional terms or conditions.
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*az* crate]: https://crates.io/crates/az
 [*fixed* crate]: https://crates.io/crates/fixed
+[*fixed-macro* crate]: https://crates.io/crates/fixed-macro
 [*fixed-sqrt* crate]: https://crates.io/crates/fixed-sqrt
 [*half* crate]: https://crates.io/crates/half
 [*num-traits* crate]: https://crates.io/crates/num-traits
