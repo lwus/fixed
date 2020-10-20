@@ -80,12 +80,31 @@ The conversions supported cover the following cases.
 
 ### Version 1.4.0 news (unreleased)
 
+  * For the experimental feature [`num-traits`][feat-exp-1-4], the
+    following traits were implemented where applicable ([issue 23]):
+      * [`Num`][nt-0-2-num]
+      * [`Signed`][nt-0-2-signed], [`Unsigned`][nt-0-2-unsigned]
+      * [`Inv`][nt-0-2-inv]
+      * [`MulAdd`][nt-0-2-ma], [`MulAddAssign`][nt-0-2-maa]
+      * [`FloatConst`][nt-0-2-fc]
+      * [`ToPrimitive`][nt-0-2-tp], [`FromPrimitive`][nt-0-2-fp]
   * For the experimental feature [`serde-str`][feat-exp-1-4],
     serialization in human-readable formats was made more convenient
-    to write manually. (This makes it incompatible with the version in
-    1.3.0.)
+    to write manually ([issue 24]). This makes it incompatible with
+    the version in 1.3.0.
 
 [feat-exp-1-4]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[issue 23]: https://gitlab.com/tspiteri/fixed/-/issues/23
+[issue 24]: https://gitlab.com/tspiteri/fixed/-/issues/24
+[nt-0-2-fc]: https://docs.rs/num-traits/^0.2/num_traits/float/trait.FloatConst.html
+[nt-0-2-fp]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.FromPrimitive.html
+[nt-0-2-inv]: https://docs.rs/num-traits/^0.2/num_traits/ops/inv/trait.Inv.html
+[nt-0-2-ma]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAdd.html
+[nt-0-2-maa]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAddAssign.html
+[nt-0-2-num]: https://docs.rs/num-traits/^0.2/num_traits/trait.Num.html
+[nt-0-2-signed]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Signed.html
+[nt-0-2-tp]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.ToPrimitive.html
+[nt-0-2-unsigned]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Unsigned.html
 
 ### Version 1.3.0 news (2020-10-15)
 

@@ -175,6 +175,8 @@ depending on the crate’s [optional features].
       * [`SaturatingAdd`], [`SaturatingSub`], [`SaturatingMul`]
       * [`WrappingAdd`], [`WrappingSub`], [`WrappingNeg`],
         [`WrappingMul`], [`WrappingShl`], [`WrappingShr`]
+      * [`FloatConst`]
+      * [`ToPrimitive`], [`FromPrimitive`]
  3. If the `serde` feature is enabled, [`Serialize`] and
     [`Deserialize`] are supertraits of [`Fixed`].
 
@@ -189,12 +191,15 @@ depending on the crate’s [optional features].
 [`CheckedSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedSub.html
 [`Deserialize`]: https://docs.rs/serde/^1/serde/de/trait.Deserialize.html
 [`Fixed`]: trait.Fixed.html
+[`FloatConst`]: https://docs.rs/num-traits/^0.2/num_traits/float/trait.FloatConst.html
+[`FromPrimitive`]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.ToPrimitive.html
 [`One`]: https://docs.rs/num-traits/^0.2/num_traits/identities/trait.One.html
 [`PartialOrd`]: https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html
 [`SaturatingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingAdd.html
 [`SaturatingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingMul.html
 [`SaturatingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingSub.html
 [`Serialize`]: https://docs.rs/serde/^1/serde/ser/trait.Serialize.html
+[`ToPrimitive`]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.FromPrimitive.html
 [`WrappingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingAdd.html
 [`WrappingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingMul.html
 [`WrappingNeg`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingNeg.html
