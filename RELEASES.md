@@ -8,6 +8,12 @@ as-is, without any warranty. -->
 Version 1.4.0 (unreleased)
 ==========================
 
+  * The following methods were added to all fixed-point types, to the
+    [`Fixed`][tf-1-4] trait, and to the [`Wrapping`][w-1-4] wrapper:
+      * [`recip`][f-rec-1-4], [`checked_recip`][f-crec-1-4],
+        [`saturating_recip`][f-srec-1-4],
+        [`wrapping_recip`][f-wrec-1-4],
+        [`overflowing_recip`][f-orec-1-4]
   * For the experimental feature [`num-traits`][feat-exp-1-4], the
     following traits were implemented where applicable ([issue 23]):
       * [`Num`][nt-0-2-num]
@@ -21,6 +27,11 @@ Version 1.4.0 (unreleased)
     to write manually ([issue 24]). This makes it incompatible with
     the version in 1.3.0.
 
+[f-crec-1-4]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_recip
+[f-orec-1-4]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_recip
+[f-rec-1-4]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.recip
+[f-srec-1-4]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_recip
+[f-wrec-1-4]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_recip
 [feat-exp-1-4]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [issue 23]: https://gitlab.com/tspiteri/fixed/-/issues/23
 [issue 24]: https://gitlab.com/tspiteri/fixed/-/issues/24
@@ -33,6 +44,8 @@ Version 1.4.0 (unreleased)
 [nt-0-2-signed]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Signed.html
 [nt-0-2-tp]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.ToPrimitive.html
 [nt-0-2-unsigned]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Unsigned.html
+[tf-1-4]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[w-1-4]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 
 Version 1.3.0 (2020-10-15)
 ==========================

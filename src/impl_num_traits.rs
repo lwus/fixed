@@ -110,7 +110,7 @@ macro_rules! impl_traits {
             type Output = Self;
             #[inline]
             fn inv(self) -> Self::Output {
-                Self::one() / self
+                self.recip()
             }
         }
 

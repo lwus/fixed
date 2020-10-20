@@ -570,6 +570,26 @@ impl<F: Fixed> Wrapping<F> {
         Wrapping(self.0.rotate_right(n))
     }
 
+    /// Returns the reciprocal (inverse), 1/`self`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `self` is zero.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I8F24, Wrapping};
+    /// let quarter = Wrapping(I8F24::from_num(0.25));
+    /// let frac_1_512 = Wrapping(I8F24::from_num(1) / 512);
+    /// assert_eq!(quarter.recip(), Wrapping(I8F24::from_num(4)));
+    /// assert_eq!(frac_1_512.recip(), Wrapping(I8F24::from_num(0)));
+    /// ```
+    #[inline]
+    pub fn recip(self) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_recip())
+    }
+
     /// Multiply and add. Returns `self` × `mul` + `add`.
     ///
     /// # Examples

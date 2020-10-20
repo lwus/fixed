@@ -847,6 +847,13 @@ where
     /// Shifts to the right by `n` bits, wrapping the truncated bits to the left end.
     fn rotate_right(self, n: u32) -> Self;
 
+    /// Returns the reciprocal.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `self` is zero.
+    fn recip(self) -> Self;
+
     /// Multiply and add. Returns `self` × `mul` + `add`.
     fn mul_add(self, mul: Self, add: Self) -> Self;
 
@@ -909,6 +916,12 @@ where
     ///
     /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_rem(self, rhs: Self) -> Option<Self>;
+
+    /// Checked reciprocal. Returns the reciprocal, or [`None`] if
+    /// `self` is zero or on overflow.
+    ///
+    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
+    fn checked_recip(self) -> Option<Self>;
 
     /// Checked multiply and add. Returns `self` × `mul` + `add`, or [`None`] on overflow.
     ///
@@ -993,6 +1006,13 @@ where
     /// Panics if the divisor is zero.
     fn saturating_div(self, rhs: Self) -> Self;
 
+    /// Saturating reciprocal.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `self` is zero.
+    fn saturating_recip(self) -> Self;
+
     /// Saturating multiply and add. Returns `self` × `mul` + `add`, saturating on overflow.
     fn saturating_mul_add(self, mul: Self, add: Self) -> Self;
 
@@ -1024,6 +1044,13 @@ where
     ///
     /// Panics if the divisor is zero.
     fn wrapping_div(self, rhs: Self) -> Self;
+
+    /// Wrapping reciprocal.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `self` is zero.
+    fn wrapping_recip(self) -> Self;
 
     /// Wrapping multiply and add. Returns `self` × `mul` + `add`, wrapping on overflow.
     fn wrapping_mul_add(self, mul: Self, add: Self) -> Self;
@@ -1137,6 +1164,19 @@ where
     ///
     /// [exp]: ../index.html#experimental-optional-features
     fn unwrapped_div(self, rhs: Self) -> Self;
+
+    #[cfg(feature = "unwrapped")]
+    /// Unwrapped reciprocal. Returns reciprocal, panicking on overflow.
+    ///
+    /// This method is only available when the [`unwrapped`
+    /// experimental feature][exp] is enabled.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `self` is zero or on overflow.
+    ///
+    /// [exp]: ../index.html#experimental-optional-features
+    fn unwrapped_recip(self) -> Self;
 
     #[cfg(feature = "unwrapped")]
     /// Unwrapped multiply and add. Returns `self` × `mul` + `add`, panicking on overflow.
@@ -1301,6 +1341,20 @@ where
     /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_div(self, rhs: Self) -> (Self, bool);
+
+    /// Overflowing reciprocal.
+    ///
+    /// Returns a [tuple] of the reciprocal of `self` and a [`bool`],
+    /// indicating whether an overflow has occurred. On overflow, the
+    /// wrapped value is returned.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `self` is zero.
+    ///
+    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
+    fn overflowing_recip(self) -> (Self, bool);
 
     /// Overflowing multiply  and add.
     ///
@@ -2407,6 +2461,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn checked_int_log10(self) -> Option<i32> }
             trait_delegate! { fn rotate_left(self, n: u32) -> Self }
             trait_delegate! { fn rotate_right(self, n: u32) -> Self }
+            trait_delegate! { fn recip(self) -> Self }
             trait_delegate! { fn mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn div_euclid(self, rhs: Self) -> Self }
             trait_delegate! { fn rem_euclid(self, rhs: Self) -> Self }
@@ -2418,6 +2473,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn checked_mul(self, rhs: Self) -> Option<Self> }
             trait_delegate! { fn checked_div(self, rhs: Self) -> Option<Self> }
             trait_delegate! { fn checked_rem(self, rhs: Self) -> Option<Self> }
+            trait_delegate! { fn checked_recip(self) -> Option<Self> }
             trait_delegate! { fn checked_mul_add(self, mul: Self, add: Self) -> Option<Self> }
             trait_delegate! { fn checked_div_euclid(self, rhs: Self) -> Option<Self> }
             trait_delegate! { fn checked_rem_euclid(self, rhs: Self) -> Option<Self> }
@@ -2433,6 +2489,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn saturating_sub(self, rhs: Self) -> Self }
             trait_delegate! { fn saturating_mul(self, rhs: Self) -> Self }
             trait_delegate! { fn saturating_div(self, rhs: Self) -> Self }
+            trait_delegate! { fn saturating_recip(self) -> Self }
             trait_delegate! { fn saturating_mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn saturating_div_euclid(self, rhs: Self) -> Self }
             trait_delegate! { fn saturating_mul_int(self, rhs: Self::Bits) -> Self }
@@ -2441,6 +2498,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn wrapping_sub(self, rhs: Self) -> Self }
             trait_delegate! { fn wrapping_mul(self, rhs: Self) -> Self }
             trait_delegate! { fn wrapping_div(self, rhs: Self) -> Self }
+            trait_delegate! { fn wrapping_recip(self) -> Self }
             trait_delegate! { fn wrapping_mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn wrapping_div_euclid(self, rhs: Self) -> Self }
             trait_delegate! { fn wrapping_mul_int(self, rhs: Self::Bits) -> Self }
@@ -2459,6 +2517,8 @@ macro_rules! impl_fixed {
             trait_delegate! { fn unwrapped_mul(self, rhs: Self) -> Self }
             #[cfg(feature = "unwrapped")]
             trait_delegate! { fn unwrapped_div(self, rhs: Self) -> Self }
+            #[cfg(feature = "unwrapped")]
+            trait_delegate! { fn unwrapped_recip(self) -> Self }
             #[cfg(feature = "unwrapped")]
             trait_delegate! { fn unwrapped_mul_add(self, mul: Self, add: Self) -> Self }
             #[cfg(feature = "unwrapped")]
@@ -2480,6 +2540,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn overflowing_sub(self, rhs: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_mul(self, rhs: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_div(self, rhs: Self) -> (Self, bool) }
+            trait_delegate! { fn overflowing_recip(self) -> (Self, bool) }
             trait_delegate! { fn overflowing_mul_add(self, mul: Self, add: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_mul_int(self, rhs: Self::Bits) -> (Self, bool) }

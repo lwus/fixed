@@ -619,6 +619,32 @@ impl<F: Fixed> Unwrapped<F> {
         Unwrapped(self.0.rotate_right(n))
     }
 
+    /// Returns the reciprocal (inverse), 1/`self`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `self` is zero or on overflow.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I8F24, Unwrapped};
+    /// let quarter = Unwrapped(I8F24::from_num(0.25));
+    /// assert_eq!(quarter.recip(), Unwrapped(I8F24::from_num(4)));
+    /// ```
+    ///
+    /// The following panics because of overflow.
+    ///
+    /// ```should_panic
+    /// use fixed::{types::I8F24, Unwrapped};
+    /// let frac_1_512 = Unwrapped(I8F24::from_num(1) / 512);
+    /// let _overflow = frac_1_512.recip();
+    /// ```
+    #[inline]
+    pub fn recip(self) -> Unwrapped<F> {
+        Unwrapped(self.0.recip())
+    }
+
     /// Multiply and add. Returns `self` × `mul` + `add`.
     ///
     /// # Panics
