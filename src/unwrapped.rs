@@ -642,7 +642,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     pub fn recip(self) -> Unwrapped<F> {
-        Unwrapped(self.0.recip())
+        Unwrapped(self.0.unwrapped_recip())
     }
 
     /// Multiply and add. Returns `self` × `mul` + `add`.
