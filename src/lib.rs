@@ -575,6 +575,17 @@ fixed! {
 /// This macro is useful because [`from_num`] cannot be used in
 /// constant expressions.
 ///
+/// # Alternative
+///
+/// The [*fixed-macro* crate] provides a convenient macro to write
+/// down fixed-point constants literally in code which has two
+/// advantages over this macro:
+///
+///  1. It can handle fixed-point numbers with fractions, not just
+///     integers.
+///  2. It can be used anywhere an expression or constant expression
+///     can be used, not just to define a constant.
+///
 /// # Examples
 ///
 /// ```rust
@@ -614,6 +625,7 @@ fixed! {
 /// }
 /// ```
 ///
+/// [*fixed-macro* crate]: https://crates.io/crates/fixed-macro
 /// [`FixedI32`]: struct.FixedI32.html
 /// [`I16F16`]: types/type.I16F16.html
 /// [`U32`]: types/extra/type.U32.html
