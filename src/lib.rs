@@ -382,7 +382,7 @@ macro_rules! fixed {
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
         $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
-        $UInner:ty, $Signedness:tt,
+        $UFixed:ident, $UInner:ty, $Signedness:tt,
         $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt
     ) => {
         fixed! {
@@ -392,7 +392,7 @@ macro_rules! fixed {
                 $s_nbits_m1, $s_nbits_m2, $s_nbits_m3, $s_nbits_m4
             ),
             $nbytes, $bytes_val, $be_bytes, $le_bytes,
-            $UInner, $Signedness,
+            $UFixed, $UInner, $Signedness,
             $LeEqU_C0, $LeEqU_C1, $LeEqU_C2, $LeEqU_C3
         }
     };
@@ -403,7 +403,7 @@ macro_rules! fixed {
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
         $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
-        $UInner:ty, $Signedness:tt,
+        $UFixed:ident, $UInner:ty, $Signedness:tt,
         $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt
     ) => {
         comment! {
@@ -477,7 +477,7 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
         // inherent methods that require Frac bounds, and cannot be const
         fixed_frac! {
             $Fixed[$s_fixed]($Inner[$s_inner], $LeEqU, $s_nbits, $s_nbits_m1, $s_nbits_m4),
-            $UInner, $Signedness
+            $UFixed, $UInner, $Signedness
         }
         fixed_const! {
             $Fixed[$s_fixed]($LeEqU, $s_nbits, $s_nbits_m1, $s_nbits_m2, $s_nbits_m3, $s_nbits_m4),
@@ -491,21 +491,21 @@ fixed! {
     "An eight-bit fixed-point unsigned",
     FixedU8(u8, LeEqU8, "8", "7", "6", "5", "4"),
     1, "0x12", "[0x12]", "[0x12]",
-    u8, Unsigned,
+    FixedU8, u8, Unsigned,
     U8, U7, U6, U5
 }
 fixed! {
     "A 16-bit fixed-point unsigned",
     FixedU16(u16, LeEqU16, "16", "15", "14", "13", "12"),
     2, "0x1234", "[0x12, 0x34]", "[0x34, 0x12]",
-    u16, Unsigned,
+    FixedU16, u16, Unsigned,
     U16, U15, U14, U13
 }
 fixed! {
     "A 32-bit fixed-point unsigned",
     FixedU32(u32, LeEqU32, "32", "31", "30", "29", "28"),
     4, "0x1234_5678", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
-    u32, Unsigned,
+    FixedU32, u32, Unsigned,
     U32, U31, U30, U29
 }
 fixed! {
@@ -514,7 +514,7 @@ fixed! {
     8, "0x1234_5678_9ABC_DEF0",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0]",
     "[0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
-    u64, Unsigned,
+    FixedU64, u64, Unsigned,
     U64, U63, U62, U61
 }
 fixed! {
@@ -525,28 +525,28 @@ fixed! {
      0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0]",
     "[0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12, \
      0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
-    u128, Unsigned,
+    FixedU128, u128, Unsigned,
     U128, U127, U126, U125
 }
 fixed! {
     "An eight-bit fixed-point signed",
     FixedI8(i8, LeEqU8, "8", "7", "6", "5", "4"),
     1, "0x12", "[0x12]", "[0x12]",
-    u8, Signed,
+    FixedU8, u8, Signed,
     U7, U6, U5, U4
 }
 fixed! {
     "A 16-bit fixed-point signed",
     FixedI16(i16, LeEqU16, "16", "15", "14", "13", "12"),
     2, "0x1234", "[0x12, 0x34]", "[0x34, 0x12]",
-    u16, Signed,
+    FixedU16, u16, Signed,
     U15, U14, U13, U12
 }
 fixed! {
     "A 32-bit fixed-point signed",
     FixedI32(i32, LeEqU32, "32", "31", "30", "29", "28"),
     4, "0x1234_5678", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
-    u32, Signed,
+    FixedU32, u32, Signed,
     U31, U30, U29, U28
 }
 fixed! {
@@ -555,7 +555,7 @@ fixed! {
     8, "0x1234_5678_9ABC_DEF0",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0]",
     "[0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
-    u64, Signed,
+    FixedU64, u64, Signed,
     U63, U62, U61, U60
 }
 fixed! {
@@ -566,7 +566,7 @@ fixed! {
      0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0]",
     "[0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12, \
      0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
-    u128, Signed,
+    FixedU128, u128, Signed,
     U127, U126, U125, U124
 }
 
@@ -1314,6 +1314,64 @@ mod tests {
         assert_eq!(
             f.overflowing_round_ties_to_even(),
             (U16F16::from_num(4), false)
+        );
+    }
+
+    #[test]
+    fn reciprocals() {
+        // 4/3 wraps to 1/3 = 0x0.5555_5555
+        assert_eq!(
+            U0F32::from_num(0.75).overflowing_recip(),
+            (U0F32::from_bits(0x5555_5555), true)
+        );
+        // 8/3 wraps to 2/3 = 0x0.AAAA_AAAA
+        assert_eq!(
+            U0F32::from_num(0.375).overflowing_recip(),
+            (U0F32::from_bits(0xAAAA_AAAA), true)
+        );
+
+        // 8/3 wraps to 2/3 = 0x0.AAAA_AAAA, which is -0x0.5555_5556
+        assert_eq!(
+            I0F32::from_num(0.375).overflowing_recip(),
+            (I0F32::from_bits(-0x5555_5556), true)
+        );
+        assert_eq!(
+            I0F32::from_num(-0.375).overflowing_recip(),
+            (I0F32::from_bits(0x5555_5556), true)
+        );
+        // -2 wraps to 0
+        assert_eq!(
+            I0F32::from_num(-0.5).overflowing_recip(),
+            (I0F32::from_num(0), true)
+        );
+
+        // 8/3 wraps to 2/3 = 0x0.AAAA_AAAA (bits 0x5555_5555)
+        assert_eq!(
+            I1F31::from_num(0.375).overflowing_recip(),
+            (I1F31::from_bits(0x5555_5555), true)
+        );
+        assert_eq!(
+            I1F31::from_num(-0.375).overflowing_recip(),
+            (I1F31::from_bits(-0x5555_5555), true)
+        );
+        // 4/3 = 0x1.5555_5554 (bits 0xAAAA_AAAA, or -0x5555_5556)
+        assert_eq!(
+            I1F31::from_num(0.75).overflowing_recip(),
+            (I1F31::from_bits(-0x5555_5556), true)
+        );
+        assert_eq!(
+            I1F31::from_num(-0.75).overflowing_recip(),
+            (I1F31::from_bits(0x5555_5556), true)
+        );
+        // -2 wraps to 0
+        assert_eq!(
+            I1F31::from_num(-0.5).overflowing_recip(),
+            (I1F31::from_num(0), true)
+        );
+        // -1 does not overflow
+        assert_eq!(
+            I1F31::from_num(-1).overflowing_recip(),
+            (I1F31::from_num(-1), false)
         );
     }
 }

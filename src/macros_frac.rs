@@ -18,7 +18,7 @@ macro_rules! fixed_frac {
         $Fixed:ident[$s_fixed:expr](
             $Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr, $s_nbits_m1:expr, $s_nbits_m4:expr
         ),
-        $UInner:ty, $Signedness:tt
+        $UFixed:ident, $UInner:ty, $Signedness:tt
     ) => {
         /// The implementation of items in this block depends on the
         /// number of fractional bits `Frac`.
@@ -220,6 +220,35 @@ assert_eq!(Fix::from_num(-5).signum(), -1);
                             Ordering::Less => Self::from_num(-1),
                         }
                     }
+                }
+            }
+
+            comment! {
+                "Returns the reciprocal (inverse) of the fixed-point number, 1/`self`.
+
+# Panics
+
+Panics if the fixed-point number is zero.
+
+When debug assertions are enabled, this method also panics if the
+reciprocal overflows. When debug assertions are not enabled, the
+wrapped value can be returned, but it is not considered a breaking
+change if in the future it panics; if wrapping is required use
+[`wrapping_recip`] instead. 
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(2).recip(), Fix::from_num(0.5));
+```
+
+[`wrapping_recip`]: #method.wrapping_recip
+";
+                #[inline] pub fn recip(self) -> $Fixed<Frac> {
+                    let (ans, overflow) = self.overflowing_recip();
+                    debug_assert!(!overflow, "overflow"); ans
                 }
             }
 
@@ -439,6 +468,34 @@ assert_eq!(Fix::MAX.checked_div(Fix::from_num(1) / 2), None);
                     match self.to_bits().div_overflow(rhs.to_bits(), Frac::U32) {
                         (ans, false) => Some(Self::from_bits(ans)),
                         (_, true) => None,
+                    }
+                }
+            }
+
+            comment! {
+                "Checked reciprocal. Returns the reciprocal, or
+[`None`] if `self` is zero or on overflow.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(2).checked_recip(), Some(Fix::from_num(0.5)));
+assert_eq!(Fix::from_num(0).checked_recip(), None);
+```
+
+[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
+";
+                #[inline]
+                pub fn checked_recip(self) -> Option<$Fixed<Frac>> {
+                    if self.to_bits() == 0 {
+                        None
+                    } else {
+                        match self.overflowing_recip() {
+                            (ans, false) => Some(ans),
+                            (_, true) => None,
+                        }
                     }
                 }
             }
@@ -731,6 +788,44 @@ assert_eq!(Fix::MAX.saturating_div(one_half), Fix::MAX);
             }
 
             comment! {
+                "Saturating reciprocal. Returns the reciprocal,
+saturating on overflow.
+
+# Panics
+
+Panics if the fixed-point number is zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U", $s_nbits_m1, ", ", $s_fixed, "};
+// only one integer bit
+type Fix = ", $s_fixed, "<U", $s_nbits_m1, ">;
+assert_eq!(Fix::from_num(0.25).saturating_recip(), Fix::MAX);
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "assert_eq!(Fix::from_num(-0.25).saturating_recip(), Fix::MIN);
+",
+                },
+                "```
+";
+                #[inline]
+                pub fn saturating_recip(self) -> $Fixed<Frac> {
+                    match self.overflowing_recip() {
+                        (ans, false) => ans,
+                        (_, true) => {
+                            if self < 0 {
+                                Self::MIN
+                            } else {
+                                Self::MAX
+                            }
+                        }
+                    }
+                }
+            }
+
+            comment! {
                 "Saturating Euclidean division. Returns the quotient,
 saturating on overflow.
 
@@ -856,6 +951,30 @@ assert_eq!(Fix::MAX.wrapping_div(quarter), wrapped);
                 pub fn wrapping_div(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     let (ans, _) = self.to_bits().div_overflow(rhs.to_bits(), Frac::U32);
                     Self::from_bits(ans)
+                }
+            }
+
+            comment! {
+                "Wrapping reciprocal. Returns the reciprocal,
+wrapping on overflow.
+
+# Panics
+
+Panics if the fixed-point number is zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U", $s_nbits_m1, ", ", $s_fixed, "};
+// only one integer bit
+type Fix = ", $s_fixed, "<U", $s_nbits_m1, ">;
+assert_eq!(Fix::from_num(0.25).wrapping_recip(), Fix::from_num(0));
+```
+";
+                #[inline]
+                pub fn wrapping_recip(self) -> $Fixed<Frac> {
+                    let (ans, _) = self.overflowing_recip();
+                    ans
                 }
             }
 
@@ -1077,6 +1196,32 @@ let _overflow = Fix::MAX.unwrapped_div(quarter);
                 #[inline]
                 pub fn unwrapped_div(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_div(rhs) {
+                        (_, true) => panic!("overflow"),
+                        (ans, false) => ans,
+                    }
+                }
+            }
+
+            #[cfg(feature = "unwrapped")]
+            comment! {
+                "Unwrapped reciprocal. Returns the reciprocal,
+panicking on overflow.
+
+# Panics
+
+Panics if the fixed-point number is zero or on overflow.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(0.25).unwrapped_recip(), Fix::from_num(4));
+```
+";
+                #[inline]
+                pub fn unwrapped_recip(self) -> $Fixed<Frac> {
+                    match self.overflowing_recip() {
                         (_, true) => panic!("overflow"),
                         (ans, false) => ans,
                     }
@@ -1340,6 +1485,68 @@ assert_eq!(Fix::MAX.overflowing_div(quarter), (wrapped, true));
                 pub fn overflowing_div(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
                     let (ans, overflow) = self.to_bits().div_overflow(rhs.to_bits(), Frac::U32);
                     (Self::from_bits(ans), overflow)
+                }
+            }
+
+            comment! {
+                "Overflowing reciprocal. 
+
+Returns a [tuple] of the reciprocal and a [`bool`] indicating whether
+an overflow has occurred. On overflow, the wrapped value is returned.
+
+# Panics
+
+Panics if the fixed-point number is zero.
+
+# Examples
+
+```rust
+use fixed::{
+    types::extra::{U4, U", $s_nbits_m1, "},
+    ", $s_fixed, ",
+};
+type Fix = ", $s_fixed, "<U4>;
+// only one integer bit
+type Small = ", $s_fixed, "<U", $s_nbits_m1, ">;
+assert_eq!(Fix::from_num(0.25).overflowing_recip(), (Fix::from_num(4), false));
+assert_eq!(Small::from_num(0.25).overflowing_recip(), (Small::from_num(0), true));
+```
+
+[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
+";
+                #[inline]
+                pub fn overflowing_recip(self) -> ($Fixed<Frac>, bool) {
+                    if let Some(one) = Self::checked_from_num(1) {
+                        return one.overflowing_div(self);
+                    }
+                    if_signed! {
+                        $Signedness;
+                        use crate::int_helper::IntHelper;
+                        let (neg, abs) = self.to_bits().neg_abs();
+                        let uns_abs = $UFixed::<Frac>::from_bits(abs);
+                        let (uns_wrapped, overflow1) = uns_abs.overflowing_recip();
+                        let (wrapped, overflow2) =
+                            $Fixed::<Frac>::overflowing_from_num(uns_wrapped);
+                        if wrapped == $Fixed::<Frac>::MIN && neg {
+                            return (wrapped, overflow1);
+                        }
+                        if neg {
+                            // if we do not have overflow yet, we will not overflow now
+                            (wrapped.wrapping_neg(), overflow1 | overflow2)
+                        } else {
+                            (wrapped, overflow1 | overflow2)
+                        }
+                    }
+                    if_unsigned! {
+                        $Signedness;
+                        // 0 < x < 1: 1/x = 1 + (1 - x) / x, wrapped to (1 - x) / x
+                        // x.wrapping_neg() = 1 - x
+
+                        // x = 0: we still get division by zero
+
+                        (self.wrapping_neg().wrapping_div(self), true)
+                    }
                 }
             }
 
