@@ -70,7 +70,7 @@ impl Display for RadixParseFixedError {
 }
 
 #[cfg(feature = "std")]
-impl Error for ParseFixedError {
+impl Error for RadixParseFixedError {
     fn description(&self) -> &str {
         self.message()
     }
