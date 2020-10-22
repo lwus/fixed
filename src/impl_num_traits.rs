@@ -22,6 +22,7 @@ use crate::{
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8, ParseFixedError,
 };
+use core::fmt::{Display, Formatter, Result as FmtResult};
 use num_traits::{
     bounds::Bounded,
     cast::{FromPrimitive, ToPrimitive},
@@ -40,14 +41,39 @@ use num_traits::{
     sign::{Signed, Unsigned},
     Num,
 };
+#[cfg(feature = "std")]
+use std::error::Error;
 
 /// An error which can be returned when parsing a fixed-point number
 /// with a given radix.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum RadixParseFixedError {
     /// The radix is not 2, 8, 10 or 16.
     UnsupportedRadix,
     /// The string could not be parsed as a fixed-point number.
     ParseFixedError(ParseFixedError),
+}
+
+impl RadixParseFixedError {
+    fn message(&self) -> &str {
+        match self {
+            RadixParseFixedError::UnsupportedRadix => "unsupported radix",
+            RadixParseFixedError::ParseFixedError(e) => e.message(),
+        }
+    }
+}
+
+impl Display for RadixParseFixedError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
+        Display::fmt(self.message(), f)
+    }
+}
+
+#[cfg(feature = "std")]
+impl Error for ParseFixedError {
+    fn description(&self) -> &str {
+        self.message()
+    }
 }
 
 macro_rules! impl_traits {

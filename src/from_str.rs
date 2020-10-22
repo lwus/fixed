@@ -546,7 +546,7 @@ impl From<ParseErrorKind> for ParseFixedError {
 }
 
 impl ParseFixedError {
-    fn message(&self) -> &str {
+    pub(crate) fn message(&self) -> &str {
         use self::ParseErrorKind::*;
         match self.kind {
             InvalidDigit => "invalid digit found in string",
