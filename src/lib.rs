@@ -163,7 +163,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 
 ```toml
 [dependencies]
-fixed = "1.3"
+fixed = "1.4"
 ```
 
 The *fixed* crate requires rustc version 1.44.0 or later.
@@ -188,7 +188,7 @@ To enable features, you can add the dependency like this to
 
 ```toml
 [dependencies.fixed]
-version = "1.3"
+version = "1.4"
 features = ["f16", "serde"]
 ```
 
@@ -215,7 +215,8 @@ There are three experimental feature:
     formats. This feature requires the `serde` and the `std` optional
     features. (The plan is to upgrade this to an optional feature in
     version 1.5.0.) **Warning:** numbers serialized when this feature
-    is enabled cannot be deserialized when this feature is disabled.
+    is enabled cannot be deserialized when this feature is disabled,
+    and vice versa.
 
 ## License
 
@@ -288,7 +289,7 @@ additional terms or conditions.
 */
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(missing_docs)]
-#![doc(html_root_url = "https://docs.rs/fixed/~1.3")]
+#![doc(html_root_url = "https://docs.rs/fixed/~1.4")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
 
@@ -431,7 +432,7 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
 ```
 
 [*typenum* crate]: https://crates.io/crates/typenum
-[`Unsigned`]: https://docs.rs/typenum/^1.3/typenum/marker_traits/trait.Unsigned.html
+[`Unsigned`]: https://docs.rs/typenum/^1.10/typenum/marker_traits/trait.Unsigned.html
 [const generics]: https://github.com/rust-lang/rust/issues/44580
 ";
             #[repr(transparent)]
