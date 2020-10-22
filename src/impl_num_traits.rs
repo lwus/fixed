@@ -43,7 +43,7 @@ use num_traits::{
 
 /// An error which can be returned when parsing a fixed-point number
 /// with a given radix.
-pub enum FixedFromStrRadixError {
+pub enum RadixParseFixedError {
     /// The radix is not 2, 8, 10 or 16.
     UnsupportedRadix,
     /// The string could not be parsed as a fixed-point number.
@@ -88,7 +88,7 @@ macro_rules! impl_traits {
         where
             Frac: IsLessOrEqual<$OneMaxFrac, Output = True>,
         {
-            type FromStrRadixErr = FixedFromStrRadixError;
+            type FromStrRadixErr = RadixParseFixedError;
 
             #[inline]
             fn from_str_radix(str: &str, radix: u32) -> Result<Self, Self::FromStrRadixErr> {
@@ -97,9 +97,9 @@ macro_rules! impl_traits {
                     8 => Self::from_str_octal(str),
                     10 => str.parse(),
                     16 => Self::from_str_hex(str),
-                    _ => return Err(FixedFromStrRadixError::UnsupportedRadix),
+                    _ => return Err(RadixParseFixedError::UnsupportedRadix),
                 }
-                .map_err(FixedFromStrRadixError::ParseFixedError)
+                .map_err(RadixParseFixedError::ParseFixedError)
             }
         }
 

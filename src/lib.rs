@@ -321,6 +321,8 @@ mod unwrapped;
 mod wide_div;
 mod wrapping;
 
+#[cfg(feature = "num-traits")]
+pub use crate::impl_num_traits::RadixParseFixedError;
 #[cfg(feature = "unwrapped")]
 pub use crate::unwrapped::Unwrapped;
 use crate::{
