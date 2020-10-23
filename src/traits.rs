@@ -395,11 +395,11 @@ where
     /// The number of fractional bits.
     ///
     /// <code>&lt;F as [Fixed]&gt;::Frac::[U32]</code> is equivalent to
-    /// <code>&lt;F as [Fixed]&gt;::[frac_nbits][`frac_nbits`]()</code>.
+    /// <code>&lt;F as [Fixed]&gt;::[FRAC_NBITS][`FRAC_NBITS`]</code>.
     ///
     /// [Fixed]: trait.Fixed.html
     /// [U32]: ../types/extra/trait.Unsigned.html#associatedconstant.U32
-    /// [`frac_nbits`]: #tymethod.frac_nbits
+    /// [`FRAC_NBITS`]: #associatedconstant.FRAC_NBITS
     type Frac: Unsigned;
 
     /// The smallest value that can be represented.
@@ -888,6 +888,13 @@ where
     fn recip(self) -> Self;
 
     /// Multiply and add. Returns `self` × `mul` + `add`.
+    ///
+    /// Note that the inherent [`mul_add`] method is more flexible
+    /// than this method and allows the `mul` parameter to have a
+    /// fixed-point type like `self` but with a different number of
+    /// fractional bits.
+    ///
+    /// [`mul_add`]: ../struct.FixedI32.html#method.mul_add
     fn mul_add(self, mul: Self, add: Self) -> Self;
 
     /// Euclidean division by an integer.
