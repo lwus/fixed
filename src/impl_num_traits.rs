@@ -129,10 +129,7 @@ macro_rules! impl_traits {
             }
         }
 
-        impl<Frac: $LeEqU> Inv for $Fixed<Frac>
-        where
-            Frac: IsLessOrEqual<$OneMaxFrac, Output = True>,
-        {
+        impl<Frac: $LeEqU> Inv for $Fixed<Frac> {
             type Output = Self;
             #[inline]
             fn inv(self) -> Self::Output {

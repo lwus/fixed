@@ -78,6 +78,12 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.4.1 news (unreleased)
+
+  * For the experimental feature [`num-traits`][feat-exp-1-4], some
+    missing supertraits were added to
+    [`FixedOptionalFeatures`][tfof-1-4].
+
 ### Version 1.4.0 news (2020-10-22)
 
   * The following methods were added to all fixed-point types, to the
@@ -117,6 +123,7 @@ The conversions supported cover the following cases.
 [nt-0-2-tp]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.ToPrimitive.html
 [nt-0-2-unsigned]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Unsigned.html
 [tf-1-4]: https://docs.rs/fixed/~1.4/fixed/traits/trait.Fixed.html
+[tfof-1-4]: https://docs.rs/fixed/~1.4/fixed/traits/trait.FixedOptionalFeatures.html
 [w-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.Wrapping.html
 
 ### Version 1.3.0 news (2020-10-15)

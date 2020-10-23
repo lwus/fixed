@@ -39,12 +39,15 @@ use half::{bf16, f16};
 #[cfg(feature = "num-traits")]
 use num_traits::{
     bounds::Bounded,
+    cast::{FromPrimitive, ToPrimitive},
+    float::FloatConst,
     identities::Zero,
     ops::{
         checked::{
             CheckedAdd, CheckedDiv, CheckedMul, CheckedNeg, CheckedRem, CheckedShl, CheckedShr,
             CheckedSub,
         },
+        inv::Inv,
         saturating::{SaturatingAdd, SaturatingMul, SaturatingSub},
         wrapping::{WrappingAdd, WrappingMul, WrappingNeg, WrappingShl, WrappingShr, WrappingSub},
     },
@@ -76,12 +79,13 @@ macro_rules! comment_features {
             $comment;
             pub trait FixedOptionalFeatures
             where
-                Self: Bounded + Zero,
+                Self: Zero + Bounded + Inv,
                 Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
                 Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
                 Self: SaturatingAdd + SaturatingSub + SaturatingMul,
                 Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
                 Self: WrappingShl + WrappingShr,
+                Self: ToPrimitive + FromPrimitive + FloatConst,
             {
             }
         }
@@ -92,12 +96,13 @@ macro_rules! comment_features {
             $comment;
             pub trait FixedOptionalFeatures
             where
-                Self: Bounded + Zero,
+                Self: Zero + Bounded + Inv,
                 Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
                 Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
                 Self: SaturatingAdd + SaturatingSub + SaturatingMul,
                 Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
                 Self: WrappingShl + WrappingShr,
+                Self: ToPrimitive + FromPrimitive + FloatConst,
                 Self: Serialize + for<'de> Deserialize<'de>,
             {
             }
@@ -127,12 +132,13 @@ macro_rules! comment_features {
             pub trait FixedOptionalFeatures
             where
                 Self: PartialOrd<f16> + PartialOrd<bf16>,
-                Self: Bounded + Zero,
+                Self: Zero + Bounded + Inv,
                 Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
                 Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
                 Self: SaturatingAdd + SaturatingSub + SaturatingMul,
                 Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
                 Self: WrappingShl + WrappingShr,
+                Self: ToPrimitive + FromPrimitive + FloatConst,
             {
             }
         }
@@ -144,12 +150,13 @@ macro_rules! comment_features {
             pub trait FixedOptionalFeatures
             where
                 Self: PartialOrd<f16> + PartialOrd<bf16>,
-                Self: Bounded + Zero,
+                Self: Zero + Bounded + Inv,
                 Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
                 Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
                 Self: SaturatingAdd + SaturatingSub + SaturatingMul,
                 Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
                 Self: WrappingShl + WrappingShr,
+                Self: ToPrimitive + FromPrimitive + FloatConst,
                 Self: Serialize + for<'de> Deserialize<'de>,
             {
             }
@@ -167,16 +174,32 @@ depending on the crate’s [optional features].
     supertraits of [`Fixed`].
  2. If the `num-traits` experimental feature is enabled, the following
     are supertraits of [`Fixed`]:
-      * [`Bounded`], [`Zero`] (but *not* [`One`] because not all
-        fixed-point numbers can represent the value 1)
+      * [`Zero`]
+      * [`Bounded`]
+      * [`Inv`]
       * [`CheckedAdd`], [`CheckedSub`], [`CheckedNeg`],
         [`CheckedMul`], [`CheckedDiv`], [`CheckedRem`],
         [`CheckedShl`], [`CheckedShr`]
       * [`SaturatingAdd`], [`SaturatingSub`], [`SaturatingMul`]
       * [`WrappingAdd`], [`WrappingSub`], [`WrappingNeg`],
         [`WrappingMul`], [`WrappingShl`], [`WrappingShr`]
-      * [`FloatConst`]
       * [`ToPrimitive`], [`FromPrimitive`]
+      * [`FloatConst`]
+
+    The following are *not* supertraits of [`Fixed`], even though they
+    are implemented for fixed-point numbers where applicable:
+      * [`One`] because not all fixed-point numbers can represent the
+        value 1
+      * [`Num`] because it has [`One`] as a supertrait
+      * [`MulAdd`], [`MulAddAssign`] because
+        <code>[MulAdd][`MulAdd`]::[mul_add][`MulAdd::mul_add`]</code>
+        conflicts with
+        <code>[Fixed][`Fixed`]::[mul_add][`Fixed::mul_add`]</code>
+
+    Similarly, [`Signed`] and [`Unsigned`] are *not* supertraits of
+    [`FixedSigned`] and [`FixedUnsigned`] because they have [`Num`] as
+    a supertrait.
+
  3. If the `serde` feature is enabled, [`Serialize`] and
     [`Deserialize`] are supertraits of [`Fixed`].
 
@@ -190,16 +213,26 @@ depending on the crate’s [optional features].
 [`CheckedShr`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedShr.html
 [`CheckedSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedSub.html
 [`Deserialize`]: https://docs.rs/serde/^1/serde/de/trait.Deserialize.html
+[`Fixed::mul_add`]: trait.Fixed.html#tymethod.mul_add
+[`FixedSigned`]: trait.FixedSigned.html
+[`FixedUnsigned`]: trait.FixedUnsigned.html
 [`Fixed`]: trait.Fixed.html
 [`FloatConst`]: https://docs.rs/num-traits/^0.2/num_traits/float/trait.FloatConst.html
 [`FromPrimitive`]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.ToPrimitive.html
+[`Inv`]: https://docs.rs/num-traits/^0.2/num_traits/ops/inv/trait.Inv.html
+[`MulAdd::mul_add`]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAdd.html#tymethod.mul_add
+[`MulAddAssign`]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAddAssign.html
+[`MulAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAdd.html
+[`Num`]: https://docs.rs/num-traits/^0.2/num_traits/trait.Num.html
 [`One`]: https://docs.rs/num-traits/^0.2/num_traits/identities/trait.One.html
 [`PartialOrd`]: https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html
 [`SaturatingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingAdd.html
 [`SaturatingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingMul.html
 [`SaturatingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingSub.html
 [`Serialize`]: https://docs.rs/serde/^1/serde/ser/trait.Serialize.html
+[`Signed`]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Signed.html
 [`ToPrimitive`]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.FromPrimitive.html
+[`Unsigned`]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Unsigned.html
 [`WrappingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingAdd.html
 [`WrappingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingMul.html
 [`WrappingNeg`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingNeg.html
