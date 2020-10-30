@@ -17,7 +17,8 @@ macro_rules! fixed_no_frac {
     (
         $Fixed:ident[$s_fixed:expr]($Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr),
         $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
-        $UInner:ty, $Signedness:tt
+        $UInner:ty, $Signedness:tt,
+        $Double:ident, $DoubleInner:ty, $HasDouble:tt
     ) => {
         /// The implementation of items in this block is independent
         /// of the number of fractional bits `Frac`.
@@ -455,6 +456,44 @@ assert!(half.is_power_of_two());
                     pub const fn is_power_of_two(self) -> bool {
                         self.to_bits().is_power_of_two()
                     }
+                }
+            }
+
+            if_true! {
+                $HasDouble;
+                comment! {
+                    "Widening multiplication. Returns the product
+using a wider type to retain all precision.
+
+If `self` has <i>i</i> integer bits and <i>f</i> fractional bits, and
+`rhs` has <i>j</i> integer bits and <i>g</i> fractional bits, then the
+returned fixed-point number will have <i>i</i> + <i>j</i> integer bits
+and <i>f</i> + <i>g</i> fractional bits.
+
+# Examples
+
+```rust
+use fixed::{
+    types::extra::{U2, U4},
+    ", $s_fixed, ",
+};
+// decimal: 1.25 × 1.0625 = 1.328_125
+// binary: 1.01 × 1.0001 == 1.010101
+let a = ", $s_fixed, "::<U2>::from_num(1.25);
+let b = ", $s_fixed, "::<U4>::from_num(1.0625);
+assert_eq!(a.widening_mul(b), 1.328_125);
+```
+";
+                    #[inline]
+                    pub fn widening_mul<RhsFrac: Add<Frac>>(
+                        self,
+                        rhs: $Fixed<RhsFrac>,
+                    ) -> $Double<<RhsFrac as Add<Frac>>::Output> {
+                        let self_bits = <$DoubleInner>::from(self.to_bits());
+                        let rhs_bits = <$DoubleInner>::from(rhs.to_bits());
+                        $Double::from_bits(self_bits * rhs_bits)
+                    }
+
                 }
             }
 

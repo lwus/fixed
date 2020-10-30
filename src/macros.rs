@@ -13,6 +13,13 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
+macro_rules! if_true {
+    (True; $($rem:tt)+) => {
+        $($rem)+
+    };
+    (False; $($rem:tt)+) => {};
+}
+
 macro_rules! if_signed {
     (Signed; $($rem:tt)+) => {
         $($rem)+

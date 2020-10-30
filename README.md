@@ -78,6 +78,13 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.5.0 news (unreleased)
+
+  * The [`widening_mul`][f-wm-1-5] method was added to all fixed-point
+    numbers up to 64 bits wide.
+
+[f-wm-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.widening_mul
+
 ### Version 1.4.1 news (unreleased)
 
   * For the experimental feature [`num-traits`][feat-exp-1-4], some
