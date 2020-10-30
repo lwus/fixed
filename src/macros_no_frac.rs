@@ -485,15 +485,17 @@ assert_eq!(a.widening_mul(b), 1.328_125);
 ```
 ";
                     #[inline]
-                    pub fn widening_mul<RhsFrac: Add<Frac>>(
+                    pub fn widening_mul<RhsFrac>(
                         self,
                         rhs: $Fixed<RhsFrac>,
-                    ) -> $Double<<RhsFrac as Add<Frac>>::Output> {
+                    ) -> $Double<Sum<Frac, RhsFrac>>
+                    where
+                        Frac: Add<RhsFrac>,
+                    {
                         let self_bits = <$DoubleInner>::from(self.to_bits());
                         let rhs_bits = <$DoubleInner>::from(rhs.to_bits());
                         $Double::from_bits(self_bits * rhs_bits)
                     }
-
                 }
             }
 
