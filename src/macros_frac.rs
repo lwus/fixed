@@ -1080,7 +1080,6 @@ assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(20), Fix::from_num(-3.5))
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             if_signed! {
                 $Signedness;
                 comment! {
@@ -1092,9 +1091,6 @@ Overflow can only occur
     or one integer bits such that it cannot hold the value 1.
   * if the value is negative and the fixed-point number has zero
     integer bits, such that it cannot hold the value −1.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1117,8 +1113,6 @@ use fixed::{types::extra::U", $s_nbits_m1, ", ", $s_fixed, "};
 type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
 let _overflow = OneIntBit::from_num(0.5).unwrapped_signum();
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                     #[inline]
                     pub fn unwrapped_signum(self) -> $Fixed<Frac> {
@@ -1127,12 +1121,8 @@ let _overflow = OneIntBit::from_num(0.5).unwrapped_signum();
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped multiplication. Returns the product, panicking on overflow.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1153,8 +1143,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_mul(Fix::from_num(4));
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_mul(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1162,12 +1150,8 @@ let _overflow = Fix::MAX.unwrapped_mul(Fix::from_num(4));
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped division. Returns the quotient, panicking on overflow.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1190,8 +1174,6 @@ type Fix = ", $s_fixed, "<U4>;
 let quarter = Fix::from_num(1) / 4;
 let _overflow = Fix::MAX.unwrapped_div(quarter);
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_div(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1202,7 +1184,6 @@ let _overflow = Fix::MAX.unwrapped_div(quarter);
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped reciprocal. Returns the reciprocal,
 panicking on overflow.
@@ -1228,12 +1209,8 @@ assert_eq!(Fix::from_num(0.25).unwrapped_recip(), Fix::from_num(4));
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped Euclidean division. Returns the quotient, panicking on overflow.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1254,8 +1231,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_div_euclid(Fix::from_num(0.25));
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1266,7 +1241,6 @@ let _overflow = Fix::MAX.unwrapped_div_euclid(Fix::from_num(0.25));
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped Euclidean division by an integer. Returns the quotient",
                 if_signed_unsigned! {
@@ -1279,9 +1253,6 @@ Overflow can only occur when dividing the minimum value by −1.",
 Can never overflow for unsigned values.",
                 },
                 "
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1313,8 +1284,6 @@ let _overflow = Fix::MIN.unwrapped_div_euclid_int(-1);
 ",
                 },
                 "```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_div_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
@@ -1325,7 +1294,6 @@ let _overflow = Fix::MIN.unwrapped_div_euclid_int(-1);
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped remainder for Euclidean division by an integer. Returns the remainder",
                 if_signed_unsigned! {
@@ -1371,8 +1339,6 @@ let _overflow = Fix::from_num(-7.5).unwrapped_rem_euclid_int(20);
 ",
                 },
                 "```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_rem_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {

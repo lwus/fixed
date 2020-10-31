@@ -700,7 +700,6 @@ assert_eq!(one_point_625.wrapping_to_num::<f32>(), 1.625f32);
             }
         }
 
-        #[cfg(feature = "unwrapped")]
         comment! {
             "Creates a fixed-point number from another number,
 panicking on overflow.
@@ -717,9 +716,6 @@ The other number can be:
     For this conversion, the method rounds to the nearest, with ties
     rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -771,7 +767,6 @@ let _overflow = Fix::unwrapped_from_num(too_large);
 [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
 [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
 [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[exp]: index.html#experimental-optional-features
 [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
 ";
             #[inline]
@@ -783,7 +778,6 @@ let _overflow = Fix::unwrapped_from_num(too_large);
             }
         }
 
-        #[cfg(feature = "unwrapped")]
         comment! {
             "Converts a fixed-point number to another number,
 panicking on overflow.
@@ -801,9 +795,6 @@ The other number can be:
     For this conversion, the method rounds to the nearest, with ties
     rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -854,7 +845,6 @@ let _overflow = Fix::MAX.unwrapped_to_num::<TooFewIntBits>();
 [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
 [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
 [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_to_num<Dst: FromFixed>(self) -> Dst {

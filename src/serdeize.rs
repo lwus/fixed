@@ -13,12 +13,10 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
-#[cfg(feature = "unwrapped")]
-use crate::Unwrapped;
 use crate::{
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
-    FixedU8, Wrapping,
+    FixedU8, Unwrapped, Wrapping,
 };
 use serde::{
     de::{Deserialize, Deserializer, Error as DeError},
@@ -60,7 +58,6 @@ macro_rules! serde_fixed {
             }
         }
 
-        #[cfg(feature = "unwrapped")]
         impl<Frac: $LeEqU> Serialize for Unwrapped<$Fixed<Frac>> {
             fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
                 self.0.serialize(serializer)
@@ -126,7 +123,6 @@ macro_rules! serde_fixed {
             }
         }
 
-        #[cfg(feature = "unwrapped")]
         impl<'de, Frac: $LeEqU> Deserialize<'de> for Unwrapped<$Fixed<Frac>> {
             fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
                 $Fixed::deserialize(deserializer).map(Unwrapped)

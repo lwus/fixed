@@ -82,6 +82,12 @@ The conversions supported cover the following cases.
 
   * The [`wide_mul`][f-wm-1-5] method was added to all fixed-point
     numbers up to 64 bits wide ([issue 25]).
+  * Unwrapped methods for arithmetic together with the
+    [`Unwrapped`][unw-1-5] wrapper were added. Unwrapped methods panic
+    on overflow, even when debug assertions are disabled, similar to
+    how wrapping methods will wrap around even when debug assertions
+    are enabled. (This was previously an experimental feature
+    `unwrapped`.)
   * The [`serde-str`][feat-1-5] feature was added. (This was
     previously an experimental feature.)
   * For the experimental feature [`num-traits`][feat-exp-1-5], some
@@ -93,6 +99,7 @@ The conversions supported cover the following cases.
 [feat-exp-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [issue 25]: https://gitlab.com/tspiteri/fixed/-/issues/25
 [tfof-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
+[unw-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
 
 ### Version 1.4.0 news (2020-10-22)
 
@@ -287,17 +294,12 @@ removed. The removal of experimental features would however require a
 minor version bump. Similarly, on a minor version bump, optional
 dependencies can be updated to an incompatible newer version.
 
-There are three experimental feature:
+There is one experimental feature:
 
  1. `num-traits`, disabled by default. This implements some traits
     from the [*num-traits* crate]. (The plan is to upgrade this to an
-    optional feature once *num-traits* reaches version 1.0.0.)
- 2. `unwrapped`, disabled by default. This adds methods for arithmetic
-    that panic on overflow even when debug assertions are disabled,
-    similar to how wrapping methods will wrap even when debug
-    assertions are enabled. (The plan is to always enable this
-    functionality but remove the experimental feature in version
-    1.5.0.)
+    optional feature once the [*num-traits* crate] reaches version
+    1.0.0.)
 
 ## License
 

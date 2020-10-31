@@ -10,6 +10,12 @@ Version 1.5.0 (unreleased)
 
   * The [`wide_mul`][f-wm-1-5] method was added to all fixed-point
     numbers up to 64 bits wide ([issue 25]).
+  * Unwrapped methods for arithmetic together with the
+    [`Unwrapped`][unw-1-5] wrapper were added. Unwrapped methods panic
+    on overflow, even when debug assertions are disabled, similar to
+    how wrapping methods will wrap around even when debug assertions
+    are enabled. (This was previously an experimental feature
+    `unwrapped`.)
   * The [`serde-str`][feat-1-5] feature was added. (This was
     previously an experimental feature.)
   * For the experimental feature [`num-traits`][feat-exp-1-5], some
@@ -21,6 +27,7 @@ Version 1.5.0 (unreleased)
 [feat-exp-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [issue 25]: https://gitlab.com/tspiteri/fixed/-/issues/25
 [tfof-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
+[unw-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
 
 Version 1.4.0 (2020-10-22)
 ==========================

@@ -39,9 +39,6 @@ use core::{
 ///
 /// The underlying value can be retrieved through the `.0` index.
 ///
-/// This struct is only available when the [`unwrapped` experimental
-/// feature][exp] is enabled.
-///
 /// # Examples
 ///
 /// This panics even when debug assertions are disabled.
@@ -52,8 +49,6 @@ use core::{
 /// let delta = Unwrapped(I16F16::from_bits(1));
 /// let _overflow = max + delta;
 /// ```
-///
-/// [exp]: index.html#experimental-optional-features
 #[repr(transparent)]
 #[derive(Clone, Copy, Default, Hash, Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Unwrapped<F>(pub F);

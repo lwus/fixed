@@ -679,13 +679,9 @@ assert_eq!(Fix::MAX.wrapping_round_ties_to_even(), Fix::MIN);
             }
         }
 
-        #[cfg(feature = "unwrapped")]
         comment! {
             "Unwrapped ceil. Rounds to the next integer towards +∞,
 panicking on overflow.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -712,8 +708,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_ceil();
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_ceil(self) -> $Fixed<Frac> {
@@ -721,7 +715,6 @@ let _overflow = Fix::MAX.unwrapped_ceil();
             }
         }
 
-        #[cfg(feature = "unwrapped")]
         comment! {
             "Unwrapped floor. Rounds to the next integer towards −∞",
             if_signed_unsigned! {
@@ -736,9 +729,6 @@ Panics if the result does not fit.",
                 ". Cannot overflow for unsigned values.",
             },
             "
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Examples
 
@@ -761,8 +751,6 @@ let _overflow = AllFrac::MIN.unwrapped_floor();
 ",
             },
             "```
-
-[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_floor(self) -> $Fixed<Frac> {
@@ -770,13 +758,9 @@ let _overflow = AllFrac::MIN.unwrapped_floor();
             }
         }
 
-        #[cfg(feature = "unwrapped")]
         comment! {
             "Unwrapped round. Rounds to the next integer to the
 nearest, with ties rounded away from zero, and panicking on overflow.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -803,8 +787,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_round();
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_round(self) -> $Fixed<Frac> {
@@ -812,13 +794,9 @@ let _overflow = Fix::MAX.unwrapped_round();
             }
         }
 
-        #[cfg(feature = "unwrapped")]
         comment! {
             "Unwrapped round. Rounds to the next integer to the
 nearest, with ties rounded to even, and panicking on overflow.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -840,8 +818,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_round_ties_to_even();
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
             #[inline]
             pub fn unwrapped_round_ties_to_even(self) -> $Fixed<Frac> {

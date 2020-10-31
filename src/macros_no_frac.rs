@@ -1488,7 +1488,6 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped negation. Returns the negated value, panicking on overflow.
 
@@ -1499,9 +1498,6 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
                     "Only zero can be negated without overflow.",
                 },
                 "
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1540,8 +1536,6 @@ let _overflow = Fix::from_num(5).unwrapped_neg();",
                 },
                 "
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_neg(self) -> $Fixed<Frac> {
@@ -1549,12 +1543,8 @@ let _overflow = Fix::from_num(5).unwrapped_neg();",
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped addition. Returns the sum, panicking on overflow.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1575,8 +1565,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_add(Fix::from_bits(1));
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1584,12 +1572,8 @@ let _overflow = Fix::MAX.unwrapped_add(Fix::from_bits(1));
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped subtraction. Returns the difference, panicking on overflow.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1617,8 +1601,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MIN.unwrapped_sub(Fix::from_bits(1));
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1626,7 +1608,6 @@ let _overflow = Fix::MIN.unwrapped_sub(Fix::from_bits(1));
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped multiply and add.
 Returns `self` × `mul` + `add`, panicking on overflow.
@@ -1643,9 +1624,6 @@ correct result.
                 },
                 "The `mul` parameter can have a fixed-point type like
 `self` but with a different number of fractional bits.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1676,8 +1654,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_mul_add(Fix::from_num(1), Fix::from_bits(1));
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_mul_add<MulFrac: $LeEqU>(
@@ -1689,12 +1665,8 @@ let _overflow = Fix::MAX.unwrapped_mul_add(Fix::from_num(1), Fix::from_bits(1));
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped multiplication by an integer. Returns the product, panicking on overflow.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1715,8 +1687,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_mul_int(4);
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
@@ -1724,7 +1694,6 @@ let _overflow = Fix::MAX.unwrapped_mul_int(4);
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped division by an integer. Returns the quotient",
                 if_signed_unsigned! {
@@ -1737,9 +1706,6 @@ Overflow can only occur when dividing the minimum value by −1.",
 Can never overflow for unsigned values.",
                 },
                 "
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1772,8 +1738,6 @@ let _overflow = Fix::MIN.unwrapped_div_int(-1);
 ",
                 },
                 "```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
@@ -1784,12 +1748,8 @@ let _overflow = Fix::MIN.unwrapped_div_int(-1);
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped shift left. Panics if `rhs` ≥ ", $s_nbits, ".
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1810,8 +1770,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::from_num(1).unwrapped_shl(", $s_nbits, ");
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_shl(self, rhs: u32) -> $Fixed<Frac> {
@@ -1819,12 +1777,8 @@ let _overflow = Fix::from_num(1).unwrapped_shl(", $s_nbits, ");
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             comment! {
                 "Unwrapped shift right. Panics if `rhs` ≥ ", $s_nbits, ".
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1845,8 +1799,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::from_num(1).unwrapped_shr(", $s_nbits, ");
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                 #[inline]
                 pub fn unwrapped_shr(self, rhs: u32) -> $Fixed<Frac> {
@@ -1854,16 +1806,12 @@ let _overflow = Fix::from_num(1).unwrapped_shr(", $s_nbits, ");
                 }
             }
 
-            #[cfg(feature = "unwrapped")]
             if_signed! {
                 $Signedness;
                 comment! {
                     "Unwrapped absolute value. Returns the absolute value, panicking on overflow.
 
 Overflow can only occur when trying to find the absolute value of the minimum value.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1884,8 +1832,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MIN.unwrapped_abs();
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                     #[inline]
                     pub fn unwrapped_abs(self) -> $Fixed<Frac> {
@@ -1899,9 +1845,6 @@ let _overflow = Fix::MIN.unwrapped_abs();
                 comment! {
                     "Returns the smallest power of two that is ≥ `self`,
 panicking if the next power of two is too large to represent.
-
-This method is only available when the [`unwrapped` experimental
-feature][exp] is enabled.
 
 # Panics
 
@@ -1926,8 +1869,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MAX.unwrapped_next_power_of_two();
 ```
-
-[exp]: index.html#experimental-optional-features
 ";
                     #[inline]
                     pub fn unwrapped_next_power_of_two(self) -> $Fixed<Frac> {

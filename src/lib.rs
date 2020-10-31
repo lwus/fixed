@@ -205,17 +205,12 @@ removed. The removal of experimental features would however require a
 minor version bump. Similarly, on a minor version bump, optional
 dependencies can be updated to an incompatible newer version.
 
-There are three experimental feature:
+There is one experimental feature:
 
  1. `num-traits`, disabled by default. This implements some traits
     from the [*num-traits* crate]. (The plan is to upgrade this to an
-    optional feature once *num-traits* reaches version 1.0.0.)
- 2. `unwrapped`, disabled by default. This adds methods for arithmetic
-    that panic on overflow even when debug assertions are disabled,
-    similar to how wrapping methods will wrap even when debug
-    assertions are enabled. (The plan is to always enable this
-    functionality but remove the experimental feature in version
-    1.5.0.)
+    optional feature once the [*num-traits* crate] reaches version
+    1.0.0.)
 
 ## License
 
@@ -316,15 +311,12 @@ mod log10;
 mod serdeize;
 pub mod traits;
 pub mod types;
-#[cfg(feature = "unwrapped")]
 mod unwrapped;
 mod wide_div;
 mod wrapping;
 
 #[cfg(feature = "num-traits")]
 pub use crate::impl_num_traits::RadixParseFixedError;
-#[cfg(feature = "unwrapped")]
-pub use crate::unwrapped::Unwrapped;
 use crate::{
     arith::MulDivOverflow,
     from_str::FromStrRadix,
@@ -336,7 +328,7 @@ use crate::{
         U62, U63, U64, U7, U8,
     },
 };
-pub use crate::{from_str::ParseFixedError, wrapping::Wrapping};
+pub use crate::{from_str::ParseFixedError, unwrapped::Unwrapped, wrapping::Wrapping};
 use core::{
     cmp::Ordering,
     hash::{Hash, Hasher},
