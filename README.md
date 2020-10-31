@@ -81,15 +81,15 @@ The conversions supported cover the following cases.
 ### Version 1.5.0 news (unreleased)
 
   * The [`wide_mul`][f-wm-1-5] method was added to all fixed-point
-    numbers up to 64 bits wide.
+    numbers up to 64 bits wide ([issue 25]).
+  * For the experimental feature [`num-traits`][feat-exp-1-5], some
+    missing supertraits were added to
+    [`FixedOptionalFeatures`][tfof-1-5].
 
 [f-wm-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wide_mul
-
-### Version 1.4.1 news (unreleased)
-
-  * For the experimental feature [`num-traits`][feat-exp-1-4], some
-    missing supertraits were added to
-    [`FixedOptionalFeatures`][tfof-1-4].
+[feat-exp-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[issue 25]: https://gitlab.com/tspiteri/fixed/-/issues/25
+[tfof-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
 
 ### Version 1.4.0 news (2020-10-22)
 
@@ -130,7 +130,6 @@ The conversions supported cover the following cases.
 [nt-0-2-tp]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.ToPrimitive.html
 [nt-0-2-unsigned]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Unsigned.html
 [tf-1-4]: https://docs.rs/fixed/~1.4/fixed/traits/trait.Fixed.html
-[tfof-1-4]: https://docs.rs/fixed/~1.4/fixed/traits/trait.FixedOptionalFeatures.html
 [w-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.Wrapping.html
 
 ### Version 1.3.0 news (2020-10-15)
