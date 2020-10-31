@@ -10,11 +10,14 @@ Version 1.5.0 (unreleased)
 
   * The [`wide_mul`][f-wm-1-5] method was added to all fixed-point
     numbers up to 64 bits wide ([issue 25]).
+  * The [`serde-str`][feat-1-5] feature was added. (This was
+    previously an experimental feature.)
   * For the experimental feature [`num-traits`][feat-exp-1-5], some
     missing supertraits were added to
     [`FixedOptionalFeatures`][tfof-1-5].
 
 [f-wm-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wide_mul
+[feat-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#optional-features
 [feat-exp-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [issue 25]: https://gitlab.com/tspiteri/fixed/-/issues/25
 [tfof-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html

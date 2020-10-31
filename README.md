@@ -82,11 +82,14 @@ The conversions supported cover the following cases.
 
   * The [`wide_mul`][f-wm-1-5] method was added to all fixed-point
     numbers up to 64 bits wide ([issue 25]).
+  * The [`serde-str`][feat-1-5] feature was added. (This was
+    previously an experimental feature.)
   * For the experimental feature [`num-traits`][feat-exp-1-5], some
     missing supertraits were added to
     [`FixedOptionalFeatures`][tfof-1-5].
 
 [f-wm-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wide_mul
+[feat-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#optional-features
 [feat-exp-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [issue 25]: https://gitlab.com/tspiteri/fixed/-/issues/25
 [tfof-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
@@ -249,7 +252,7 @@ The *fixed* crate requires rustc version 1.44.0 or later.
 
 ## Optional features
 
-The *fixed* crate has four optional feature:
+The *fixed* crate has these optional feature:
 
  1. `az`, disabled by default. This implements the cast traits
     provided by the [*az* crate].
@@ -261,6 +264,12 @@ The *fixed* crate has four optional feature:
  4. `std`, disabled by default. This is for features that are not
     possible under `no_std`: currently the implementation of the
     [`Error`] trait for [`ParseFixedError`].
+ 5. `serde-str`, disabled by default. Fixed-point numbers are
+    serialized as strings showing the value when using human-readable
+    formats. This feature requires the `serde` and the `std` optional
+    features. **Warning:** numbers serialized when this feature is
+    enabled cannot be deserialized when this feature is disabled, and
+    vice versa.
 
 To enable features, you can add the dependency like this to
 [*Cargo.toml*]:
@@ -289,13 +298,6 @@ There are three experimental feature:
     assertions are enabled. (The plan is to always enable this
     functionality but remove the experimental feature in version
     1.5.0.)
- 3. `serde-str`, disabled by default. Fixed-point numbers are
-    serialized as strings showing the value when using human-readable
-    formats. This feature requires the `serde` and the `std` optional
-    features. (The plan is to upgrade this to an optional feature in
-    version 1.5.0.) **Warning:** numbers serialized when this feature
-    is enabled cannot be deserialized when this feature is disabled,
-    and vice versa.
 
 ## License
 
