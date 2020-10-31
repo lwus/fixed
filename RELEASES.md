@@ -8,10 +8,10 @@ as-is, without any warranty. -->
 Version 1.5.0 (unreleased)
 ==========================
 
-  * The [`widening_mul`][f-wm-1-5] method was added to all fixed-point
+  * The [`wide_mul`][f-wm-1-5] method was added to all fixed-point
     numbers up to 64 bits wide.
 
-[f-wm-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.widening_mul
+[f-wm-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wide_mul
 
 Version 1.4.1 (unreleased)
 ==========================

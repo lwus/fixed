@@ -462,8 +462,8 @@ assert!(half.is_power_of_two());
             if_true! {
                 $HasDouble;
                 comment! {
-                    "Widening multiplication. Returns the product
-using a wider type to retain all precision.
+                    "Multiplies two fixed-point numbers and returns a
+wider type to retain all precision.
 
 If `self` has <i>i</i> integer bits and <i>f</i> fractional bits, and
 `rhs` has <i>j</i> integer bits and <i>g</i> fractional bits, then the
@@ -481,11 +481,11 @@ use fixed::{
 // binary: 1.01 × 1.0001 == 1.010101
 let a = ", $s_fixed, "::<U2>::from_num(1.25);
 let b = ", $s_fixed, "::<U4>::from_num(1.0625);
-assert_eq!(a.widening_mul(b), 1.328_125);
+assert_eq!(a.wide_mul(b), 1.328_125);
 ```
 ";
                     #[inline]
-                    pub fn widening_mul<RhsFrac>(
+                    pub fn wide_mul<RhsFrac>(
                         self,
                         rhs: $Fixed<RhsFrac>,
                     ) -> $Double<Sum<Frac, RhsFrac>>
