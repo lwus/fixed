@@ -93,11 +93,14 @@ The conversions supported cover the following cases.
   * For the experimental feature [`num-traits`][feat-exp-1-5], some
     missing supertraits were added to
     [`FixedOptionalFeatures`][tfof-1-5].
+  * Bug fix: multiplication of [`FixedI128`] was panicking for some
+    cases ([issue 26]).
 
 [f-wm-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wide_mul
 [feat-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#optional-features
 [feat-exp-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [issue 25]: https://gitlab.com/tspiteri/fixed/-/issues/25
+[issue 26]: https://gitlab.com/tspiteri/fixed/-/issues/26
 [tfof-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
 [unw-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
 

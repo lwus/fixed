@@ -695,8 +695,9 @@ macro_rules! mul_div_fallback {
                     let partial_col12 = lh_rl + col01_hi as $Single;
                     let (col12, carry_col3) = partial_col12.carrying_add(ll_rh);
                     let (col12_hi, col12_lo) = col12.hi_lo();
+                    let (_, carry_col3_lo) = carry_col3.hi_lo();
                     let ans01 = col12_lo.shift_lo_up_unsigned() + col01_lo;
-                    let ans23 = lh_rh + col12_hi + carry_col3.shift_lo_up();
+                    let ans23 = lh_rh + col12_hi + carry_col3_lo.shift_lo_up();
                     ans23.combine_lo_then_shl(ans01, frac_nbits)
                 }
             }
@@ -721,8 +722,9 @@ macro_rules! mul_div_fallback {
                 let partial_col12 = lh_rl + col01_hi as $Single;
                 let (col12, carry_col3) = partial_col12.carrying_add(ll_rh);
                 let (col12_hi, col12_lo) = col12.hi_lo();
+                let (_, carry_col3_lo) = carry_col3.hi_lo();
                 let ans01 = col12_lo.shift_lo_up_unsigned() + col01_lo;
-                let ans23 = lh_rh + col12_hi + carry_col3.shift_lo_up();
+                let ans23 = lh_rh + col12_hi + carry_col3_lo.shift_lo_up();
                 ans23.combine_lo_then_shl_add(ans01, frac_nbits, add)
             }
 
@@ -997,5 +999,60 @@ mod tests {
 
         assert_eq!(i0(0.25) % 1, i0(0.25));
         assert_eq!(i0(0.25).rem_euclid_int(1), i0(0.25));
+    }
+
+    #[test]
+    fn issue_26() {
+        use crate::{
+            types::extra::{U120, U121, U122, U123, U124},
+            FixedI128, FixedU128,
+        };
+
+        // issue 26 is about FixedI128<U123>, the others are just some extra tests
+
+        let x: FixedI128<U120> = "-9.079999999999999999999".parse().unwrap();
+        let squared = x.checked_mul(x).unwrap();
+        assert!(82.44639 < squared && squared < 82.44641);
+        let msquared = (-x).checked_mul(x).unwrap();
+        assert!(-82.44641 < msquared && msquared < -82.44639);
+        assert_eq!(x.checked_mul(-x), Some(msquared));
+        assert_eq!((-x).checked_mul(-x), Some(squared));
+
+        // 82 requires 8 signed integer bits
+        let x: FixedI128<U121> = "-9.079999999999999999999".parse().unwrap();
+        assert!(x.checked_mul(x).is_none());
+        assert!((-x).checked_mul(x).is_none());
+        assert!(x.checked_mul(-x).is_none());
+        assert!((-x).checked_mul(-x).is_none());
+        let x: FixedI128<U122> = "-9.079999999999999999999".parse().unwrap();
+        assert!(x.checked_mul(x).is_none());
+        assert!((-x).checked_mul(x).is_none());
+        assert!(x.checked_mul(-x).is_none());
+        assert!((-x).checked_mul(-x).is_none());
+        let x: FixedI128<U123> = "-9.079999999999999999999".parse().unwrap();
+        assert!(x.checked_mul(x).is_none());
+        assert!((-x).checked_mul(x).is_none());
+        assert!(x.checked_mul(-x).is_none());
+        assert!((-x).checked_mul(-x).is_none());
+
+        let x: Result<FixedI128<U124>, _> = "-9.079999999999999999999".parse();
+        assert!(x.is_err());
+
+        // Test unsigned
+
+        let x: FixedU128<U120> = "9.079999999999999999999".parse().unwrap();
+        let squared = x.checked_mul(x).unwrap();
+        assert!(82.44639 < squared && squared < 82.44641);
+
+        // 82 requires 8 signed integer bits
+        let x: FixedU128<U122> = "9.079999999999999999999".parse().unwrap();
+        assert!(x.checked_mul(x).is_none());
+        let x: FixedU128<U123> = "9.079999999999999999999".parse().unwrap();
+        assert!(x.checked_mul(x).is_none());
+        let x: FixedU128<U124> = "9.079999999999999999999".parse().unwrap();
+        assert!(x.checked_mul(x).is_none());
+
+        let x: Result<FixedI128<U125>, _> = "9.079999999999999999999".parse();
+        assert!(x.is_err());
     }
 }
