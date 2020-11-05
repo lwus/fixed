@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.5.0 (unreleased)
+Version 1.5.0 (2020-11-05)
 ==========================
 
   * The [`wide_mul`][f-wm-1-5] method was added to all fixed-point
@@ -21,16 +21,16 @@ Version 1.5.0 (unreleased)
   * For the experimental feature [`num-traits`][feat-exp-1-5], some
     missing supertraits were added to
     [`FixedOptionalFeatures`][tfof-1-5].
-  * Bug fix: multiplication of [`FixedI128`] was panicking for some
-    cases ([issue 26]).
+  * Bug fix: multiplication of [`FixedI128`] was panicking when
+    multiplying some large negative numbers ([issue 26]).
 
-[f-wm-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wide_mul
-[feat-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#optional-features
-[feat-exp-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[f-wm-1-5]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.wide_mul
+[feat-1-5]: https://docs.rs/fixed/~1.5/fixed/#optional-features
+[feat-exp-1-5]: https://docs.rs/fixed/~1.5/fixed/#experimental-optional-features
 [issue 25]: https://gitlab.com/tspiteri/fixed/-/issues/25
 [issue 26]: https://gitlab.com/tspiteri/fixed/-/issues/26
-[tfof-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
-[unw-1-5]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
+[tfof-1-5]: https://docs.rs/fixed/~1.5/fixed/traits/trait.FixedOptionalFeatures.html
+[unw-1-5]: https://docs.rs/fixed/~1.5/fixed/struct.Unwrapped.html
 
 Version 1.4.0 (2020-10-22)
 ==========================
