@@ -274,6 +274,10 @@ sealed_int! { i16(U16, u16, FixedI16) }
 sealed_int! { i32(U32, u32, FixedI32) }
 sealed_int! { i64(U64, u64, FixedI64) }
 sealed_int! { i128(U128, u128, FixedI128) }
+#[cfg(target_pointer_width = "8")]
+sealed_int! { isize(U8, usize, FixedI8) }
+#[cfg(target_pointer_width = "16")]
+sealed_int! { isize(U16, usize, FixedI16) }
 #[cfg(target_pointer_width = "32")]
 sealed_int! { isize(U32, usize, FixedI32) }
 #[cfg(target_pointer_width = "64")]
@@ -283,6 +287,10 @@ sealed_int! { u16(U16, FixedU16) }
 sealed_int! { u32(U32, FixedU32) }
 sealed_int! { u64(U64, FixedU64) }
 sealed_int! { u128(U128, FixedU128) }
+#[cfg(target_pointer_width = "8")]
+sealed_int! { usize(U8, FixedU8) }
+#[cfg(target_pointer_width = "16")]
+sealed_int! { usize(U16, FixedU16) }
 #[cfg(target_pointer_width = "32")]
 sealed_int! { usize(U32, FixedU32) }
 #[cfg(target_pointer_width = "64")]
