@@ -39,9 +39,10 @@ Version 1.5.0 (2020-11-05)
   * For the experimental feature [`num-traits`][feat-exp-1-5], some
     missing supertraits were added to
     [`FixedOptionalFeatures`][tfof-1-5].
-  * Bug fix: multiplication of [`FixedI128`] was panicking when
-    multiplying some large negative numbers ([issue 26]).
+  * Bug fix: multiplication of [`FixedI128`][i128-1-5] was panicking
+    when multiplying some large negative numbers ([issue 26]).
 
+[i128-1-5]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI128.html
 [f-wm-1-5]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.wide_mul
 [feat-1-5]: https://docs.rs/fixed/~1.5/fixed/#optional-features
 [feat-exp-1-5]: https://docs.rs/fixed/~1.5/fixed/#experimental-optional-features
