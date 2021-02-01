@@ -1,8 +1,6 @@
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
 
-use criterion::{
-    black_box, criterion_group, criterion_main, Bencher, Benchmark, Criterion, Throughput,
-};
+use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion, Throughput};
 use fixed::{traits::Fixed, types::*};
 use num_traits::{One, Zero};
 use rand::{
@@ -80,86 +78,85 @@ where
 macro_rules! create_bench {
     ($bench:ident, $name:expr, $op:expr) => {
         pub(crate) fn $bench(c: &mut Criterion) {
-            c.bench(
-                &$name.to_owned(),
-                // We only measure the overhead for the 64 bit test because
-                // we found that the overhead is consistant accross sizes.
-                Benchmark::new("benchmark overhead", move |b| {
-                    let f64_dataset: Vec<(f64, f64)> = gen_tuple_dataset(DATASET_SIZE);
-                    b.iter(|| {
-                        for (l, _) in &f64_dataset {
-                            black_box(l);
-                        }
-                    });
-                })
-                .with_function("u128", move |b| {
-                    primitive_op::<u128, _>(b, $op);
-                })
-                .with_function("i128", move |b| {
-                    primitive_op::<i128, _>(b, $op);
-                })
-                .with_function("FixedU128", move |b| {
-                    fixed_point_op::<U64F64, _>(b, $op);
-                })
-                .with_function("FixedI128", move |b| {
-                    fixed_point_op::<I64F64, _>(b, $op);
-                })
-                .with_function("f64", move |b| {
-                    primitive_op::<f64, _>(b, $op);
-                })
-                .with_function("u64", move |b| {
-                    primitive_op::<u64, _>(b, $op);
-                })
-                .with_function("i64", move |b| {
-                    primitive_op::<i64, _>(b, $op);
-                })
-                .with_function("FixedU64", move |b| {
-                    fixed_point_op::<U32F32, _>(b, $op);
-                })
-                .with_function("FixedI64", move |b| {
-                    fixed_point_op::<I32F32, _>(b, $op);
-                })
-                .with_function("f32", move |b| {
-                    primitive_op::<f32, _>(b, $op);
-                })
-                .with_function("u32", move |b| {
-                    primitive_op::<u32, _>(b, $op);
-                })
-                .with_function("i32", move |b| {
-                    primitive_op::<i32, _>(b, $op);
-                })
-                .with_function("FixedU32", move |b| {
-                    fixed_point_op::<U16F16, _>(b, $op);
-                })
-                .with_function("FixedI32", move |b| {
-                    fixed_point_op::<I16F16, _>(b, $op);
-                })
-                .with_function("u16", move |b| {
-                    primitive_op::<u16, _>(b, $op);
-                })
-                .with_function("i16", move |b| {
-                    primitive_op::<i16, _>(b, $op);
-                })
-                .with_function("FixedU16", move |b| {
-                    fixed_point_op::<U8F8, _>(b, $op);
-                })
-                .with_function("FixedI16", move |b| {
-                    fixed_point_op::<I8F8, _>(b, $op);
-                })
-                .with_function("u8", move |b| {
-                    primitive_op::<u8, _>(b, $op);
-                })
-                .with_function("i8", move |b| {
-                    primitive_op::<i8, _>(b, $op);
-                })
-                .with_function("FixedU8", move |b| {
-                    fixed_point_op::<U4F4, _>(b, $op);
-                })
-                .with_function("FixedI8", move |b| {
-                    fixed_point_op::<I4F4, _>(b, $op);
-                })
-                .throughput(Throughput::Elements(DATASET_SIZE.try_into().unwrap())),
-            );
+            let mut group = c.benchmark_group($name);
+            // We only measure the overhead for the 64 bit test because
+            // we found that the overhead is consistant accross sizes.
+            group.bench_function("benchmark overhead", move |b| {
+                let f64_dataset: Vec<(f64, f64)> = gen_tuple_dataset(DATASET_SIZE);
+                b.iter(|| {
+                    for (l, _) in &f64_dataset {
+                        black_box(l);
+                    }
+                });
+            });
+            group.bench_function("u128", move |b| {
+                primitive_op::<u128, _>(b, $op);
+            });
+            group.bench_function("i128", move |b| {
+                primitive_op::<i128, _>(b, $op);
+            });
+            group.bench_function("FixedU128", move |b| {
+                fixed_point_op::<U64F64, _>(b, $op);
+            });
+            group.bench_function("FixedI128", move |b| {
+                fixed_point_op::<I64F64, _>(b, $op);
+            });
+            group.bench_function("f64", move |b| {
+                primitive_op::<f64, _>(b, $op);
+            });
+            group.bench_function("u64", move |b| {
+                primitive_op::<u64, _>(b, $op);
+            });
+            group.bench_function("i64", move |b| {
+                primitive_op::<i64, _>(b, $op);
+            });
+            group.bench_function("FixedU64", move |b| {
+                fixed_point_op::<U32F32, _>(b, $op);
+            });
+            group.bench_function("FixedI64", move |b| {
+                fixed_point_op::<I32F32, _>(b, $op);
+            });
+            group.bench_function("f32", move |b| {
+                primitive_op::<f32, _>(b, $op);
+            });
+            group.bench_function("u32", move |b| {
+                primitive_op::<u32, _>(b, $op);
+            });
+            group.bench_function("i32", move |b| {
+                primitive_op::<i32, _>(b, $op);
+            });
+            group.bench_function("FixedU32", move |b| {
+                fixed_point_op::<U16F16, _>(b, $op);
+            });
+            group.bench_function("FixedI32", move |b| {
+                fixed_point_op::<I16F16, _>(b, $op);
+            });
+            group.bench_function("u16", move |b| {
+                primitive_op::<u16, _>(b, $op);
+            });
+            group.bench_function("i16", move |b| {
+                primitive_op::<i16, _>(b, $op);
+            });
+            group.bench_function("FixedU16", move |b| {
+                fixed_point_op::<U8F8, _>(b, $op);
+            });
+            group.bench_function("FixedI16", move |b| {
+                fixed_point_op::<I8F8, _>(b, $op);
+            });
+            group.bench_function("u8", move |b| {
+                primitive_op::<u8, _>(b, $op);
+            });
+            group.bench_function("i8", move |b| {
+                primitive_op::<i8, _>(b, $op);
+            });
+            group.bench_function("FixedU8", move |b| {
+                fixed_point_op::<U4F4, _>(b, $op);
+            });
+            group.bench_function("FixedI8", move |b| {
+                fixed_point_op::<I4F4, _>(b, $op);
+            });
+            group.throughput(Throughput::Elements(DATASET_SIZE.try_into().unwrap()));
+            group.finish();
         }
     };
 }
