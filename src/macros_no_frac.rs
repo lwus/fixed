@@ -674,8 +674,11 @@ assert_eq!(Fix::from_num(5).checked_neg(), None);",
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
-                pub fn checked_neg(self) -> Option<$Fixed<Frac>> {
-                    self.to_bits().checked_neg().map(Self::from_bits)
+                pub const fn checked_neg(self) -> Option<$Fixed<Frac>> {
+                    match self.to_bits().checked_neg() {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
+                    }
                 }
             }
 
@@ -695,8 +698,11 @@ assert_eq!(Fix::MAX.checked_add(one), None);
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
-                pub fn checked_add(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
-                    self.to_bits().checked_add(rhs.to_bits()).map(Self::from_bits)
+                pub const fn checked_add(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
+                    match self.to_bits().checked_add(rhs.to_bits()) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
+                    }
                 }
             }
 
@@ -716,8 +722,11 @@ assert_eq!(Fix::MIN.checked_sub(one), None);
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
-                pub fn checked_sub(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
-                    self.to_bits().checked_sub(rhs.to_bits()).map(Self::from_bits)
+                pub const fn checked_sub(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
+                    match self.to_bits().checked_sub(rhs.to_bits()) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
+                    }
                 }
             }
 
@@ -827,8 +836,11 @@ assert_eq!(Fix::MAX.checked_mul_int(2), None);
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
-                pub fn checked_mul_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
-                    self.to_bits().checked_mul(rhs).map(Self::from_bits)
+                pub const fn checked_mul_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
+                    match self.to_bits().checked_mul(rhs) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
+                    }
                 }
             }
 
@@ -922,8 +934,11 @@ assert_eq!((Fix::from_num(1) / 2).checked_shl(", $s_nbits, "), None);
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
-                pub fn checked_shl(self, rhs: u32) -> Option<$Fixed<Frac>> {
-                    self.to_bits().checked_shl(rhs).map(Self::from_bits)
+                pub const fn checked_shl(self, rhs: u32) -> Option<$Fixed<Frac>> {
+                    match self.to_bits().checked_shl(rhs) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
+                    }
                 }
             }
 
@@ -943,8 +958,11 @@ assert_eq!(Fix::from_num(4).checked_shr(", $s_nbits, "), None);
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
-                pub fn checked_shr(self, rhs: u32) -> Option<$Fixed<Frac>> {
-                    self.to_bits().checked_shr(rhs).map(Self::from_bits)
+                pub const fn checked_shr(self, rhs: u32) -> Option<$Fixed<Frac>> {
+                    match self.to_bits().checked_shr(rhs) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
+                    }
                 }
             }
 
@@ -968,7 +986,10 @@ assert_eq!(Fix::MIN.checked_abs(), None);
 ";
                     #[inline]
                     pub fn checked_abs(self) -> Option<$Fixed<Frac>> {
-                        self.to_bits().checked_abs().map(Self::from_bits)
+                        match self.to_bits().checked_abs() {
+                            None => None,
+                            Some(bits) => Some(Self::from_bits(bits)),
+                        }
                     }
                 }
             }
