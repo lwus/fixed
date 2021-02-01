@@ -761,7 +761,6 @@ mul_div_widen! { i64, i128, Signed }
 mul_div_fallback! { i128, u128, Signed }
 
 #[cfg(test)]
-#[allow(clippy::cognitive_complexity)]
 mod tests {
     use crate::{types::extra::Unsigned, *};
 

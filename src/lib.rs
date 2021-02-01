@@ -740,7 +740,6 @@ macro_rules! const_fixed_from_int {
 fn _compile_fail_tests() {}
 
 #[cfg(test)]
-#[allow(clippy::cognitive_complexity)]
 mod tests {
     use crate::types::{I0F32, I16F16, I1F31, U0F32, U16F16};
 

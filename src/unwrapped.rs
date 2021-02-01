@@ -13,8 +13,6 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
-#![allow(clippy::suspicious_op_assign_impl)]
-
 use crate::{
     from_str::ParseFixedError,
     traits::{Fixed, FixedSigned, FixedUnsigned, FromFixed, ToFixed},

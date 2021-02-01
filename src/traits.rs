@@ -1785,6 +1785,7 @@ pub trait FromFixed {
 /// let overflowing: (U8F8, bool) = too_large.overflowing_to_num();
 /// assert_eq!(overflowing, (U8F8::from_bits(0x3456), true));
 /// ```
+#[allow(clippy::wrong_self_convention)]
 pub trait ToFixed {
     /// Converts to a fixed-point number.
     ///

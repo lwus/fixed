@@ -407,7 +407,7 @@ fixed_cmp! { FixedI64(i64, LeEqU64, 64) }
 fixed_cmp! { FixedI128(i128, LeEqU128, 128) }
 
 #[cfg(test)]
-#[allow(clippy::cognitive_complexity, clippy::float_cmp, clippy::eq_op)]
+#[allow(clippy::float_cmp, clippy::eq_op)]
 mod tests {
     use crate::*;
     use core::f32;

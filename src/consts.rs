@@ -236,7 +236,7 @@ pub const PHI: U1F127 = U1F127::from_bits(0xCF1B_BCDC_BFA5_3E0A_F9CE_6030_2E76_E
 pub const FRAC_1_PHI: U0F128 = U0F128::from_bits(0x9E37_79B9_7F4A_7C15_F39C_C060_5CED_C834);
 
 #[cfg(test)]
-#[allow(clippy::cognitive_complexity, clippy::float_cmp)]
+#[allow(clippy::float_cmp)]
 mod tests {
     use crate::{
         consts::*,
