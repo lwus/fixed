@@ -985,7 +985,7 @@ assert_eq!(Fix::MIN.checked_abs(), None);
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                     #[inline]
-                    pub fn checked_abs(self) -> Option<$Fixed<Frac>> {
+                    pub const fn checked_abs(self) -> Option<$Fixed<Frac>> {
                         match self.to_bits().checked_abs() {
                             None => None,
                             Some(bits) => Some(Self::from_bits(bits)),
