@@ -24,7 +24,8 @@ integer. When `Frac` = <i>n</i>, the value <i>x</i> lies in the range
 
 In version 1 the [*typenum* crate] is used for the fractional bit
 count `Frac`; the plan is to to have a major version 2 with [const
-generics] when they are supported by the Rust compiler.
+generics] instead when the Rust compiler support for them is powerful
+enough.
 
 The main features are
 
