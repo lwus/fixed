@@ -18,7 +18,7 @@ use crate::{
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
-use az::{Cast, CheckedCast, OverflowingCast, SaturatingCast, WrappingCast};
+use az::{Cast, CheckedCast, OverflowingCast, SaturatingCast, UnwrappedCast, WrappingCast};
 #[cfg(feature = "f16")]
 use half::{bf16, f16};
 
@@ -62,6 +62,15 @@ macro_rules! cast {
                 self.overflowing_to_num()
             }
         }
+
+        impl<FracSrc: $LeEqUSrc, FracDst: $LeEqUDst> UnwrappedCast<$Dst<FracDst>>
+            for $Src<FracSrc>
+        {
+            #[inline]
+            fn unwrapped_cast(self) -> $Dst<FracDst> {
+                self.unwrapped_to_num()
+            }
+        }
     };
 
     ($Fixed:ident($LeEqU:ident); $Dst:ident) => {
@@ -99,6 +108,13 @@ macro_rules! cast {
                 self.overflowing_to_num()
             }
         }
+
+        impl<Frac: $LeEqU> UnwrappedCast<$Dst> for $Fixed<Frac> {
+            #[inline]
+            fn unwrapped_cast(self) -> $Dst {
+                self.unwrapped_to_num()
+            }
+        }
     };
 
     ($Src:ident; $Fixed:ident($LeEqU:ident)) => {
@@ -134,6 +150,13 @@ macro_rules! cast {
             #[inline]
             fn overflowing_cast(self) -> ($Fixed<Frac>, bool) {
                 <$Fixed<Frac>>::overflowing_from_num(self)
+            }
+        }
+
+        impl<Frac: $LeEqU> UnwrappedCast<$Fixed<Frac>> for $Src {
+            #[inline]
+            fn unwrapped_cast(self) -> $Fixed<Frac> {
+                <$Fixed<Frac>>::unwrapped_from_num(self)
             }
         }
     };

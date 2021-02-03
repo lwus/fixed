@@ -81,6 +81,8 @@ The conversions supported cover the following cases.
 ### Version 1.6.0 news (unreleased)
 
   * The crate now requires rustc version 1.47.0 or later.
+  * The optional [*az* crate] dependency was updated to
+    [version 1.1][az-1-1].
   * The following methods are now `const` functions:
       * [`checked_neg`][f-cn-1-6], [`checked_add`][f-cad-1-6],
         [`checked_sub`][f-cs-1-6], [`checked_mul_int`][f-cmi-1-6],
@@ -91,6 +93,8 @@ The conversions supported cover the following cases.
   * The [`unwrapped_from_fixed`][f-uff-1-6] method was added to the
     [`FromFixed`][f-ff-1-6] trait.
 
+[*az* crate]: https://crates.io/crates/az
+[az-1-1]: https://docs.rs/az/~1.1/az/index.html
 [f-cab-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_abs
 [f-cad-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_add
 [f-cmi-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_mul_int
