@@ -1725,7 +1725,7 @@ pub trait FromFixed {
     /// change if in the future it panics; if wrapping is required use
     /// [`wrapping_from_fixed`] instead.
     ///
-    /// [`wrapping_from_fixed`]: #method.wrapping_from_fixed
+    /// [`wrapping_from_fixed`]: #tymethod.wrapping_from_fixed
     fn from_fixed<F: Fixed>(src: F) -> Self;
 
     /// Converts from a fixed-point number if it fits, otherwise returns [`None`].
@@ -1821,7 +1821,7 @@ pub trait ToFixed {
     /// breaking change if in the future it panics; if wrapping is
     /// required use [`wrapping_to_fixed`] instead.
     ///
-    /// [`wrapping_to_fixed`]: #method.wrapping_to_fixed
+    /// [`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
     /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
     fn to_fixed<F: Fixed>(self) -> F;
 
@@ -1906,7 +1906,7 @@ impl ToFixed for bool {
     /// [`wrapping_to_fixed`] instead.
     ///
     /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-    /// [`wrapping_to_fixed`]: #method.wrapping_to_fixed
+    /// [`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
     #[inline]
     fn to_fixed<F: Fixed>(self) -> F {
         ToFixed::to_fixed(self as u8)
@@ -1949,6 +1949,20 @@ impl ToFixed for bool {
     fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
         ToFixed::overflowing_to_fixed(self as u8)
     }
+
+    /// Converts a [`bool`] to a fixed-point number, panicking if it
+    /// does not fit.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the value does not fit, even when debug assertions
+    /// are not enabled.
+    ///
+    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    #[inline]
+    fn unwrapped_to_fixed<F: Fixed>(self) -> F {
+        ToFixed::unwrapped_to_fixed(self as u8)
+    }
 }
 
 macro_rules! impl_int {
@@ -1967,7 +1981,7 @@ macro_rules! impl_int {
             /// panics; if wrapping is required use
             /// [`wrapping_from_fixed`] instead.
             ///
-            /// [`wrapping_from_fixed`]: #method.wrapping_from_fixed
+            /// [`wrapping_from_fixed`]: #tymethod.wrapping_from_fixed
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 $Int::from_repr_fixed(FromFixed::from_fixed(src))
@@ -2014,6 +2028,19 @@ macro_rules! impl_int {
                 let (repr_fixed, overflow) = FromFixed::overflowing_from_fixed(src);
                 ($Int::from_repr_fixed(repr_fixed), overflow)
             }
+
+            /// Converts a fixed-point number to an integer, panicking if it does not fit.
+            ///
+            /// Any fractional bits are discarded, which rounds towards −∞.
+            ///
+            /// # Panics
+            ///
+            /// Panics if the value
+            /// does not fit, even when debug assertions are not enabled.
+            #[inline]
+            fn unwrapped_from_fixed<F: Fixed>(src: F) -> Self {
+                $Int::from_repr_fixed(FromFixed::unwrapped_from_fixed(src))
+            }
         }
 
         impl ToFixed for $Int {
@@ -2028,7 +2055,7 @@ macro_rules! impl_int {
             /// panics; if wrapping is required use
             /// [`wrapping_to_fixed`] instead.
             ///
-            /// [`wrapping_to_fixed`]: #method.wrapping_to_fixed
+            /// [`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
             #[inline]
             fn to_fixed<F: Fixed>(self) -> F {
                 ToFixed::to_fixed(self.to_repr_fixed())
@@ -2066,6 +2093,17 @@ macro_rules! impl_int {
             fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
                 ToFixed::overflowing_to_fixed(self.to_repr_fixed())
             }
+
+            /// Converts an integer to a fixed-point number, panicking if it does not fit.
+            ///
+            /// # Panics
+            ///
+            /// Panics if the value does not fit, even when debug
+            /// assertions are not enabled.
+            #[inline]
+            fn unwrapped_to_fixed<F: Fixed>(self) -> F {
+                ToFixed::unwrapped_to_fixed(self.to_repr_fixed())
+            }
         }
     };
 }
@@ -2099,7 +2137,7 @@ macro_rules! impl_float {
             /// panics; if wrapping is required use
             /// [`wrapping_from_fixed`] instead.
             ///
-            /// [`wrapping_from_fixed`]: #method.wrapping_from_fixed
+            /// [`wrapping_from_fixed`]: #tymethod.wrapping_from_fixed
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 let helper = src.private_to_float_helper();
@@ -2149,6 +2187,20 @@ macro_rules! impl_float {
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
                 (FromFixed::from_fixed(src), false)
             }
+
+            /// Converts a fixed-point number to a floating-point
+            /// number, panicking if it does not fit.
+            ///
+            /// Rounding is to the nearest, with ties rounded to even.
+            ///
+            /// # Panics
+            ///
+            /// Panics if the value does not fit, even when debug
+            /// assertions are not enabled.
+            #[inline]
+            fn unwrapped_from_fixed<F: Fixed>(src: F) -> Self {
+                FromFixed::from_fixed(src)
+            }
         }
 
         impl ToFixed for $Float {
@@ -2166,7 +2218,7 @@ fit. When debug assertions are not enabled, the wrapped value can be
 returned, but it is not considered a breaking change if in the future
 it panics; if wrapping is required use [`wrapping_to_fixed`] instead.
 
-[`wrapping_to_fixed`]: #method.wrapping_to_fixed
+[`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
 [finite]: ", $link, "#method.is_finite
 ";
                 #[inline]
@@ -2260,6 +2312,28 @@ Panics if `self` is not [finite].
                     let kind = self.to_float_kind(F::FRAC_NBITS, F::INT_NBITS);
                     let helper = FromFloatHelper { kind };
                     F::private_overflowing_from_float_helper(helper)
+                }
+            }
+
+            comment! {
+                "Converts a floating-point number to a fixed-point
+number, panicking if it does not fit.
+
+Rounding is to the nearest, with ties rounded to even.
+
+# Panics
+
+Panics if `self` is not [finite] or if the value does not fit, even
+when debug assertions are not enabled.
+
+[finite]: ", $link, "#method.is_finite
+";
+                #[inline]
+                fn unwrapped_to_fixed<F: Fixed>(self) -> F {
+                    match ToFixed::overflowing_to_fixed(self) {
+                        (val, false) => val,
+                        (_, true) => panic!("overflow"),
+                    }
                 }
             }
         }
@@ -2490,6 +2564,17 @@ macro_rules! impl_fixed {
             /// Converts a fixed-point number.
             ///
             /// Any extra fractional bits are discarded, which rounds towards −∞.
+            ///
+            /// # Panics
+            ///
+            /// When debug assertions are enabled, panics if the value
+            /// does not fit. When debug assertions are not enabled,
+            /// the wrapped value can be returned, but it is not
+            /// considered a breaking change if in the future it
+            /// panics; if wrapping is required use
+            /// [`wrapping_from_fixed`] instead.
+            ///
+            /// [`wrapping_from_fixed`]: #tymethod.wrapping_from_fixed
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 let (wrapped, overflow) = FromFixed::overflowing_from_fixed(src);
@@ -2585,12 +2670,39 @@ macro_rules! impl_fixed {
                 };
                 (Self::from_bits(bits), conv.overflow || new_overflow)
             }
+
+            /// Converts a fixed-point number, panicking if it does not fit.
+            ///
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            ///
+            /// # Panics
+            ///
+            /// Panics if the value does not fit, even when debug
+            /// assertions are not enabled.
+            #[inline]
+            fn unwrapped_from_fixed<F: Fixed>(src: F) -> Self {
+                match FromFixed::overflowing_from_fixed(src) {
+                    (val, false) => val,
+                    (_, true) => panic!("overflow"),
+                }
+            }
         }
 
         impl<Frac: $LeEqU> ToFixed for $Fixed<Frac> {
             /// Converts a fixed-point number.
             ///
             /// Any extra fractional bits are discarded, which rounds towards −∞.
+            ///
+            /// # Panics
+            ///
+            /// When debug assertions are enabled, panics if the value
+            /// does not fit. When debug assertions are not enabled,
+            /// the wrapped value can be returned, but it is not
+            /// considered a breaking change if in the future it
+            /// panics; if wrapping is required use
+            /// [`wrapping_to_fixed`] instead.
+            ///
+            /// [`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
             #[inline]
             fn to_fixed<F: Fixed>(self) -> F {
                 FromFixed::from_fixed(self)
@@ -2635,6 +2747,18 @@ macro_rules! impl_fixed {
             #[inline]
             fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
                 FromFixed::overflowing_from_fixed(self)
+            }
+            /// Converts a fixed-point number, panicking if it does not fit.
+            ///
+            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            ///
+            /// # Panics
+            ///
+            /// Panics if the value does not fit, even when debug
+            /// assertions are not enabled.
+            #[inline]
+            fn unwrapped_to_fixed<F: Fixed>(self) -> F {
+                FromFixed::unwrapped_from_fixed(self)
             }
         }
 
