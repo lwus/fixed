@@ -86,6 +86,10 @@ The conversions supported cover the following cases.
         [`checked_sub`][f-cs-1-6], [`checked_mul_int`][f-cmi-1-6],
         [`checked_shl`][f-cshl-1-6], [`checked_shr`][f-cshr-1-6],
         [`checked_abs`][f-cab-1-6]
+  * The [`unwrapped_to_fixed`][f-utf-1-6] method was added to the
+    [`ToFixed`][f-tf-1-6] trait.
+  * The [`unwrapped_from_fixed`][f-uff-1-6] method was added to the
+    [`FromFixed`][f-ff-1-6] trait.
 
 [f-cab-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_abs
 [f-cad-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_add
@@ -94,6 +98,10 @@ The conversions supported cover the following cases.
 [f-cs-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_sub
 [f-cshl-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_shl
 [f-cshr-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_shr
+[f-ff-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FromFixed.html
+[f-tf-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.ToFixed.html
+[f-uff-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FromFixed.html#tymethod.unwrapped_from_fixed
+[f-utf-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.ToFixed.html#tymethod.unwrapped_to_fixed
 
 ### Version 1.5.0 news (2020-11-05)
 

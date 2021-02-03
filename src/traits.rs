@@ -1760,6 +1760,26 @@ pub trait FromFixed {
     fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool)
     where
         Self: Sized;
+
+    /// Converts from a fixed-point number, panicking if the value
+    /// does not fit.
+    ///
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the value does not fit, even when debug assertions
+    /// are not enabled.
+    #[inline]
+    fn unwrapped_from_fixed<F: Fixed>(src: F) -> Self
+    where
+        Self: Sized,
+    {
+        match Self::overflowing_from_fixed(src) {
+            (val, false) => val,
+            (_, true) => panic!("overflow"),
+        }
+    }
 }
 
 /// This trait provides checked conversions to fixed-point numbers.
@@ -1850,6 +1870,28 @@ pub trait ToFixed {
     /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool);
+
+    /// Converts to a fixed-point number, panicking if it does not fit.
+    ///
+    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `self` is a floating-point number that is not
+    /// [finite] or if the value does not fit, even if debug
+    /// assertions are not enabled.
+    ///
+    /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+    #[inline]
+    fn unwrapped_to_fixed<F: Fixed>(self) -> F
+    where
+        Self: Sized,
+    {
+        match self.overflowing_to_fixed() {
+            (val, false) => val,
+            (_, true) => panic!("overflow"),
+        }
+    }
 }
 
 impl ToFixed for bool {
