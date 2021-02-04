@@ -17,7 +17,7 @@ macro_rules! fixed_no_frac {
     (
         $Fixed:ident[$s_fixed:expr]($Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr),
         $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
-        $UInner:ty, $Signedness:tt,
+        $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
         $Double:ident, $DoubleInner:ty, $HasDouble:tt
     ) => {
         /// The implementation of items in this block is independent
@@ -605,6 +605,28 @@ assert_eq!(minus_five.abs(), five);
                     #[inline]
                     pub const fn abs(self) -> $Fixed<Frac> {
                         Self::from_bits(self.to_bits().abs())
+                    }
+                }
+
+                comment! {
+                    "Returns the absolute value using an unsigned type
+without any wrapping or panicking.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, ", ", $s_ufixed, "};
+type Fix = ", $s_fixed, "<U4>;
+type UFix = ", $s_ufixed, "<U4>;
+assert_eq!(Fix::from_num(-5).unsigned_abs(), UFix::from_num(5));
+// min_as_unsigned has only highest bit set
+let min_as_unsigned = UFix::from_num(1) << (UFix::INT_NBITS - 1);
+assert_eq!(Fix::MIN.unsigned_abs(), min_as_unsigned);
+```
+";
+                    #[inline]
+                    pub const fn unsigned_abs(self) -> $UFixed<Frac> {
+                        $UFixed::from_bits(self.to_bits().wrapping_abs() as $UInner)
                     }
                 }
             }

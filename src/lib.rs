@@ -389,7 +389,7 @@ macro_rules! fixed {
                 $s_nbits_m1, $s_nbits_m2, $s_nbits_m3, $s_nbits_m4
             ),
             $nbytes, $bytes_val, $be_bytes, $le_bytes,
-            $UFixed, $UInner, $Signedness,
+            $UFixed[stringify!($UFixed)], $UInner, $Signedness,
             $LeEqU_C0, $LeEqU_C1, $LeEqU_C2, $LeEqU_C3,
             $Double, $DoubleInner, $HasDouble
         }
@@ -401,7 +401,7 @@ macro_rules! fixed {
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
         $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
-        $UFixed:ident, $UInner:ty, $Signedness:tt,
+        $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
         $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt,
         $Double:ident, $DoubleInner:ty, $HasDouble:tt
     ) => {
@@ -471,7 +471,7 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
         fixed_no_frac! {
             $Fixed[$s_fixed]($Inner[$s_inner], $LeEqU, $s_nbits),
             $nbytes, $bytes_val, $be_bytes, $le_bytes,
-            $UInner, $Signedness,
+            $UFixed[$s_ufixed], $UInner, $Signedness,
             $Double, $DoubleInner, $HasDouble
         }
         // inherent methods that require Frac bounds, and cannot be const

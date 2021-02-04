@@ -1399,6 +1399,10 @@ where
 /// [`FixedI8`]: ../struct.FixedI8.html
 /// [`Fixed`]: trait.Fixed.html
 pub trait FixedSigned: Fixed + Neg<Output = Self> {
+    /// An unsigned fixed-point number type with the same number of
+    /// integer and fractional bits as `Self`.
+    type Unsigned: FixedUnsigned;
+
     /// Returns [`true`] if the number is > 0.
     ///
     /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -1411,6 +1415,10 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
 
     /// Returns the absolute value.
     fn abs(self) -> Self;
+
+    /// Returns the absolute value using an unsigned type without any
+    /// wrapping or panicking.
+    fn unsigned_abs(self) -> Self::Unsigned;
 
     /// Returns a number representing the sign of `self`.
     ///
@@ -2375,7 +2383,7 @@ macro_rules! trait_delegate {
 }
 
 macro_rules! impl_fixed {
-    ($Fixed:ident, $LeEqU:ident, $Bits:ident, $Signedness:tt) => {
+    ($Fixed:ident, $UFixed:ident, $LeEqU:ident, $Bits:ident, $Signedness:tt) => {
         impl<Frac: $LeEqU> FixedOptionalFeatures for $Fixed<Frac> {}
 
         impl<Frac: $LeEqU> Fixed for $Fixed<Frac> {
@@ -2765,7 +2773,9 @@ macro_rules! impl_fixed {
         if_signed! {
             $Signedness;
             impl<Frac: $LeEqU> FixedSigned for $Fixed<Frac> {
+                type Unsigned = $UFixed<Frac>;
                 trait_delegate! { fn abs(self) -> Self }
+                trait_delegate! { fn unsigned_abs(self) -> Self::Unsigned }
                 trait_delegate! { fn signum(self) -> Self }
                 trait_delegate! { fn checked_abs(self) -> Option<Self> }
                 trait_delegate! { fn checked_signum(self) -> Option<Self> }
@@ -2795,13 +2805,13 @@ macro_rules! impl_fixed {
     };
 }
 
-impl_fixed! { FixedI8, LeEqU8, i8, Signed }
-impl_fixed! { FixedI16, LeEqU16, i16, Signed }
-impl_fixed! { FixedI32, LeEqU32, i32, Signed }
-impl_fixed! { FixedI64, LeEqU64, i64, Signed }
-impl_fixed! { FixedI128, LeEqU128, i128, Signed }
-impl_fixed! { FixedU8, LeEqU8, u8, Unsigned }
-impl_fixed! { FixedU16, LeEqU16, u16, Unsigned }
-impl_fixed! { FixedU32, LeEqU32, u32, Unsigned }
-impl_fixed! { FixedU64, LeEqU64, u64, Unsigned }
-impl_fixed! { FixedU128, LeEqU128, u128, Unsigned }
+impl_fixed! { FixedI8, FixedU8, LeEqU8, i8, Signed }
+impl_fixed! { FixedI16, FixedU16, LeEqU16, i16, Signed }
+impl_fixed! { FixedI32, FixedU32, LeEqU32, i32, Signed }
+impl_fixed! { FixedI64, FixedU64, LeEqU64, i64, Signed }
+impl_fixed! { FixedI128, FixedU128, LeEqU128, i128, Signed }
+impl_fixed! { FixedU8, FixedU8, LeEqU8, u8, Unsigned }
+impl_fixed! { FixedU16, FixedU16, LeEqU16, u16, Unsigned }
+impl_fixed! { FixedU32, FixedU32, LeEqU32, u32, Unsigned }
+impl_fixed! { FixedU64, FixedU64, LeEqU64, u64, Unsigned }
+impl_fixed! { FixedU128, FixedU128, LeEqU128, u128, Unsigned }

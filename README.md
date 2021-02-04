@@ -84,6 +84,8 @@ The conversions supported cover the following cases.
   * The crate now requires rustc version 1.47.0 or later.
   * The optional [*az* crate] dependency was updated to
     [version 1.1][az-1-1].
+  * The [`unsigned_abs`][f-ua-1-6] method was added to all signed
+    fixed-point types and to the [`FixedSigned`][tfs-1-6] trait.
   * The following methods are now `const` functions:
       * [`checked_neg`][f-cn-1-6], [`checked_add`][f-cad-1-6],
         [`checked_sub`][f-cs-1-6], [`checked_mul_int`][f-cmi-1-6],
@@ -105,8 +107,10 @@ The conversions supported cover the following cases.
 [f-cshr-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_shr
 [f-ff-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FromFixed.html
 [f-tf-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.ToFixed.html
+[f-ua-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unsigned_abs
 [f-uff-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FromFixed.html#tymethod.unwrapped_from_fixed
 [f-utf-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.ToFixed.html#tymethod.unwrapped_to_fixed
+[tfs-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
 
 ### Version 1.5.0 news (2020-11-05)
 
