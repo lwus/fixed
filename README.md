@@ -79,7 +79,7 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
-### Version 1.6.0 news (unreleased)
+### Version 1.6.0 news (2021-02-05)
 
   * The crate now requires rustc version 1.47.0 or later.
   * The optional [*az* crate] dependency was updated to
@@ -98,115 +98,19 @@ The conversions supported cover the following cases.
 
 [*az* crate]: https://crates.io/crates/az
 [az-1-1]: https://docs.rs/az/~1.1/az/index.html
-[f-cab-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_abs
-[f-cad-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_add
-[f-cmi-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_mul_int
-[f-cn-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_neg
-[f-cs-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_sub
-[f-cshl-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_shl
-[f-cshr-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_shr
-[f-ff-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FromFixed.html
-[f-tf-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.ToFixed.html
-[f-ua-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unsigned_abs
-[f-uff-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FromFixed.html#tymethod.unwrapped_from_fixed
-[f-utf-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.ToFixed.html#tymethod.unwrapped_to_fixed
-[tfs-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
-
-### Version 1.5.0 news (2020-11-05)
-
-  * The [`wide_mul`][f-wm-1-5] method was added to all fixed-point
-    numbers up to 64 bits wide ([issue 25]).
-  * Unwrapped methods for arithmetic together with the
-    [`Unwrapped`][unw-1-5] wrapper were added. Unwrapped methods panic
-    on overflow, even when debug assertions are disabled, similar to
-    how wrapping methods will wrap around even when debug assertions
-    are enabled. (This was previously an experimental feature
-    `unwrapped`.)
-  * The [`serde-str`][feat-1-5] feature was added. (This was
-    previously an experimental feature.)
-  * For the experimental feature [`num-traits`][feat-exp-1-5], some
-    missing supertraits were added to
-    [`FixedOptionalFeatures`][tfof-1-5].
-  * Bug fix: multiplication of [`FixedI128`][i128-1-5] was panicking
-    when multiplying some large negative numbers ([issue 26]).
-
-[i128-1-5]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI128.html
-[f-wm-1-5]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.wide_mul
-[feat-1-5]: https://docs.rs/fixed/~1.5/fixed/#optional-features
-[feat-exp-1-5]: https://docs.rs/fixed/~1.5/fixed/#experimental-optional-features
-[issue 25]: https://gitlab.com/tspiteri/fixed/-/issues/25
-[issue 26]: https://gitlab.com/tspiteri/fixed/-/issues/26
-[tfof-1-5]: https://docs.rs/fixed/~1.5/fixed/traits/trait.FixedOptionalFeatures.html
-[unw-1-5]: https://docs.rs/fixed/~1.5/fixed/struct.Unwrapped.html
-
-### Version 1.4.0 news (2020-10-22)
-
-  * The following methods were added to all fixed-point types, to the
-    [`Fixed`][tf-1-4] trait, and to the [`Wrapping`][w-1-4] wrapper:
-      * [`recip`][f-rec-1-4], [`checked_recip`][f-crec-1-4],
-        [`saturating_recip`][f-srec-1-4],
-        [`wrapping_recip`][f-wrec-1-4],
-        [`overflowing_recip`][f-orec-1-4]
-  * For the experimental feature [`num-traits`][feat-exp-1-4], the
-    following traits were implemented where applicable ([issue 23]):
-      * [`Num`][nt-0-2-num]
-      * [`Signed`][nt-0-2-signed], [`Unsigned`][nt-0-2-unsigned]
-      * [`Inv`][nt-0-2-inv]
-      * [`MulAdd`][nt-0-2-ma], [`MulAddAssign`][nt-0-2-maa]
-      * [`FloatConst`][nt-0-2-fc]
-      * [`ToPrimitive`][nt-0-2-tp], [`FromPrimitive`][nt-0-2-fp]
-  * For the experimental feature [`serde-str`][feat-exp-1-4],
-    serialization in human-readable formats was made more convenient
-    to write manually ([issue 24]). This makes it incompatible with
-    the version in 1.3.0.
-
-[f-crec-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.FixedI32.html#method.checked_recip
-[f-orec-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.FixedI32.html#method.overflowing_recip
-[f-rec-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.FixedI32.html#method.recip
-[f-srec-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.FixedI32.html#method.saturating_recip
-[f-wrec-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.FixedI32.html#method.wrapping_recip
-[feat-exp-1-4]: https://docs.rs/fixed/~1.4/fixed/#experimental-optional-features
-[issue 23]: https://gitlab.com/tspiteri/fixed/-/issues/23
-[issue 24]: https://gitlab.com/tspiteri/fixed/-/issues/24
-[nt-0-2-fc]: https://docs.rs/num-traits/^0.2/num_traits/float/trait.FloatConst.html
-[nt-0-2-fp]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.FromPrimitive.html
-[nt-0-2-inv]: https://docs.rs/num-traits/^0.2/num_traits/ops/inv/trait.Inv.html
-[nt-0-2-ma]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAdd.html
-[nt-0-2-maa]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAddAssign.html
-[nt-0-2-num]: https://docs.rs/num-traits/^0.2/num_traits/trait.Num.html
-[nt-0-2-signed]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Signed.html
-[nt-0-2-tp]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.ToPrimitive.html
-[nt-0-2-unsigned]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Unsigned.html
-[tf-1-4]: https://docs.rs/fixed/~1.4/fixed/traits/trait.Fixed.html
-[w-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.Wrapping.html
-
-### Version 1.3.0 news (2020-10-15)
-
-  * The [`MulAssign`] implementation on fixed-point numbers now
-    accepts an rhs fixed-point number with a different number of
-    fractional bits from `self`.
-  * The following methods were added to all fixed-point types, to the
-    [`Fixed`][tf-ma-1-3] trait, and to the [`Wrapping`][w-ma-1-3] wrapper:
-      * [`mul_add`][f-ma-1-3], [`checked_mul_add`][f-cma-1-3],
-        [`saturating_mul_add`][f-sma-1-3],
-        [`wrapping_mul_add`][f-wma-1-3],
-        [`overflowing_mul_add`][f-oma-1-3]
-  * The new experimental feature [`unwrapped`][feat-exp-1-3] was
-    added, providing arithmetic methods that panic on overflow even
-    when debug assertions are disabled.
-  * The new experimental feature [`serde-str`][feat-exp-1-3] was
-    added, which makes serialization use the number’s value in
-    human-readable formats.
-
-[`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
-[f-cma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.checked_mul_add
-[f-ma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.mul_add
-[f-oma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.overflowing_mul_add
-[f-sma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.saturating_mul_add
-[f-wma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.wrapping_mul_add
-[feat-exp-1-3]: https://docs.rs/fixed/~1.3/fixed/#experimental-optional-features
-[tf-ma-1-3]: https://docs.rs/fixed/~1.3/fixed/traits/trait.Fixed.html#tymethod.mul_add
-[w-ma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.Wrapping.html#method.mul_add
+[f-cab-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_abs
+[f-cad-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_add
+[f-cmi-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_mul_int
+[f-cn-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_neg
+[f-cs-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_sub
+[f-cshl-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_shl
+[f-cshr-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_shr
+[f-ff-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.FromFixed.html
+[f-tf-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.ToFixed.html
+[f-ua-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.unsigned_abs
+[f-uff-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.FromFixed.html#method.unwrapped_from_fixed
+[f-utf-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.ToFixed.html#method.unwrapped_to_fixed
+[tfs-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.FixedSigned.html
 
 ### Other releases
 
@@ -290,7 +194,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 
 ```toml
 [dependencies]
-fixed = "1.5"
+fixed = "1.6"
 ```
 
 The *fixed* crate requires rustc version 1.47.0 or later.
@@ -321,7 +225,7 @@ To enable features, you can add the dependency like this to
 
 ```toml
 [dependencies.fixed]
-version = "1.5"
+version = "1.6"
 features = ["f16", "serde"]
 ```
 
@@ -370,40 +274,40 @@ additional terms or conditions.
 [`Binary`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html
 [`Display`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html
 [`Error`]: https://doc.rust-lang.org/nightly/std/error/trait.Error.html
-[`FixedI128`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI128.html
-[`FixedI16`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI16.html
-[`FixedI32`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html
-[`FixedI64`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI64.html
-[`FixedI8`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI8.html
-[`FixedU128`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedU128.html
-[`FixedU16`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedU16.html
-[`FixedU32`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedU32.html
-[`FixedU64`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedU64.html
-[`FixedU8`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedU8.html
-[`FromFixed`]: https://docs.rs/fixed/~1.5/fixed/traits/trait.FromFixed.html
+[`FixedI128`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI128.html
+[`FixedI16`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI16.html
+[`FixedI32`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html
+[`FixedI64`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI64.html
+[`FixedI8`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI8.html
+[`FixedU128`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU128.html
+[`FixedU16`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU16.html
+[`FixedU32`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU32.html
+[`FixedU64`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU64.html
+[`FixedU8`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU8.html
+[`FromFixed`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.FromFixed.html
 [`FromStr`]: https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html
 [`From`]: https://doc.rust-lang.org/nightly/core/convert/trait.From.html
-[`I20F12`]: https://docs.rs/fixed/~1.5/fixed/types/type.I20F12.html
-[`I4F12`]: https://docs.rs/fixed/~1.5/fixed/types/type.I4F12.html
-[`I4F4`]: https://docs.rs/fixed/~1.5/fixed/types/type.I4F4.html
+[`I20F12`]: https://docs.rs/fixed/~1.6/fixed/types/type.I20F12.html
+[`I4F12`]: https://docs.rs/fixed/~1.6/fixed/types/type.I4F12.html
+[`I4F4`]: https://docs.rs/fixed/~1.6/fixed/types/type.I4F4.html
 [`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
-[`LosslessTryFrom`]: https://docs.rs/fixed/~1.5/fixed/traits/trait.LosslessTryFrom.html
-[`LosslessTryInto`]: https://docs.rs/fixed/~1.5/fixed/traits/trait.LosslessTryInto.html
-[`LossyFrom`]: https://docs.rs/fixed/~1.5/fixed/traits/trait.LossyFrom.html
-[`LossyInto`]: https://docs.rs/fixed/~1.5/fixed/traits/trait.LossyInto.html
+[`LosslessTryFrom`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.LosslessTryFrom.html
+[`LosslessTryInto`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.LosslessTryInto.html
+[`LossyFrom`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.LossyFrom.html
+[`LossyInto`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.LossyInto.html
 [`LowerHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html
 [`Octal`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html
-[`ParseFixedError`]: https://docs.rs/fixed/~1.5/fixed/struct.ParseFixedError.html
-[`ToFixed`]: https://docs.rs/fixed/~1.5/fixed/traits/trait.ToFixed.html
-[`U12`]: https://docs.rs/fixed/~1.5/fixed/types/extra/type.U12.html
-[`U20F12`]: https://docs.rs/fixed/~1.5/fixed/types/type.U20F12.html
+[`ParseFixedError`]: https://docs.rs/fixed/~1.6/fixed/struct.ParseFixedError.html
+[`ToFixed`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.ToFixed.html
+[`U12`]: https://docs.rs/fixed/~1.6/fixed/types/extra/type.U12.html
+[`U20F12`]: https://docs.rs/fixed/~1.6/fixed/types/type.U20F12.html
 [`UpperHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html
 [`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
-[`checked_from_num`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.checked_from_num
+[`checked_from_num`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_from_num
 [`f16`]: https://docs.rs/half/^1/half/struct.f16.html
-[`from_num`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.from_num
-[`from_str_binary`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.from_str_binary
-[`from_str_hex`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.from_str_hex
-[`from_str_octal`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.from_str_octal
-[`to_num`]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.to_num
+[`from_num`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.from_num
+[`from_str_binary`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.from_str_binary
+[`from_str_hex`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.from_str_hex
+[`from_str_octal`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.from_str_octal
+[`to_num`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.to_num
 [const generics]: https://github.com/rust-lang/rust/issues/44580

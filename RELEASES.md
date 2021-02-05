@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.6.0 (unreleased)
+Version 1.6.0 (2021-02-05)
 ==========================
 
   * The crate now requires rustc version 1.47.0 or later.
@@ -24,19 +24,19 @@ Version 1.6.0 (unreleased)
     [`FromFixed`][f-ff-1-6] trait.
 
 [az-1-1]: https://docs.rs/az/~1.1/az/index.html
-[f-cab-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_abs
-[f-cad-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_add
-[f-cmi-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_mul_int
-[f-cn-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_neg
-[f-cs-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_sub
-[f-cshl-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_shl
-[f-cshr-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_shr
-[f-ff-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FromFixed.html
-[f-tf-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.ToFixed.html
-[f-ua-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unsigned_abs
-[f-uff-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FromFixed.html#tymethod.unwrapped_from_fixed
-[f-utf-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.ToFixed.html#tymethod.unwrapped_to_fixed
-[tfs-1-6]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
+[f-cab-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_abs
+[f-cad-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_add
+[f-cmi-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_mul_int
+[f-cn-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_neg
+[f-cs-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_sub
+[f-cshl-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_shl
+[f-cshr-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_shr
+[f-ff-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.FromFixed.html
+[f-tf-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.ToFixed.html
+[f-ua-1-6]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.unsigned_abs
+[f-uff-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.FromFixed.html#method.unwrapped_from_fixed
+[f-utf-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.ToFixed.html#method.unwrapped_to_fixed
+[tfs-1-6]: https://docs.rs/fixed/~1.6/fixed/traits/trait.FixedSigned.html
 
 Version 1.5.0 (2020-11-05)
 ==========================
