@@ -1,4 +1,4 @@
-<!-- Copyright © 2018–2020 Trevor Spiteri -->
+<!-- Copyright © 2018–2021 Trevor Spiteri -->
 
 <!-- Copying and distribution of this file, with or without
 modification, are permitted in any medium without royalty provided the
