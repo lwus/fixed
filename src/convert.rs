@@ -1129,16 +1129,16 @@ mod tests {
     #[test]
     fn expanding_from_unsigned() {
         type L8 = U8F0;
-        type LL16 = U16F0;
-        type LH16 = U8F8;
-        type LL128 = U128F0;
-        type LH128 = U8F120;
+        type Ll16 = U16F0;
+        type Lh16 = U8F8;
+        type Ll128 = U128F0;
+        type Lh128 = U8F120;
 
         type H8 = U0F8;
-        type HL16 = U8F8;
-        type HH16 = U0F16;
-        type HL128 = U120F8;
-        type HH128 = U0F128;
+        type Hl16 = U8F8;
+        type Hh16 = U0F16;
+        type Hl128 = U120F8;
+        type Hh128 = U0F128;
 
         let vals: &[u8] = &[0x00, 0x7f, 0x80, 0xff];
         for &val in vals {
@@ -1148,32 +1148,32 @@ mod tests {
             let l = L8::from_bits(val);
             assert_eq!(l, L8::from(val));
             assert_eq!(val, u8::from(l));
-            assert_eq!(LL16::from(l), LL16::from_bits(val16));
-            assert_eq!(LH16::from(l), LH16::from_bits(val16 << 8));
-            assert_eq!(LL128::from(l), LL128::from_bits(val128));
-            assert_eq!(LH128::from(l), LH128::from_bits(val128 << 120));
+            assert_eq!(Ll16::from(l), Ll16::from_bits(val16));
+            assert_eq!(Lh16::from(l), Lh16::from_bits(val16 << 8));
+            assert_eq!(Ll128::from(l), Ll128::from_bits(val128));
+            assert_eq!(Lh128::from(l), Lh128::from_bits(val128 << 120));
 
             let h = H8::from_bits(val);
-            assert_eq!(HL16::from(h), HL16::from_bits(val16));
-            assert_eq!(HH16::from(h), HH16::from_bits(val16 << 8));
-            assert_eq!(HL128::from(h), HL128::from_bits(val128));
-            assert_eq!(HH128::from(h), HH128::from_bits(val128 << 120));
+            assert_eq!(Hl16::from(h), Hl16::from_bits(val16));
+            assert_eq!(Hh16::from(h), Hh16::from_bits(val16 << 8));
+            assert_eq!(Hl128::from(h), Hl128::from_bits(val128));
+            assert_eq!(Hh128::from(h), Hh128::from_bits(val128 << 120));
         }
     }
 
     #[test]
     fn expanding_from_signed() {
         type L8 = I8F0;
-        type LL16 = I16F0;
-        type LH16 = I8F8;
-        type LL128 = I128F0;
-        type LH128 = I8F120;
+        type Ll16 = I16F0;
+        type Lh16 = I8F8;
+        type Ll128 = I128F0;
+        type Lh128 = I8F120;
 
         type H8 = I0F8;
-        type HL16 = I8F8;
-        type HH16 = I0F16;
-        type HL128 = I120F8;
-        type HH128 = I0F128;
+        type Hl16 = I8F8;
+        type Hh16 = I0F16;
+        type Hl128 = I120F8;
+        type Hh128 = I0F128;
 
         let vals: &[i8] = &[0x00, 0x7f, -0x80, -0x01];
         for &val in vals {
@@ -1183,32 +1183,32 @@ mod tests {
             let l = L8::from_bits(val);
             assert_eq!(l, L8::from(val));
             assert_eq!(val, i8::from(l));
-            assert_eq!(LL16::from(l), LL16::from_bits(val16));
-            assert_eq!(LH16::from(l), LH16::from_bits(val16 << 8));
-            assert_eq!(LL128::from(l), LL128::from_bits(val128));
-            assert_eq!(LH128::from(l), LH128::from_bits(val128 << 120));
+            assert_eq!(Ll16::from(l), Ll16::from_bits(val16));
+            assert_eq!(Lh16::from(l), Lh16::from_bits(val16 << 8));
+            assert_eq!(Ll128::from(l), Ll128::from_bits(val128));
+            assert_eq!(Lh128::from(l), Lh128::from_bits(val128 << 120));
 
             let h = H8::from_bits(val);
-            assert_eq!(HL16::from(h), HL16::from_bits(val16));
-            assert_eq!(HH16::from(h), HH16::from_bits(val16 << 8));
-            assert_eq!(HL128::from(h), HL128::from_bits(val128));
-            assert_eq!(HH128::from(h), HH128::from_bits(val128 << 120));
+            assert_eq!(Hl16::from(h), Hl16::from_bits(val16));
+            assert_eq!(Hh16::from(h), Hh16::from_bits(val16 << 8));
+            assert_eq!(Hl128::from(h), Hl128::from_bits(val128));
+            assert_eq!(Hh128::from(h), Hh128::from_bits(val128 << 120));
         }
     }
 
     #[test]
     fn expanding_from_unsigned_to_signed() {
         type L8 = U8F0;
-        type LL16 = I16F0;
-        type LH16 = I9F7;
-        type LL128 = I128F0;
-        type LH128 = I9F119;
+        type Ll16 = I16F0;
+        type Lh16 = I9F7;
+        type Ll128 = I128F0;
+        type Lh128 = I9F119;
 
         type H8 = U0F8;
-        type HL16 = I8F8;
-        type HH16 = I1F15;
-        type HL128 = I120F8;
-        type HH128 = I1F127;
+        type Hl16 = I8F8;
+        type Hh16 = I1F15;
+        type Hl128 = I120F8;
+        type Hh128 = I1F127;
 
         let vals: &[u8] = &[0x00, 0x7f, 0x80, 0xff];
         for &val in vals {
@@ -1218,16 +1218,16 @@ mod tests {
             let l = L8::from_bits(val);
             assert_eq!(l, L8::from(val));
             assert_eq!(val, u8::from(l));
-            assert_eq!(LL16::from(l), LL16::from_bits(val16));
-            assert_eq!(LH16::from(l), LH16::from_bits(val16 << 7));
-            assert_eq!(LL128::from(l), LL128::from_bits(val128));
-            assert_eq!(LH128::from(l), LH128::from_bits(val128 << 119));
+            assert_eq!(Ll16::from(l), Ll16::from_bits(val16));
+            assert_eq!(Lh16::from(l), Lh16::from_bits(val16 << 7));
+            assert_eq!(Ll128::from(l), Ll128::from_bits(val128));
+            assert_eq!(Lh128::from(l), Lh128::from_bits(val128 << 119));
 
             let h = H8::from_bits(val);
-            assert_eq!(HL16::from(h), HL16::from_bits(val16));
-            assert_eq!(HH16::from(h), HH16::from_bits(val16 << 7));
-            assert_eq!(HL128::from(h), HL128::from_bits(val128));
-            assert_eq!(HH128::from(h), HH128::from_bits(val128 << 119));
+            assert_eq!(Hl16::from(h), Hl16::from_bits(val16));
+            assert_eq!(Hh16::from(h), Hh16::from_bits(val16 << 7));
+            assert_eq!(Hl128::from(h), Hl128::from_bits(val128));
+            assert_eq!(Hh128::from(h), Hh128::from_bits(val128 << 119));
         }
     }
 
