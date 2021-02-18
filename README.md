@@ -79,6 +79,18 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.7.0 news (unreleased)
+
+  * For the experimental feature [`num-traits`][feat-exp-1-7], the
+    following traits were implemented where applicable:
+      * [`OverflowingAdd`][nt-0-2-oa], [`OverflowingSub`][nt-0-2-os],
+        [`OverflowingMul`][nt-0-2-om]
+
+[feat-exp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[nt-0-2-oa]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
+[nt-0-2-om]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html
+[nt-0-2-os]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingSub.html
+
 ### Version 1.6.0 news (2021-02-05)
 
   * The crate now requires rustc version 1.47.0 or later.

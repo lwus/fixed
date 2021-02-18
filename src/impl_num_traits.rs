@@ -35,6 +35,7 @@ use num_traits::{
         },
         inv::Inv,
         mul_add::{MulAdd, MulAddAssign},
+        overflowing::{OverflowingAdd, OverflowingMul, OverflowingSub},
         saturating::{SaturatingAdd, SaturatingMul, SaturatingSub},
         wrapping::{WrappingAdd, WrappingMul, WrappingNeg, WrappingShl, WrappingShr, WrappingSub},
     },
@@ -295,6 +296,27 @@ macro_rules! impl_traits {
             #[inline]
             fn wrapping_shr(&self, rhs: u32) -> Self {
                 (*self).wrapping_shr(rhs)
+            }
+        }
+
+        impl<Frac> OverflowingAdd for $Fixed<Frac> {
+            #[inline]
+            fn overflowing_add(&self, v: &Self) -> (Self, bool) {
+                (*self).overflowing_add(*v)
+            }
+        }
+
+        impl<Frac> OverflowingSub for $Fixed<Frac> {
+            #[inline]
+            fn overflowing_sub(&self, v: &Self) -> (Self, bool) {
+                (*self).overflowing_sub(*v)
+            }
+        }
+
+        impl<Frac: $LeEqU> OverflowingMul for $Fixed<Frac> {
+            #[inline]
+            fn overflowing_mul(&self, v: &Self) -> (Self, bool) {
+                (*self).overflowing_mul(*v)
             }
         }
 

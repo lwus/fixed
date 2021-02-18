@@ -48,6 +48,7 @@ use num_traits::{
             CheckedSub,
         },
         inv::Inv,
+        overflowing::{OverflowingAdd, OverflowingMul, OverflowingSub},
         saturating::{SaturatingAdd, SaturatingMul, SaturatingSub},
         wrapping::{WrappingAdd, WrappingMul, WrappingNeg, WrappingShl, WrappingShr, WrappingSub},
     },
@@ -85,6 +86,7 @@ macro_rules! comment_features {
                 Self: SaturatingAdd + SaturatingSub + SaturatingMul,
                 Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
                 Self: WrappingShl + WrappingShr,
+                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
                 Self: ToPrimitive + FromPrimitive + FloatConst,
             {
             }
@@ -102,6 +104,7 @@ macro_rules! comment_features {
                 Self: SaturatingAdd + SaturatingSub + SaturatingMul,
                 Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
                 Self: WrappingShl + WrappingShr,
+                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
                 Self: ToPrimitive + FromPrimitive + FloatConst,
                 Self: Serialize + for<'de> Deserialize<'de>,
             {
@@ -138,6 +141,7 @@ macro_rules! comment_features {
                 Self: SaturatingAdd + SaturatingSub + SaturatingMul,
                 Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
                 Self: WrappingShl + WrappingShr,
+                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
                 Self: ToPrimitive + FromPrimitive + FloatConst,
             {
             }
@@ -156,6 +160,7 @@ macro_rules! comment_features {
                 Self: SaturatingAdd + SaturatingSub + SaturatingMul,
                 Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
                 Self: WrappingShl + WrappingShr,
+                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
                 Self: ToPrimitive + FromPrimitive + FloatConst,
                 Self: Serialize + for<'de> Deserialize<'de>,
             {
@@ -183,6 +188,7 @@ depending on the crate’s [optional features].
       * [`SaturatingAdd`], [`SaturatingSub`], [`SaturatingMul`]
       * [`WrappingAdd`], [`WrappingSub`], [`WrappingNeg`],
         [`WrappingMul`], [`WrappingShl`], [`WrappingShr`]
+      * [`OverflowingAdd`], [`OverflowingSub`], [`OverflowingMul`]
       * [`ToPrimitive`], [`FromPrimitive`]
       * [`FloatConst`]
 
@@ -225,6 +231,9 @@ depending on the crate’s [optional features].
 [`MulAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAdd.html
 [`Num`]: https://docs.rs/num-traits/^0.2/num_traits/trait.Num.html
 [`One`]: https://docs.rs/num-traits/^0.2/num_traits/identities/trait.One.html
+[`OverflowingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
+[`OverflowingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html
+[`OverflowingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingSub.html
 [`PartialOrd`]: https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html
 [`SaturatingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingAdd.html
 [`SaturatingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingMul.html
