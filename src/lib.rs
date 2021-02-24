@@ -377,7 +377,7 @@ macro_rules! fixed {
             $Inner:ty, $LeEqU:tt, $s_nbits:expr,
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
-        $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
+        $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UFixed:ident, $UInner:ty, $Signedness:tt,
         $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt,
         $Double:ident, $DoubleInner:ty, $HasDouble:tt
@@ -388,7 +388,7 @@ macro_rules! fixed {
                 $Inner[stringify!($Inner)], $LeEqU, $s_nbits,
                 $s_nbits_m1, $s_nbits_m2, $s_nbits_m3, $s_nbits_m4
             ),
-            $nbytes, $bytes_val, $be_bytes, $le_bytes,
+            $nbytes, $bytes_val, $rev_bytes_val, $be_bytes, $le_bytes,
             $UFixed[stringify!($UFixed)], $UInner, $Signedness,
             $LeEqU_C0, $LeEqU_C1, $LeEqU_C2, $LeEqU_C3,
             $Double, $DoubleInner, $HasDouble
@@ -400,7 +400,7 @@ macro_rules! fixed {
             $Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr,
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
-        $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
+        $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
         $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt,
         $Double:ident, $DoubleInner:ty, $HasDouble:tt
@@ -470,7 +470,7 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
         // inherent methods that do not require Frac bounds, some of which can thus be const
         fixed_no_frac! {
             $Fixed[$s_fixed]($Inner[$s_inner], $LeEqU, $s_nbits),
-            $nbytes, $bytes_val, $be_bytes, $le_bytes,
+            $nbytes, $bytes_val, $rev_bytes_val, $be_bytes, $le_bytes,
             $UFixed[$s_ufixed], $UInner, $Signedness,
             $Double, $DoubleInner, $HasDouble
         }
@@ -490,7 +490,7 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
 fixed! {
     "An eight-bit fixed-point unsigned",
     FixedU8(u8, LeEqU8, "8", "7", "6", "5", "4"),
-    1, "0x12", "[0x12]", "[0x12]",
+    1, "0x12", "0x12", "[0x12]", "[0x12]",
     FixedU8, u8, Unsigned,
     U8, U7, U6, U5,
     FixedU16, u16, True
@@ -498,7 +498,7 @@ fixed! {
 fixed! {
     "A 16-bit fixed-point unsigned",
     FixedU16(u16, LeEqU16, "16", "15", "14", "13", "12"),
-    2, "0x1234", "[0x12, 0x34]", "[0x34, 0x12]",
+    2, "0x1234", "0x3412", "[0x12, 0x34]", "[0x34, 0x12]",
     FixedU16, u16, Unsigned,
     U16, U15, U14, U13,
     FixedU32, u32, True
@@ -506,7 +506,7 @@ fixed! {
 fixed! {
     "A 32-bit fixed-point unsigned",
     FixedU32(u32, LeEqU32, "32", "31", "30", "29", "28"),
-    4, "0x1234_5678", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
+    4, "0x1234_5678", "0x7856_3412", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
     FixedU32, u32, Unsigned,
     U32, U31, U30, U29,
     FixedU64, u64, True
@@ -514,7 +514,7 @@ fixed! {
 fixed! {
     "A 64-bit fixed-point unsigned",
     FixedU64(u64, LeEqU64, "64", "63", "62", "61", "60"),
-    8, "0x1234_5678_9ABC_DEF0",
+    8, "0x1234_5678_9ABC_DEF0", "0xF0DE_BC8A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0]",
     "[0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
     FixedU64, u64, Unsigned,
@@ -525,6 +525,7 @@ fixed! {
     "A 128-bit fixed-point unsigned",
     FixedU128(u128, LeEqU128, "128", "127", "126", "125", "124"),
     16, "0x1234_5678_9ABC_DEF0_1234_5678_9ABC_DEF0",
+    "0xF0DE_BC9A_7856_3412_F0DE_BC9A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0, \
      0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0]",
     "[0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12, \
@@ -536,7 +537,7 @@ fixed! {
 fixed! {
     "An eight-bit fixed-point signed",
     FixedI8(i8, LeEqU8, "8", "7", "6", "5", "4"),
-    1, "0x12", "[0x12]", "[0x12]",
+    1, "0x12", "0x12", "[0x12]", "[0x12]",
     FixedU8, u8, Signed,
     U7, U6, U5, U4,
     FixedI16, i16, True
@@ -544,7 +545,7 @@ fixed! {
 fixed! {
     "A 16-bit fixed-point signed",
     FixedI16(i16, LeEqU16, "16", "15", "14", "13", "12"),
-    2, "0x1234", "[0x12, 0x34]", "[0x34, 0x12]",
+    2, "0x1234", "0x3412", "[0x12, 0x34]", "[0x34, 0x12]",
     FixedU16, u16, Signed,
     U15, U14, U13, U12,
     FixedI32, i32, True
@@ -552,7 +553,7 @@ fixed! {
 fixed! {
     "A 32-bit fixed-point signed",
     FixedI32(i32, LeEqU32, "32", "31", "30", "29", "28"),
-    4, "0x1234_5678", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
+    4, "0x1234_5678", "0x7856_3412", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
     FixedU32, u32, Signed,
     U31, U30, U29, U28,
     FixedI64, i64, True
@@ -560,7 +561,7 @@ fixed! {
 fixed! {
     "A 64-bit fixed-point signed",
     FixedI64(i64, LeEqU64, "64", "63", "62", "61", "60"),
-    8, "0x1234_5678_9ABC_DEF0",
+    8, "0x1234_5678_9ABC_DEF0", "0xF0DE_BC8A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0]",
     "[0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
     FixedU64, u64, Signed,
@@ -571,6 +572,7 @@ fixed! {
     "A 128-bit fixed-point signed",
     FixedI128(i128, LeEqU128, "128", "127", "126", "125", "124"),
     16, "0x1234_5678_9ABC_DEF0_1234_5678_9ABC_DEF0",
+    "0xF0DE_BC9A_7856_3412_F0DE_BC9A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0, \
      0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0]",
     "[0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12, \

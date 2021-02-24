@@ -16,7 +16,7 @@
 macro_rules! fixed_no_frac {
     (
         $Fixed:ident[$s_fixed:expr]($Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr),
-        $nbytes:expr, $bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
+        $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
         $Double:ident, $DoubleInner:ty, $HasDouble:tt
     ) => {
@@ -89,6 +89,113 @@ assert_eq!(Fix::from_num(2).to_bits(), 0b10_0000);
                 #[inline]
                 pub const fn to_bits(self) -> $Inner {
                     self.bits
+                }
+            }
+
+            comment! {
+                "Converts a fixed-point number from big endian to the target’s endianness.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let f = Fix::from_bits(", $bytes_val, ");
+if cfg!(target_endian = \"big\") {
+    assert_eq!(Fix::from_be(f), f);
+} else {
+    assert_eq!(Fix::from_be(f), f.swap_bytes());
+}
+```
+";
+                #[inline]
+                pub const fn from_be(f: $Fixed<Frac>) -> $Fixed<Frac> {
+                    $Fixed::from_bits(<$Inner>::from_be(f.to_bits()))
+                }
+            }
+
+            comment! {
+                "Converts a fixed-point number from little endian to the target’s endianness.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let f = Fix::from_bits(", $bytes_val, ");
+if cfg!(target_endian = \"little\") {
+    assert_eq!(Fix::from_le(f), f);
+} else {
+    assert_eq!(Fix::from_le(f), f.swap_bytes());
+}
+```
+";
+                #[inline]
+                pub const fn from_le(f: $Fixed<Frac>) -> $Fixed<Frac> {
+                    $Fixed::from_bits(<$Inner>::from_le(f.to_bits()))
+                }
+            }
+
+            comment! {
+                "Converts `self` to big endian from the target’s endianness.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let f = Fix::from_bits(", $bytes_val, ");
+if cfg!(target_endian = \"big\") {
+    assert_eq!(f.to_be(), f);
+} else {
+    assert_eq!(f.to_be(), f.swap_bytes());
+}
+```
+";
+                #[inline]
+                pub const fn to_be(self) -> $Fixed<Frac> {
+                    $Fixed::from_bits(self.to_bits().to_be())
+                }
+            }
+
+            comment! {
+                "Converts `self` to little endian from the target’s endianness.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let f = Fix::from_bits(", $bytes_val, ");
+if cfg!(target_endian = \"little\") {
+    assert_eq!(f.to_le(), f);
+} else {
+    assert_eq!(f.to_le(), f.swap_bytes());
+}
+```
+";
+                #[inline]
+                pub const fn to_le(self) -> $Fixed<Frac> {
+                    $Fixed::from_bits(self.to_bits().to_le())
+                }
+            }
+
+            comment! {
+                "Reverses the byte order of the fixed-point number.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let f = Fix::from_bits(", $bytes_val, ");
+let rev = Fix::from_bits(", $rev_bytes_val, ");
+assert_eq!(f.swap_bytes(), rev);
+```
+";
+                #[inline]
+                pub const fn swap_bytes(self) -> $Fixed<Frac> {
+                    $Fixed::from_bits(self.to_bits().swap_bytes())
                 }
             }
 
@@ -341,6 +448,25 @@ assert_eq!(f.trailing_zeros(), 5);
                 #[inline]
                 pub const fn trailing_zeros(self) -> u32 {
                     self.to_bits().trailing_zeros()
+                }
+            }
+
+            comment! {
+                "Reverses the order of the bits of the fixed-point number.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let bits = ", $bytes_val, "_", $s_inner, ";
+let rev_bits = bits.reverse_bits();
+assert_eq!(Fix::from_bits(bits).reverse_bits(), Fix::from_bits(rev_bits));
+```
+";
+                #[inline]
+                pub const fn reverse_bits(self) -> $Fixed<Frac> {
+                    $Fixed::from_bits(self.to_bits().reverse_bits())
                 }
             }
 
