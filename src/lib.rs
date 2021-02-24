@@ -287,6 +287,7 @@ additional terms or conditions.
 #![doc(html_root_url = "https://docs.rs/fixed/~1.6")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
+#![allow(clippy::wrong_self_convention)]
 
 #[cfg(all(not(feature = "std"), test))]
 extern crate std;
