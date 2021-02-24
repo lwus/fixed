@@ -210,6 +210,120 @@ impl<F: Fixed> Unwrapped<F> {
         Unwrapped(self.0.swap_bytes())
     }
 
+    /// Creates a fixed-point number from its representation
+    /// as a byte array in big endian.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let bytes = [0x12, 0x34, 0x56, 0x78];
+    /// assert_eq!(
+    ///     Unwrapped::<I16F16>::from_be_bytes(bytes),
+    ///     Unwrapped::<I16F16>::from_bits(0x1234_5678)
+    /// );
+    /// ```
+    #[inline]
+    pub fn from_be_bytes(bytes: F::Bytes) -> Self {
+        Unwrapped(F::from_be_bytes(bytes))
+    }
+
+    /// Creates a fixed-point number from its representation
+    /// as a byte array in little endian.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let bytes = [0x78, 0x56, 0x34, 0x12];
+    /// assert_eq!(
+    ///     Unwrapped::<I16F16>::from_le_bytes(bytes),
+    ///     Unwrapped::<I16F16>::from_bits(0x1234_5678)
+    /// );
+    /// ```
+    #[inline]
+    pub fn from_le_bytes(bytes: F::Bytes) -> Self {
+        Unwrapped(F::from_le_bytes(bytes))
+    }
+
+    /// Creates a fixed-point number from its representation
+    /// as a byte array in native endian.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let bytes = if cfg!(target_endian = "big") {
+    ///     [0x12, 0x34, 0x56, 0x78]
+    /// } else {
+    ///     [0x78, 0x56, 0x34, 0x12]
+    /// };
+    /// assert_eq!(
+    ///     Unwrapped::<I16F16>::from_ne_bytes(bytes),
+    ///     Unwrapped::<I16F16>::from_bits(0x1234_5678)
+    /// );
+    /// ```
+    #[inline]
+    pub fn from_ne_bytes(bytes: F::Bytes) -> Self {
+        Unwrapped(F::from_ne_bytes(bytes))
+    }
+
+    /// Returns the memory representation of this fixed-point
+    /// number as a byte array in big-endian byte order.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// assert_eq!(
+    ///     Unwrapped::<I16F16>::from_bits(0x1234_5678).to_be_bytes(),
+    ///     [0x12, 0x34, 0x56, 0x78]
+    /// );
+    /// ```
+    #[inline]
+    pub fn to_be_bytes(self) -> F::Bytes {
+        self.0.to_be_bytes()
+    }
+
+    /// Returns the memory representation of this fixed-point
+    /// number as a byte array in little-endian byte order.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// assert_eq!(
+    ///     Unwrapped::<I16F16>::from_bits(0x1234_5678).to_le_bytes(),
+    ///     [0x78, 0x56, 0x34, 0x12]
+    /// );
+    /// ```
+    #[inline]
+    pub fn to_le_bytes(self) -> F::Bytes {
+        self.0.to_le_bytes()
+    }
+
+    /// Returns the memory representation of this fixed-point
+    /// number as a byte array in native-endian byte order.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let bytes = if cfg!(target_endian = "big") {
+    ///     [0x12, 0x34, 0x56, 0x78]
+    /// } else {
+    ///     [0x78, 0x56, 0x34, 0x12]
+    /// };
+    /// assert_eq!(
+    ///     Unwrapped::<I16F16>::from_bits(0x1234_5678).to_ne_bytes(),
+    ///     bytes
+    /// );
+    /// ```
+    #[inline]
+    pub fn to_ne_bytes(self) -> F::Bytes {
+        self.0.to_ne_bytes()
+    }
+
     /// Unwrapped conversion from another number.
     ///
     /// The other number can be:

@@ -209,7 +209,7 @@ dependencies can be updated to an incompatible newer version.
 There is one experimental feature:
 
  1. `num-traits`, disabled by default. This implements some traits
-    from the [*num-traits* crate]. (The plan is to upgrade this to an
+    from the [*num-traits* crate]. (The plan is to promote this to an
     optional feature once the [*num-traits* crate] reaches version
     1.0.0.)
 
