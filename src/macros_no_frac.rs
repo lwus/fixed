@@ -189,8 +189,8 @@ if cfg!(target_endian = \"little\") {
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let f = Fix::from_bits(", $bytes_val, ");
-let rev = Fix::from_bits(", $rev_bytes_val, ");
-assert_eq!(f.swap_bytes(), rev);
+let swapped = Fix::from_bits(", $rev_bytes_val, ");
+assert_eq!(f.swap_bytes(), swapped);
 ```
 ";
                 #[inline]

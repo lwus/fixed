@@ -8,14 +8,13 @@ as-is, without any warranty. -->
 Version 1.7.0 (unreleased)
 ==========================
 
-  * The following methods were added to all fixed-point numbers and to
-    the [`Fixed`][tf-1-7] trait:
+  * The following methods were added to all fixed-point numbers, to
+    the [`Fixed`][tf-1-7] trait, and to the [`Wrapping`][w-1-7] and
+    [`Unwrapped`][u-1-7] wrappers:
       * [`from_be`][f-fb-1-7], [`from_le`][f-fl-1-7]
       * [`to_be`][f-tb-1-7], [`to_le`][f-tl-1-7]
-      * [`swap_bytes`][f-sb-1-7]
-  * The [`reverse_bits`][f-rb-1-7] method was added to all fixed-point
-    numbers, to the [`Fixed`][tf-1-7] trait, and to the
-    [`Wrapping`][w-1-7] and [`Unwrapped`][u-1-7] wrappers.
+      * [`swap_bytes`][f-sb-1-7],
+      * [`reverse_bits`][f-rb-1-7]
   * For the experimental feature [`num-traits`][feat-exp-1-7], the
     following traits were implemented where applicable:
       * [`OverflowingAdd`][nt-0-2-oa], [`OverflowingSub`][nt-0-2-os],

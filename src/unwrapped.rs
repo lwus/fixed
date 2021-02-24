@@ -121,6 +121,95 @@ impl<F: Fixed> Unwrapped<F> {
         self.0.to_bits()
     }
 
+    /// Converts a fixed-point number from big endian to the target’s
+    /// endianness.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let w = Unwrapped(I16F16::from_bits(0x1234_5678));
+    /// if cfg!(target_endian = "big") {
+    ///     assert_eq!(Unwrapped::from_be(w), w);
+    /// } else {
+    ///     assert_eq!(Unwrapped::from_be(w), w.swap_bytes());
+    /// }
+    /// ```
+    #[inline]
+    pub fn from_be(w: Self) -> Self {
+        Unwrapped(F::from_be(w.0))
+    }
+
+    /// Converts a fixed-point number from little endian to the
+    /// target’s endianness.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let w = Unwrapped(I16F16::from_bits(0x1234_5678));
+    /// if cfg!(target_endian = "little") {
+    ///     assert_eq!(Unwrapped::from_le(w), w);
+    /// } else {
+    ///     assert_eq!(Unwrapped::from_le(w), w.swap_bytes());
+    /// }
+    /// ```
+    #[inline]
+    pub fn from_le(w: Self) -> Self {
+        Unwrapped(F::from_le(w.0))
+    }
+
+    /// Converts `self` to big endian from the target’s endianness.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let w = Unwrapped(I16F16::from_bits(0x1234_5678));
+    /// if cfg!(target_endian = "big") {
+    ///     assert_eq!(w.to_be(), w);
+    /// } else {
+    ///     assert_eq!(w.to_be(), w.swap_bytes());
+    /// }
+    /// ```
+    #[inline]
+    pub fn to_be(self) -> Self {
+        Unwrapped(self.0.to_be())
+    }
+
+    /// Converts `self` to little endian from the target’s endianness.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let w = Unwrapped(I16F16::from_bits(0x1234_5678));
+    /// if cfg!(target_endian = "little") {
+    ///     assert_eq!(w.to_le(), w);
+    /// } else {
+    ///     assert_eq!(w.to_le(), w.swap_bytes());
+    /// }
+    /// ```
+    #[inline]
+    pub fn to_le(self) -> Self {
+        Unwrapped(self.0.to_le())
+    }
+
+    /// Reverses the byte order of the fixed-point number.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let w = Unwrapped(I16F16::from_bits(0x1234_5678));
+    /// let swapped = Unwrapped(I16F16::from_bits(0x7856_3412));
+    /// assert_eq!(w.swap_bytes(), swapped);
+    /// ```
+    #[inline]
+    pub fn swap_bytes(self) -> Self {
+        Unwrapped(self.0.swap_bytes())
+    }
+
     /// Unwrapped conversion from another number.
     ///
     /// The other number can be:
