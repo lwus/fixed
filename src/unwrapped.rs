@@ -584,6 +584,20 @@ impl<F: Fixed> Unwrapped<F> {
         self.0.int_log10()
     }
 
+    /// Reverses the order of the bits of the fixed-point number.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let i = I16F16::from_bits(0x1234_5678);
+    /// assert_eq!(Unwrapped(i).reverse_bits(), Unwrapped(i.reverse_bits()));
+    /// ```
+    #[inline]
+    pub fn reverse_bits(self) -> Unwrapped<F> {
+        Unwrapped(self.0.reverse_bits())
+    }
+
     /// Shifts to the left by `n` bits, unwrapped the truncated bits to the right end.
     ///
     /// # Examples

@@ -431,6 +431,21 @@ where
     /// to the given fixed-point number.
     fn to_bits(self) -> Self::Bits;
 
+    /// Converts a fixed-point number from big endian to the target’s endianness.
+    fn from_be(fixed: Self) -> Self;
+
+    /// Converts a fixed-point number from little endian to the target’s endianness.
+    fn from_le(fixed: Self) -> Self;
+
+    /// Converts this fixed-point number to big endian from the target’s endianness.
+    fn to_be(self) -> Self;
+
+    /// Converts this fixed-point number to little endian from the target’s endianness.
+    fn to_le(self) -> Self;
+
+    ///Reverses the byte order of the fixed-point number.
+    fn swap_bytes(self) -> Self;
+
     /// Creates a fixed-point number from its representation as a byte
     /// array in big endian.
     fn from_be_bytes(bytes: Self::Bytes) -> Self;
@@ -856,6 +871,9 @@ where
     ///
     /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_int_log10(self) -> Option<i32>;
+
+    /// Reverses the order of the bits of the fixed-point number.
+    fn reverse_bits(self) -> Self;
 
     /// Shifts to the left by `n` bits, wrapping the truncated bits to the right end.
     fn rotate_left(self, n: u32) -> Self;
@@ -2405,6 +2423,11 @@ macro_rules! impl_fixed {
             const FRAC_NBITS: u32 = Self::FRAC_NBITS;
             trait_delegate! { fn from_bits(bits: Self::Bits) -> Self }
             trait_delegate! { fn to_bits(self) -> Self::Bits }
+            trait_delegate! { fn from_be(fixed: Self) -> Self }
+            trait_delegate! { fn from_le(fixed: Self) -> Self }
+            trait_delegate! { fn to_be(self) -> Self }
+            trait_delegate! { fn to_le(self) -> Self }
+            trait_delegate! { fn swap_bytes(self) -> Self }
             trait_delegate! { fn from_be_bytes(bits: Self::Bytes) -> Self }
             trait_delegate! { fn from_le_bytes(bits: Self::Bytes) -> Self }
             trait_delegate! { fn from_ne_bytes(bits: Self::Bytes) -> Self }
@@ -2499,6 +2522,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn int_log10(self) -> i32 }
             trait_delegate! { fn checked_int_log2(self) -> Option<i32> }
             trait_delegate! { fn checked_int_log10(self) -> Option<i32> }
+            trait_delegate! { fn reverse_bits(self) -> Self }
             trait_delegate! { fn rotate_left(self, n: u32) -> Self }
             trait_delegate! { fn rotate_right(self, n: u32) -> Self }
             trait_delegate! { fn recip(self) -> Self }
