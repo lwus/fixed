@@ -82,6 +82,10 @@ The conversions supported cover the following cases.
 ### Version 1.7.0 news (unreleased)
 
   * The crate now requires rustc version 1.50.0 or later.
+  * The following methods are now `const` functions:
+      * [`next_power_of_two`][f-npot-1-7],
+        [`checked_next_power_of_two`][f-cnpot-1-7],
+        [`wrapping_next_power_of_two`][f-wnpot-1-7]
   * The following methods were added to all fixed-point numbers, to
     the [`Fixed`][tf-1-7] trait, and to the [`Wrapping`][w-1-7] and
     [`Unwrapped`][u-1-7] wrappers:
@@ -100,11 +104,13 @@ The conversions supported cover the following cases.
       * [`OverflowingAdd`][nt-0-2-oa], [`OverflowingSub`][nt-0-2-os],
         [`OverflowingMul`][nt-0-2-om]
 
+[f-cnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.checked_next_power_of_two
 [f-fb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be
 [f-fbb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be_bytes
 [f-fl-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le
 [f-flb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le_bytes
 [f-fnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_ne_bytes
+[f-npot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.next_power_of_two
 [f-rb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.reverse_bits
 [f-sb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.swap_bytes
 [f-tb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_be
@@ -112,6 +118,7 @@ The conversions supported cover the following cases.
 [f-tl-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le
 [f-tlb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le_bytes
 [f-tnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_ne_bytes
+[f-wnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
 [feat-exp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [nt-0-2-oa]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
 [nt-0-2-om]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html

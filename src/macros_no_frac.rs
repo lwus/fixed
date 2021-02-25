@@ -786,7 +786,7 @@ assert_eq!(half.next_power_of_two(), half);
 [`checked_next_power_of_two`]: #method.checked_next_power_of_two
 ";
                     #[inline]
-                    pub fn next_power_of_two(self) -> $Fixed<Frac> {
+                    pub const fn next_power_of_two(self) -> $Fixed<Frac> {
                         Self::from_bits(self.to_bits().next_power_of_two())
                     }
                 }
@@ -1164,8 +1164,11 @@ assert!(Fix::MAX.checked_next_power_of_two().is_none());
 [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                     #[inline]
-                    pub fn checked_next_power_of_two(self) -> Option<$Fixed<Frac>> {
-                        self.to_bits().checked_next_power_of_two().map(Self::from_bits)
+                    pub const fn checked_next_power_of_two(self) -> Option<$Fixed<Frac>> {
+                        match self.to_bits().checked_next_power_of_two() {
+                            Some(bits) => Some(Self::from_bits(bits)),
+                            None => None,
+                        }
                     }
                 }
             }
@@ -1654,8 +1657,11 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
 ```
 ";
                     #[inline]
-                    pub fn wrapping_next_power_of_two(self) -> $Fixed<Frac> {
-                        self.checked_next_power_of_two().unwrap_or(Self::from_bits(0))
+                    pub const fn wrapping_next_power_of_two(self) -> $Fixed<Frac> {
+                        match self.checked_next_power_of_two() {
+                            Some(x) => x,
+                            None => Self::from_bits(0),
+                        }
                     }
                 }
             }
