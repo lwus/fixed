@@ -1000,6 +1000,37 @@ mod tests {
         assert_eq!(i0(0.25).rem_euclid_int(1), i0(0.25));
     }
 
+    macro_rules! check_mul_add {
+        ($($F:ty)*) => { $(
+            let min = <$F>::MIN;
+            let max = <$F>::MAX;
+            let hmax = max / 2;
+            let eps = <$F>::from_bits(1);
+            let zero = <$F>::from_num(0);
+            let one = <$F>::from_num(1);
+            let three = <$F>::from_num(3);
+            let m_hmax = zero.wrapping_sub(hmax);
+            let m_eps = zero.wrapping_sub(eps);
+            let max_m_eps = max - eps;
+            assert_eq!(max.overflowing_mul_add(one, zero), (max, false));
+            assert_eq!(max.overflowing_mul_add(one, eps), (min, true));
+            assert_eq!(max.overflowing_mul_add(one, m_eps), (max_m_eps, m_eps > 0));
+            assert_eq!(max.overflowing_mul_add(three, max), (<$F>::from_bits(!0 << 2), true));
+            assert_eq!(hmax.overflowing_mul_add(three, m_hmax), (hmax * 2, m_hmax > 0));
+        )* };
+    }
+
+    #[test]
+    fn mul_add() {
+        use crate::types::*;
+        check_mul_add! { I3F5 I3F13 I3F29 I3F61 I3F125 }
+        check_mul_add! { I4F4 I8F8 I16F16 I32F32 I64F64 }
+        check_mul_add! { I8F0 I16F0 I32F0 I64F0 I128F0 }
+        check_mul_add! { U2F6 U2F14 U2F30 U2F62 U2F126 }
+        check_mul_add! { U4F4 U8F8 U16F16 U32F32 U64F64 }
+        check_mul_add! { U8F0 U16F0 U32F0 U64F0 U128F0 }
+    }
+
     #[test]
     fn issue_26() {
         use crate::{
