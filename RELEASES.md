@@ -8,6 +8,7 @@ as-is, without any warranty. -->
 Version 1.7.0 (unreleased)
 ==========================
 
+  * The crate now requires rustc version 1.50.0 or later.
   * The following methods were added to all fixed-point numbers, to
     the [`Fixed`][tf-1-7] trait, and to the [`Wrapping`][w-1-7] and
     [`Unwrapped`][u-1-7] wrappers:

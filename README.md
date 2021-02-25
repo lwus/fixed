@@ -81,6 +81,7 @@ The conversions supported cover the following cases.
 
 ### Version 1.7.0 news (unreleased)
 
+  * The crate now requires rustc version 1.50.0 or later.
   * The following methods were added to all fixed-point numbers, to
     the [`Fixed`][tf-1-7] trait, and to the [`Wrapping`][w-1-7] and
     [`Unwrapped`][u-1-7] wrappers:
@@ -237,7 +238,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 fixed = "1.6"
 ```
 
-The *fixed* crate requires rustc version 1.47.0 or later.
+The *fixed* crate requires rustc version 1.50.0 or later.
 
 ## Optional features
 
