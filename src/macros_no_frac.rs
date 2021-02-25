@@ -1499,7 +1499,7 @@ assert_eq!(
 );
 assert_eq!(Fix::MAX.wrapping_mul_add(Fix::from_num(1), Fix::from_num(0)), Fix::MAX);
 assert_eq!(Fix::MAX.wrapping_mul_add(Fix::from_num(1), Fix::from_bits(1)), Fix::MIN);
-let wrapped = Fix::from_bits(!0 << 2);
+let wrapped = Fix::MAX.wrapping_mul_int(4);
 assert_eq!(Fix::MAX.wrapping_mul_add(Fix::from_num(3), Fix::MAX), wrapped);
 ```
 ";
@@ -2185,9 +2185,19 @@ assert_eq!(
 );
 assert_eq!(
     Fix::MAX.overflowing_mul_add(Fix::from_num(3), Fix::MAX),
-    (Fix::from_bits(!0 << 2), true)
+    Fix::MAX.overflowing_mul_int(4)
 );
-```
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+assert_eq!(
+    Fix::MAX.overflowing_mul_add(Fix::from_num(1.5), -Fix::MAX),
+    (Fix::MAX / 2, false)
+);
+"
+                },
+                "```
 
 [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html

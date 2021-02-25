@@ -869,6 +869,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// let three = Unwrapped(I16F16::from_num(3));
     /// let four = Unwrapped(I16F16::from_num(4));
     /// assert_eq!(three.mul_add(half, four), Unwrapped(I16F16::from_num(5.5)));
+    /// // max × 1.5 − max = max / 2, which does not overflow
+    /// let max = Unwrapped(I16F16::MAX);
+    /// assert_eq!(max.mul_add(Unwrapped(I16F16::from_num(1.5)), -max), max / 2);
     /// ```
     ///
     /// The following panics because of overflow.
