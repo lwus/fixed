@@ -29,6 +29,9 @@ Version 1.7.0 (unreleased)
   * The [`F128Bits`][f128-1-7] type was added to support conversions
     and comparisons between fixed-point numbers and *binary128*
     floating-point numbers.
+  * The cast traits provided by the [*az* crate] are now always
+    enabled. The optional feature [`az`][feat-dep-1-7] is now
+    deprecated and has no effect.
   * For the experimental feature [`num-traits`][feat-exp-1-7], the
     following traits were implemented for all fixed-point numbers:
       * [`OverflowingAdd`][nt-0-2-oa], [`OverflowingSub`][nt-0-2-os],
@@ -50,6 +53,7 @@ Version 1.7.0 (unreleased)
 [f-tnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_ne_bytes
 [f-wnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
 [f128-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.F128Bits.html
+[feat-dep-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/#deprecated-optional-features
 [feat-exp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [nt-0-2-oa]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
 [nt-0-2-om]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html

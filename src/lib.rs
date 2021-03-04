@@ -173,17 +173,15 @@ The *fixed* crate requires rustc version 1.50.0 or later.
 
 The *fixed* crate has these optional feature:
 
- 1. `az`, disabled by default. This implements the cast traits
-    provided by the [*az* crate].
- 2. `f16`, disabled by default. This provides conversion to/from
+ 1. `f16`, disabled by default. This provides conversion to/from
     [`f16`] and [`bf16`]. This features requires the [*half* crate].
- 3. `serde`, disabled by default. This provides serialization support
+ 2. `serde`, disabled by default. This provides serialization support
     for the fixed-point types. This feature requires the
     [*serde* crate].
- 4. `std`, disabled by default. This is for features that are not
+ 3. `std`, disabled by default. This is for features that are not
     possible under `no_std`: currently the implementation of the
     [`Error`] trait for [`ParseFixedError`].
- 5. `serde-str`, disabled by default. Fixed-point numbers are
+ 4. `serde-str`, disabled by default. Fixed-point numbers are
     serialized as strings showing the value when using human-readable
     formats. This feature requires the `serde` and the `std` optional
     features. **Warning:** numbers serialized when this feature is
@@ -201,17 +199,25 @@ features = ["f16", "serde"]
 
 ## Experimental optional features
 
-It is not considered a breaking change if experimental features are
-removed. The removal of experimental features would however require a
-minor version bump. Similarly, on a minor version bump, optional
-dependencies can be updated to an incompatible newer version.
-
-There is one experimental feature:
+It is not considered a breaking change if the following experimental
+features are removed. The removal of experimental features would
+however require a minor version bump. Similarly, on a minor version
+bump, optional dependencies can be updated to an incompatible newer
+version.
 
  1. `num-traits`, disabled by default. This implements some traits
     from the [*num-traits* crate]. (The plan is to promote this to an
     optional feature once the [*num-traits* crate] reaches version
     1.0.0.)
+
+## Deprecated optional features
+
+The following optional features are deprecated and may be removed in
+the next major version of the crate.
+
+ 1. `az`, has no effect. Previously required to enable the cast traits
+    provided by the [*az* crate]. Now these cast traits are always
+    enabled.
 
 ## License
 
@@ -296,7 +302,6 @@ extern crate std;
 mod macros;
 
 mod arith;
-#[cfg(feature = "az")]
 mod cast;
 mod cmp;
 pub mod consts;
