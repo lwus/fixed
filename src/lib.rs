@@ -583,6 +583,45 @@ fixed! {
     FixedI128, i128, False
 }
 
+/// The bit representation of a *binary128* floating-point number
+/// (`f128`).
+///
+/// This type can be used to
+///   * convert between fixed-point numbers and the bit representation
+///     of 128-bit floating-point numbers.
+///   * compare fixed-point numbers and the bit representation of
+///     128-bit floating-point numbers.
+///
+/// # Examples
+///
+/// ```rust
+/// use fixed::{types::I16F16, F128Bits};
+/// let one_fixed = I16F16::from_num(1);
+/// // binary128 representation for 1.0 is 0x3FFF << 112
+/// let one = F128Bits(0x3FFF_u128 << 112);
+///
+/// assert_eq!(one_fixed.to_num::<F128Bits>(), one);
+/// assert_eq!(I16F16::from_num(one), one_fixed);
+///
+/// // fixed-point numbers can be compared directly to F128Bits values
+/// assert!(I16F16::from_num(1.5) > one);
+/// assert!(I16F16::from_num(0.5) < one);
+/// ```
+#[repr(transparent)]
+#[derive(Clone, Copy, Default, Hash, Debug, Eq, PartialEq, Ord, PartialOrd)]
+pub struct F128Bits(pub u128);
+
+impl F128Bits {
+    #[inline]
+    pub(crate) fn to_bits(self) -> u128 {
+        self.0
+    }
+    #[inline]
+    pub(crate) fn from_bits(bits: u128) -> F128Bits {
+        F128Bits(bits)
+    }
+}
+
 /// Defines constant fixed-point numbers from integer expressions.
 ///
 /// This macro is useful because [`from_num`] cannot be used in

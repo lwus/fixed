@@ -13,7 +13,10 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
-use crate::helpers::{FloatKind, IntHelper, ToFixedHelper, ToFloatHelper, Widest};
+use crate::{
+    helpers::{FloatKind, IntHelper, ToFixedHelper, ToFloatHelper, Widest},
+    F128Bits,
+};
 use core::cmp::Ordering;
 #[cfg(feature = "f16")]
 use half::{bf16, f16};
@@ -196,3 +199,4 @@ sealed_float! { f16(u16, i16, 11) }
 sealed_float! { bf16(u16, i16, 8) }
 sealed_float! { f32(u32, i32, 24) }
 sealed_float! { f64(u64, i64, 53) }
+sealed_float! { F128Bits(u128, i128, 113) }

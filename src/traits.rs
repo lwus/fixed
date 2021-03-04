@@ -20,8 +20,8 @@ Traits for conversions and for generic use of fixed-point numbers.
 use crate::{
     helpers::{FloatHelper, FloatKind, FromFloatHelper, IntHelper, Sealed, Widest},
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8, Unsigned},
-    FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
-    FixedU8, ParseFixedError,
+    F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
+    FixedU64, FixedU8, ParseFixedError,
 };
 use core::{
     fmt::{Binary, Debug, Display, LowerHex, Octal, UpperHex},
@@ -391,7 +391,7 @@ where
     Self: PartialOrd<i64> + PartialOrd<i128> + PartialOrd<isize>,
     Self: PartialOrd<u8> + PartialOrd<u16> + PartialOrd<u32>,
     Self: PartialOrd<u64> + PartialOrd<u128> + PartialOrd<usize>,
-    Self: PartialOrd<f32> + PartialOrd<f64>,
+    Self: PartialOrd<f32> + PartialOrd<f64> + PartialOrd<F128Bits>,
     Self: FixedOptionalFeatures,
     Self: Sealed,
 {
@@ -2156,7 +2156,7 @@ impl_int! { u128 }
 impl_int! { usize }
 
 macro_rules! impl_float {
-    ($Float:ty, $link:expr) => {
+    ($Float:ty, $link:expr, $overflows_fmt:expr, $overflows_filt:expr) => {
         impl FromFixed for $Float {
             /// Converts a fixed-point number to a floating-point number.
             ///
@@ -2258,7 +2258,7 @@ it panics; if wrapping is required use [`wrapping_to_fixed`] instead.
                 #[inline]
                 fn to_fixed<F: Fixed>(self) -> F {
                     let (wrapped, overflow) = ToFixed::overflowing_to_fixed(self);
-                    debug_assert!(!overflow, "{} overflows", self);
+                    debug_assert!(!overflow, $overflows_fmt, $overflows_filt(self));
                     let _ = overflow;
                     wrapped
                 }
@@ -2375,11 +2375,27 @@ when debug assertions are not enabled.
 }
 
 #[cfg(feature = "f16")]
-impl_float! { f16, "https://docs.rs/half/^1/half/struct.f16.html" }
+impl_float! {
+    f16, "https://docs.rs/half/^1/half/struct.f16.html",
+    "{} overflows", |x| x
+}
 #[cfg(feature = "f16")]
-impl_float! { bf16, "https://docs.rs/half/^1/half/struct.bf16.html" }
-impl_float! { f32, "https://doc.rust-lang.org/nightly/std/primitive.f32.html" }
-impl_float! { f64, "https://doc.rust-lang.org/nightly/std/primitive.f64.html" }
+impl_float! {
+    bf16, "https://docs.rs/half/^1/half/struct.bf16.html",
+    "{} overflows", |x| x
+}
+impl_float! {
+    f32, "https://doc.rust-lang.org/nightly/std/primitive.f32.html",
+    "{} overflows", |x| x
+}
+impl_float! {
+    f64, "https://doc.rust-lang.org/nightly/std/primitive.f64.html",
+    "{} overflows", |x| x
+}
+impl_float! {
+    F128Bits, "https://doc.rust-lang.org/nightly/std/primitive.f64.html",
+    "F128Bits({}) overflows", |x: F128Bits| x.0
+}
 
 macro_rules! trait_delegate {
     (fn $method:ident($($param:ident: $Param:ty),*) -> $Ret:ty) => {

@@ -17,8 +17,8 @@ use crate::{
     helpers::{FloatHelper, FloatKind, IntHelper, Widest},
     traits::Fixed,
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
-    FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
-    FixedU8,
+    F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
+    FixedU64, FixedU8,
 };
 use core::cmp::Ordering;
 #[cfg(feature = "f16")]
@@ -377,6 +377,7 @@ macro_rules! fixed_cmp_all {
         fixed_cmp_float! { $Fix($LeEqU), bf16 }
         fixed_cmp_float! { $Fix($LeEqU), f32 }
         fixed_cmp_float! { $Fix($LeEqU), f64 }
+        fixed_cmp_float! { $Fix($LeEqU), F128Bits }
     };
 }
 

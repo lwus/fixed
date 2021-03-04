@@ -26,6 +26,9 @@ Version 1.7.0 (unreleased)
         [`from_ne_bytes`][f-fnb-1-7]
       * [`to_be_bytes`][f-tbb-1-7], [`to_le_bytes`][f-tlb-1-7],
         [`to_ne_bytes`][f-tnb-1-7]
+  * The [`F128Bits`][f128-1-7] type was added to support conversions
+    and comparisons between fixed-point numbers and *binary128*
+    floating-point numbers.
   * For the experimental feature [`num-traits`][feat-exp-1-7], the
     following traits were implemented for all fixed-point numbers:
       * [`OverflowingAdd`][nt-0-2-oa], [`OverflowingSub`][nt-0-2-os],
@@ -46,6 +49,7 @@ Version 1.7.0 (unreleased)
 [f-tlb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le_bytes
 [f-tnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_ne_bytes
 [f-wnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
+[f128-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.F128Bits.html
 [feat-exp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
 [nt-0-2-oa]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
 [nt-0-2-om]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html

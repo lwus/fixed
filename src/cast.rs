@@ -15,8 +15,8 @@
 
 use crate::{
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
-    FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
-    FixedU8,
+    F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
+    FixedU64, FixedU8,
 };
 use az::{Cast, CheckedCast, OverflowingCast, SaturatingCast, UnwrappedCast, WrappingCast};
 #[cfg(feature = "f16")]
@@ -183,7 +183,7 @@ macro_rules! cast_num {
             $Fixed($LeEqU);
             i8, i16, i32, i64, i128, isize,
             u8, u16, u32, u64, u128, usize,
-            f32, f64,
+            f32, f64, F128Bits,
         }
         #[cfg(feature = "f16")]
         cast_num! {
