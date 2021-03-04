@@ -99,6 +99,8 @@ The conversions supported cover the following cases.
         [`from_ne_bytes`][f-fnb-1-7]
       * [`to_be_bytes`][f-tbb-1-7], [`to_le_bytes`][f-tlb-1-7],
         [`to_ne_bytes`][f-tnb-1-7]
+  * [`Sum`] and [`Product`] are now supertraits of the
+    [`Fixed`][tf-1-7] trait.
   * The [`F128Bits`][f128-1-7] type was added to support conversions
     and comparisons between fixed-point numbers and *binary128*
     floating-point numbers.
@@ -111,6 +113,8 @@ The conversions supported cover the following cases.
       * [`OverflowingAdd`][nt-0-2-oa], [`OverflowingSub`][nt-0-2-os],
         [`OverflowingMul`][nt-0-2-om]
 
+[`Product`]: https://doc.rust-lang.org/nightly/core/iter/trait.Product.html
+[`Sum`]: https://doc.rust-lang.org/nightly/core/iter/trait.Sum.html
 [f-cnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.checked_next_power_of_two
 [f-fb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be
 [f-fbb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be_bytes

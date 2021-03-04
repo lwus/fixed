@@ -26,6 +26,8 @@ Version 1.7.0 (unreleased)
         [`from_ne_bytes`][f-fnb-1-7]
       * [`to_be_bytes`][f-tbb-1-7], [`to_le_bytes`][f-tlb-1-7],
         [`to_ne_bytes`][f-tnb-1-7]
+  * [`Sum`] and [`Product`] are now supertraits of the
+    [`Fixed`][tf-1-7] trait.
   * The [`F128Bits`][f128-1-7] type was added to support conversions
     and comparisons between fixed-point numbers and *binary128*
     floating-point numbers.
@@ -577,3 +579,5 @@ Version 0.1.0 (2018-08-10)
 
 [*az* crate]: https://crates.io/crates/az
 [`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
+[`Product`]: https://doc.rust-lang.org/nightly/core/iter/trait.Product.html
+[`Sum`]: https://doc.rust-lang.org/nightly/core/iter/trait.Sum.html
