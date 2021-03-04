@@ -29,9 +29,10 @@ Version 1.7.0 (unreleased)
   * The [`F128Bits`][f128-1-7] type was added to support conversions
     and comparisons between fixed-point numbers and *binary128*
     floating-point numbers.
-  * The cast traits provided by the [*az* crate] are now always
-    enabled. The optional feature [`az`][feat-dep-1-7] is now
-    deprecated and has no effect.
+  * The features that previously required the [`az`][feat-dep-1-7] and
+    [`f16`][feat-dep-1-7] optional features are now always enabled.
+    The [`az`][feat-dep-1-7] and [`f16`][feat-dep-1-7] optional
+    features are now deprecated and have no effect.
   * For the experimental feature [`num-traits`][feat-exp-1-7], the
     following traits were implemented for all fixed-point numbers:
       * [`OverflowingAdd`][nt-0-2-oa], [`OverflowingSub`][nt-0-2-os],

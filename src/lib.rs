@@ -173,15 +173,13 @@ The *fixed* crate requires rustc version 1.50.0 or later.
 
 The *fixed* crate has these optional feature:
 
- 1. `f16`, disabled by default. This provides conversion to/from
-    [`f16`] and [`bf16`]. This features requires the [*half* crate].
- 2. `serde`, disabled by default. This provides serialization support
+ 1. `serde`, disabled by default. This provides serialization support
     for the fixed-point types. This feature requires the
     [*serde* crate].
- 3. `std`, disabled by default. This is for features that are not
+ 2. `std`, disabled by default. This is for features that are not
     possible under `no_std`: currently the implementation of the
     [`Error`] trait for [`ParseFixedError`].
- 4. `serde-str`, disabled by default. Fixed-point numbers are
+ 3. `serde-str`, disabled by default. Fixed-point numbers are
     serialized as strings showing the value when using human-readable
     formats. This feature requires the `serde` and the `std` optional
     features. **Warning:** numbers serialized when this feature is
@@ -194,7 +192,7 @@ To enable features, you can add the dependency like this to
 ```toml
 [dependencies.fixed]
 version = "1.6"
-features = ["f16", "serde"]
+features = ["serde"]
 ```
 
 ## Experimental optional features
@@ -218,6 +216,9 @@ the next major version of the crate.
  1. `az`, has no effect. Previously required to enable the cast traits
     provided by the [*az* crate]. Now these cast traits are always
     enabled.
+ 2. `f16`, has no effect. Previously required to provide conversion
+    to/from [`f16`] and [`bf16`]. Now these conversions are always
+    provided.
 
 ## License
 

@@ -244,7 +244,6 @@ mod tests {
     };
     use core::{convert::TryFrom, f32, f64};
 
-    #[cfg(feature = "f16")]
     #[test]
     fn cmp_f16() {
         use half::{self, f16};
@@ -289,7 +288,6 @@ mod tests {
         );
     }
 
-    #[cfg(feature = "f16")]
     #[test]
     fn cmp_bf16() {
         use half::{self, bf16};

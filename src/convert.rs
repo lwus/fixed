@@ -18,17 +18,13 @@ use crate::{
     traits::{FromFixed, LosslessTryFrom, LossyFrom, ToFixed},
     types::extra::{
         Diff, IsLessOrEqual, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8, True, U0, U1, U127, U128,
-        U15, U16, U31, U32, U63, U64, U7, U8,
+        U15, U16, U24, U31, U32, U63, U64, U7, U8,
     },
     F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
     FixedU64, FixedU8,
 };
 use core::{convert::TryFrom, ops::Sub};
-#[cfg(feature = "f16")]
-use {
-    crate::types::extra::U24,
-    half::{bf16, f16},
-};
+use half::{bf16, f16};
 
 macro_rules! convert {
     (
@@ -692,7 +688,6 @@ fixed_to_int_lossy! { FixedU128, FixedI128, U128, LeEqU128 }
 //
 // The only lossless float to fixed possible is from f16 to
 // fixed-point numbers with 24 or more fractional bits.
-#[cfg(feature = "f16")]
 macro_rules! float_to_fixed {
     ($Src:ident, $Dst:ident, $LeEqU:ident) => {
         impl<Frac: $LeEqU> LosslessTryFrom<$Src> for $Dst<Frac>
@@ -711,11 +706,8 @@ macro_rules! float_to_fixed {
         }
     };
 }
-#[cfg(feature = "f16")]
 float_to_fixed! { f16, FixedI32, LeEqU32 }
-#[cfg(feature = "f16")]
 float_to_fixed! { f16, FixedI64, LeEqU64 }
-#[cfg(feature = "f16")]
 float_to_fixed! { f16, FixedI128, LeEqU128 }
 
 macro_rules! fixed_to_float {
@@ -744,9 +736,7 @@ macro_rules! fixed_to_float {
     };
 }
 
-#[cfg(feature = "f16")]
 fixed_to_float! { FixedI8(LeEqU8) -> f16 }
-#[cfg(feature = "f16")]
 fixed_to_float! { FixedU8(LeEqU8) -> f16 }
 fixed_to_float! { FixedI8(LeEqU8) -> f32 }
 fixed_to_float! { FixedI16(LeEqU16) -> f32 }
@@ -782,9 +772,7 @@ macro_rules! fixed_to_float_lossy {
         }
     };
     ($Fixed:ident($LeEqU:ident)) => {
-        #[cfg(feature = "f16")]
         fixed_to_float_lossy! { $Fixed($LeEqU) -> f16 }
-        #[cfg(feature = "f16")]
         fixed_to_float_lossy! { $Fixed($LeEqU) -> bf16 }
         fixed_to_float_lossy! { $Fixed($LeEqU) -> f32 }
         fixed_to_float_lossy! { $Fixed($LeEqU) -> f64 }
@@ -844,43 +832,19 @@ macro_rules! int_to_float_lossy_lossless {
     };
 }
 
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { i8 -> bf16; f16 }
-int_to_float_lossy_lossless! { i8 -> ; f32 f64 F128Bits }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { i16 -> bf16 f16; }
-int_to_float_lossy_lossless! { i16 -> ; f32 f64 F128Bits }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { i32 -> bf16 f16; }
-int_to_float_lossy_lossless! { i32 -> f32; f64 F128Bits }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { i64 -> bf16 f16; }
-int_to_float_lossy_lossless! { i64 -> f32 f64; F128Bits }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { i128 -> bf16 f16; }
-int_to_float_lossy_lossless! { i128 -> f32 f64 F128Bits; }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { isize -> bf16 f16; }
-int_to_float_lossy_lossless! { isize -> f32 f64 F128Bits; }
+int_to_float_lossy_lossless! { i8 -> bf16; f16 f32 f64 F128Bits }
+int_to_float_lossy_lossless! { i16 -> bf16 f16; f32 f64 F128Bits }
+int_to_float_lossy_lossless! { i32 -> bf16 f16 f32; f64 F128Bits }
+int_to_float_lossy_lossless! { i64 -> bf16 f16 f32 f64; F128Bits }
+int_to_float_lossy_lossless! { i128 -> bf16 f16 f32 f64 F128Bits; }
+int_to_float_lossy_lossless! { isize -> bf16 f16 f32 f64 F128Bits; }
 
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { u8 -> bf16; f16 }
-int_to_float_lossy_lossless! { u8 -> ; f32 f64 F128Bits }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { u16 -> bf16 f16; }
-int_to_float_lossy_lossless! { u16 -> ; f32 f64 F128Bits }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { u32 -> bf16 f16; }
-int_to_float_lossy_lossless! { u32 -> f32; f64 F128Bits }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { u64 -> bf16 f16; }
-int_to_float_lossy_lossless! { u64 -> f32 f64; F128Bits }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { u128 -> bf16 f16; }
-int_to_float_lossy_lossless! { u128 -> f32 f64 F128Bits; }
-#[cfg(feature = "f16")]
-int_to_float_lossy_lossless! { usize -> bf16 f16; }
-int_to_float_lossy_lossless! { usize -> f32 f64 F128Bits; }
+int_to_float_lossy_lossless! { u8 -> bf16; f16 f32 f64 F128Bits }
+int_to_float_lossy_lossless! { u16 -> bf16 f16; f32 f64 F128Bits }
+int_to_float_lossy_lossless! { u32 -> bf16 f16 f32; f64 F128Bits }
+int_to_float_lossy_lossless! { u64 -> bf16 f16 f32 f64; F128Bits }
+int_to_float_lossy_lossless! { u128 -> bf16 f16 f32 f64 F128Bits; }
+int_to_float_lossy_lossless! { usize -> bf16 f16 f32 f64 F128Bits; }
 
 macro_rules! into {
     ($Src:ty: $($Dst:ty),*) => { $(
@@ -967,27 +931,18 @@ macro_rules! lossy {
     };
 }
 
-#[cfg(feature = "f16")]
 into! { f16: f16 }
-#[cfg(feature = "f16")]
 lossy! { f16: bf16; src -> bf16::from_f32(src.into()) }
-#[cfg(feature = "f16")]
 into! { f16: f32, f64 }
 
-#[cfg(feature = "f16")]
 lossy! { bf16: f16; src -> f16::from_f32(src.into()) }
-#[cfg(feature = "f16")]
 into! { bf16: bf16, f32, f64 }
 
-#[cfg(feature = "f16")]
 lossy! { f32: f16; src -> f16::from_f32(src) }
-#[cfg(feature = "f16")]
 lossy! { f32: bf16; src -> bf16::from_f32(src) }
 into! { f32: f32, f64 }
 
-#[cfg(feature = "f16")]
 lossy! { f64: f16; src -> f16::from_f64(src) }
-#[cfg(feature = "f16")]
 lossy! { f64: bf16; src -> bf16::from_f64(src) }
 lossy! { f64: f32; src -> src as f32 }
 into! { f64: f64 }
@@ -1387,7 +1342,6 @@ mod tests {
         );
     }
 
-    #[cfg(feature = "f16")]
     #[test]
     fn to_f16() {
         use half::f16;
@@ -1434,7 +1388,6 @@ mod tests {
         }
     }
 
-    #[cfg(feature = "f16")]
     #[test]
     fn to_bf16() {
         use half::bf16;
@@ -1646,7 +1599,6 @@ mod tests {
         );
     }
 
-    #[cfg(feature = "f16")]
     #[test]
     fn lossy_f16() {
         use crate::traits::LossyFrom;
@@ -1712,7 +1664,6 @@ mod tests {
         assert_eq!(f16::lossy_from((-24f32).exp2() * 0.5), f16::from_bits(0));
     }
 
-    #[cfg(feature = "f16")]
     #[test]
     fn lossy_bf16() {
         use crate::traits::LossyFrom;

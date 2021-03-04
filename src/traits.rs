@@ -34,7 +34,6 @@ use core::{
     },
     str::FromStr,
 };
-#[cfg(feature = "f16")]
 use half::{bf16, f16};
 #[cfg(feature = "num-traits")]
 use num_traits::{
@@ -58,24 +57,20 @@ use serde::{de::Deserialize, ser::Serialize};
 
 macro_rules! comment_features {
     ($comment:expr) => {
-        #[cfg(all(
-            not(feature = "f16"),
-            not(feature = "num-traits"),
-            not(feature = "serde")
-        ))]
+        #[cfg(all(not(feature = "num-traits"), not(feature = "serde")))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures {}
         }
 
-        #[cfg(all(not(feature = "f16"), not(feature = "num-traits"), feature = "serde"))]
+        #[cfg(all(not(feature = "num-traits"), feature = "serde"))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures: Serialize + for<'de> Deserialize<'de> {}
         }
 
         // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(not(feature = "f16"), feature = "num-traits", not(feature = "serde")))]
+        #[cfg(all(feature = "num-traits", not(feature = "serde")))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures
@@ -93,67 +88,11 @@ macro_rules! comment_features {
         }
 
         // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(not(feature = "f16"), feature = "num-traits", feature = "serde"))]
+        #[cfg(all(feature = "num-traits", feature = "serde"))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures
             where
-                Self: Zero + Bounded + Inv,
-                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
-                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
-                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
-                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
-                Self: WrappingShl + WrappingShr,
-                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
-                Self: ToPrimitive + FromPrimitive + FloatConst,
-                Self: Serialize + for<'de> Deserialize<'de>,
-            {
-            }
-        }
-
-        #[cfg(all(feature = "f16", not(feature = "num-traits"), not(feature = "serde")))]
-        doc_comment! {
-            $comment;
-            pub trait FixedOptionalFeatures: PartialOrd<f16> + PartialOrd<bf16> {}
-        }
-
-        #[cfg(all(feature = "f16", not(feature = "num-traits"), feature = "serde"))]
-        doc_comment! {
-            $comment;
-            pub trait FixedOptionalFeatures
-            where
-                Self: PartialOrd<f16> + PartialOrd<bf16>,
-                Self: Serialize + for<'de> Deserialize<'de>,
-            {
-            }
-        }
-
-        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(feature = "f16", feature = "num-traits", not(feature = "serde")))]
-        doc_comment! {
-            $comment;
-            pub trait FixedOptionalFeatures
-            where
-                Self: PartialOrd<f16> + PartialOrd<bf16>,
-                Self: Zero + Bounded + Inv,
-                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
-                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
-                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
-                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
-                Self: WrappingShl + WrappingShr,
-                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
-                Self: ToPrimitive + FromPrimitive + FloatConst,
-            {
-            }
-        }
-
-        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(feature = "f16", feature = "num-traits", feature = "serde"))]
-        doc_comment! {
-            $comment;
-            pub trait FixedOptionalFeatures
-            where
-                Self: PartialOrd<f16> + PartialOrd<bf16>,
                 Self: Zero + Bounded + Inv,
                 Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
                 Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
@@ -173,11 +112,7 @@ comment_features! {
     "This trait is used to provide supertraits to the [`Fixed`] trait
 depending on the crate’s [optional features].
 
- 1. If the `f16` feature is enabled,
-    <code>[PartialOrd][`PartialOrd`]&lt;[f16][`f16`]&gt;</code> and
-    <code>[PartialOrd][`PartialOrd`]&lt;[bf16][`bf16`]&gt;</code> are
-    supertraits of [`Fixed`].
- 2. If the `num-traits` experimental feature is enabled, the following
+ 1. If the `num-traits` experimental feature is enabled, the following
     are supertraits of [`Fixed`]:
       * [`Zero`]
       * [`Bounded`]
@@ -206,7 +141,7 @@ depending on the crate’s [optional features].
     [`FixedSigned`] and [`FixedUnsigned`] because they have [`Num`] as
     a supertrait.
 
- 3. If the `serde` feature is enabled, [`Serialize`] and
+ 2. If the `serde` feature is enabled, [`Serialize`] and
     [`Deserialize`] are supertraits of [`Fixed`].
 
 [`Bounded`]: https://docs.rs/num-traits/^0.2/num_traits/bounds/trait.Bounded.html
@@ -234,7 +169,6 @@ depending on the crate’s [optional features].
 [`OverflowingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
 [`OverflowingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html
 [`OverflowingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingSub.html
-[`PartialOrd`]: https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html
 [`SaturatingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingAdd.html
 [`SaturatingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingMul.html
 [`SaturatingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingSub.html
@@ -249,8 +183,6 @@ depending on the crate’s [optional features].
 [`WrappingShr`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingShr.html
 [`WrappingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingSub.html
 [`Zero`]: https://docs.rs/num-traits/^0.2/num_traits/identities/trait.Zero.html
-[`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1/half/struct.f16.html
 [optional features]: ../index.html#optional-features
 "
 }
@@ -391,6 +323,7 @@ where
     Self: PartialOrd<i64> + PartialOrd<i128> + PartialOrd<isize>,
     Self: PartialOrd<u8> + PartialOrd<u16> + PartialOrd<u32>,
     Self: PartialOrd<u64> + PartialOrd<u128> + PartialOrd<usize>,
+    Self: PartialOrd<f16> + PartialOrd<bf16>,
     Self: PartialOrd<f32> + PartialOrd<f64> + PartialOrd<F128Bits>,
     Self: FixedOptionalFeatures,
     Self: Sealed,
@@ -2374,12 +2307,10 @@ when debug assertions are not enabled.
     };
 }
 
-#[cfg(feature = "f16")]
 impl_float! {
     f16, "https://docs.rs/half/^1/half/struct.f16.html",
     "{} overflows", |x| x
 }
-#[cfg(feature = "f16")]
 impl_float! {
     bf16, "https://docs.rs/half/^1/half/struct.bf16.html",
     "{} overflows", |x| x
