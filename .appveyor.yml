@@ -33,7 +33,7 @@ before_test:
 
 test_script:
   - cargo +beta-%TARGET% clippy --all-targets --features "fail-on-warnings num-traits serde std"
-  - cargo +beta-%TARGET% test --release --features "fail-on-warnings num-traits serde std" -- --test-threads 1
+  - cargo +beta-%TARGET% test --release --features "fail-on-warnings num-traits serde std"
   - cargo +1.50.0-%TARGET% test --lib --features "fail-on-warnings num-traits serde std"
 
 after_test:
