@@ -865,7 +865,7 @@ assert_eq!(Fix::from_num(3).midpoint(Fix::from_num(4)), Fix::from_num(3.5));
 ",
                 },
                 "
-// Midpoint of 0.0011 and 0.00100 would be 0.00111, which has to be rounded.
+// Midpoint of 0b0.0011 and 0.00100 would be 0b0.00111, which has to be rounded.
 assert_eq!(Fix::from_bits(3).midpoint(Fix::from_bits(4)), Fix::from_bits(3));
 assert_eq!(Fix::from_bits(4).midpoint(Fix::from_bits(3)), Fix::from_bits(4));
 ```
