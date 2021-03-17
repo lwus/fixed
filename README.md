@@ -99,6 +99,14 @@ The conversions supported cover the following cases.
         [`from_ne_bytes`][f-fnb-1-7]
       * [`to_be_bytes`][f-tbb-1-7], [`to_le_bytes`][f-tlb-1-7],
         [`to_ne_bytes`][f-tnb-1-7]
+  * The [`significant_bits`][f-signi-1-7] method was added to all
+    unsigned fixed-point types, to the [`FixedUnsigned`][tfu-1-7]
+    trait, and to the [`Wrapping`][w-1-7] and [`Unwrapped`][u-1-7]
+    wrappers for unsigned numbers.
+  * The [`signed_bits`][f-signe-1-7] method was added to all signed
+    fixed-point types, to the [`FixedSigned`][tfs-1-7] trait, and to
+    the [`Wrapping`][w-1-7] and [`Unwrapped`][u-1-7] wrappers for
+    signed numbers.
   * [`Sum`] and [`Product`] are now supertraits of the
     [`Fixed`][tf-1-7] trait.
   * The [`F128Bits`][f128-1-7] type was added to support conversions
@@ -124,6 +132,8 @@ The conversions supported cover the following cases.
 [f-npot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.next_power_of_two
 [f-rb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.reverse_bits
 [f-sb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.swap_bytes
+[f-signe-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.signed_bits
+[f-signi-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.significant_bits
 [f-tb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_be
 [f-tbb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_be_bytes
 [f-tl-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le
@@ -137,6 +147,8 @@ The conversions supported cover the following cases.
 [nt-0-2-om]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html
 [nt-0-2-os]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingSub.html
 [tf-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[tfs-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
+[tfu-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedUnsigned.html
 [u-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
 [w-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 

@@ -451,6 +451,63 @@ assert_eq!(f.trailing_zeros(), 5);
                 }
             }
 
+            if_unsigned! {
+                $Signedness;
+                comment! {
+                    "Returns the number of bits required to represent the value.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(0).significant_bits(), 0);      // “____.____”
+assert_eq!(Fix::from_num(0.0625).significant_bits(), 1); // “____.___1”
+assert_eq!(Fix::from_num(1).significant_bits(), 5);      // “___1.0000”
+assert_eq!(Fix::from_num(3).significant_bits(), 6);      // “__11.0000”
+```
+";
+                    #[inline]
+                    pub const fn significant_bits(self) -> u32 {
+                        mem::size_of::<$Inner>() as u32 * 8 - self.leading_zeros()
+                    }
+                }
+            }
+
+            if_signed! {
+                $Signedness;
+                comment! {
+                    "Returns the number of bits required to represent the value.
+
+The number of bits required includes an initial one for negative
+numbers, and an initial zero for non-negative numbers.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(-3).signed_bits(), 7);      // “_101.0000”
+assert_eq!(Fix::from_num(-1).signed_bits(), 5);      // “___1.0000”
+assert_eq!(Fix::from_num(-0.0625).signed_bits(), 1); // “____.___1”
+assert_eq!(Fix::from_num(0).signed_bits(), 1);       // “____.___0”
+assert_eq!(Fix::from_num(0.0625).signed_bits(), 2);  // “____.__01”
+assert_eq!(Fix::from_num(1).signed_bits(), 6);       // “__01.0000”
+assert_eq!(Fix::from_num(3).signed_bits(), 7);       // “_011.0000”
+```
+";
+                    #[inline]
+                    pub const fn signed_bits(self) -> u32 {
+                        let leading = if self.is_negative() {
+                            self.leading_ones()
+                        } else {
+                            self.leading_zeros()
+                        };
+                        mem::size_of::<$Inner>() as u32 * 8 + 1 - leading
+                    }
+                }
+            }
+
             comment! {
                 "Reverses the order of the bits of the fixed-point number.
 

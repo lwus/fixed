@@ -1371,6 +1371,9 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// integer and fractional bits as `Self`.
     type Unsigned: FixedUnsigned;
 
+    /// Returns the number of bits required to represent the value.
+    fn signed_bits(self) -> u32;
+
     /// Returns [`true`] if the number is > 0.
     ///
     /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
@@ -1520,6 +1523,9 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
 /// [`FixedU8`]: ../struct.FixedU8.html
 /// [`Fixed`]: trait.Fixed.html
 pub trait FixedUnsigned: Fixed {
+    /// Returns the number of bits required to represent the value.
+    fn significant_bits(self) -> u32;
+
     /// Returns [`true`] if the fixed-point number is
     /// 2<sup><i>k</i></sup> for some integer <i>k</i>.
     ///
@@ -2761,6 +2767,7 @@ macro_rules! impl_fixed {
             $Signedness;
             impl<Frac: $LeEqU> FixedSigned for $Fixed<Frac> {
                 type Unsigned = $UFixed<Frac>;
+                trait_delegate! { fn signed_bits(self) -> u32 }
                 trait_delegate! { fn abs(self) -> Self }
                 trait_delegate! { fn unsigned_abs(self) -> Self::Unsigned }
                 trait_delegate! { fn signum(self) -> Self }
@@ -2782,6 +2789,7 @@ macro_rules! impl_fixed {
         if_unsigned! {
             $Signedness;
             impl<Frac: $LeEqU> FixedUnsigned for $Fixed<Frac> {
+                trait_delegate! { fn significant_bits(self) -> u32 }
                 trait_delegate! { fn is_power_of_two(self) -> bool }
                 trait_delegate! { fn next_power_of_two(self) -> Self }
                 trait_delegate! { fn checked_next_power_of_two(self) -> Option<Self> }
