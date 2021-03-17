@@ -785,6 +785,22 @@ impl<F: Fixed> Wrapping<F> {
         Wrapping(self.0.rotate_right(n))
     }
 
+    /// Returns the midpoint of `self` and `other`, rounding towards `self`.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// let three = Wrapping(I16F16::from_num(3));
+    /// let four = Wrapping(I16F16::from_num(4));
+    /// assert_eq!(three.midpoint(four), Wrapping(I16F16::from_num(3.5)));
+    /// assert_eq!(three.midpoint(-four), Wrapping(I16F16::from_num(-0.5)));
+    /// ```
+    #[inline]
+    pub fn midpoint(self, other: Wrapping<F>) -> Wrapping<F> {
+        Wrapping(self.0.midpoint(other.0))
+    }
+
     /// Returns the reciprocal (inverse), 1/`self`.
     ///
     /// # Panics

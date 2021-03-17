@@ -92,7 +92,8 @@ The conversions supported cover the following cases.
       * [`from_be`][f-fb-1-7], [`from_le`][f-fl-1-7]
       * [`to_be`][f-tb-1-7], [`to_le`][f-tl-1-7]
       * [`swap_bytes`][f-sb-1-7],
-      * [`reverse_bits`][f-rb-1-7]
+      * [`reverse_bits`][f-rb-1-7],
+      * [`midpoint`][f-m-1-7]
   * The following methods were added to the [`Wrapping`][w-1-7] and
     [`Unwrapped`][u-1-7] wrappers:
       * [`from_be_bytes`][f-fbb-1-7], [`from_le_bytes`][f-flb-1-7],
@@ -129,6 +130,7 @@ The conversions supported cover the following cases.
 [f-fl-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le
 [f-flb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le_bytes
 [f-fnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_ne_bytes
+[f-m-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.midpoint
 [f-npot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.next_power_of_two
 [f-rb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.reverse_bits
 [f-sb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.swap_bytes

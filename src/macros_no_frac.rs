@@ -850,6 +850,55 @@ assert_eq!(half.next_power_of_two(), half);
             }
 
             comment! {
+                "Returns the midpoint of `self` and `other`, rounding towards `self`.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(3).midpoint(Fix::from_num(4)), Fix::from_num(3.5));
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "assert_eq!(Fix::from_num(-3).midpoint(Fix::from_num(4)), Fix::from_num(0.5));
+",
+                },
+                "
+// Midpoint of 0.0011 and 0.00100 would be 0.00111, which has to be rounded.
+assert_eq!(Fix::from_bits(3).midpoint(Fix::from_bits(4)), Fix::from_bits(3));
+assert_eq!(Fix::from_bits(4).midpoint(Fix::from_bits(3)), Fix::from_bits(4));
+```
+";
+                #[inline]
+                pub const fn midpoint(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                    // This shoud return a + (b - a) / 2, where / 2 rounds
+                    // towards zero so that the midpoint rounds towards a.
+                    //
+                    // The first step replaces division with rounding to 0, / 2,
+                    // with flooring division, >> 1.
+                    // This is necessary because (2 * x + y) / 2 is not always = x + y / 2,
+                    // because the signum of the dividend affects the rounding direction,
+                    // but (2 * x + y) >> 1 is always = x + (y >> 1).
+                    //
+                    // a + (b - a) / 2
+                    // = a + ((b - a + b<a) >> 1)
+                    // = 2 * (a>>1) + (a&1) + ((2 * (b>>1) + (b&1) - 2 * (a>>1) - (a&1) + b<a) >> 1)
+                    // = 2 * (a>>1) + (a&1) + (b>>1) - (a>>1) + (((b&1) - (a&1) + b<a) >> 1)
+                    // = (a>>1) + (b>>1) + (a&1) + (((b&1) - (a&1) + b<a) >> 1)
+                    // = (a>>1) + (b>>1) + ((2 * (a&1) + (b&1) - (a&1) + b<a) >> 1)
+                    // = (a>>1) + (b>>1) + (((a&1) + (b&1) + b<a) >> 1)
+                    // Let inc = (((a&1) + (b&1) + b<a) >> 1).
+                    // Then inc is 1 if two or three of (a&1), (b&1), (b<a) are 1, and 0 otherwise.
+                    // That is, if b < a then inc is (a&1) | (b&1), else inc is (a&1) & (b&1).
+                    // That is, if b < a then inc is 1 & (a|b), else inc is 1 & (a&b).
+                    let (a, b) = (self.to_bits(), other.to_bits());
+                    let inc = 1 & if b < a { a | b } else { a & b };
+                    $Fixed::from_bits((a >> 1) + (b >> 1) + inc)
+                }
+            }
+
+            comment! {
                 "Checked negation. Returns the negated value, or [`None`] on overflow.
 
 ",
