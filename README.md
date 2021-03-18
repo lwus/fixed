@@ -108,6 +108,11 @@ The conversions supported cover the following cases.
     fixed-point types, to the [`FixedSigned`][tfs-1-7] trait, and to
     the [`Wrapping`][w-1-7] and [`Unwrapped`][u-1-7] wrappers for
     signed numbers.
+  * The following constants were added to the [`consts`][c-1-7]
+    module and as associated constants for fixed-point types:
+      * [`SQRT_3`][c-r3-1-7], [`FRAC_1_SQRT_3`][c-1r3-1-7]
+      * [`GAMMA`][c-g-1-7]
+      * [`CATALAN`][c-c-1-7]
   * [`Sum`] and [`Product`] are now supertraits of the
     [`Fixed`][tf-1-7] trait.
   * The [`F128Bits`][f128-1-7] type was added to support conversions
@@ -124,6 +129,11 @@ The conversions supported cover the following cases.
 
 [`Product`]: https://doc.rust-lang.org/nightly/core/iter/trait.Product.html
 [`Sum`]: https://doc.rust-lang.org/nightly/core/iter/trait.Sum.html
+[c-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
+[c-1r3-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_SQRT_3.html
+[c-c-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.CATALAN.html
+[c-g-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.GAMMA.html
+[c-r3-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_3.html
 [f-cnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.checked_next_power_of_two
 [f-fb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be
 [f-fbb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be_bytes

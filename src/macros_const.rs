@@ -130,11 +130,20 @@ let _ = Fix::LN_2;
                 /// 1/√2 = 0.707106…
                 pub const FRAC_1_SQRT_2: $Fixed<Frac> = shift!(FRAC_1_SQRT_2, $Fixed<Frac>);
 
+                /// 1/√3 = 0.577350…
+                pub const FRAC_1_SQRT_3: $Fixed<Frac> = shift!(FRAC_1_SQRT_3, $Fixed<Frac>);
+
                 /// ln 2 = 0.693147…
                 pub const LN_2: $Fixed<Frac> = shift!(LN_2, $Fixed<Frac>);
 
                 /// The golden ratio conjugate, Φ = 1/φ = 0.618033…
                 pub const FRAC_1_PHI: $Fixed<Frac> = shift!(FRAC_1_PHI, $Fixed<Frac>);
+
+                /// The Euler-Mascheroni constant, γ = 0.577215…
+                pub const GAMMA: $Fixed<Frac> = shift!(GAMMA, $Fixed<Frac>);
+
+                /// Catalan’s constant = 0.915965…
+                pub const CATALAN: $Fixed<Frac> = shift!(CATALAN, $Fixed<Frac>);
             }
         }
 
@@ -198,6 +207,9 @@ let _ = Fix::LOG2_E;
 
                 /// √2 = 1.41421…
                 pub const SQRT_2: $Fixed<Frac> = shift!(SQRT_2, 127, $Fixed<Frac>);
+
+                /// √3 = 1.73205…
+                pub const SQRT_3: $Fixed<Frac> = shift!(SQRT_3, 127, $Fixed<Frac>);
 
                 /// log<sub>2</sub> e = 1.44269…
                 pub const LOG2_E: $Fixed<Frac> = shift!(LOG2_E, 127, $Fixed<Frac>);
