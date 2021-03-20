@@ -1173,6 +1173,25 @@ impl<F: FixedUnsigned> Unwrapped<F> {
         self.0.is_power_of_two()
     }
 
+    /// Returns the highest one in the binary representation, or zero
+    /// if `self` is zero.
+    ///
+    /// If `self` > 0, the highest one is equal to the largest power
+    /// of two that is ≤ `self`.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::U4F4, Unwrapped};
+    /// type T = Unwrapped<U4F4>;
+    /// assert_eq!(T::from_bits(0b11_0010).highest_one(), T::from_bits(0b10_0000));
+    /// assert_eq!(T::from_num(3.125).highest_one(), T::from_num(2));
+    /// ```
+    #[inline]
+    pub fn highest_one(self) -> Unwrapped<F> {
+        Unwrapped(self.0.highest_one())
+    }
+
     /// Returns the smallest power of two that is ≥ `self`.
     ///
     /// # Panics

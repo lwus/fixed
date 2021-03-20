@@ -1090,6 +1090,25 @@ impl<F: FixedUnsigned> Wrapping<F> {
         self.0.is_power_of_two()
     }
 
+    /// Returns the highest one in the binary representation, or zero
+    /// if `self` is zero.
+    ///
+    /// If `self` > 0, the highest one is equal to the largest power
+    /// of two that is ≤ `self`.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::U4F4, Wrapping};
+    /// type T = Wrapping<U4F4>;
+    /// assert_eq!(T::from_bits(0b11_0010).highest_one(), T::from_bits(0b10_0000));
+    /// assert_eq!(T::from_num(3.125).highest_one(), T::from_num(2));
+    /// ```
+    #[inline]
+    pub fn highest_one(self) -> Wrapping<F> {
+        Wrapping(self.0.highest_one())
+    }
+
     /// Returns the smallest power of two that is ≥ `self`.
     ///
     /// If the next power of two is too large to fit, it is wrapped to zero.

@@ -837,6 +837,34 @@ assert_eq!(Fix::MIN.unsigned_abs(), min_as_unsigned);
             if_unsigned! {
                 $Signedness;
                 comment! {
+                    "Returns the highest one in the binary
+representation, or zero if `self` is zero.
+
+If `self` > 0, the highest one is equal to the largest power of two
+that is ≤ `self`.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_bits(0b11_0010).highest_one(), Fix::from_bits(0b10_0000));
+assert_eq!(Fix::from_num(3.125).highest_one(), Fix::from_num(2));
+```
+";
+                    #[inline]
+                    pub const fn highest_one(self) -> $Fixed<Frac> {
+                        const ONE: $Inner = 1;
+                        let bits = self.to_bits();
+                        if bits == 0 {
+                            self
+                        } else {
+                            $Fixed::from_bits(ONE << (ONE.leading_zeros() - bits.leading_zeros()))
+                        }
+                    }
+                }
+
+                comment! {
                     "Returns the smallest power of two that is ≥ `self`.
 
 # Panics

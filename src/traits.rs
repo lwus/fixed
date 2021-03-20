@@ -1540,6 +1540,10 @@ pub trait FixedUnsigned: Fixed {
     /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     fn is_power_of_two(self) -> bool;
 
+    /// Returns the highest one in the binary representation, or zero
+    /// if `self` is zero.
+    fn highest_one(self) -> Self;
+
     /// Returns the smallest power of two that is ≥ `self`.
     fn next_power_of_two(self) -> Self;
 
@@ -2801,6 +2805,7 @@ macro_rules! impl_fixed {
             impl<Frac: $LeEqU> FixedUnsigned for $Fixed<Frac> {
                 trait_delegate! { fn significant_bits(self) -> u32 }
                 trait_delegate! { fn is_power_of_two(self) -> bool }
+                trait_delegate! { fn highest_one(self) -> Self }
                 trait_delegate! { fn next_power_of_two(self) -> Self }
                 trait_delegate! { fn checked_next_power_of_two(self) -> Option<Self> }
                 trait_delegate! { fn wrapping_next_power_of_two(self) -> Self }
