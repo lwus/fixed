@@ -127,6 +127,9 @@ let _ = Fix::LN_2;
                 /// 2/π = 0.636619…
                 pub const FRAC_2_PI: $Fixed<Frac> = shift!(FRAC_2_PI, $Fixed<Frac>);
 
+                /// 1/√π = 0.564189…
+                pub const FRAC_1_SQRT_PI: $Fixed<Frac> = shift!(FRAC_1_SQRT_PI, $Fixed<Frac>);
+
                 /// 1/√2 = 0.707106…
                 pub const FRAC_1_SQRT_2: $Fixed<Frac> = shift!(FRAC_1_SQRT_2, $Fixed<Frac>);
 
@@ -202,6 +205,9 @@ let _ = Fix::LOG2_E;
                 /// π/3 = 1.04719…
                 pub const FRAC_PI_3: $Fixed<Frac> = shift!(FRAC_PI_3, 127, $Fixed<Frac>);
 
+                /// √π = 1.77245…
+                pub const SQRT_PI: $Fixed<Frac> = shift!(SQRT_PI, 127, $Fixed<Frac>);
+
                 /// 2/√π = 1.12837…
                 pub const FRAC_2_SQRT_PI: $Fixed<Frac> = shift!(FRAC_2_SQRT_PI, 127, $Fixed<Frac>);
 
@@ -211,11 +217,17 @@ let _ = Fix::LOG2_E;
                 /// √3 = 1.73205…
                 pub const SQRT_3: $Fixed<Frac> = shift!(SQRT_3, 127, $Fixed<Frac>);
 
+                /// √e = 1.64872…
+                pub const SQRT_E: $Fixed<Frac> = shift!(SQRT_E, 127, $Fixed<Frac>);
+
                 /// log<sub>2</sub> e = 1.44269…
                 pub const LOG2_E: $Fixed<Frac> = shift!(LOG2_E, 127, $Fixed<Frac>);
 
                 /// The golden ratio, φ = 1.61803…
                 pub const PHI: $Fixed<Frac> = shift!(PHI, 127, $Fixed<Frac>);
+
+                /// √φ = 1.27201…
+                pub const SQRT_PHI: $Fixed<Frac> = shift!(SQRT_PHI, 127, $Fixed<Frac>);
             }
         }
 

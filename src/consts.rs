@@ -77,7 +77,7 @@ fn float<T>(t: T) -> Float
 where
     Float: Assign<T>,
 {
-    Float::with_val(200, t)
+    Float::with_val(1000, t)
 }
 
 fn main() {
@@ -99,12 +99,15 @@ fn main() {
     print("π/8", "FRAC_PI_8", float(Constant::Pi) / 8);
     print("1/π", "FRAC_1_PI", 1 / float(Constant::Pi));
     print("2/π", "FRAC_2_PI", 2 / float(Constant::Pi));
+    print("√π", "SQRT_PI", float(Constant::Pi).sqrt());
+    print("1/√π", "FRAC_1_SQRT_PI", 1 / float(Constant::Pi).sqrt());
     print("2/√π", "FRAC_2_SQRT_PI", 2 / float(Constant::Pi).sqrt());
     print("√2", "SQRT_2", float(2).sqrt());
     print("1/√2", "FRAC_1_SQRT_2", float(0.5).sqrt());
     print("√3", "SQRT_3", float(3).sqrt());
     print("1/√3", "FRAC_1_SQRT_3", float(3).recip().sqrt());
     print("Euler’s number, e", "E", float(1).exp());
+    print("√e", "SQRT_E", float(0.5).exp());
     print("log<sub>2</sub> 10", "LOG2_10", float(10).log2());
     print("log<sub>2</sub> e", "LOG2_E", float(1).exp().log2());
     print("log<sub>10</sub> 2", "LOG10_2", float(2).log10());
@@ -113,6 +116,7 @@ fn main() {
     print("ln 10", "LN_10", float(10).ln());
     print("The golden ratio, φ", "PHI", float(1.25).sqrt() + 0.5);
     print("The golden ratio conjugate, Φ = 1/φ", "FRAC_1_PHI", float(1.25).sqrt() - 0.5);
+    print("√φ", "SQRT_PHI", (float(1.25).sqrt() + 0.5f32).sqrt());
     print("The Euler-Mascheroni constant, γ", "GAMMA", float(Constant::Euler));
     print("Catalan’s constant", "CATALAN", float(Constant::Catalan));
 }
@@ -191,6 +195,14 @@ pub const FRAC_1_PI: U0F128 = U0F128::from_bits(0x517C_C1B7_2722_0A94_FE13_ABE8_
 // FRAC_2_PI = 0.6366197723675813430755350534900574481378...
 pub const FRAC_2_PI: U0F128 = U0F128::from_bits(0xA2F9_836E_4E44_1529_FC27_57D1_F534_DDC0);
 
+/// √π = 1.77245…
+// SQRT_PI = 1.772453850905516027298167483341145182797...
+pub const SQRT_PI: U1F127 = U1F127::from_bits(0xE2DF_C48D_A77B_553C_E1D8_2906_AEDC_9C1F);
+
+/// 1/√π = 0.564189…
+// FRAC_1_SQRT_PI = 0.5641895835477562869480794515607725858440...
+pub const FRAC_1_SQRT_PI: U0F128 = U0F128::from_bits(0x906E_BA82_14DB_688D_71D4_8A7F_6BFE_C344);
+
 /// 2/√π = 1.12837…
 // FRAC_2_SQRT_PI = 1.128379167095512573896158903121545171688...
 pub const FRAC_2_SQRT_PI: U1F127 = U1F127::from_bits(0x906E_BA82_14DB_688D_71D4_8A7F_6BFE_C344);
@@ -214,6 +226,10 @@ pub const FRAC_1_SQRT_3: U0F128 = U0F128::from_bits(0x93CD_3A2C_8198_E269_0C7C_0
 /// Euler’s number, e = 2.71828…
 // E = 2.718281828459045235360287471352662497757...
 pub const E: U2F126 = U2F126::from_bits(0xADF8_5458_A2BB_4A9A_AFDC_5620_273D_3CF1);
+
+/// √e = 1.64872…
+// SQRT_E = 1.648721270700128146848650787814163571653...
+pub const SQRT_E: U1F127 = U1F127::from_bits(0xD309_4C70_F034_DE4B_96FF_7D5B_6F99_FCD8);
 
 /// log<sub>2</sub> 10 = 3.32192…
 // LOG2_10 = 3.321928094887362347870319429489390175864...
@@ -246,6 +262,10 @@ pub const PHI: U1F127 = U1F127::from_bits(0xCF1B_BCDC_BFA5_3E0A_F9CE_6030_2E76_E
 /// The golden ratio conjugate, Φ = 1/φ = 0.618033…
 // FRAC_1_PHI = 0.6180339887498948482045868343656381177203...
 pub const FRAC_1_PHI: U0F128 = U0F128::from_bits(0x9E37_79B9_7F4A_7C15_F39C_C060_5CED_C834);
+
+/// √φ = 1.27201…
+// SQRT_PHI = 1.272019649514068964252422461737491491715...
+pub const SQRT_PHI: U1F127 = U1F127::from_bits(0xA2D1_8A35_4422_AF49_2AA2_8089_0F62_6C86);
 
 /// The Euler-Mascheroni constant, γ = 0.577215…
 // GAMMA = 0.5772156649015328606065120900824024310421...
@@ -291,6 +311,14 @@ mod tests {
         assert_eq!(f16::from_fixed(FRAC_PI_8), f16::FRAC_PI_8);
         assert_eq!(f16::from_fixed(FRAC_1_PI), f16::FRAC_1_PI);
         assert_eq!(f16::from_fixed(FRAC_2_PI), f16::FRAC_2_PI);
+        assert_eq!(
+            f16::from_fixed(SQRT_PI),
+            f16::from_f32(f32::consts::PI.sqrt())
+        );
+        assert_eq!(
+            f16::from_fixed(FRAC_1_SQRT_PI),
+            f16::from_f32(f32::consts::FRAC_2_SQRT_PI / 2.0)
+        );
         assert_eq!(f16::from_fixed(FRAC_2_SQRT_PI), f16::FRAC_2_SQRT_PI);
         assert_eq!(f16::from_fixed(SQRT_2), f16::SQRT_2);
         assert_eq!(f16::from_fixed(FRAC_1_SQRT_2), f16::FRAC_1_SQRT_2);
@@ -300,6 +328,7 @@ mod tests {
             f16::from_f32(3f32.powf(-0.5))
         );
         assert_eq!(f16::from_fixed(E), f16::E);
+        assert_eq!(f16::from_fixed(SQRT_E), f16::from_f32(0.5f32.exp()));
         assert_eq!(f16::from_fixed(LOG2_10), f16::LOG2_10);
         assert_eq!(f16::from_fixed(LOG2_E), f16::LOG2_E);
         assert_eq!(f16::from_fixed(LOG10_2), f16::LOG10_2);
@@ -310,6 +339,10 @@ mod tests {
         assert_eq!(
             f16::from_fixed(FRAC_1_PHI),
             f16::from_f32(1.25f32.sqrt() - 0.5)
+        );
+        assert_eq!(
+            f16::from_fixed(SQRT_PHI),
+            f16::from_f32((1.25f32.sqrt() + 0.5f32).sqrt())
         );
     }
 
@@ -340,6 +373,14 @@ mod tests {
         assert_eq!(bf16::from_fixed(FRAC_PI_8), bf16::FRAC_PI_8);
         assert_eq!(bf16::from_fixed(FRAC_1_PI), bf16::FRAC_1_PI);
         assert_eq!(bf16::from_fixed(FRAC_2_PI), bf16::FRAC_2_PI);
+        assert_eq!(
+            bf16::from_fixed(SQRT_PI),
+            bf16::from_f32(f32::consts::PI.sqrt())
+        );
+        assert_eq!(
+            bf16::from_fixed(FRAC_1_SQRT_PI),
+            bf16::from_f32(f32::consts::FRAC_2_SQRT_PI / 2.0)
+        );
         assert_eq!(bf16::from_fixed(FRAC_2_SQRT_PI), bf16::FRAC_2_SQRT_PI);
         assert_eq!(bf16::from_fixed(SQRT_2), bf16::SQRT_2);
         assert_eq!(bf16::from_fixed(FRAC_1_SQRT_2), bf16::FRAC_1_SQRT_2);
@@ -349,6 +390,7 @@ mod tests {
             bf16::from_f32(3f32.powf(-0.5))
         );
         assert_eq!(bf16::from_fixed(E), bf16::E);
+        assert_eq!(bf16::from_fixed(SQRT_E), bf16::from_f32(0.5f32.exp()));
         assert_eq!(bf16::from_fixed(LOG2_10), bf16::LOG2_10);
         assert_eq!(bf16::from_fixed(LOG2_E), bf16::LOG2_E);
         assert_eq!(bf16::from_fixed(LOG10_2), bf16::LOG10_2);
@@ -359,6 +401,10 @@ mod tests {
         assert_eq!(
             bf16::from_fixed(FRAC_1_PHI),
             bf16::from_f32(1.25f32.sqrt() - 0.5)
+        );
+        assert_eq!(
+            bf16::from_fixed(SQRT_PHI),
+            bf16::from_f32((1.25f32.sqrt() + 0.5f32).sqrt())
         );
     }
 
@@ -382,12 +428,18 @@ mod tests {
         assert_eq!(f32::from_fixed(FRAC_PI_8), f32::consts::FRAC_PI_8);
         assert_eq!(f32::from_fixed(FRAC_1_PI), f32::consts::FRAC_1_PI);
         assert_eq!(f32::from_fixed(FRAC_2_PI), f32::consts::FRAC_2_PI);
+        assert_eq!(f32::from_fixed(SQRT_PI), f64::consts::PI.sqrt() as f32);
+        assert_eq!(
+            f32::from_fixed(FRAC_1_SQRT_PI),
+            f32::consts::FRAC_2_SQRT_PI / 2.0
+        );
         assert_eq!(f32::from_fixed(FRAC_2_SQRT_PI), f32::consts::FRAC_2_SQRT_PI);
         assert_eq!(f32::from_fixed(SQRT_2), f32::consts::SQRT_2);
         assert_eq!(f32::from_fixed(FRAC_1_SQRT_2), f32::consts::FRAC_1_SQRT_2);
         assert_eq!(f32::from_fixed(SQRT_3), 3f32.sqrt());
         assert_eq!(f32::from_fixed(FRAC_1_SQRT_3), 3f32.powf(-0.5));
         assert_eq!(f32::from_fixed(E), f32::consts::E);
+        assert_eq!(f32::from_fixed(SQRT_E), 0.5f32.exp());
         assert_eq!(f32::from_fixed(LOG2_10), f32::consts::LOG2_10);
         assert_eq!(f32::from_fixed(LOG2_E), f32::consts::LOG2_E);
         assert_eq!(f32::from_fixed(LOG10_2), f32::consts::LOG10_2);
@@ -396,6 +448,10 @@ mod tests {
         assert_eq!(f32::from_fixed(LN_10), f32::consts::LN_10);
         assert_eq!(f32::from_fixed(PHI), 1.25f32.sqrt() + 0.5);
         assert_eq!(f32::from_fixed(FRAC_1_PHI), (1.25f64.sqrt() - 0.5) as f32);
+        assert_eq!(
+            f32::from_fixed(SQRT_PHI),
+            (1.25f64.sqrt() + 0.5f64).sqrt() as f32
+        );
     }
 
     #[test]
@@ -418,12 +474,19 @@ mod tests {
         assert_eq!(f64::from_fixed(FRAC_PI_8), f64::consts::FRAC_PI_8);
         assert_eq!(f64::from_fixed(FRAC_1_PI), f64::consts::FRAC_1_PI);
         assert_eq!(f64::from_fixed(FRAC_2_PI), f64::consts::FRAC_2_PI);
+        // Since 1 < SQRT_PI < 2, we use EPSILON.
+        assert!((f64::from_fixed(SQRT_PI) - f64::consts::PI.sqrt()).abs() <= f64::EPSILON);
+        assert_eq!(
+            f64::from_fixed(FRAC_1_SQRT_PI),
+            f64::consts::FRAC_2_SQRT_PI / 2.0
+        );
         assert_eq!(f64::from_fixed(FRAC_2_SQRT_PI), f64::consts::FRAC_2_SQRT_PI);
         assert_eq!(f64::from_fixed(SQRT_2), f64::consts::SQRT_2);
         assert_eq!(f64::from_fixed(FRAC_1_SQRT_2), f64::consts::FRAC_1_SQRT_2);
         assert_eq!(f64::from_fixed(SQRT_3), 3f64.sqrt());
         assert_eq!(f64::from_fixed(FRAC_1_SQRT_3), 3f64.powf(-0.5));
         assert_eq!(f64::from_fixed(E), f64::consts::E);
+        assert_eq!(f64::from_fixed(SQRT_E), 0.5f64.exp());
         assert_eq!(f64::from_fixed(LOG2_10), f64::consts::LOG2_10);
         assert_eq!(f64::from_fixed(LOG2_E), f64::consts::LOG2_E);
         assert_eq!(f64::from_fixed(LOG10_2), f64::consts::LOG10_2);
@@ -431,8 +494,12 @@ mod tests {
         assert_eq!(f64::from_fixed(LN_2), f64::consts::LN_2);
         assert_eq!(f64::from_fixed(LN_10), f64::consts::LN_10);
         assert_eq!(f64::from_fixed(PHI), 1.25f64.sqrt() + 0.5);
-        // Since 0.5 < FRAC_1_PHI < 1.0, we use EPSILON / 2.
+        // Since 0.5 < FRAC_1_PHI < 1, we use EPSILON / 2.
         assert!((f64::from_fixed(FRAC_1_PHI) - (1.25f64.sqrt() - 0.5)).abs() <= f64::EPSILON / 2.0);
+        // Since 1 < SQRT_PHI < 2, we use EPSILON.
+        assert!(
+            (f64::from_fixed(SQRT_PHI) - (1.25f64.sqrt() + 0.5f64).sqrt()).abs() <= f64::EPSILON
+        );
     }
 
     fn compare_parse<F: Fixed>(f: F, s: &str)
@@ -464,12 +531,15 @@ mod tests {
         compare_parse(FRAC_PI_8, "0.3926990816987241548078304229099378605246");
         compare_parse(FRAC_1_PI, "0.3183098861837906715377675267450287240689");
         compare_parse(FRAC_2_PI, "0.6366197723675813430755350534900574481378");
+        compare_parse(SQRT_PI, "1.772453850905516027298167483341145182797");
+        compare_parse(FRAC_1_SQRT_PI, "0.5641895835477562869480794515607725858440");
         compare_parse(FRAC_2_SQRT_PI, "1.128379167095512573896158903121545171688");
         compare_parse(SQRT_2, "1.414213562373095048801688724209698078569");
         compare_parse(FRAC_1_SQRT_2, "0.7071067811865475244008443621048490392848");
         compare_parse(SQRT_3, "1.732050807568877293527446341505872366942");
         compare_parse(FRAC_1_SQRT_3, "0.5773502691896257645091487805019574556476");
         compare_parse(E, "2.718281828459045235360287471352662497757");
+        compare_parse(SQRT_E, "1.648721270700128146848650787814163571653");
         compare_parse(LOG2_10, "3.321928094887362347870319429489390175864");
         compare_parse(LOG2_E, "1.442695040888963407359924681001892137426");
         compare_parse(LOG10_2, "0.3010299956639811952137388947244930267681");
@@ -478,6 +548,7 @@ mod tests {
         compare_parse(LN_10, "2.302585092994045684017991454684364207601");
         compare_parse(PHI, "1.618033988749894848204586834365638117720");
         compare_parse(FRAC_1_PHI, "0.6180339887498948482045868343656381177203");
+        compare_parse(SQRT_PHI, "1.272019649514068964252422461737491491715");
         compare_parse(GAMMA, "0.5772156649015328606065120900824024310421");
         compare_parse(CATALAN, "0.9159655941772190150546035149323841107741");
     }

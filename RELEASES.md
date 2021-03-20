@@ -35,11 +35,15 @@ Version 1.7.0 (unreleased)
     fixed-point types, to the [`FixedSigned`][tfs-1-7] trait, and to
     the [`Wrapping`][w-1-7] and [`Unwrapped`][u-1-7] wrappers for
     signed numbers.
-  * The following constants were added to the [`consts`][c-1-7]
+  * The following constants, which are available in other programming
+    language standard libraries, were added to the [`consts`][c-1-7]
     module and as associated constants for fixed-point types:
-      * [`SQRT_3`][c-r3-1-7], [`FRAC_1_SQRT_3`][c-1r3-1-7]
-      * [`GAMMA`][c-g-1-7]
-      * [`CATALAN`][c-c-1-7]
+      * [`SQRT_PI`][c-rp-1-7] (Go), [`FRAC_1_SQRT_PI`][c-1rp-1-7] (C++)
+      * [`SQRT_3`][c-r3-1-7] (C++), [`FRAC_1_SQRT_3`][c-1r3-1-7] (C++)
+      * [`SQRT_E`][c-re-1-7] (Go)
+      * [`SQRT_PHI`][c-rf-1-7] (Go)
+      * [`GAMMA`][c-g-1-7] (C++)
+      * [`CATALAN`][c-c-1-7] (Julia)
   * [`Sum`] and [`Product`] are now supertraits of the
     [`Fixed`][tf-1-7] trait.
   * The [`F128Bits`][f128-1-7] type was added to support conversions
@@ -56,9 +60,13 @@ Version 1.7.0 (unreleased)
 
 [c-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
 [c-1r3-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_SQRT_3.html
+[c-1rp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_SQRT_PI.html
 [c-c-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.CATALAN.html
 [c-g-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.GAMMA.html
 [c-r3-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_3.html
+[c-re-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_E.html
+[c-rf-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_PHI.html
+[c-rp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_PI.html
 [f-cnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.checked_next_power_of_two
 [f-fb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be
 [f-fbb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be_bytes
