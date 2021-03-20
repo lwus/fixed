@@ -1099,10 +1099,13 @@ impl<F: FixedUnsigned> Wrapping<F> {
     /// # Examples
     ///
     /// ```rust
-    /// use fixed::{types::U4F4, Wrapping};
-    /// type T = Wrapping<U4F4>;
+    /// use fixed::{types::U16F16, Wrapping};
+    /// type T = Wrapping<U16F16>;
     /// assert_eq!(T::from_bits(0b11_0010).highest_one(), T::from_bits(0b10_0000));
-    /// assert_eq!(T::from_num(3.125).highest_one(), T::from_num(2));
+    /// assert_eq!(T::from_num(0.3).highest_one(), T::from_num(0.25));
+    /// assert_eq!(T::from_num(4).highest_one(), T::from_num(4));
+    /// assert_eq!(T::from_num(6.5).highest_one(), T::from_num(4));
+    /// assert_eq!(T::from_num(0).highest_one(), T::from_num(0));
     /// ```
     #[inline]
     pub fn highest_one(self) -> Wrapping<F> {
@@ -1117,12 +1120,13 @@ impl<F: FixedUnsigned> Wrapping<F> {
     ///
     /// ```rust
     /// use fixed::{types::U16F16, Wrapping};
-    /// let half = Wrapping(U16F16::from_num(0.5));
-    /// assert_eq!(Wrapping(U16F16::from_num(0.3)).next_power_of_two(), half);
-    /// let four = Wrapping(U16F16::from_num(4));
-    /// assert_eq!(Wrapping(U16F16::from_num(4)).next_power_of_two(), four);
-    /// let zero = Wrapping(U16F16::from_num(0));
-    /// assert_eq!(Wrapping(U16F16::MAX).next_power_of_two(), zero);
+    /// type T = Wrapping<U16F16>;
+    /// assert_eq!(T::from_bits(0b11_0010).next_power_of_two(), T::from_bits(0b100_0000));
+    /// assert_eq!(T::from_num(0.3).next_power_of_two(), T::from_num(0.5));
+    /// assert_eq!(T::from_num(4).next_power_of_two(), T::from_num(4));
+    /// assert_eq!(T::from_num(6.5).next_power_of_two(), T::from_num(8));
+    /// // if the next power of two is too large, it is wrapped to zero
+    /// assert_eq!(T::MAX.next_power_of_two(), T::from_num(0));
     /// ```
     #[inline]
     pub fn next_power_of_two(self) -> Wrapping<F> {

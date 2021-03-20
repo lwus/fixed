@@ -849,7 +849,10 @@ that is ≤ `self`.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_bits(0b11_0010).highest_one(), Fix::from_bits(0b10_0000));
-assert_eq!(Fix::from_num(3.125).highest_one(), Fix::from_num(2));
+assert_eq!(Fix::from_num(0.3).highest_one(), Fix::from_num(0.25));
+assert_eq!(Fix::from_num(4).highest_one(), Fix::from_num(4));
+assert_eq!(Fix::from_num(6.5).highest_one(), Fix::from_num(4));
+assert_eq!(Fix::from_num(0).highest_one(), Fix::from_num(0));
 ```
 ";
                     #[inline]
@@ -880,12 +883,10 @@ future it panics; if this is not desirable use
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-// 3/8 is 0.0110
-let three_eights = Fix::from_bits(0b0110);
-// 1/2 is 0.1000
-let half = Fix::from_bits(0b1000);
-assert_eq!(three_eights.next_power_of_two(), half);
-assert_eq!(half.next_power_of_two(), half);
+assert_eq!(Fix::from_bits(0b11_0010).next_power_of_two(), Fix::from_bits(0b100_0000));
+assert_eq!(Fix::from_num(0.3).next_power_of_two(), Fix::from_num(0.5));
+assert_eq!(Fix::from_num(4).next_power_of_two(), Fix::from_num(4));
+assert_eq!(Fix::from_num(6.5).next_power_of_two(), Fix::from_num(8));
 ```
 
 [`checked_next_power_of_two`]: #method.checked_next_power_of_two
