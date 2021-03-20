@@ -96,7 +96,7 @@ x86_64-gnulinux-tarpaulin:
   image: amd64/rust:1
   variables:
     TARGET: x86_64
-    REQ_COVERAGE: "79"
+    REQ_COVERAGE: "78.9"
   cache:
     key: $CI_JOB_NAME
     paths:
