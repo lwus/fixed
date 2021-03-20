@@ -86,9 +86,10 @@ The conversions supported cover the following cases.
       * [`next_power_of_two`][f-npot-1-7],
         [`checked_next_power_of_two`][f-cnpot-1-7],
         [`wrapping_next_power_of_two`][f-wnpot-1-7]
-  * The following methods were added to all fixed-point numbers, to
-    the [`Fixed`][tf-1-7] trait, and to the [`Wrapping`][w-1-7] and
-    [`Unwrapped`][u-1-7] wrappers:
+  * The following constant and methods were added to all fixed-point
+    numbers, to the [`Fixed`][tf-1-7] trait, and to the
+    [`Wrapping`][w-1-7] and [`Unwrapped`][u-1-7] wrappers:
+      * [`IS_SIGNED`][f-is-1-7]
       * [`from_be`][f-fb-1-7], [`from_le`][f-fl-1-7]
       * [`to_be`][f-tb-1-7], [`to_le`][f-tl-1-7]
       * [`swap_bytes`][f-sb-1-7]
@@ -110,7 +111,7 @@ The conversions supported cover the following cases.
     signed numbers.
   * The following constants, which are available in other programming
     language standard libraries, were added to the [`consts`][c-1-7]
-    module and as associated constants for fixed-point types:
+    module and as associated constants to fixed-point types:
       * [`SQRT_PI`][c-rp-1-7] (Go), [`FRAC_1_SQRT_PI`][c-1rp-1-7] (C++)
       * [`SQRT_3`][c-r3-1-7] (C++), [`FRAC_1_SQRT_3`][c-1r3-1-7] (C++)
       * [`SQRT_E`][c-re-1-7] (Go)
@@ -148,6 +149,7 @@ The conversions supported cover the following cases.
 [f-fl-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le
 [f-flb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le_bytes
 [f-fnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_ne_bytes
+[f-is-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.IS_SIGNED
 [f-m-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.midpoint
 [f-npot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.next_power_of_two
 [f-rb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.reverse_bits

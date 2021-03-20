@@ -69,6 +69,22 @@ impl<F: Fixed> Wrapping<F> {
     /// ```
     pub const MAX: Wrapping<F> = Wrapping(F::MAX);
 
+    /// [`true`][`bool`] if the type is signed.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     types::{I16F16, U16F16},
+    ///     Wrapping,
+    /// };
+    /// assert!(Wrapping::<I16F16>::IS_SIGNED);
+    /// assert!(!Wrapping::<U16F16>::IS_SIGNED);
+    /// ```
+    ///
+    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    pub const IS_SIGNED: bool = F::IS_SIGNED;
+
     /// The number of integer bits.
     ///
     /// # Examples

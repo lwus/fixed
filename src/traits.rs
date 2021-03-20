@@ -358,6 +358,11 @@ where
     /// The largest value that can be represented.
     const MAX: Self;
 
+    /// [`true`][`bool`] if the type is signed.
+    ///
+    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    const IS_SIGNED: bool;
+
     /// The number of integer bits.
     const INT_NBITS: u32;
 
@@ -2382,6 +2387,7 @@ macro_rules! impl_fixed {
             type Frac = Frac;
             const MIN: Self = Self::MIN;
             const MAX: Self = Self::MAX;
+            const IS_SIGNED: bool = Self::IS_SIGNED;
             const INT_NBITS: u32 = Self::INT_NBITS;
             const FRAC_NBITS: u32 = Self::FRAC_NBITS;
             trait_delegate! { fn from_bits(bits: Self::Bits) -> Self }

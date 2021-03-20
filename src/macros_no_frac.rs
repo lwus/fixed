@@ -52,6 +52,26 @@ assert_eq!(Fix::MAX, Fix::from_bits(", $s_inner, "::MAX));
             }
 
             comment! {
+                if_signed_unsigned!($Signedness, "[`true`]", "[`false`]"),
+                "[`bool`] because the [`", $s_fixed, "`] type is ",
+                if_signed_unsigned!($Signedness, "signed", "unsigned"),
+                ".
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert!(", if_signed_unsigned!($Signedness, "", "!"), "Fix::IS_SIGNED);
+```
+
+[`", $s_fixed, "`]: #
+[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+";
+                pub const IS_SIGNED: bool = if_signed_unsigned!($Signedness, true, false);
+            }
+
+            comment! {
                 "Creates a fixed-point number that has a bitwise
 representation identical to the given integer.
 

@@ -72,6 +72,22 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     pub const MAX: Unwrapped<F> = Unwrapped(F::MAX);
 
+    /// [`true`][`bool`] if the type is signed.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     types::{I16F16, U16F16},
+    ///     Unwrapped,
+    /// };
+    /// assert!(Unwrapped::<I16F16>::IS_SIGNED);
+    /// assert!(!Unwrapped::<U16F16>::IS_SIGNED);
+    /// ```
+    ///
+    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    pub const IS_SIGNED: bool = F::IS_SIGNED;
+
     /// The number of integer bits.
     ///
     /// # Examples
