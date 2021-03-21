@@ -827,8 +827,8 @@ where
     /// Shifts to the right by `n` bits, wrapping the truncated bits to the left end.
     fn rotate_right(self, n: u32) -> Self;
 
-    /// Returns the midpoint of `self` and `other`, rounding towards `self`.
-    fn midpoint(self, other: Self) -> Self;
+    /// Returns the mean of `self` and `other`.
+    fn mean(self, other: Self) -> Self;
 
     /// Returns the reciprocal.
     ///
@@ -2498,7 +2498,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn reverse_bits(self) -> Self }
             trait_delegate! { fn rotate_left(self, n: u32) -> Self }
             trait_delegate! { fn rotate_right(self, n: u32) -> Self }
-            trait_delegate! { fn midpoint(self, other: Self) -> Self }
+            trait_delegate! { fn mean(self, other: Self) -> Self }
             trait_delegate! { fn recip(self) -> Self }
             trait_delegate! { fn mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn div_euclid(self, rhs: Self) -> Self }
