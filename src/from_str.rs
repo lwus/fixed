@@ -63,7 +63,7 @@ where
                 // half bit is true, round up if we have more
                 // significant bits or currently acc is odd
                 if bytes.len() > i + 1 || acc.is_odd() {
-                    acc = acc.checked_add(I::from(1))?;
+                    acc = acc.checked_inc()?;
                 }
             }
             if dump_bits != 0 && acc >> nbits != I::ZERO {
@@ -119,7 +119,7 @@ where
                 // half bit is true, round up if we have more
                 // significant bits or currently acc is odd
                 if val & (half - 1) != 0 || bytes.len() > i + 1 || acc.is_odd() {
-                    acc = acc.checked_add(I::from(1))?;
+                    acc = acc.checked_inc()?;
                 }
             }
             if dump_bits != 0 && acc >> nbits != I::ZERO {
@@ -183,7 +183,7 @@ where
                 // half bit is true, round up if we have more
                 // significant bits or currently acc is odd
                 if val & (half - 1) != 0 || bytes.len() > i + 1 || acc.is_odd() {
-                    acc = acc.checked_add(I::from(1))?;
+                    acc = acc.checked_inc()?;
                 }
             }
             if dump_bits != 0 && acc >> nbits != I::ZERO {
@@ -471,7 +471,7 @@ where
     if tie && !floor.is_odd() {
         return Some(floor);
     }
-    let next_up = floor.checked_add(one)?;
+    let next_up = floor.checked_inc()?;
     if dump_bits != 0 && next_up >> nbits != I::ZERO {
         None
     } else {

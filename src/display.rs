@@ -19,6 +19,7 @@ use crate::{
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
+use az_crate::WrappingAs;
 use core::{
     cmp::{self, Ordering},
     fmt::{
@@ -267,7 +268,7 @@ macro_rules! impl_radix_helper {
                 let mask = radix.max();
                 for b in buf.int().iter_mut().rev() {
                     debug_assert!(self != 0);
-                    *b = self.lower_byte() & mask;
+                    *b = self.wrapping_as::<u8>() & mask;
                     self >>= digit_bits;
                 }
                 debug_assert!(self == 0);
@@ -280,7 +281,7 @@ macro_rules! impl_radix_helper {
                 let compl_digit_bits = $U::NBITS - digit_bits;
                 for b in buf.frac().iter_mut() {
                     debug_assert!(self != 0);
-                    *b = (self >> compl_digit_bits).lower_byte();
+                    *b = (self >> compl_digit_bits).wrapping_as::<u8>();
                     self <<= digit_bits;
                 }
                 self.cmp(&$U::MSB)
@@ -290,7 +291,7 @@ macro_rules! impl_radix_helper {
                     return (self as $H).write_int_dec(nbits, buf);
                 }
                 for b in buf.int().iter_mut().rev() {
-                    *b = (self % 10).lower_byte();
+                    *b = (self % 10).wrapping_as::<u8>();
                     self /= 10;
                 }
                 debug_assert!(self == 0);

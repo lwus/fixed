@@ -44,12 +44,11 @@ where
 
     fn is_negative(self) -> bool;
     fn is_odd(self) -> bool;
-    fn checked_add(self, val: Self) -> Option<Self>;
+    fn checked_inc(self) -> Option<Self>;
     fn overflowing_add(self, val: Self) -> (Self, bool);
     fn overflowing_mul(self, val: Self) -> (Self, bool);
     fn leading_zeros(self) -> u32;
     fn trailing_zeros(self) -> u32;
-    fn lower_byte(self) -> u8;
 
     fn to_fixed_helper(
         self,
@@ -77,8 +76,8 @@ macro_rules! sealed_int {
             const ZERO: $Int = 0;
 
             #[inline]
-            fn checked_add(self, val: $Int) -> Option<$Int> {
-                self.checked_add(val)
+            fn checked_inc(self) -> Option<$Int> {
+                self.checked_add(1)
             }
 
             #[inline]
@@ -99,11 +98,6 @@ macro_rules! sealed_int {
             #[inline]
             fn trailing_zeros(self) -> u32 {
                 self.trailing_zeros()
-            }
-
-            #[inline]
-            fn lower_byte(self) -> u8 {
-                self as u8
             }
 
             #[inline]
