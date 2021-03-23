@@ -120,7 +120,7 @@ pages:
   - rustup toolchain install --profile minimal nightly-$TARGET
   - rm -rf public
   - mkdir public
-  - cp doc/index.html public
+  - cp etc/index.html public
   - cargo +nightly-$TARGET doc --no-deps --features "num-traits serde std"
   - mv target/doc public/dev
   artifacts:
