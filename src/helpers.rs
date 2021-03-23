@@ -110,6 +110,7 @@ macro_rules! impl_sealed {
                 Self::from_bits(bits)
             }
             #[inline]
+            #[track_caller]
             fn private_overflowing_from_float_helper(src: FromFloatHelper) -> (Self, bool) {
                 let conv = match src.kind {
                     FloatKind::NaN => panic!("NaN"),

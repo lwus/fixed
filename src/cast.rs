@@ -66,6 +66,7 @@ macro_rules! cast {
             for $Src<FracSrc>
         {
             #[inline]
+            #[track_caller]
             fn unwrapped_cast(self) -> $Dst<FracDst> {
                 self.unwrapped_to_num()
             }
@@ -110,6 +111,7 @@ macro_rules! cast {
 
         impl<Frac: $LeEqU> UnwrappedCast<$Dst> for $Fixed<Frac> {
             #[inline]
+            #[track_caller]
             fn unwrapped_cast(self) -> $Dst {
                 self.unwrapped_to_num()
             }
@@ -154,6 +156,7 @@ macro_rules! cast {
 
         impl<Frac: $LeEqU> UnwrappedCast<$Fixed<Frac>> for $Src {
             #[inline]
+            #[track_caller]
             fn unwrapped_cast(self) -> $Fixed<Frac> {
                 <$Fixed<Frac>>::unwrapped_from_num(self)
             }

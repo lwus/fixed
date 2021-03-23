@@ -1115,6 +1115,7 @@ let _overflow = OneIntBit::from_num(0.5).unwrapped_signum();
 ```
 ";
                     #[inline]
+                    #[track_caller]
                     pub fn unwrapped_signum(self) -> $Fixed<Frac> {
                         self.checked_signum().expect("overflow")
                     }
@@ -1145,6 +1146,7 @@ let _overflow = Fix::MAX.unwrapped_mul(Fix::from_num(4));
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_mul(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.checked_mul(rhs).expect("overflow")
                 }
@@ -1176,6 +1178,7 @@ let _overflow = Fix::MAX.unwrapped_div(quarter);
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_div(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_div(rhs) {
                         (_, true) => panic!("overflow"),
@@ -1201,6 +1204,7 @@ assert_eq!(Fix::from_num(0.25).unwrapped_recip(), Fix::from_num(4));
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_recip(self) -> $Fixed<Frac> {
                     match self.overflowing_recip() {
                         (_, true) => panic!("overflow"),
@@ -1233,6 +1237,7 @@ let _overflow = Fix::MAX.unwrapped_div_euclid(Fix::from_num(0.25));
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_div_euclid(rhs) {
                         (_, true) => panic!("overflow"),
@@ -1286,6 +1291,7 @@ let _overflow = Fix::MIN.unwrapped_div_euclid_int(-1);
                 "```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_div_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.overflowing_div_euclid_int(rhs) {
                         (_, true) => panic!("overflow"),
@@ -1341,6 +1347,7 @@ let _overflow = Fix::from_num(-7.5).unwrapped_rem_euclid_int(20);
                 "```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_rem_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.overflowing_rem_euclid_int(rhs) {
                         (_, true) => panic!("overflow"),

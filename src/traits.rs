@@ -485,6 +485,7 @@ where
     /// # Panics
     ///
     /// Panics if the value does not fit.
+    #[track_caller]
     fn unwrapped_from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number, panicking on overflow.
@@ -492,6 +493,7 @@ where
     /// # Panics
     ///
     /// Panics if the value does not fit.
+    #[track_caller]
     fn unwrapped_to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number.
@@ -706,6 +708,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_ceil(self) -> Self;
 
     /// Unwrapped floor. Rounds to the next integer towards −∞,
@@ -714,6 +717,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_floor(self) -> Self;
 
     /// Unwrapped round. Rounds to the next integer to the nearest,
@@ -722,6 +726,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_round(self) -> Self;
 
     /// Unwrapped round. Rounds to the next integer to the nearest,
@@ -730,6 +735,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_round_ties_to_even(self) -> Self;
 
     /// Overflowing ceil. Rounds to the next integer towards +∞.
@@ -1095,6 +1101,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_neg(self) -> Self;
 
     /// Unwrapped addition. Returns the sum, panicking on overflow.
@@ -1102,6 +1109,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_add(self, rhs: Self) -> Self;
 
     /// Unwrapped subtraction. Returns the difference, panicking on overflow.
@@ -1109,6 +1117,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_sub(self, rhs: Self) -> Self;
 
     /// Unwrapped multiplication. Returns the product, panicking on overflow.
@@ -1116,6 +1125,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_mul(self, rhs: Self) -> Self;
 
     /// Unwrapped division. Returns the quotient, panicking on overflow.
@@ -1123,6 +1133,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the result does not fit.
+    #[track_caller]
     fn unwrapped_div(self, rhs: Self) -> Self;
 
     /// Unwrapped reciprocal. Returns reciprocal, panicking on overflow.
@@ -1130,6 +1141,7 @@ where
     /// # Panics
     ///
     /// Panics if `self` is zero or on overflow.
+    #[track_caller]
     fn unwrapped_recip(self) -> Self;
 
     /// Unwrapped multiply and add. Returns `self` × `mul` + `add`, panicking on overflow.
@@ -1137,6 +1149,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_mul_add(self, mul: Self, add: Self) -> Self;
 
     /// Unwrapped Euclidean division. Returns the quotient, panicking on overflow.
@@ -1144,6 +1157,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the result does not fit.
+    #[track_caller]
     fn unwrapped_div_euclid(self, rhs: Self) -> Self;
 
     /// Unwrapped multiplication by an integer. Returns the product, panicking on overflow.
@@ -1151,6 +1165,7 @@ where
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_mul_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped division by an integer. Returns the quotient, panicking on overflow.
@@ -1160,6 +1175,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the result does not fit.
+    #[track_caller]
     fn unwrapped_div_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped Euclidean division by an integer. Returns the
@@ -1170,6 +1186,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the result does not fit.
+    #[track_caller]
     fn unwrapped_div_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped remainder for Euclidean division by an integer.
@@ -1178,6 +1195,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the result does not fit.
+    #[track_caller]
     fn unwrapped_rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped shift left. Panics if `rhs` ≥ the number of bits.
@@ -1185,6 +1203,7 @@ where
     /// # Panics
     ///
     /// Panics if `rhs` ≥ the number of bits.
+    #[track_caller]
     fn unwrapped_shl(self, rhs: u32) -> Self;
 
     /// Unwrapped shift right. Panics if `rhs` ≥ the number of bits.
@@ -1192,6 +1211,7 @@ where
     /// # Panics
     ///
     /// Panics if `rhs` ≥ the number of bits.
+    #[track_caller]
     fn unwrapped_shr(self, rhs: u32) -> Self;
 
     /// Overflowing negation.
@@ -1472,6 +1492,7 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_abs(self) -> Self;
 
     /// Unwrapped signum. Returns a number representing the sign of
@@ -1486,6 +1507,7 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_signum(self) -> Self;
 
     /// Overflowing absolute value.
@@ -1563,6 +1585,7 @@ pub trait FixedUnsigned: Fixed {
     /// # Panics
     ///
     /// Panics if the result does not fit.
+    #[track_caller]
     fn unwrapped_next_power_of_two(self) -> Self;
 }
 
@@ -1765,6 +1788,7 @@ pub trait FromFixed {
     /// Panics if the value does not fit, even when debug assertions
     /// are not enabled.
     #[inline]
+    #[track_caller]
     fn unwrapped_from_fixed<F: Fixed>(src: F) -> Self
     where
         Self: Sized,
@@ -1876,6 +1900,7 @@ pub trait ToFixed {
     ///
     /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
     #[inline]
+    #[track_caller]
     fn unwrapped_to_fixed<F: Fixed>(self) -> F
     where
         Self: Sized,
@@ -1953,6 +1978,7 @@ impl ToFixed for bool {
     ///
     /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
+    #[track_caller]
     fn unwrapped_to_fixed<F: Fixed>(self) -> F {
         ToFixed::unwrapped_to_fixed(self as u8)
     }
@@ -2301,6 +2327,7 @@ Panics if `self` is not [finite].
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
+                #[track_caller]
                 fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
                     let kind = self.to_float_kind(F::FRAC_NBITS, F::INT_NBITS);
                     let helper = FromFloatHelper { kind };

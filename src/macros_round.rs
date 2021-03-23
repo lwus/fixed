@@ -710,6 +710,7 @@ let _overflow = Fix::MAX.unwrapped_ceil();
 ```
 ";
             #[inline]
+            #[track_caller]
             pub fn unwrapped_ceil(self) -> $Fixed<Frac> {
                 self.checked_ceil().expect("overflow")
             }
@@ -753,6 +754,7 @@ let _overflow = AllFrac::MIN.unwrapped_floor();
             "```
 ";
             #[inline]
+            #[track_caller]
             pub fn unwrapped_floor(self) -> $Fixed<Frac> {
                 self.checked_floor().expect("overflow")
             }
@@ -789,6 +791,7 @@ let _overflow = Fix::MAX.unwrapped_round();
 ```
 ";
             #[inline]
+            #[track_caller]
             pub fn unwrapped_round(self) -> $Fixed<Frac> {
                 self.checked_round().expect("overflow")
             }
@@ -820,6 +823,7 @@ let _overflow = Fix::MAX.unwrapped_round_ties_to_even();
 ```
 ";
             #[inline]
+            #[track_caller]
             pub fn unwrapped_round_ties_to_even(self) -> $Fixed<Frac> {
                 self.checked_round_ties_to_even().expect("overflow")
             }

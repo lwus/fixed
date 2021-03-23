@@ -1850,6 +1850,7 @@ let _overflow = Fix::from_num(5).unwrapped_neg();",
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_neg(self) -> $Fixed<Frac> {
                     self.checked_neg().expect("overflow")
                 }
@@ -1879,6 +1880,7 @@ let _overflow = Fix::MAX.unwrapped_add(Fix::from_bits(1));
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.checked_add(rhs).expect("overflow")
                 }
@@ -1915,6 +1917,7 @@ let _overflow = Fix::MIN.unwrapped_sub(Fix::from_bits(1));
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.checked_sub(rhs).expect("overflow")
                 }
@@ -1968,6 +1971,7 @@ let _overflow = Fix::MAX.unwrapped_mul_add(Fix::from_num(1), Fix::from_bits(1));
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_mul_add<MulFrac: $LeEqU>(
                     self,
                     mul: $Fixed<MulFrac>,
@@ -2001,6 +2005,7 @@ let _overflow = Fix::MAX.unwrapped_mul_int(4);
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     self.checked_mul_int(rhs).expect("overflow")
                 }
@@ -2052,6 +2057,7 @@ let _overflow = Fix::MIN.unwrapped_div_int(-1);
                 "```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.overflowing_div_int(rhs) {
                         (_, true) => panic!("overflow"),
@@ -2084,6 +2090,7 @@ let _overflow = Fix::from_num(1).unwrapped_shl(", $s_nbits, ");
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_shl(self, rhs: u32) -> $Fixed<Frac> {
                     self.checked_shl(rhs).expect("overflow")
                 }
@@ -2113,6 +2120,7 @@ let _overflow = Fix::from_num(1).unwrapped_shr(", $s_nbits, ");
 ```
 ";
                 #[inline]
+                #[track_caller]
                 pub fn unwrapped_shr(self, rhs: u32) -> $Fixed<Frac> {
                     self.checked_shr(rhs).expect("overflow")
                 }
@@ -2146,6 +2154,7 @@ let _overflow = Fix::MIN.unwrapped_abs();
 ```
 ";
                     #[inline]
+                    #[track_caller]
                     pub fn unwrapped_abs(self) -> $Fixed<Frac> {
                         self.checked_abs().expect("overflow")
                     }
@@ -2183,6 +2192,7 @@ let _overflow = Fix::MAX.unwrapped_next_power_of_two();
 ```
 ";
                     #[inline]
+                    #[track_caller]
                     pub fn unwrapped_next_power_of_two(self) -> $Fixed<Frac> {
                         self.checked_next_power_of_two().expect("overflow")
                     }
