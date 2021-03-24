@@ -6,12 +6,22 @@ cd public
 cp dev/*/index.html index.html
 
 function filter {
-    gawk "$1" < index.html > index.html.tmp
+    awk "$1" < index.html > index.html.tmp
     mv index.html.tmp index.html
 }
 
-filter '{if ($0 ~ /button>$/) {printf "%s", $0; next}; print}'
-filter '{print gensub(/('\''|")\.\.\//, "\\1dev/", "g")}'
+filter '{
+    if ($0 ~ /button>$/) {
+        printf "%s", $0
+        getline
+    }
+    print
+}'
+filter '{
+    gsub(/'\''\.\.\//, "'\''dev/")
+    gsub(/"\.\.\//, "\"dev/")
+    print
+}'
 filter '{
     gsub(/<\/nav>/, "\013")
     sub(/<div class="block[^\013]*\013/, "\013")
@@ -30,10 +40,11 @@ filter '{
 
     print
 }'
-
 filter '{
     if ($0 ~ /<\/h1>/) {
-        print gensub(/(.*<\/h1>).*/, "\\1", 1)
+        h = $0
+        sub(/<\/h1>.*/, "</h1>", h)
+        print h
         sub(/.*<\/h1>/, "")
         while ($0 !~ /<\/section>/) { getline }
         while (getline line<"../etc/index-contents.html") { print line }
