@@ -6,7 +6,7 @@ cd public
 cp dev/*/index.html index.html
 
 function filter {
-    awk "$1" < index.html > index.html.tmp
+    gawk "$1" < index.html > index.html.tmp
     mv index.html.tmp index.html
 }
 
