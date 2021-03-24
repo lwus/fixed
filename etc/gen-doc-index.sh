@@ -28,7 +28,7 @@ filter '{
     sub(/<nav class="sub[^\013]*\013/, "")
     gsub(/\013/, "</nav>")
 
-    sub(/dev\/[^/]*\/index.html/, "index.html")
+    sub(/dev\/[^\/]*\/index.html/, "index.html")
 
     gsub(/<\/h1>/, "\013")
     sub(/<h1 class="fqn[^\013]*\013/, "")
