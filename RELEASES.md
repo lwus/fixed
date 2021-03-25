@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.7.0 (unreleased)
+Version 1.7.0 (2021-03-25)
 ==========================
 
   * The crate now requires rustc version 1.50.0 or later.
@@ -53,7 +53,7 @@ Version 1.7.0 (unreleased)
     and comparisons between fixed-point numbers and *binary128*
     floating-point numbers.
   * The features that previously required the [`az`][feat-dep-1-7] and
-    [`f16`][feat-dep-1-7] optional features are now always enabled.
+    [`f16`][feat-dep-1-7] optional features are now always provided.
     The [`az`][feat-dep-1-7] and [`f16`][feat-dep-1-7] optional
     features are now deprecated and have no effect.
   * For the experimental feature [`num-traits`][feat-exp-1-7], the
@@ -61,46 +61,46 @@ Version 1.7.0 (unreleased)
       * [`OverflowingAdd`][nt-0-2-oa], [`OverflowingSub`][nt-0-2-os],
         [`OverflowingMul`][nt-0-2-om]
 
-[c-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
-[c-1r3-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_SQRT_3.html
-[c-1rp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_SQRT_PI.html
-[c-c-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.CATALAN.html
-[c-g-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.GAMMA.html
-[c-r3-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_3.html
-[c-re-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_E.html
-[c-rf-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_PHI.html
-[c-rp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_PI.html
-[f-cnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.checked_next_power_of_two
-[f-fb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be
-[f-fbb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be_bytes
-[f-fl-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le
-[f-flb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le_bytes
-[f-fnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_ne_bytes
-[f-ho-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.highest_one
-[f-is-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.IS_SIGNED
-[f-m-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.mean
-[f-npot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.next_power_of_two
-[f-rb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.reverse_bits
-[f-sb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.swap_bytes
-[f-signe-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.signed_bits
-[f-signi-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.significant_bits
-[f-tb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_be
-[f-tbb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_be_bytes
-[f-tl-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le
-[f-tlb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le_bytes
-[f-tnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_ne_bytes
-[f-wnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
-[f128-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.F128Bits.html
-[feat-dep-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/#deprecated-optional-features
-[feat-exp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[c-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/index.html
+[c-1r3-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.FRAC_1_SQRT_3.html
+[c-1rp-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.FRAC_1_SQRT_PI.html
+[c-c-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.CATALAN.html
+[c-g-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.GAMMA.html
+[c-r3-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.SQRT_3.html
+[c-re-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.SQRT_E.html
+[c-rf-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.SQRT_PHI.html
+[c-rp-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.SQRT_PI.html
+[f-cnpot-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.checked_next_power_of_two
+[f-fb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_be
+[f-fbb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_be_bytes
+[f-fl-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_le
+[f-flb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_le_bytes
+[f-fnb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_ne_bytes
+[f-ho-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.highest_one
+[f-is-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#associatedconstant.IS_SIGNED
+[f-m-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.mean
+[f-npot-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.next_power_of_two
+[f-rb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.reverse_bits
+[f-sb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.swap_bytes
+[f-signe-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.signed_bits
+[f-signi-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.significant_bits
+[f-tb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_be
+[f-tbb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_be_bytes
+[f-tl-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_le
+[f-tlb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_le_bytes
+[f-tnb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_ne_bytes
+[f-wnpot-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
+[f128-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.F128Bits.html
+[feat-dep-1-7]: https://docs.rs/fixed/~1.7/fixed/#deprecated-optional-features
+[feat-exp-1-7]: https://docs.rs/fixed/~1.7/fixed/#experimental-optional-features
 [nt-0-2-oa]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
 [nt-0-2-om]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html
 [nt-0-2-os]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingSub.html
-[tf-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
-[tfs-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
-[tfu-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedUnsigned.html
-[u-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
-[w-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+[tf-1-7]: https://docs.rs/fixed/~1.7/fixed/traits/trait.Fixed.html
+[tfs-1-7]: https://docs.rs/fixed/~1.7/fixed/traits/trait.FixedSigned.html
+[tfu-1-7]: https://docs.rs/fixed/~1.7/fixed/traits/trait.FixedUnsigned.html
+[u-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.Unwrapped.html
+[w-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.Wrapping.html
 
 Version 1.6.0 (2021-02-05)
 ==========================

@@ -79,7 +79,7 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
-### Version 1.7.0 news (unreleased)
+### Version 1.7.0 news (2021-03-25)
 
   * The crate now requires rustc version 1.50.0 or later.
   * The following methods are now `const` functions:
@@ -126,7 +126,7 @@ The conversions supported cover the following cases.
     and comparisons between fixed-point numbers and *binary128*
     floating-point numbers.
   * The features that previously required the [`az`][feat-dep-1-7] and
-    [`f16`][feat-dep-1-7] optional features are now always enabled.
+    [`f16`][feat-dep-1-7] optional features are now always provided.
     The [`az`][feat-dep-1-7] and [`f16`][feat-dep-1-7] optional
     features are now deprecated and have no effect.
   * For the experimental feature [`num-traits`][feat-exp-1-7], the
@@ -136,46 +136,46 @@ The conversions supported cover the following cases.
 
 [`Product`]: https://doc.rust-lang.org/nightly/core/iter/trait.Product.html
 [`Sum`]: https://doc.rust-lang.org/nightly/core/iter/trait.Sum.html
-[c-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/index.html
-[c-1r3-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_SQRT_3.html
-[c-1rp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.FRAC_1_SQRT_PI.html
-[c-c-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.CATALAN.html
-[c-g-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.GAMMA.html
-[c-r3-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_3.html
-[c-re-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_E.html
-[c-rf-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_PHI.html
-[c-rp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/consts/constant.SQRT_PI.html
-[f-cnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.checked_next_power_of_two
-[f-fb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be
-[f-fbb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_be_bytes
-[f-fl-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le
-[f-flb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_le_bytes
-[f-fnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.from_ne_bytes
-[f-ho-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.highest_one
-[f-is-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.IS_SIGNED
-[f-m-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.mean
-[f-npot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.next_power_of_two
-[f-rb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.reverse_bits
-[f-sb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.swap_bytes
-[f-signe-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.signed_bits
-[f-signi-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.significant_bits
-[f-tb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_be
-[f-tbb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_be_bytes
-[f-tl-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le
-[f-tlb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_le_bytes
-[f-tnb-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.to_ne_bytes
-[f-wnpot-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
-[f128-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.F128Bits.html
-[feat-dep-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/#deprecated-optional-features
-[feat-exp-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/#experimental-optional-features
+[c-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/index.html
+[c-1r3-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.FRAC_1_SQRT_3.html
+[c-1rp-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.FRAC_1_SQRT_PI.html
+[c-c-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.CATALAN.html
+[c-g-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.GAMMA.html
+[c-r3-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.SQRT_3.html
+[c-re-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.SQRT_E.html
+[c-rf-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.SQRT_PHI.html
+[c-rp-1-7]: https://docs.rs/fixed/~1.7/fixed/consts/constant.SQRT_PI.html
+[f-cnpot-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.checked_next_power_of_two
+[f-fb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_be
+[f-fbb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_be_bytes
+[f-fl-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_le
+[f-flb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_le_bytes
+[f-fnb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_ne_bytes
+[f-ho-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.highest_one
+[f-is-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#associatedconstant.IS_SIGNED
+[f-m-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.mean
+[f-npot-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.next_power_of_two
+[f-rb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.reverse_bits
+[f-sb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.swap_bytes
+[f-signe-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.signed_bits
+[f-signi-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.significant_bits
+[f-tb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_be
+[f-tbb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_be_bytes
+[f-tl-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_le
+[f-tlb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_le_bytes
+[f-tnb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_ne_bytes
+[f-wnpot-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
+[f128-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.F128Bits.html
+[feat-dep-1-7]: https://docs.rs/fixed/~1.7/fixed/#deprecated-optional-features
+[feat-exp-1-7]: https://docs.rs/fixed/~1.7/fixed/#experimental-optional-features
 [nt-0-2-oa]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
 [nt-0-2-om]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html
 [nt-0-2-os]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingSub.html
-[tf-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
-[tfs-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
-[tfu-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedUnsigned.html
-[u-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
-[w-1-7]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+[tf-1-7]: https://docs.rs/fixed/~1.7/fixed/traits/trait.Fixed.html
+[tfs-1-7]: https://docs.rs/fixed/~1.7/fixed/traits/trait.FixedSigned.html
+[tfu-1-7]: https://docs.rs/fixed/~1.7/fixed/traits/trait.FixedUnsigned.html
+[u-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.Unwrapped.html
+[w-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.Wrapping.html
 
 ### Version 1.6.0 news (2021-02-05)
 
@@ -292,7 +292,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 
 ```toml
 [dependencies]
-fixed = "1.6"
+fixed = "1.7"
 ```
 
 The *fixed* crate requires rustc version 1.50.0 or later.
@@ -319,7 +319,7 @@ To enable features, you can add the dependency like this to
 
 ```toml
 [dependencies.fixed]
-version = "1.6"
+version = "1.7"
 features = ["serde"]
 ```
 
@@ -343,7 +343,7 @@ the next major version of the crate.
 
  1. `az`, has no effect. Previously required to enable the cast traits
     provided by the [*az* crate]. Now these cast traits are always
-    enabled.
+    provided.
  2. `f16`, has no effect. Previously required to provide conversion
     to/from [`f16`] and [`bf16`]. Now these conversions are always
     provided.
@@ -379,40 +379,40 @@ additional terms or conditions.
 [`Binary`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html
 [`Display`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html
 [`Error`]: https://doc.rust-lang.org/nightly/std/error/trait.Error.html
-[`FixedI128`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI128.html
-[`FixedI16`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI16.html
-[`FixedI32`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html
-[`FixedI64`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI64.html
-[`FixedI8`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI8.html
-[`FixedU128`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU128.html
-[`FixedU16`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU16.html
-[`FixedU32`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU32.html
-[`FixedU64`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU64.html
-[`FixedU8`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedU8.html
-[`FromFixed`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.FromFixed.html
+[`FixedI128`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI128.html
+[`FixedI16`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI16.html
+[`FixedI32`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html
+[`FixedI64`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI64.html
+[`FixedI8`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI8.html
+[`FixedU128`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU128.html
+[`FixedU16`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU16.html
+[`FixedU32`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html
+[`FixedU64`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU64.html
+[`FixedU8`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU8.html
+[`FromFixed`]: https://docs.rs/fixed/~1.7/fixed/traits/trait.FromFixed.html
 [`FromStr`]: https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html
 [`From`]: https://doc.rust-lang.org/nightly/core/convert/trait.From.html
-[`I20F12`]: https://docs.rs/fixed/~1.6/fixed/types/type.I20F12.html
-[`I4F12`]: https://docs.rs/fixed/~1.6/fixed/types/type.I4F12.html
-[`I4F4`]: https://docs.rs/fixed/~1.6/fixed/types/type.I4F4.html
+[`I20F12`]: https://docs.rs/fixed/~1.7/fixed/types/type.I20F12.html
+[`I4F12`]: https://docs.rs/fixed/~1.7/fixed/types/type.I4F12.html
+[`I4F4`]: https://docs.rs/fixed/~1.7/fixed/types/type.I4F4.html
 [`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
-[`LosslessTryFrom`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.LosslessTryFrom.html
-[`LosslessTryInto`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.LosslessTryInto.html
-[`LossyFrom`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.LossyFrom.html
-[`LossyInto`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.LossyInto.html
+[`LosslessTryFrom`]: https://docs.rs/fixed/~1.7/fixed/traits/trait.LosslessTryFrom.html
+[`LosslessTryInto`]: https://docs.rs/fixed/~1.7/fixed/traits/trait.LosslessTryInto.html
+[`LossyFrom`]: https://docs.rs/fixed/~1.7/fixed/traits/trait.LossyFrom.html
+[`LossyInto`]: https://docs.rs/fixed/~1.7/fixed/traits/trait.LossyInto.html
 [`LowerHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html
 [`Octal`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html
-[`ParseFixedError`]: https://docs.rs/fixed/~1.6/fixed/struct.ParseFixedError.html
-[`ToFixed`]: https://docs.rs/fixed/~1.6/fixed/traits/trait.ToFixed.html
-[`U12`]: https://docs.rs/fixed/~1.6/fixed/types/extra/type.U12.html
-[`U20F12`]: https://docs.rs/fixed/~1.6/fixed/types/type.U20F12.html
+[`ParseFixedError`]: https://docs.rs/fixed/~1.7/fixed/struct.ParseFixedError.html
+[`ToFixed`]: https://docs.rs/fixed/~1.7/fixed/traits/trait.ToFixed.html
+[`U12`]: https://docs.rs/fixed/~1.7/fixed/types/extra/type.U12.html
+[`U20F12`]: https://docs.rs/fixed/~1.7/fixed/types/type.U20F12.html
 [`UpperHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html
 [`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
-[`checked_from_num`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.checked_from_num
+[`checked_from_num`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.checked_from_num
 [`f16`]: https://docs.rs/half/^1/half/struct.f16.html
-[`from_num`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.from_num
-[`from_str_binary`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.from_str_binary
-[`from_str_hex`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.from_str_hex
-[`from_str_octal`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.from_str_octal
-[`to_num`]: https://docs.rs/fixed/~1.6/fixed/struct.FixedI32.html#method.to_num
+[`from_num`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_num
+[`from_str_binary`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_str_binary
+[`from_str_hex`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_str_hex
+[`from_str_octal`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_str_octal
+[`to_num`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_num
 [const generics]: https://github.com/rust-lang/rust/issues/44580

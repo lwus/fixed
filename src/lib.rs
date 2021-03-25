@@ -164,7 +164,7 @@ it in your crate, add it as a dependency inside [*Cargo.toml*]:
 
 ```toml
 [dependencies]
-fixed = "1.6"
+fixed = "1.7"
 ```
 
 The *fixed* crate requires rustc version 1.50.0 or later.
@@ -191,7 +191,7 @@ To enable features, you can add the dependency like this to
 
 ```toml
 [dependencies.fixed]
-version = "1.6"
+version = "1.7"
 features = ["serde"]
 ```
 
@@ -215,7 +215,7 @@ the next major version of the crate.
 
  1. `az`, has no effect. Previously required to enable the cast traits
     provided by the [*az* crate]. Now these cast traits are always
-    enabled.
+    provided.
  2. `f16`, has no effect. Previously required to provide conversion
     to/from [`f16`] and [`bf16`]. Now these conversions are always
     provided.
@@ -291,10 +291,10 @@ additional terms or conditions.
 */
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(missing_docs)]
-#![doc(html_root_url = "https://docs.rs/fixed/~1.6")]
+#![doc(html_root_url = "https://docs.rs/fixed/~1.7")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
-#![allow(clippy::wrong_self_convention)]
+#![allow(clippy::manual_map, clippy::wrong_self_convention)]
 
 #[cfg(all(not(feature = "std"), test))]
 extern crate std;

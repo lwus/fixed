@@ -7,7 +7,7 @@
 
 [package]
 name = "fixed"
-version = "1.6.0"
+version = "1.7.0"
 authors = ["Trevor Spiteri <tspiteri@ieee.org>"]
 description = "Fixed-point numbers"
 documentation = "https://docs.rs/fixed"
@@ -39,8 +39,8 @@ features = ["i128"]
 optional = true
 
 [dev-dependencies]
-rand = { version = "0.7", default-features = false }
-rand_xoshiro = "0.4"
+rand = { version = "0.8", default-features = false }
+rand_xoshiro = "0.6"
 criterion = "0.3"
 num-traits = { version = "0.2", default-features = false }
 
