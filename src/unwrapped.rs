@@ -349,11 +349,12 @@ impl<F: Fixed> Unwrapped<F> {
     ///   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     ///     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     ///     [`usize`].
-    ///   * A floating-point number of type [`f32`] or [`f64`]. If the
-    ///     [`f16` feature] is enabled, it can also be of type [`f16`]
-    ///     or [`bf16`]. For this conversion, the method rounds to the
-    ///     nearest, with ties rounding to even.
-    ///   * Any other number `src` for which [`ToFixed`] is implemented.
+    ///   * A floating-point number of type [`f16`], [`bf16`],
+    ///     [`f32`], [`f64`] or [`F128Bits`]. For this conversion, the
+    ///     method rounds to the nearest, with ties rounding to even.
+    ///   * Any other number `src` for which [`ToFixed`] is
+    ///     implemented, in which case this method returns
+    ///     <code>[Unwrapped][`Unwrapped`]([src.unwrapped_to_fixed()][`unwrapped_to_fixed`])</code>.
     ///
     /// # Panics
     ///
@@ -384,10 +385,10 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = Unwrapped::<I4F4>::from_num(src);
     /// ```
     ///
+    /// [`F128Bits`]: struct.F128Bits.html
     /// [`ToFixed`]: traits/trait.ToFixed.html
     /// [`Unwrapped`]: struct.Unwrapped.html
     /// [`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-    /// [`f16` feature]: index.html#optional-features
     /// [`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
     /// [`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
     /// [`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
@@ -402,6 +403,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// [`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
     /// [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
     /// [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
+    /// [`unwrapped_to_fixed`]: traits/trait.ToFixed.html#method.unwrapped_to_fixed
     /// [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
     /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
     #[inline]
@@ -423,11 +425,12 @@ impl<F: Fixed> Unwrapped<F> {
     ///     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     ///     [`usize`]. Any fractional bits are discarded, which rounds
     ///     towards −∞.
-    ///   * A floating-point number of type [`f32`] or [`f64`]. If the
-    ///     [`f16` feature] is enabled, it can also be of type [`f16`]
-    ///     or [`bf16`]. For this conversion, the method rounds to the
-    ///     nearest, with ties rounding to even.
-    ///   * Any other type `Dst` for which [`FromFixed`] is implemented.
+    ///   * A floating-point number of type [`f16`], [`bf16`],
+    ///     [`f32`], [`f64`] or [`F128Bits`]. For this conversion, the
+    ///     method rounds to the nearest, with ties rounding to even.
+    ///   * Any other type `Dst` for which [`FromFixed`] is
+    ///     implemented, in which case this method returns
+    ///     [`Dst::unwrapped_from_fixed(self.0)`][`unwrapped_from_fixed`].
     ///
     /// # Examples
     ///
@@ -451,9 +454,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = src.to_num::<I2F6>();
     /// ```
     ///
+    /// [`F128Bits`]: struct.F128Bits.html
     /// [`FromFixed`]: traits/trait.FromFixed.html
     /// [`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-    /// [`f16` feature]: index.html#optional-features
     /// [`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
     /// [`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
     /// [`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
@@ -468,6 +471,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// [`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
     /// [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
     /// [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
+    /// [`unwrapped_from_fixed`]: traits/trait.FromFixed.html#method.unwrapped_from_fixed
     /// [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
     #[inline]
     pub fn to_num<Dst: FromFixed>(self) -> Dst {
