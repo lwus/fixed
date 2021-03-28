@@ -407,6 +407,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
     /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
     #[inline]
+    #[track_caller]
     pub fn from_num<Src: ToFixed>(src: Src) -> Unwrapped<F> {
         match src.overflowing_to_fixed() {
             (_, true) => panic!("overflow"),
@@ -474,6 +475,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// [`unwrapped_from_fixed`]: traits/trait.FromFixed.html#method.unwrapped_from_fixed
     /// [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
     #[inline]
+    #[track_caller]
     pub fn to_num<Dst: FromFixed>(self) -> Dst {
         match Dst::overflowing_from_fixed(self.0) {
             (_, true) => panic!("overflow"),
@@ -614,6 +616,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = Unwrapped(I16F16::MAX).ceil();
     /// ```
     #[inline]
+    #[track_caller]
     pub fn ceil(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_ceil())
     }
@@ -643,6 +646,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = Unwrapped(I0F32::MIN).floor();
     /// ```
     #[inline]
+    #[track_caller]
     pub fn floor(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_floor())
     }
@@ -670,6 +674,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = Unwrapped(I16F16::MAX).round();
     /// ```
     #[inline]
+    #[track_caller]
     pub fn round(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_round())
     }
@@ -699,6 +704,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = max.round_ties_to_even();
     /// ```
     #[inline]
+    #[track_caller]
     pub fn round_ties_to_even(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_round_ties_to_even())
     }
@@ -793,6 +799,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// Panics if the fixed-point number is ≤ 0.
     #[inline]
+    #[track_caller]
     pub fn int_log2(self) -> i32 {
         self.0.int_log2()
     }
@@ -803,6 +810,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// Panics if the fixed-point number is ≤ 0.
     #[inline]
+    #[track_caller]
     pub fn int_log10(self) -> i32 {
         self.0.int_log10()
     }
@@ -887,6 +895,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = frac_1_512.recip();
     /// ```
     #[inline]
+    #[track_caller]
     pub fn recip(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_recip())
     }
@@ -919,6 +928,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = max.mul_add(one, one);
     /// ```
     #[inline]
+    #[track_caller]
     pub fn mul_add(self, mul: Unwrapped<F>, add: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_mul_add(mul.0, add.0))
     }
@@ -946,6 +956,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = Unwrapped(I16F16::MAX).div_euclid(quarter);
     /// ```
     #[inline]
+    #[track_caller]
     pub fn div_euclid(self, divisor: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_div_euclid(divisor.0))
     }
@@ -966,6 +977,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!((-num).rem_euclid(den), Unwrapped(I16F16::from_num(0.5)));
     /// ```
     #[inline]
+    #[track_caller]
     pub fn rem_euclid(self, divisor: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_rem_euclid(divisor.0))
     }
@@ -992,6 +1004,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = min.div_euclid_int(-1);
     /// ```
     #[inline]
+    #[track_caller]
     pub fn div_euclid_int(self, divisor: F::Bits) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_div_euclid_int(divisor))
     }
@@ -1020,6 +1033,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = num.rem_euclid_int(200);
     /// ```
     #[inline]
+    #[track_caller]
     pub fn rem_euclid_int(self, divisor: F::Bits) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_rem_euclid_int(divisor))
     }
@@ -1107,6 +1121,7 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// let _overflow = Unwrapped(I16F16::MIN).abs();
     /// ```
     #[inline]
+    #[track_caller]
     pub fn abs(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_abs())
     }
@@ -1137,6 +1152,7 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// let _overflow = Unwrapped(<I1F31>::from_num(0.5)).signum();
     /// ```
     #[inline]
+    #[track_caller]
     pub fn signum(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_signum())
     }
@@ -1223,6 +1239,7 @@ impl<F: FixedUnsigned> Unwrapped<F> {
     /// let _overflow = Unwrapped(U16F16::MAX).next_power_of_two();
     /// ```
     #[inline]
+    #[track_caller]
     pub fn next_power_of_two(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_next_power_of_two())
     }
@@ -1259,6 +1276,7 @@ macro_rules! op {
         impl<F: Fixed> $Op<Unwrapped<F>> for Unwrapped<F> {
             type Output = Unwrapped<F>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: Unwrapped<F>) -> Unwrapped<F> {
                 Unwrapped((self.0).$unwrapped(other.0))
             }
@@ -1266,6 +1284,7 @@ macro_rules! op {
         impl<F: Fixed> $Op<Unwrapped<F>> for &Unwrapped<F> {
             type Output = Unwrapped<F>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: Unwrapped<F>) -> Unwrapped<F> {
                 Unwrapped((self.0).$unwrapped(other.0))
             }
@@ -1273,6 +1292,7 @@ macro_rules! op {
         impl<F: Fixed> $Op<&Unwrapped<F>> for Unwrapped<F> {
             type Output = Unwrapped<F>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: &Unwrapped<F>) -> Unwrapped<F> {
                 Unwrapped((self.0).$unwrapped(other.0))
             }
@@ -1280,18 +1300,21 @@ macro_rules! op {
         impl<F: Fixed> $Op<&Unwrapped<F>> for &Unwrapped<F> {
             type Output = Unwrapped<F>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: &Unwrapped<F>) -> Unwrapped<F> {
                 Unwrapped((self.0).$unwrapped(other.0))
             }
         }
         impl<F: Fixed> $OpAssign<Unwrapped<F>> for Unwrapped<F> {
             #[inline]
+            #[track_caller]
             fn $op_assign(&mut self, other: Unwrapped<F>) {
                 self.0 = (self.0).$unwrapped(other.0);
             }
         }
         impl<F: Fixed> $OpAssign<&Unwrapped<F>> for Unwrapped<F> {
             #[inline]
+            #[track_caller]
             fn $op_assign(&mut self, other: &Unwrapped<F>) {
                 self.0 = (self.0).$unwrapped(other.0);
             }
@@ -1373,6 +1396,7 @@ macro_rules! op_shift {
         {
             type Output = Unwrapped<F>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: $Rhs) -> Unwrapped<F> {
                 let nbits = mem::size_of::<F>() as u32 * 8;
                 let checked = other as u32 % nbits;
@@ -1386,6 +1410,7 @@ macro_rules! op_shift {
         {
             type Output = Unwrapped<F>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: $Rhs) -> Unwrapped<F> {
                 let nbits = mem::size_of::<F>() as u32 * 8;
                 let checked = other as u32 % nbits;
@@ -1399,6 +1424,7 @@ macro_rules! op_shift {
         {
             type Output = Unwrapped<F>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: &$Rhs) -> Unwrapped<F> {
                 let nbits = mem::size_of::<F>() as u32 * 8;
                 let checked = *other as u32 % nbits;
@@ -1412,6 +1438,7 @@ macro_rules! op_shift {
         {
             type Output = Unwrapped<F>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: &$Rhs) -> Unwrapped<F> {
                 let nbits = mem::size_of::<F>() as u32 * 8;
                 let checked = *other as u32 % nbits;
@@ -1424,6 +1451,7 @@ macro_rules! op_shift {
             F: $OpAssign<u32>,
         {
             #[inline]
+            #[track_caller]
             fn $op_assign(&mut self, other: $Rhs) {
                 let nbits = mem::size_of::<F>() as u32 * 8;
                 let checked = other as u32 % nbits;
@@ -1436,6 +1464,7 @@ macro_rules! op_shift {
             F: $OpAssign<u32>,
         {
             #[inline]
+            #[track_caller]
             fn $op_assign(&mut self, other: &$Rhs) {
                 let nbits = mem::size_of::<F>() as u32 * 8;
                 let checked = *other as u32 % nbits;
@@ -1449,6 +1478,7 @@ macro_rules! op_shift {
 impl<F: Fixed> Neg for Unwrapped<F> {
     type Output = Unwrapped<F>;
     #[inline]
+    #[track_caller]
     fn neg(self) -> Unwrapped<F> {
         Unwrapped((self.0).unwrapped_neg())
     }
@@ -1457,6 +1487,7 @@ impl<F: Fixed> Neg for Unwrapped<F> {
 impl<F: Fixed> Neg for &Unwrapped<F> {
     type Output = Unwrapped<F>;
     #[inline]
+    #[track_caller]
     fn neg(self) -> Unwrapped<F> {
         Unwrapped((self.0).unwrapped_neg())
     }
@@ -1501,6 +1532,7 @@ op_shift! {
 }
 
 impl<F: Fixed> Sum<Unwrapped<F>> for Unwrapped<F> {
+    #[track_caller]
     fn sum<I>(iter: I) -> Unwrapped<F>
     where
         I: Iterator<Item = Unwrapped<F>>,
@@ -1510,6 +1542,7 @@ impl<F: Fixed> Sum<Unwrapped<F>> for Unwrapped<F> {
 }
 
 impl<'a, F: 'a + Fixed> Sum<&'a Unwrapped<F>> for Unwrapped<F> {
+    #[track_caller]
     fn sum<I>(iter: I) -> Unwrapped<F>
     where
         I: Iterator<Item = &'a Unwrapped<F>>,
@@ -1519,6 +1552,7 @@ impl<'a, F: 'a + Fixed> Sum<&'a Unwrapped<F>> for Unwrapped<F> {
 }
 
 impl<F: Fixed> Product<Unwrapped<F>> for Unwrapped<F> {
+    #[track_caller]
     fn product<I>(mut iter: I) -> Unwrapped<F>
     where
         I: Iterator<Item = Unwrapped<F>>,
@@ -1572,6 +1606,7 @@ macro_rules! op_bits {
         impl<Frac $(: $LeEqU)*> $Op<$Bits> for Unwrapped<$Fixed<Frac>> {
             type Output = Unwrapped<$Fixed<Frac>>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: $Bits) -> Unwrapped<$Fixed<Frac>> {
                 Unwrapped((self.0).$unwrapped(other))
             }
@@ -1579,6 +1614,7 @@ macro_rules! op_bits {
         impl<Frac $(: $LeEqU)*> $Op<$Bits> for &Unwrapped<$Fixed<Frac>> {
             type Output = Unwrapped<$Fixed<Frac>>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: $Bits) -> Unwrapped<$Fixed<Frac>> {
                 Unwrapped((self.0).$unwrapped(other))
             }
@@ -1586,6 +1622,7 @@ macro_rules! op_bits {
         impl<Frac $(: $LeEqU)*> $Op<&$Bits> for Unwrapped<$Fixed<Frac>> {
             type Output = Unwrapped<$Fixed<Frac>>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: &$Bits) -> Unwrapped<$Fixed<Frac>> {
                 Unwrapped((self.0).$unwrapped(*other))
             }
@@ -1593,18 +1630,21 @@ macro_rules! op_bits {
         impl<Frac $(: $LeEqU)*> $Op<&$Bits> for &Unwrapped<$Fixed<Frac>> {
             type Output = Unwrapped<$Fixed<Frac>>;
             #[inline]
+            #[track_caller]
             fn $op(self, other: &$Bits) -> Unwrapped<$Fixed<Frac>> {
                 Unwrapped((self.0).$unwrapped(*other))
             }
         }
         impl<Frac $(: $LeEqU)*> $OpAssign<$Bits> for Unwrapped<$Fixed<Frac>> {
             #[inline]
+            #[track_caller]
             fn $op_assign(&mut self, other: $Bits) {
                 self.0 = (self.0).$unwrapped(other);
             }
         }
         impl<Frac $(: $LeEqU)*> $OpAssign<&$Bits> for Unwrapped<$Fixed<Frac>> {
             #[inline]
+            #[track_caller]
             fn $op_assign(&mut self, other: &$Bits) {
                 self.0 = (self.0).$unwrapped(*other);
             }
