@@ -785,7 +785,14 @@ assert_eq!(Fix::from_num(7.5).rem_euclid(Fix::from_num(2)), Fix::from_num(1.5));
 ";
                 #[inline]
                 pub fn rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
-                    self.checked_rem_euclid(rhs).expect("division by zero")
+                    let rhs_bits = rhs.to_bits();
+                    if_signed! {
+                        $Signedness;
+                        if rhs_bits == -1 {
+                            return Self::from_bits(0);
+                        }
+                    }
+                    Self::from_bits(self.to_bits().rem_euclid(rhs_bits))
                 }
             }
 
@@ -1030,18 +1037,15 @@ assert_eq!(Fix::from_num(1.5).checked_rem(Fix::from_num(0)), None);
                 #[inline]
                 pub fn checked_rem(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     let rhs_bits = rhs.to_bits();
-                    if rhs_bits == 0 {
-                        None
-                    } else {
-                        Some(Self::from_bits(if_signed_unsigned!(
-                            $Signedness,
-                            if rhs_bits == -1 {
-                                0
-                            } else {
-                                self.to_bits() % rhs_bits
-                            },
-                            self.to_bits() % rhs_bits,
-                        )))
+                    if_signed! {
+                        $Signedness;
+                        if rhs_bits == -1 {
+                            return Some(Self::from_bits(0));
+                        }
+                    }
+                    match self.to_bits().checked_rem(rhs_bits) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
                     }
                 }
             }
@@ -1155,7 +1159,10 @@ assert_eq!(Fix::from_num(1).checked_div_int(0), None);
 ";
                 #[inline]
                 pub fn checked_div_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
-                    self.to_bits().checked_div(rhs).map(Self::from_bits)
+                    match self.to_bits().checked_div(rhs) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
+                    }
                 }
             }
 
@@ -1184,18 +1191,15 @@ assert_eq!(num.checked_rem_euclid(Fix::from_num(0)), None);
                 #[inline]
                 pub fn checked_rem_euclid(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     let rhs_bits = rhs.to_bits();
-                    if rhs_bits == 0 {
-                        None
-                    } else {
-                        Some(Self::from_bits(if_signed_unsigned!(
-                            $Signedness,
-                            if rhs_bits == -1 {
-                                0
-                            } else {
-                                self.to_bits().rem_euclid(rhs_bits)
-                            },
-                            self.to_bits() % rhs_bits,
-                        )))
+                    if_signed! {
+                        $Signedness;
+                        if rhs_bits == -1 {
+                            return Some(Self::from_bits(0));
+                        }
+                    }
+                    match self.to_bits().checked_rem_euclid(rhs_bits) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
                     }
                 }
             }
