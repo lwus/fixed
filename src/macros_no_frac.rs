@@ -1928,6 +1928,36 @@ let _overflow = Fix::MIN.unwrapped_sub(Fix::from_bits(1));
             }
 
             comment! {
+                "Unwrapped remainder. Returns the remainder, panicking if the divisor is zero.
+
+# Panics
+
+Panics if the divisor is zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(1.5).unwrapped_rem(Fix::from_num(1)), Fix::from_num(0.5));
+```
+
+The following panics because the divisor is zero.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _divisor_is_zero = Fix::from_num(1.5).unwrapped_rem(Fix::from_num(0));
+```
+";
+                #[inline]
+                #[track_caller]
+                pub fn unwrapped_rem(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    self.checked_rem(rhs).expect("division by zero")
+                }
+            }
+
+            comment! {
                 "Unwrapped multiply and add.
 Returns `self` × `mul` + `add`, panicking on overflow.
 
@@ -2067,6 +2097,35 @@ let _overflow = Fix::MIN.unwrapped_div_int(-1);
                         (_, true) => panic!("overflow"),
                         (ans, false) => ans,
                     }
+                }
+            }
+
+
+            comment! {
+                "Unwrapped remainder for Euclidean division. Returns the
+remainder, panicking if the divisor is zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let num = Fix::from_num(7.5);
+assert_eq!(num.unwrapped_rem_euclid(Fix::from_num(2)), Fix::from_num(1.5));
+```
+
+The following panics because the divisor is zero.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _divisor_is_zero = Fix::from_num(3).unwrapped_rem_euclid(Fix::from_num(0));
+```
+";
+                #[inline]
+                #[track_caller]
+                pub fn unwrapped_rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    self.checked_rem_euclid(rhs).expect("division by zero")
                 }
             }
 

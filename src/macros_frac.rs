@@ -583,7 +583,6 @@ assert_eq!(Fix::from_num(3.75).checked_rem_int(0), None);
                 }
             }
 
-
             comment! {
                 "Checked Euclidean division by an integer. Returns the
 quotient, or [`None`] if the divisor is zero",
@@ -1243,6 +1242,37 @@ let _overflow = Fix::MAX.unwrapped_div_euclid(Fix::from_num(0.25));
                         (_, true) => panic!("overflow"),
                         (ans, false) => ans,
                     }
+                }
+            }
+
+            comment! {
+                "Unwrapped fixed-point remainder for division by an integer.
+Returns the remainder, panicking if the divisor is zero.
+
+# Panics
+
+Panics if the divisor is zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(3.75).unwrapped_rem_int(2), Fix::from_num(1.75));
+```
+
+The following panics because the divisor is zero.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _divisor_is_zero = Fix::from_num(3.75).unwrapped_rem_int(0);
+```
+";
+                #[inline]
+                #[track_caller]
+                pub fn unwrapped_rem_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                    self.checked_rem_int(rhs).expect("division by zero")
                 }
             }
 

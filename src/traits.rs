@@ -1136,6 +1136,14 @@ where
     #[track_caller]
     fn unwrapped_div(self, rhs: Self) -> Self;
 
+    /// Unwrapped remainder. Returns the quotient, panicking if the divisor is zero.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero.
+    #[track_caller]
+    fn unwrapped_rem(self, rhs: Self) -> Self;
+
     /// Unwrapped reciprocal. Returns reciprocal, panicking on overflow.
     ///
     /// # Panics
@@ -1160,6 +1168,15 @@ where
     #[track_caller]
     fn unwrapped_div_euclid(self, rhs: Self) -> Self;
 
+    /// Unwrapped remainder for Euclidean division. Returns the
+    /// remainder, panicking if the divisor is zero.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero.
+    #[track_caller]
+    fn unwrapped_rem_euclid(self, rhs: Self) -> Self;
+
     /// Unwrapped multiplication by an integer. Returns the product, panicking on overflow.
     ///
     /// # Panics
@@ -1177,6 +1194,15 @@ where
     /// Panics if the divisor is zero or if the result does not fit.
     #[track_caller]
     fn unwrapped_div_int(self, rhs: Self::Bits) -> Self;
+
+    /// Unwrapped remainder for division by an integer. Returns the
+    /// remainder, panicking if the divisor is zero.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero.
+    #[track_caller]
+    fn unwrapped_rem_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped Euclidean division by an integer. Returns the
     /// quotient, panicking on overflow.
@@ -2577,11 +2603,14 @@ macro_rules! impl_fixed {
             trait_delegate! { fn unwrapped_sub(self, rhs: Self) -> Self }
             trait_delegate! { fn unwrapped_mul(self, rhs: Self) -> Self }
             trait_delegate! { fn unwrapped_div(self, rhs: Self) -> Self }
+            trait_delegate! { fn unwrapped_rem(self, rhs: Self) -> Self }
             trait_delegate! { fn unwrapped_recip(self) -> Self }
             trait_delegate! { fn unwrapped_mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn unwrapped_div_euclid(self, rhs: Self) -> Self }
+            trait_delegate! { fn unwrapped_rem_euclid(self, rhs: Self) -> Self }
             trait_delegate! { fn unwrapped_mul_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn unwrapped_div_int(self, rhs: Self::Bits) -> Self }
+            trait_delegate! { fn unwrapped_rem_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn unwrapped_div_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn unwrapped_rem_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn unwrapped_shl(self, rhs: u32) -> Self }

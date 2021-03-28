@@ -967,7 +967,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     pub fn rem_euclid(self, divisor: Unwrapped<F>) -> Unwrapped<F> {
-        Unwrapped(self.0.rem_euclid(divisor.0))
+        Unwrapped(self.0.unwrapped_rem_euclid(divisor.0))
     }
 
     /// Euclidean division by an integer.
@@ -1465,7 +1465,7 @@ op! { unwrapped_add, Add add, AddAssign add_assign }
 op! { unwrapped_sub, Sub sub, SubAssign sub_assign }
 op! { unwrapped_mul, Mul mul, MulAssign mul_assign }
 op! { unwrapped_div, Div div, DivAssign div_assign }
-op! { rem, Rem rem, RemAssign rem_assign }
+op! { unwrapped_rem, Rem rem, RemAssign rem_assign }
 
 impl<F> Not for Unwrapped<F>
 where
@@ -1616,7 +1616,7 @@ macro_rules! ops {
     ($Fixed:ident($Bits:ident, $LeEqU:ident)) => {
         op_bits! { $Fixed($Bits)::unwrapped_mul_int, Mul mul, MulAssign mul_assign }
         op_bits! { $Fixed($Bits)::unwrapped_div_int, Div div, DivAssign div_assign }
-        op_bits! { $Fixed($Bits, $LeEqU)::rem, Rem rem, RemAssign rem_assign }
+        op_bits! { $Fixed($Bits, $LeEqU)::unwrapped_rem_int, Rem rem, RemAssign rem_assign }
     };
 }
 ops! { FixedI8(i8, LeEqU8) }

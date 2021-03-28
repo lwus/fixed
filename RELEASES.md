@@ -5,6 +5,20 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.8.0 (unreleased)
+==========================
+
+  * The following methods were added to all fixed-point numbers and to
+    the [`Fixed`][tf-1-8] trait:
+      * [`unwrapped_rem`][f-ur-1-8],
+        [`unwrapped_rem_euclid`][f-ure-1-8]
+      * [`unwrapped_rem_int`][f-uri-1-8]
+
+[f-ur-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem
+[f-ure-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_euclid
+[f-uri-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_int
+[tf-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+
 Version 1.7.0 (2021-03-25)
 ==========================
 
