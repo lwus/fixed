@@ -1396,8 +1396,6 @@ assert_eq!(OneIntBit::from_num(0.5).overflowing_signum(), (OneIntBit::from_num(-
 assert_eq!(ZeroIntBits::from_num(0.25).overflowing_signum(), (ZeroIntBits::from_num(0), true));
 assert_eq!(ZeroIntBits::from_num(-0.5).overflowing_signum(), (ZeroIntBits::from_num(0), true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                     #[inline]
                     pub fn overflowing_signum(self) -> ($Fixed<Frac>, bool) {
@@ -1425,8 +1423,6 @@ assert_eq!(Fix::from_num(3).overflowing_mul(Fix::from_num(2)), (Fix::from_num(6)
 let wrapped = Fix::from_bits(!0 << 2);
 assert_eq!(Fix::MAX.overflowing_mul(Fix::from_num(4)), (wrapped, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub fn overflowing_mul(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
@@ -1456,8 +1452,6 @@ let quarter = Fix::from_num(1) / 4;
 let wrapped = Fix::from_bits(!0 << 2);
 assert_eq!(Fix::MAX.overflowing_div(quarter), (wrapped, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub fn overflowing_div(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
@@ -1489,8 +1483,6 @@ type Small = ", $s_fixed, "<U", $s_nbits_m1, ">;
 assert_eq!(Fix::from_num(0.25).overflowing_recip(), (Fix::from_num(4), false));
 assert_eq!(Small::from_num(0.25).overflowing_recip(), (Small::from_num(0), true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub fn overflowing_recip(self) -> ($Fixed<Frac>, bool) {
@@ -1547,8 +1539,6 @@ assert_eq!(Fix::from_num(7.5).overflowing_div_euclid(Fix::from_num(2)), (check, 
 let wrapped = Fix::MAX.wrapping_mul_int(4).round_to_zero();
 assert_eq!(Fix::MAX.overflowing_div_euclid(Fix::from_num(0.25)), (wrapped, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub fn overflowing_div_euclid(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
@@ -1609,8 +1599,6 @@ assert_eq!(Fix::MIN.overflowing_div_euclid_int(-1), (wrapped, true));
 ",
                 },
                 "```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub fn overflowing_div_euclid_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
@@ -1673,8 +1661,6 @@ assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3
 ",
                 },
                 "```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub fn overflowing_rem_euclid_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {

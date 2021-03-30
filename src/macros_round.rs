@@ -835,8 +835,6 @@ assert_eq!(Fix::from_num(2.5).overflowing_ceil(), (Fix::from_num(3), false));
             },
             "assert_eq!(Fix::MAX.overflowing_ceil(), (Fix::MIN, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_ceil(self) -> ($Fixed<Frac>, bool) {
@@ -899,8 +897,6 @@ assert_eq!(AllFrac::MIN.overflowing_floor(), (AllFrac::from_num(0), true));
 ",
             },
             "```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_floor(self) -> ($Fixed<Frac>, bool) {
@@ -937,8 +933,6 @@ assert_eq!(Fix::from_num(2.5).overflowing_round(), (Fix::from_num(3), false));
             },
             "assert_eq!(Fix::MAX.overflowing_round(), (Fix::MIN, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_round(self) -> ($Fixed<Frac>, bool) {
@@ -995,8 +989,6 @@ assert_eq!(Fix::from_num(2.5).overflowing_round_ties_to_even(), (Fix::from_num(2
 assert_eq!(Fix::from_num(3.5).overflowing_round_ties_to_even(), (Fix::from_num(4), false));
 assert_eq!(Fix::MAX.overflowing_round_ties_to_even(), (Fix::MIN, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_round_ties_to_even(self) -> ($Fixed<Frac>, bool) {

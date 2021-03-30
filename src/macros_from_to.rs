@@ -742,7 +742,6 @@ assert_eq!(Fix::overflowing_from_num(large), (wrapped, true));
 [`bf16`]: `half::bf16`
 [`f16`]: `half::f16`
 [finite]: `f64::is_finite`
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_from_num<Src: ToFixed>(src: Src) -> ($Fixed<Frac>, bool) {
@@ -813,7 +812,6 @@ assert_eq!(one_point_625.overflowing_to_num::<f32>(), (1.625f32, false));
 
 [`bf16`]: `half::bf16`
 [`f16`]: `half::f16`
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_to_num<Dst: FromFixed>(self) -> (Dst, bool) {
@@ -1175,8 +1173,6 @@ assert_eq!(U8F8::overflowing_from_str(\"9999.5\"), Ok((U8F8::from_num(15.5), tru
 ",
             },
             "```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_from_str(
@@ -1213,8 +1209,6 @@ assert_eq!(U8F8::overflowing_from_str_binary(\"101100111000.1\"), Ok((check, tru
 ",
             },
             "```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_from_str_binary(
@@ -1251,8 +1245,6 @@ assert_eq!(U8F8::overflowing_from_str_octal(\"7165.4\"), Ok((check, true)));
 ",
             },
             "```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_from_str_octal(
@@ -1289,8 +1281,6 @@ assert_eq!(U8F8::overflowing_from_str_hex(\"C0F.FE\"), Ok((check, true)));
 ",
             },
             "```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
             pub fn overflowing_from_str_hex(

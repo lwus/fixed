@@ -510,8 +510,6 @@ where
     /// wrapped value is returned.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_str(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
     /// Parses a string slice containing binary digits to return a
@@ -522,8 +520,6 @@ where
     /// wrapped value is returned.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_str_binary(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
     /// Parses a string slice containing octal digits to return a
@@ -534,8 +530,6 @@ where
     /// wrapped value is returned.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_str_octal(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
     /// Parses a string slice containing hexadecimal digits to return a
@@ -546,8 +540,6 @@ where
     /// wrapped value is returned.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_str_hex(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
     /// Returns the integer part.
@@ -660,8 +652,6 @@ where
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_ceil(self) -> (Self, bool);
 
     /// Overflowing floor. Rounds to the next integer towards −∞.
@@ -669,8 +659,6 @@ where
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_floor(self) -> (Self, bool);
 
     /// Overflowing round. Rounds to the next integer to the nearest,
@@ -679,8 +667,6 @@ where
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_round(self) -> (Self, bool);
 
     /// Overflowing round. Rounds to the next integer to the nearest,
@@ -689,8 +675,6 @@ where
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_round_ties_to_even(self) -> (Self, bool);
 
     /// Returns the number of ones in the binary representation.
@@ -1120,8 +1104,6 @@ where
     /// Returns a [tuple] of the negated value and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_neg(self) -> (Self, bool);
 
     /// Overflowing addition.
@@ -1129,8 +1111,6 @@ where
     /// Returns a [tuple] of the sum and a [`bool`], indicating whether
     /// an overflow has occurred. On overflow, the wrapped value is
     /// returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_add(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing subtraction.
@@ -1138,8 +1118,6 @@ where
     /// Returns a [tuple] of the difference and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_sub(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing multiplication.
@@ -1147,8 +1125,6 @@ where
     /// Returns a [tuple] of the product and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_mul(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing division.
@@ -1160,8 +1136,6 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_div(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing reciprocal.
@@ -1173,8 +1147,6 @@ where
     /// # Panics
     ///
     /// Panics if `self` is zero.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_recip(self) -> (Self, bool);
 
     /// Overflowing multiply  and add.
@@ -1182,8 +1154,6 @@ where
     /// Returns a [tuple] of `self` × `mul` + `add` and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_mul_add(self, mul: Self, add: Self) -> (Self, bool);
 
     /// Overflowing Euclidean division.
@@ -1195,8 +1165,6 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing multiplication by an integer.
@@ -1204,8 +1172,6 @@ where
     /// Returns a [tuple] of the product and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_mul_int(self, rhs: Self::Bits) -> (Self, bool);
 
     /// Overflowing division by an integer.
@@ -1217,8 +1183,6 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_div_int(self, rhs: Self::Bits) -> (Self, bool);
 
     /// Overflowing Euclidean division by an integer.
@@ -1230,8 +1194,6 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_div_euclid_int(self, rhs: Self::Bits) -> (Self, bool);
 
     /// Overflowing remainder for Euclidean division by an integer.
@@ -1243,8 +1205,6 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_rem_euclid_int(self, rhs: Self::Bits) -> (Self, bool);
 
     /// Overflowing shift left.
@@ -1252,8 +1212,6 @@ where
     /// Returns a [tuple] of the shifted value and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_shl(self, rhs: u32) -> (Self, bool);
 
     /// Overflowing shift right.
@@ -1261,8 +1219,6 @@ where
     /// Returns a [tuple] of the shifted value and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_shr(self, rhs: u32) -> (Self, bool);
 }
 
@@ -1387,8 +1343,6 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_abs(self) -> (Self, bool);
 
     /// Overflowing signum.
@@ -1402,8 +1356,6 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
     ///         integer bits, such that it cannot hold the value −1.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_signum(self) -> (Self, bool);
 }
 
@@ -1620,8 +1572,6 @@ pub trait FromFixed {
     /// returned.
     ///
     /// Any extra fractional bits are discarded, which rounds towards −∞.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool)
     where
         Self: Sized;
@@ -1730,7 +1680,6 @@ pub trait ToFixed {
     /// Panics if `self` is a floating-point number that is not [finite].
     ///
     /// [finite]: `f64::is_finite`
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool);
 
     /// Converts to a fixed-point number, panicking if it does not fit.
@@ -1797,8 +1746,6 @@ impl ToFixed for bool {
     /// Returns a [tuple] of the fixed-point number and a [`bool`]
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
-    ///
-    /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     #[inline]
     fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
         ToFixed::overflowing_to_fixed(self as u8)
@@ -1871,8 +1818,6 @@ macro_rules! impl_int {
             /// returned.
             ///
             /// Any fractional bits are discarded, which rounds towards −∞.
-            ///
-            /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
                 let (repr_fixed, overflow) = FromFixed::overflowing_from_fixed(src);
@@ -1934,8 +1879,6 @@ macro_rules! impl_int {
             /// Returns a [tuple] of the fixed-point number and a [`bool`]
             /// indicating whether an overflow has occurred. On overflow, the
             /// wrapped value is returned.
-            ///
-            /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
                 ToFixed::overflowing_to_fixed(self.to_repr_fixed())
@@ -2025,8 +1968,6 @@ macro_rules! impl_float {
             /// overflow, the wrapped value is returned.
             ///
             /// Rounding is to the nearest, with ties rounded to even.
-            ///
-            /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
                 (FromFixed::from_fixed(src), false)
@@ -2146,7 +2087,6 @@ Rounding is to the nearest, with ties rounded to even.
 Panics if `self` is not [finite].
 
 [finite]: `", $link, "::is_finite`
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 #[track_caller]
@@ -2492,8 +2432,6 @@ macro_rules! impl_fixed {
             /// overflow, the wrapped value is returned.
             ///
             /// Any extra fractional bits are discarded, which rounds towards −∞.
-            ///
-            /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
                 let conv = src.private_to_fixed_helper(Self::FRAC_NBITS, Self::INT_NBITS);
@@ -2588,8 +2526,6 @@ macro_rules! impl_fixed {
             /// overflow, the wrapped value is returned.
             ///
             /// Any extra fractional bits are discarded, which rounds towards −∞.
-            ///
-            /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
                 FromFixed::overflowing_from_fixed(self)

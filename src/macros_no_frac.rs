@@ -2260,8 +2260,6 @@ assert_eq!(Fix::from_num(5).overflowing_neg(), (Fix::from_bits(neg_five_bits), t
                 },
                 "
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub const fn overflowing_neg(self) -> ($Fixed<Frac>, bool) {
@@ -2288,8 +2286,6 @@ assert_eq!(Fix::MAX.overflowing_add(one), (",
                 if_signed_else_empty_str! { $Signedness, "Fix::MIN + " },
                 "one_minus_bit, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub const fn overflowing_add(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
@@ -2321,8 +2317,6 @@ assert_eq!(Fix::from_num(0)",
                 },
                 ".overflowing_sub(one), (Fix::MAX - one_minus_bit, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub const fn overflowing_sub(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
@@ -2369,8 +2363,6 @@ assert_eq!(
 "
                 },
                 "```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub fn overflowing_mul_add<MulFrac: $LeEqU>(
@@ -2402,8 +2394,6 @@ assert_eq!(Fix::from_num(3).overflowing_mul_int(2), (Fix::from_num(6), false));
 let wrapped = Fix::from_bits(!0 << 2);
 assert_eq!(Fix::MAX.overflowing_mul_int(4), (wrapped, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub const fn overflowing_mul_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
@@ -2444,8 +2434,6 @@ assert_eq!(Fix::from_num(3).overflowing_div_int(2), (one_point_5, false));
 ",
                 },
                 "```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub fn overflowing_div_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
@@ -2469,8 +2457,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!((Fix::from_num(1) / 2).overflowing_shl(3), (Fix::from_num(4), false));
 assert_eq!((Fix::from_num(1) / 2).overflowing_shl(3 + ", $s_nbits, "), (Fix::from_num(4), true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub const fn overflowing_shl(self, rhs: u32) -> ($Fixed<Frac>, bool) {
@@ -2494,8 +2480,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!((Fix::from_num(4)).overflowing_shr(3), (Fix::from_num(1) / 2, false));
 assert_eq!((Fix::from_num(4)).overflowing_shr(3 + ", $s_nbits, "), (Fix::from_num(1) / 2, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
                 pub const fn overflowing_shr(self, rhs: u32) -> ($Fixed<Frac>, bool) {
@@ -2523,8 +2507,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(-5).overflowing_abs(), (Fix::from_num(5), false));
 assert_eq!(Fix::MIN.overflowing_abs(), (Fix::MIN, true));
 ```
-
-[tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                     #[inline]
                     pub const fn overflowing_abs(self) -> ($Fixed<Frac>, bool) {
