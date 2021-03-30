@@ -55,7 +55,7 @@ assert_eq!((-two_and_quarter).int(), -three);
             if_unsigned_else_empty_str! {
                 $Signedness,
                 "
-[`floor`]: #method.floor
+[`floor`]: `Self::floor`
 "
             };
             #[inline]
@@ -139,7 +139,7 @@ assert_eq!(Fix::from_num(-2.9).round_to_zero(), Fix::from_num(-2));
             if_unsigned_else_empty_str! {
                 $Signedness,
                 "
-[`floor`]: #method.floor
+[`floor`]: `Self::floor`
 "
             };
             #[inline]
@@ -184,7 +184,7 @@ assert_eq!(Fix::from_num(2.5).ceil(), Fix::from_num(3));
             },
             "```
 
-[`wrapping_ceil`]: #method.wrapping_ceil
+[`wrapping_ceil`]: `Self::wrapping_ceil`
 ";
             #[inline]
             pub fn ceil(self) -> $Fixed<Frac> {
@@ -226,7 +226,7 @@ assert_eq!(Fix::from_num(2.5).floor(), Fix::from_num(2));
             },
             "```
 
-[`wrapping_floor`]: #method.wrapping_floor
+[`wrapping_floor`]: `Self::wrapping_floor`
 ";
             #[inline]
             pub fn floor(self) -> $Fixed<Frac> {
@@ -262,7 +262,7 @@ assert_eq!(Fix::from_num(2.5).round(), Fix::from_num(3));
             },
             "```
 
-[`wrapping_round`]: #method.wrapping_round
+[`wrapping_round`]: `Self::wrapping_round`
 ";
             #[inline]
             pub fn round(self) -> $Fixed<Frac> {
@@ -293,7 +293,7 @@ assert_eq!(Fix::from_num(2.5).round_ties_to_even(), Fix::from_num(2));
 assert_eq!(Fix::from_num(3.5).round_ties_to_even(), Fix::from_num(4));
 ```
 
-[`wrapping_round_ties_to_even`]: #method.wrapping_round_ties_to_even
+[`wrapping_round_ties_to_even`]: `Self::wrapping_round_ties_to_even`
 ";
             #[inline]
             pub fn round_ties_to_even(self) -> $Fixed<Frac> {
@@ -322,8 +322,6 @@ assert_eq!(Fix::from_num(2.5).checked_ceil(), Some(Fix::from_num(3)));
             },
             "assert!(Fix::MAX.checked_ceil().is_none());
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
             #[inline]
             pub fn checked_ceil(self) -> Option<$Fixed<Frac>> {
@@ -369,15 +367,6 @@ assert!(AllFrac::MIN.checked_floor().is_none());
 ",
             },
             "```
-",
-            if_signed_unsigned! {
-                $Signedness,
-                "
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None",
-                "
-[`Some`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.Some",
-            },
-            "
 ";
             #[inline]
             pub fn checked_floor(self) -> Option<$Fixed<Frac>> {
@@ -404,8 +393,6 @@ assert_eq!(Fix::from_num(2.5).checked_round(), Some(Fix::from_num(3)));
             },
             "assert!(Fix::MAX.checked_round().is_none());
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
             #[inline]
             pub fn checked_round(self) -> Option<$Fixed<Frac>> {
@@ -427,8 +414,6 @@ assert_eq!(Fix::from_num(2.5).checked_round_ties_to_even(), Some(Fix::from_num(2
 assert_eq!(Fix::from_num(3.5).checked_round_ties_to_even(), Some(Fix::from_num(4)));
 assert!(Fix::MAX.checked_round_ties_to_even().is_none());
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
             #[inline]
             pub fn checked_round_ties_to_even(self) -> Option<$Fixed<Frac>> {
@@ -851,7 +836,6 @@ assert_eq!(Fix::from_num(2.5).overflowing_ceil(), (Fix::from_num(3), false));
             "assert_eq!(Fix::MAX.overflowing_ceil(), (Fix::MIN, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
@@ -916,8 +900,6 @@ assert_eq!(AllFrac::MIN.overflowing_floor(), (AllFrac::from_num(0), true));
             },
             "```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-[`false`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
@@ -956,7 +938,6 @@ assert_eq!(Fix::from_num(2.5).overflowing_round(), (Fix::from_num(3), false));
             "assert_eq!(Fix::MAX.overflowing_round(), (Fix::MIN, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
@@ -1015,7 +996,6 @@ assert_eq!(Fix::from_num(3.5).overflowing_round_ties_to_even(), (Fix::from_num(4
 assert_eq!(Fix::MAX.overflowing_round_ties_to_even(), (Fix::MIN, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]

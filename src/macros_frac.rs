@@ -133,8 +133,6 @@ assert_eq!(Fix::from_num(3.9375).checked_int_log2(), Some(1));
 assert_eq!(Fix::from_num(0.25).checked_int_log2(), Some(-2));
 assert_eq!(Fix::from_num(0.1875).checked_int_log2(), Some(-3));
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_int_log2(self) -> Option<i32> {
@@ -164,8 +162,6 @@ assert_eq!(", $s_fixed, "::<U2>::from_num(9.75).checked_int_log10(), Some(0));
 assert_eq!(", $s_fixed, "::<U6>::from_num(0.109375).checked_int_log10(), Some(-1));
 assert_eq!(", $s_fixed, "::<U6>::from_num(0.09375).checked_int_log10(), Some(-2));
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_int_log10(self) -> Option<i32> {
@@ -244,7 +240,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2).recip(), Fix::from_num(0.5));
 ```
 
-[`wrapping_recip`]: #method.wrapping_recip
+[`wrapping_recip`]: `Self::wrapping_recip`
 ";
                 #[inline] pub fn recip(self) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_recip();
@@ -279,7 +275,7 @@ assert_eq!(Fix::from_num(7.5).div_euclid(Fix::from_num(2)), Fix::from_num(3));
                 },
                 "```
 
-[`wrapping_div_euclid`]: #method.wrapping_div_euclid
+[`wrapping_div_euclid`]: `Self::wrapping_div_euclid`
 ";
                 #[inline]
                 pub fn div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -330,7 +326,7 @@ assert_eq!(Fix::from_num(7.5).div_euclid_int(2), Fix::from_num(3));
                 },
                 "```
 
-[`wrapping_div_euclid_int`]: #method.wrapping_div_euclid_int
+[`wrapping_div_euclid_int`]: `Self::wrapping_div_euclid_int`
 ";
                 #[inline]
                 pub fn div_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
@@ -408,8 +404,6 @@ assert_eq!(OneIntBit::from_num(0.5).checked_signum(), None);
 assert_eq!(ZeroIntBits::from_num(0.25).checked_signum(), None);
 assert_eq!(ZeroIntBits::from_num(-0.5).checked_signum(), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                     #[inline]
                     pub fn checked_signum(self) -> Option<$Fixed<Frac>> {
@@ -433,8 +427,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::MAX.checked_mul(Fix::from_num(1)), Some(Fix::MAX));
 assert_eq!(Fix::MAX.checked_mul(Fix::from_num(2)), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_mul(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
@@ -457,8 +449,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::MAX.checked_div(Fix::from_num(1)), Some(Fix::MAX));
 assert_eq!(Fix::MAX.checked_div(Fix::from_num(1) / 2), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_div(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
@@ -484,8 +474,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2).checked_recip(), Some(Fix::from_num(0.5)));
 assert_eq!(Fix::from_num(0).checked_recip(), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_recip(self) -> Option<$Fixed<Frac>> {
@@ -519,8 +507,6 @@ assert_eq!(Fix::MAX.checked_div_euclid(Fix::from_num(0.25)), None);
 ",
                 },
                 "```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_div_euclid(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
@@ -557,8 +543,6 @@ assert_eq!(Fix::from_num(3.75).checked_rem_int(0), None);
 ",
                 },
                 "```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_rem_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
@@ -606,8 +590,6 @@ assert_eq!(Fix::from_num(7.5).checked_div_euclid_int(0), None);
 ",
                 },
                 "```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_div_euclid_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
@@ -651,8 +633,6 @@ assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(20), None);
 ",
                 },
                 "```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_rem_euclid_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
@@ -847,8 +827,6 @@ assert_eq!(Fix::MIN.saturating_div_euclid(Fix::from_num(0.25)), Fix::MIN);
 ",
                 },
                 "```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn saturating_div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
@@ -1419,7 +1397,6 @@ assert_eq!(ZeroIntBits::from_num(0.25).overflowing_signum(), (ZeroIntBits::from_
 assert_eq!(ZeroIntBits::from_num(-0.5).overflowing_signum(), (ZeroIntBits::from_num(0), true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                     #[inline]
@@ -1449,7 +1426,6 @@ let wrapped = Fix::from_bits(!0 << 2);
 assert_eq!(Fix::MAX.overflowing_mul(Fix::from_num(4)), (wrapped, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -1481,7 +1457,6 @@ let wrapped = Fix::from_bits(!0 << 2);
 assert_eq!(Fix::MAX.overflowing_div(quarter), (wrapped, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -1515,7 +1490,6 @@ assert_eq!(Fix::from_num(0.25).overflowing_recip(), (Fix::from_num(4), false));
 assert_eq!(Small::from_num(0.25).overflowing_recip(), (Small::from_num(0), true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -1574,7 +1548,6 @@ let wrapped = Fix::MAX.wrapping_mul_int(4).round_to_zero();
 assert_eq!(Fix::MAX.overflowing_div_euclid(Fix::from_num(0.25)), (wrapped, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -1637,8 +1610,6 @@ assert_eq!(Fix::MIN.overflowing_div_euclid_int(-1), (wrapped, true));
                 },
                 "```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-[`false`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -1703,8 +1674,6 @@ assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3
                 },
                 "```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-[`false`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]

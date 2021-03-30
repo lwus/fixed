@@ -72,7 +72,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     pub const MAX: Unwrapped<F> = Unwrapped(F::MAX);
 
-    /// [`true`][`bool`] if the type is signed.
+    /// [`true`] if the type is signed.
     ///
     /// # Examples
     ///
@@ -84,8 +84,6 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert!(Unwrapped::<I16F16>::IS_SIGNED);
     /// assert!(!Unwrapped::<U16F16>::IS_SIGNED);
     /// ```
-    ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     pub const IS_SIGNED: bool = F::IS_SIGNED;
 
     /// The number of integer bits.
@@ -354,7 +352,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other number `src` for which [`ToFixed`] is
     ///     implemented, in which case this method returns
-    ///     <code>[Unwrapped][`Unwrapped`]([src.unwrapped_to_fixed()][`unwrapped_to_fixed`])</code>.
+    ///     <code>[Unwrapped][`Unwrapped`]([src.unwrapped_to_fixed()][`ToFixed::unwrapped_to_fixed`])</code>.
     ///
     /// # Panics
     ///
@@ -385,27 +383,10 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = Unwrapped::<I4F4>::from_num(src);
     /// ```
     ///
-    /// [`F128Bits`]: struct.F128Bits.html
-    /// [`ToFixed`]: traits/trait.ToFixed.html
-    /// [`Unwrapped`]: struct.Unwrapped.html
-    /// [`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-    /// [`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-    /// [`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-    /// [`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-    /// [`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-    /// [`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-    /// [`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-    /// [`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-    /// [`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-    /// [`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-    /// [`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-    /// [`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-    /// [`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-    /// [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-    /// [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-    /// [`unwrapped_to_fixed`]: traits/trait.ToFixed.html#method.unwrapped_to_fixed
-    /// [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-    /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+    /// [`F128Bits`]: `crate::F128Bits`
+    /// [`bf16`]: `half::bf16`
+    /// [`f16`]: `half::f16`
+    /// [finite]: `f64::is_finite`
     #[inline]
     #[track_caller]
     pub fn from_num<Src: ToFixed>(src: Src) -> Unwrapped<F> {
@@ -431,7 +412,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other type `Dst` for which [`FromFixed`] is
     ///     implemented, in which case this method returns
-    ///     [`Dst::unwrapped_from_fixed(self.0)`][`unwrapped_from_fixed`].
+    ///     [`Dst::unwrapped_from_fixed(self.0)`][`FromFixed::unwrapped_from_fixed`].
     ///
     /// # Examples
     ///
@@ -455,25 +436,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = src.to_num::<I2F6>();
     /// ```
     ///
-    /// [`F128Bits`]: struct.F128Bits.html
-    /// [`FromFixed`]: traits/trait.FromFixed.html
-    /// [`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-    /// [`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-    /// [`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-    /// [`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-    /// [`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-    /// [`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-    /// [`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-    /// [`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-    /// [`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-    /// [`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-    /// [`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-    /// [`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-    /// [`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-    /// [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-    /// [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-    /// [`unwrapped_from_fixed`]: traits/trait.FromFixed.html#method.unwrapped_from_fixed
-    /// [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
+    /// [`F128Bits`]: `crate::F128Bits`
+    /// [`bf16`]: `half::bf16`
+    /// [`f16`]: `half::f16`
     #[inline]
     #[track_caller]
     pub fn to_num<Dst: FromFixed>(self) -> Dst {
@@ -548,8 +513,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped(I16F16::from_num(-12.25)).int(), Unwrapped(I16F16::from_num(-13)));
     /// ```
     ///
-    /// [`I0F16`]: types/type.I0F16.html
-    /// [`Unwrapped`]: struct.Unwrapped.html
+    /// [`I0F16`]: `crate::types::I0F16`
     #[inline]
     pub fn int(self) -> Unwrapped<F> {
         Unwrapped(self.0.int())
@@ -572,8 +536,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped(I16F16::from_num(-12.25)).frac(), Unwrapped(I16F16::from_num(0.75)));
     /// ```
     ///
-    /// [`I0F16`]: types/type.I0F16.html
-    /// [`Unwrapped`]: struct.Unwrapped.html
+    /// [`I0F16`]: `crate::types::I0F16`
     #[inline]
     pub fn frac(self) -> Unwrapped<F> {
         Unwrapped(self.0.frac())
@@ -1073,8 +1036,6 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// assert!(!Unwrapped(I16F16::from_num(0)).is_positive());
     /// assert!(!Unwrapped(I16F16::from_num(-4.3)).is_positive());
     /// ```
-    ///
-    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     pub fn is_positive(self) -> bool {
         self.0.is_positive()
@@ -1090,8 +1051,6 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// assert!(!Unwrapped(I16F16::from_num(0)).is_negative());
     /// assert!(Unwrapped(I16F16::from_num(-4.3)).is_negative());
     /// ```
-    ///
-    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     pub fn is_negative(self) -> bool {
         self.0.is_negative()
@@ -1186,8 +1145,6 @@ impl<F: FixedUnsigned> Unwrapped<F> {
     /// assert!(Unwrapped(U16F16::from_num(4)).is_power_of_two());
     /// assert!(!Unwrapped(U16F16::from_num(5)).is_power_of_two());
     /// ```
-    ///
-    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     pub fn is_power_of_two(self) -> bool {
         self.0.is_power_of_two()

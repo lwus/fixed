@@ -145,45 +145,13 @@ depending on the crate’s [optional features].
  2. If the `serde` feature is enabled, [`Serialize`] and
     [`Deserialize`] are supertraits of [`Fixed`].
 
-[`Bounded`]: https://docs.rs/num-traits/^0.2/num_traits/bounds/trait.Bounded.html
-[`CheckedAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedAdd.html
-[`CheckedDiv`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedDiv.html
-[`CheckedMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedMul.html
-[`CheckedNeg`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedNeg.html
-[`CheckedRem`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedRem.html
-[`CheckedShl`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedShl.html
-[`CheckedShr`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedShr.html
-[`CheckedSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/checked/trait.CheckedSub.html
-[`Deserialize`]: https://docs.rs/serde/^1/serde/de/trait.Deserialize.html
-[`Fixed::mul_add`]: trait.Fixed.html#tymethod.mul_add
-[`FixedSigned`]: trait.FixedSigned.html
-[`FixedUnsigned`]: trait.FixedUnsigned.html
-[`Fixed`]: trait.Fixed.html
-[`FloatConst`]: https://docs.rs/num-traits/^0.2/num_traits/float/trait.FloatConst.html
-[`FromPrimitive`]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.ToPrimitive.html
-[`Inv`]: https://docs.rs/num-traits/^0.2/num_traits/ops/inv/trait.Inv.html
-[`MulAdd::mul_add`]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAdd.html#tymethod.mul_add
-[`MulAddAssign`]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAddAssign.html
-[`MulAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/mul_add/trait.MulAdd.html
+[`MulAdd::mul_add`]: `num_traits::ops::mul_add::MulAdd::mul_add`
+[`MulAddAssign`]: `num_traits::ops::mul_add::MulAddAssign`
+[`MulAdd`]: `num_traits::ops::mul_add::MulAdd`
 [`Num`]: https://docs.rs/num-traits/^0.2/num_traits/trait.Num.html
-[`One`]: https://docs.rs/num-traits/^0.2/num_traits/identities/trait.One.html
-[`OverflowingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
-[`OverflowingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html
-[`OverflowingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingSub.html
-[`SaturatingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingAdd.html
-[`SaturatingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingMul.html
-[`SaturatingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/saturating/trait.SaturatingSub.html
-[`Serialize`]: https://docs.rs/serde/^1/serde/ser/trait.Serialize.html
-[`Signed`]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Signed.html
-[`ToPrimitive`]: https://docs.rs/num-traits/^0.2/num_traits/cast/trait.FromPrimitive.html
-[`Unsigned`]: https://docs.rs/num-traits/^0.2/num_traits/sign/trait.Unsigned.html
-[`WrappingAdd`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingAdd.html
-[`WrappingMul`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingMul.html
-[`WrappingNeg`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingNeg.html
-[`WrappingShl`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingShl.html
-[`WrappingShr`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingShr.html
-[`WrappingSub`]: https://docs.rs/num-traits/^0.2/num_traits/ops/wrapping/trait.WrappingSub.html
-[`Zero`]: https://docs.rs/num-traits/^0.2/num_traits/identities/trait.Zero.html
+[`One`]: `num_traits::identities::One`
+[`Signed`]: `num_traits::sign::Signed`
+[`Unsigned`]: `num_traits::sign::Unsigned`
 [optional features]: ../index.html#optional-features
 "
 }
@@ -287,24 +255,7 @@ depending on the crate’s [optional features].
 /// assert_eq!(val, Some(Fixed::from_num(750.25)));
 /// ```
 ///
-/// [`FixedI128`]: ../struct.FixedI128.html
-/// [`FixedI16`]: ../struct.FixedI16.html
-/// [`FixedI32`]: ../struct.FixedI32.html
-/// [`FixedI64`]: ../struct.FixedI64.html
-/// [`FixedI8`]: ../struct.FixedI8.html
-/// [`FixedSigned`]: trait.FixedSigned.html
-/// [`FixedU128`]: ../struct.FixedU128.html
-/// [`FixedU16`]: ../struct.FixedU16.html
-/// [`FixedU32`]: ../struct.FixedU32.html
-/// [`FixedU64`]: ../struct.FixedU64.html
-/// [`FixedU8`]: ../struct.FixedU8.html
-/// [`FixedUnsigned`]: trait.FixedUnsigned.html
-/// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
-/// [`TryFrom`]: https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html
-/// [`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-/// [`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-/// [`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-/// [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
+/// [`TryFrom`]: `core::convert::TryFrom`
 pub trait Fixed
 where
     Self: Copy + Default + Hash + Ord,
@@ -344,12 +295,10 @@ where
 
     /// The number of fractional bits.
     ///
-    /// <code>&lt;F as [Fixed]&gt;::Frac::[U32]</code> is equivalent to
-    /// <code>&lt;F as [Fixed]&gt;::[FRAC_NBITS][`FRAC_NBITS`]</code>.
+    /// <code>&lt;F as [Fixed]&gt;::Frac::[U32][`U32`]</code> is equivalent to
+    /// <code>&lt;F as [Fixed]&gt;::[FRAC_NBITS][`Fixed::FRAC_NBITS`]</code>.
     ///
-    /// [Fixed]: trait.Fixed.html
-    /// [U32]: ../types/extra/trait.Unsigned.html#associatedconstant.U32
-    /// [`FRAC_NBITS`]: #associatedconstant.FRAC_NBITS
+    /// [`U32`]: `crate::types::extra::Unsigned::U32`
     type Frac: Unsigned;
 
     /// The smallest value that can be represented.
@@ -358,9 +307,7 @@ where
     /// The largest value that can be represented.
     const MAX: Self;
 
-    /// [`true`][`bool`] if the type is signed.
-    ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
+    /// [`true`] if the type is signed.
     const IS_SIGNED: bool;
 
     /// The number of integer bits.
@@ -418,66 +365,51 @@ where
 
     /// Creates a fixed-point number from another number.
     ///
-    /// Returns the same value as [`src.to_fixed()`][`to_fixed`].
-    ///
-    /// [`to_fixed`]: trait.ToFixed.html#tymethod.to_fixed
+    /// Returns the same value as [`src.to_fixed()`][`ToFixed::to_fixed`].
     fn from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number.
     ///
-    /// Returns the same value as [`Dst::from_fixed(self)`][`from_fixed`].
-    ///
-    /// [`from_fixed`]: trait.FromFixed.html#tymethod.from_fixed
+    /// Returns the same value as [`Dst::from_fixed(self)`][`FromFixed::from_fixed`].
     fn to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number if it fits,
     /// otherwise returns [`None`].
     ///
-    /// Returns the same value as [`src.checked_to_fixed()`][`checked_to_fixed`].
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
-    /// [`checked_to_fixed`]: trait.ToFixed.html#tymethod.checked_to_fixed
+    /// Returns the same value as [`src.checked_to_fixed()`][`ToFixed::checked_to_fixed`].
     fn checked_from_num<Src: ToFixed>(src: Src) -> Option<Self>;
 
     /// Converts a fixed-point number to another number if it fits,
     /// otherwise returns [`None`].
     ///
-    /// Returns the same value as [`Dst::checked_from_fixed(self)`][`checked_from_fixed`].
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
-    /// [`checked_from_fixed`]: trait.FromFixed.html#tymethod.checked_from_fixed
+    /// Returns the same value as
+    /// [`Dst::checked_from_fixed(self)`][`FromFixed::checked_from_fixed`].
     fn checked_to_num<Dst: FromFixed>(self) -> Option<Dst>;
 
     /// Creates a fixed-point number from another number, saturating the
     /// value if it does not fit.
     ///
-    /// Returns the same value as [`src.saturating_to_fixed()`][`saturating_to_fixed`].
-    ///
-    /// [`saturating_to_fixed`]: trait.ToFixed.html#tymethod.saturating_to_fixed
+    /// Returns the same value as [`src.saturating_to_fixed()`][`ToFixed::saturating_to_fixed`].
     fn saturating_from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number, saturating the
     /// value if it does not fit.
     ///
-    /// Returns the same value as [`Dst::saturating_from_fixed(self)`][`saturating_from_fixed`].
-    ///
-    /// [`saturating_from_fixed`]: trait.FromFixed.html#tymethod.saturating_from_fixed
+    /// Returns the same value as
+    /// [`Dst::saturating_from_fixed(self)`][`FromFixed::saturating_from_fixed`].
     fn saturating_to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number, wrapping the
     /// value on overflow.
     ///
-    /// Returns the same value as [`src.wrapping_to_fixed()`][`wrapping_to_fixed`].
-    ///
-    /// [`wrapping_to_fixed`]: trait.ToFixed.html#tymethod.wrapping_to_fixed
+    /// Returns the same value as [`src.wrapping_to_fixed()`][`ToFixed::wrapping_to_fixed`].
     fn wrapping_from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number, wrapping the
     /// value on overflow.
     ///
-    /// Returns the same value as [`Src::wrapping_from_fixed(self)`][`wrapping_from_fixed`].
-    ///
-    /// [`wrapping_from_fixed`]: trait.FromFixed.html#tymethod.wrapping_from_fixed
+    /// Returns the same value as
+    /// [`Src::wrapping_from_fixed(self)`][`FromFixed::wrapping_from_fixed`].
     fn wrapping_to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number, panicking on overflow.
@@ -498,16 +430,13 @@ where
 
     /// Creates a fixed-point number from another number.
     ///
-    /// Returns the same value as [`src.overflowing_to_fixed()`][`overflowing_to_fixed`].
-    ///
-    /// [`overflowing_to_fixed`]: trait.ToFixed.html#tymethod.overflowing_to_fixed
+    /// Returns the same value as [`src.overflowing_to_fixed()`][`ToFixed::overflowing_to_fixed`].
     fn overflowing_from_num<Src: ToFixed>(src: Src) -> (Self, bool);
 
     /// Converts a fixed-point number to another number.
     ///
-    /// Returns the same value as [`Dst::overflowing_from_fixed(self)`][`overflowing_from_fixed`].
-    ///
-    /// [`overflowing_from_fixed`]: trait.FromFixed.html#tymethod.overflowing_from_fixed
+    /// Returns the same value as
+    /// [`Dst::overflowing_from_fixed(self)`][`FromFixed::overflowing_from_fixed`].
     fn overflowing_to_num<Dst: FromFixed>(self) -> (Dst, bool);
 
     /// Parses a string slice containing binary digits to return a fixed-point number.
@@ -582,7 +511,6 @@ where
     ///
     /// Rounding is to the nearest, with ties rounded to even.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_str(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
@@ -595,7 +523,6 @@ where
     ///
     /// Rounding is to the nearest, with ties rounded to even.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_str_binary(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
@@ -608,7 +535,6 @@ where
     ///
     /// Rounding is to the nearest, with ties rounded to even.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_str_octal(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
@@ -621,7 +547,6 @@ where
     ///
     /// Rounding is to the nearest, with ties rounded to even.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_str_hex(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
@@ -648,26 +573,18 @@ where
 
     /// Checked ceil. Rounds to the next integer towards +∞, returning
     /// [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_ceil(self) -> Option<Self>;
 
     /// Checked floor. Rounds to the next integer towards −∞, returning
     /// [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_floor(self) -> Option<Self>;
 
     /// Checked round. Rounds to the nearest integer, with ties
     /// rounded away from zero, returning [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_round(self) -> Option<Self>;
 
     /// Checked round. Rounds to the nearest integer, with ties
     /// rounded to even, returning [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_round_ties_to_even(self) -> Option<Self>;
 
     /// Saturating ceil. Rounds to the next integer towards +∞,
@@ -744,7 +661,6 @@ where
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_ceil(self) -> (Self, bool);
 
@@ -754,7 +670,6 @@ where
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_floor(self) -> (Self, bool);
 
@@ -765,7 +680,6 @@ where
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_round(self) -> (Self, bool);
 
@@ -776,7 +690,6 @@ where
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_round_ties_to_even(self) -> (Self, bool);
 
@@ -814,14 +727,10 @@ where
 
     /// Checked integer base-2 logarithm, rounded down. Returns the
     /// logarithm or [`None`] if the fixed-point number is ≤ 0.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_int_log2(self) -> Option<i32>;
 
     /// Checked integer base-10 logarithm, rounded down. Returns the
     /// logarithm or [`None`] if the fixed-point number is ≤ 0.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_int_log10(self) -> Option<i32>;
 
     /// Reverses the order of the bits of the fixed-point number.
@@ -850,7 +759,7 @@ where
     /// fixed-point type like `self` but with a different number of
     /// fractional bits.
     ///
-    /// [`mul_add`]: ../struct.FixedI32.html#method.mul_add
+    /// [`mul_add`]: `FixedI32::mul_add`
     fn mul_add(self, mul: Self, add: Self) -> Self;
 
     /// Euclidean division by an integer.
@@ -882,105 +791,71 @@ where
     fn rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Checked negation. Returns the negated value, or [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_neg(self) -> Option<Self>;
 
     /// Checked addition. Returns the sum, or [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_add(self, rhs: Self) -> Option<Self>;
 
     /// Checked subtraction. Returns the difference, or [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_sub(self, rhs: Self) -> Option<Self>;
 
     /// Checked multiplication. Returns the product, or [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_mul(self, rhs: Self) -> Option<Self>;
 
     /// Checked division. Returns the quotient, or [`None`] if the
     /// divisor is zero or on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_div(self, rhs: Self) -> Option<Self>;
 
     /// Checked remainder. Returns the remainder, or [`None`] if the
     /// divisor is zero.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_rem(self, rhs: Self) -> Option<Self>;
 
     /// Checked reciprocal. Returns the reciprocal, or [`None`] if
     /// `self` is zero or on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_recip(self) -> Option<Self>;
 
     /// Checked multiply and add. Returns `self` × `mul` + `add`, or [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_mul_add(self, mul: Self, add: Self) -> Option<Self>;
 
     /// Checked remainder for Euclidean division. Returns the
     /// remainder, or [`None`] if the divisor is zero or the division
     /// results in overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_div_euclid(self, rhs: Self) -> Option<Self>;
 
     /// Checked remainder for Euclidean division. Returns the
     /// remainder, or [`None`] if the divisor is zero.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_rem_euclid(self, rhs: Self) -> Option<Self>;
 
     /// Checked multiplication by an integer. Returns the product, or
     /// [`None`] on overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_mul_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked division by an integer. Returns the quotient, or
     /// [`None`] if the divisor is zero or if the division results in
     /// overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_div_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked fixed-point remainder for division by an integer.
     /// Returns the remainder, or [`None`] if the divisor is zero or
     /// if the division results in overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_rem_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked Euclidean division by an integer. Returns the
     /// quotient, or [`None`] if the divisor is zero or if the
     /// division results in overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_div_euclid_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked remainder for Euclidean division by an integer.
     /// Returns the remainder, or [`None`] if the divisor is zero or
     /// if the remainder results in overflow.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_rem_euclid_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked shift left. Returns the shifted number, or [`None`] if
     /// `rhs` ≥ the number of bits.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_shl(self, rhs: u32) -> Option<Self>;
 
     /// Checked shift right. Returns the shifted number, or [`None`]
     /// if `rhs` ≥ the number of bits.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_shr(self, rhs: u32) -> Option<Self>;
 
     /// Saturated negation. Returns the negated value, saturating on overflow.
@@ -1246,7 +1121,6 @@ where
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_neg(self) -> (Self, bool);
 
@@ -1256,7 +1130,6 @@ where
     /// an overflow has occurred. On overflow, the wrapped value is
     /// returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_add(self, rhs: Self) -> (Self, bool);
 
@@ -1266,7 +1139,6 @@ where
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_sub(self, rhs: Self) -> (Self, bool);
 
@@ -1276,7 +1148,6 @@ where
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_mul(self, rhs: Self) -> (Self, bool);
 
@@ -1290,7 +1161,6 @@ where
     ///
     /// Panics if the divisor is zero.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_div(self, rhs: Self) -> (Self, bool);
 
@@ -1304,7 +1174,6 @@ where
     ///
     /// Panics if `self` is zero.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_recip(self) -> (Self, bool);
 
@@ -1314,7 +1183,6 @@ where
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_mul_add(self, mul: Self, add: Self) -> (Self, bool);
 
@@ -1328,7 +1196,6 @@ where
     ///
     /// Panics if the divisor is zero.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool);
 
@@ -1338,7 +1205,6 @@ where
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_mul_int(self, rhs: Self::Bits) -> (Self, bool);
 
@@ -1352,7 +1218,6 @@ where
     ///
     /// Panics if the divisor is zero.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_div_int(self, rhs: Self::Bits) -> (Self, bool);
 
@@ -1366,7 +1231,6 @@ where
     ///
     /// Panics if the divisor is zero.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_div_euclid_int(self, rhs: Self::Bits) -> (Self, bool);
 
@@ -1380,7 +1244,6 @@ where
     ///
     /// Panics if the divisor is zero.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_rem_euclid_int(self, rhs: Self::Bits) -> (Self, bool);
 
@@ -1390,7 +1253,6 @@ where
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_shl(self, rhs: u32) -> (Self, bool);
 
@@ -1400,7 +1262,6 @@ where
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_shr(self, rhs: u32) -> (Self, bool);
 }
@@ -1413,13 +1274,6 @@ where
 /// This trait is sealed and cannot be implemented for more types; it
 /// is implemented for [`FixedI8`], [`FixedI16`], [`FixedI32`],
 /// [`FixedI64`], and [`FixedI128`].
-///
-/// [`FixedI128`]: ../struct.FixedI128.html
-/// [`FixedI16`]: ../struct.FixedI16.html
-/// [`FixedI32`]: ../struct.FixedI32.html
-/// [`FixedI64`]: ../struct.FixedI64.html
-/// [`FixedI8`]: ../struct.FixedI8.html
-/// [`Fixed`]: trait.Fixed.html
 pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// An unsigned fixed-point number type with the same number of
     /// integer and fractional bits as `Self`.
@@ -1429,13 +1283,9 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     fn signed_bits(self) -> u32;
 
     /// Returns [`true`] if the number is > 0.
-    ///
-    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     fn is_positive(self) -> bool;
 
     /// Returns [`true`] if the number is < 0.
-    ///
-    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     fn is_negative(self) -> bool;
 
     /// Returns the absolute value.
@@ -1465,8 +1315,6 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// Checked absolute value. Returns the absolute value, or [`None`] on overflow.
     ///
     /// Overflow can only occur when trying to find the absolute value of the minimum value.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_abs(self) -> Option<Self>;
 
     /// Checked signum. Returns a number representing the sign of
@@ -1477,8 +1325,6 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
     ///         integer bits, such that it cannot hold the value −1.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_signum(self) -> Option<Self>;
 
     /// Saturating absolute value. Returns the absolute value, saturating on overflow.
@@ -1542,7 +1388,6 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_abs(self) -> (Self, bool);
 
@@ -1558,7 +1403,6 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     ///   * if the value is negative and the fixed-point number has zero
     ///         integer bits, such that it cannot hold the value −1.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_signum(self) -> (Self, bool);
 }
@@ -1571,21 +1415,12 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
 /// This trait is sealed and cannot be implemented for more types; it
 /// is implemented for [`FixedU8`], [`FixedU16`], [`FixedU32`],
 /// [`FixedU64`], and [`FixedU128`].
-///
-/// [`FixedU128`]: ../struct.FixedU128.html
-/// [`FixedU16`]: ../struct.FixedU16.html
-/// [`FixedU32`]: ../struct.FixedU32.html
-/// [`FixedU64`]: ../struct.FixedU64.html
-/// [`FixedU8`]: ../struct.FixedU8.html
-/// [`Fixed`]: trait.Fixed.html
 pub trait FixedUnsigned: Fixed {
     /// Returns the number of bits required to represent the value.
     fn significant_bits(self) -> u32;
 
     /// Returns [`true`] if the fixed-point number is
     /// 2<sup><i>k</i></sup> for some integer <i>k</i>.
-    ///
-    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     fn is_power_of_two(self) -> bool;
 
     /// Returns the highest one in the binary representation, or zero
@@ -1597,8 +1432,6 @@ pub trait FixedUnsigned: Fixed {
 
     /// Returns the smallest power of two that is ≥ `self`, or [`None`] if the
     /// next power of two is too large to represent.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_next_power_of_two(self) -> Option<Self>;
 
     /// Returns the smallest power of two that is ≥ `self`, wrapping
@@ -1661,10 +1494,6 @@ pub trait LosslessTryFrom<Src>: Sized {
 /// let overflow: Option<I4F12> = too_large.lossless_try_into();
 /// assert_eq!(overflow, None);
 /// ```
-///
-/// [`From`]: https://doc.rust-lang.org/nightly/core/convert/trait.From.html
-/// [`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
-/// [`LosslessTryFrom`]: trait.LosslessTryFrom.html
 pub trait LosslessTryInto<Dst> {
     /// Performs the conversion.
     fn lossless_try_into(self) -> Option<Dst>;
@@ -1716,10 +1545,6 @@ pub trait LossyFrom<Src> {
 /// let lossy: I12F4 = original.lossy_into();
 /// assert_eq!(lossy, I12F4::from_bits(0x0123));
 /// ```
-///
-/// [`From`]: https://doc.rust-lang.org/nightly/core/convert/trait.From.html
-/// [`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
-/// [`LossyFrom`]: trait.LossyFrom.html
 pub trait LossyInto<Dst> {
     /// Performs the conversion.
     fn lossy_into(self) -> Dst;
@@ -1768,14 +1593,12 @@ pub trait FromFixed {
     /// change if in the future it panics; if wrapping is required use
     /// [`wrapping_from_fixed`] instead.
     ///
-    /// [`wrapping_from_fixed`]: #tymethod.wrapping_from_fixed
+    /// [`wrapping_from_fixed`]: `FromFixed::wrapping_from_fixed`
     fn from_fixed<F: Fixed>(src: F) -> Self;
 
     /// Converts from a fixed-point number if it fits, otherwise returns [`None`].
     ///
     /// Any extra fractional bits are discarded, which rounds towards −∞.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_from_fixed<F: Fixed>(src: F) -> Option<Self>
     where
         Self: Sized;
@@ -1798,7 +1621,6 @@ pub trait FromFixed {
     ///
     /// Any extra fractional bits are discarded, which rounds towards −∞.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool)
     where
@@ -1864,15 +1686,13 @@ pub trait ToFixed {
     /// breaking change if in the future it panics; if wrapping is
     /// required use [`wrapping_to_fixed`] instead.
     ///
-    /// [`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
-    /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+    /// [`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
+    /// [finite]: `f64::is_finite`
     fn to_fixed<F: Fixed>(self) -> F;
 
     /// Converts to a fixed-point number if it fits, otherwise returns [`None`].
     ///
     /// Any extra fractional bits are discarded, which rounds towards −∞.
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
     fn checked_to_fixed<F: Fixed>(self) -> Option<F>;
 
     /// Converts to a fixed-point number, saturating if it does not fit.
@@ -1883,7 +1703,7 @@ pub trait ToFixed {
     ///
     /// Panics if `self` is a floating-point number that is [NaN].
     ///
-    /// [NaN]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_nan
+    /// [NaN]: `f64::is_nan`
     fn saturating_to_fixed<F: Fixed>(self) -> F;
 
     /// Converts to a fixed-point number, wrapping if it does not fit.
@@ -1894,7 +1714,7 @@ pub trait ToFixed {
     ///
     /// Panics if `self` is a floating-point number that is not [finite].
     ///
-    /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+    /// [finite]: `f64::is_finite`
     fn wrapping_to_fixed<F: Fixed>(self) -> F;
 
     /// Converts to a fixed-point number.
@@ -1909,8 +1729,7 @@ pub trait ToFixed {
     ///
     /// Panics if `self` is a floating-point number that is not [finite].
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-    /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+    /// [finite]: `f64::is_finite`
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool);
 
@@ -1924,7 +1743,7 @@ pub trait ToFixed {
     /// [finite] or if the value does not fit, even if debug
     /// assertions are not enabled.
     ///
-    /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+    /// [finite]: `f64::is_finite`
     #[inline]
     #[track_caller]
     fn unwrapped_to_fixed<F: Fixed>(self) -> F
@@ -1949,33 +1768,25 @@ impl ToFixed for bool {
     /// change if in the future it panics; if wrapping is required use
     /// [`wrapping_to_fixed`] instead.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-    /// [`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
+    /// [`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
     #[inline]
     fn to_fixed<F: Fixed>(self) -> F {
         ToFixed::to_fixed(self as u8)
     }
 
     /// Converts a [`bool`] to a fixed-point number if it fits, otherwise returns [`None`].
-    ///
-    /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     fn checked_to_fixed<F: Fixed>(self) -> Option<F> {
         ToFixed::checked_to_fixed(self as u8)
     }
 
     /// Convert a [`bool`] to a fixed-point number, saturating if it does not fit.
-    ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     fn saturating_to_fixed<F: Fixed>(self) -> F {
         ToFixed::saturating_to_fixed(self as u8)
     }
 
     /// Converts a [`bool`] to a fixed-point number, wrapping if it does not fit.
-    ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     fn wrapping_to_fixed<F: Fixed>(self) -> F {
         ToFixed::wrapping_to_fixed(self as u8)
@@ -1987,7 +1798,6 @@ impl ToFixed for bool {
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
     #[inline]
     fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
@@ -2001,8 +1811,6 @@ impl ToFixed for bool {
     ///
     /// Panics if the value does not fit, even when debug assertions
     /// are not enabled.
-    ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     #[track_caller]
     fn unwrapped_to_fixed<F: Fixed>(self) -> F {
@@ -2026,7 +1834,7 @@ macro_rules! impl_int {
             /// panics; if wrapping is required use
             /// [`wrapping_from_fixed`] instead.
             ///
-            /// [`wrapping_from_fixed`]: #tymethod.wrapping_from_fixed
+            /// [`wrapping_from_fixed`]: `FromFixed::wrapping_from_fixed`
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 $Int::from_repr_fixed(FromFixed::from_fixed(src))
@@ -2035,8 +1843,6 @@ macro_rules! impl_int {
             /// Converts a fixed-point number to an integer if it fits, otherwise returns [`None`].
             ///
             /// Any fractional bits are discarded, which rounds towards −∞.
-            ///
-            /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
             fn checked_from_fixed<F: Fixed>(src: F) -> Option<Self> {
                 FromFixed::checked_from_fixed(src).map($Int::from_repr_fixed)
@@ -2066,7 +1872,6 @@ macro_rules! impl_int {
             ///
             /// Any fractional bits are discarded, which rounds towards −∞.
             ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
@@ -2100,15 +1905,13 @@ macro_rules! impl_int {
             /// panics; if wrapping is required use
             /// [`wrapping_to_fixed`] instead.
             ///
-            /// [`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
+            /// [`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
             #[inline]
             fn to_fixed<F: Fixed>(self) -> F {
                 ToFixed::to_fixed(self.to_repr_fixed())
             }
 
             /// Converts an integer to a fixed-point number if it fits, otherwise returns [`None`].
-            ///
-            /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
             fn checked_to_fixed<F: Fixed>(self) -> Option<F> {
                 ToFixed::checked_to_fixed(self.to_repr_fixed())
@@ -2132,7 +1935,6 @@ macro_rules! impl_int {
             /// indicating whether an overflow has occurred. On overflow, the
             /// wrapped value is returned.
             ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
@@ -2182,7 +1984,7 @@ macro_rules! impl_float {
             /// panics; if wrapping is required use
             /// [`wrapping_from_fixed`] instead.
             ///
-            /// [`wrapping_from_fixed`]: #tymethod.wrapping_from_fixed
+            /// [`wrapping_from_fixed`]: `FromFixed::wrapping_from_fixed`
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 let helper = src.private_to_float_helper();
@@ -2193,8 +1995,6 @@ macro_rules! impl_float {
             /// number if it fits, otherwise returns [`None`].
             ///
             /// Rounding is to the nearest, with ties rounded to even.
-            ///
-            /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
             fn checked_from_fixed<F: Fixed>(src: F) -> Option<Self> {
                 Some(FromFixed::from_fixed(src))
@@ -2226,7 +2026,6 @@ macro_rules! impl_float {
             ///
             /// Rounding is to the nearest, with ties rounded to even.
             ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
@@ -2263,8 +2062,8 @@ fit. When debug assertions are not enabled, the wrapped value can be
 returned, but it is not considered a breaking change if in the future
 it panics; if wrapping is required use [`wrapping_to_fixed`] instead.
 
-[`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
-[finite]: ", $link, "#method.is_finite
+[`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
+[finite]: `", $link, "::is_finite`
 ";
                 #[inline]
                 fn to_fixed<F: Fixed>(self) -> F {
@@ -2279,8 +2078,6 @@ it panics; if wrapping is required use [`wrapping_to_fixed`] instead.
             /// number if it fits, otherwise returns [`None`].
             ///
             /// Rounding is to the nearest, with ties rounded to even.
-            ///
-            /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
             fn checked_to_fixed<F: Fixed>(self) -> Option<F> {
                 let kind = self.to_float_kind(F::FRAC_NBITS, F::INT_NBITS);
@@ -2306,7 +2103,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 Panics if `self` is [NaN].
 
-[NaN]: ", $link, "#method.is_nan
+[NaN]: `", $link, "::is_nan`
 ";
                 #[inline]
                 fn saturating_to_fixed<F: Fixed>(self) -> F {
@@ -2326,7 +2123,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 Panics if `self` is not [finite].
 
-[finite]: ", $link, "#method.is_finite
+[finite]: `", $link, "::is_finite`
 ";
                 #[inline]
                 fn wrapping_to_fixed<F: Fixed>(self) -> F {
@@ -2348,8 +2145,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 Panics if `self` is not [finite].
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-[finite]: ", $link, "#method.is_finite
+[finite]: `", $link, "::is_finite`
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -2372,7 +2168,7 @@ Rounding is to the nearest, with ties rounded to even.
 Panics if `self` is not [finite] or if the value does not fit, even
 when debug assertions are not enabled.
 
-[finite]: ", $link, "#method.is_finite
+[finite]: `", $link, "::is_finite`
 ";
                 #[inline]
                 fn unwrapped_to_fixed<F: Fixed>(self) -> F {
@@ -2386,26 +2182,11 @@ when debug assertions are not enabled.
     };
 }
 
-impl_float! {
-    f16, "https://docs.rs/half/^1/half/struct.f16.html",
-    "{} overflows", |x| x
-}
-impl_float! {
-    bf16, "https://docs.rs/half/^1/half/struct.bf16.html",
-    "{} overflows", |x| x
-}
-impl_float! {
-    f32, "https://doc.rust-lang.org/nightly/std/primitive.f32.html",
-    "{} overflows", |x| x
-}
-impl_float! {
-    f64, "https://doc.rust-lang.org/nightly/std/primitive.f64.html",
-    "{} overflows", |x| x
-}
-impl_float! {
-    F128Bits, "https://doc.rust-lang.org/nightly/std/primitive.f64.html",
-    "F128Bits({}) overflows", |x: F128Bits| x.0
-}
+impl_float! { f16, "f16", "{} overflows", |x| x }
+impl_float! { bf16, "bf16", "{} overflows", |x| x }
+impl_float! { f32, "f32", "{} overflows", |x| x }
+impl_float! { f64, "f64", "{} overflows", |x| x }
+impl_float! { F128Bits, "f64", "F128Bits({}) overflows", |x: F128Bits| x.0 }
 
 macro_rules! trait_delegate {
     (fn $method:ident($($param:ident: $Param:ty),*) -> $Ret:ty) => {
@@ -2645,7 +2426,7 @@ macro_rules! impl_fixed {
             /// panics; if wrapping is required use
             /// [`wrapping_from_fixed`] instead.
             ///
-            /// [`wrapping_from_fixed`]: #tymethod.wrapping_from_fixed
+            /// [`wrapping_from_fixed`]: `FromFixed::wrapping_from_fixed`
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 let (wrapped, overflow) = FromFixed::overflowing_from_fixed(src);
@@ -2657,8 +2438,6 @@ macro_rules! impl_fixed {
             /// Converts a fixed-point number if it fits, otherwise returns [`None`].
             ///
             /// Any extra fractional bits are discarded, which rounds towards −∞.
-            ///
-            /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
             fn checked_from_fixed<F: Fixed>(src: F) -> Option<Self> {
                 match FromFixed::overflowing_from_fixed(src) {
@@ -2714,7 +2493,6 @@ macro_rules! impl_fixed {
             ///
             /// Any extra fractional bits are discarded, which rounds towards −∞.
             ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
@@ -2773,7 +2551,7 @@ macro_rules! impl_fixed {
             /// panics; if wrapping is required use
             /// [`wrapping_to_fixed`] instead.
             ///
-            /// [`wrapping_to_fixed`]: #tymethod.wrapping_to_fixed
+            /// [`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
             #[inline]
             fn to_fixed<F: Fixed>(self) -> F {
                 FromFixed::from_fixed(self)
@@ -2782,8 +2560,6 @@ macro_rules! impl_fixed {
             /// Converts a fixed-point number if it fits, otherwise returns [`None`].
             ///
             /// Any extra fractional bits are discarded, which rounds towards −∞.
-            ///
-            /// [`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
             #[inline]
             fn checked_to_fixed<F: Fixed>(self) -> Option<F> {
                 FromFixed::checked_from_fixed(self)
@@ -2813,7 +2589,6 @@ macro_rules! impl_fixed {
             ///
             /// Any extra fractional bits are discarded, which rounds towards −∞.
             ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             /// [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
             #[inline]
             fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {

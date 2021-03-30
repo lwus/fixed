@@ -248,45 +248,29 @@ additional terms or conditions.
 [*typenum* crate]: https://crates.io/crates/typenum
 [LICENSE-APACHE]: https://www.apache.org/licenses/LICENSE-2.0
 [LICENSE-MIT]: https://opensource.org/licenses/MIT
-[`Binary`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html
-[`Display`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html
-[`Error`]: https://doc.rust-lang.org/nightly/std/error/trait.Error.html
-[`FixedI128`]: struct.FixedI128.html
-[`FixedI16`]: struct.FixedI16.html
-[`FixedI32`]: struct.FixedI32.html
-[`FixedI64`]: struct.FixedI64.html
-[`FixedI8`]: struct.FixedI8.html
-[`FixedU128`]: struct.FixedU128.html
-[`FixedU16`]: struct.FixedU16.html
-[`FixedU32`]: struct.FixedU32.html
-[`FixedU64`]: struct.FixedU64.html
-[`FixedU8`]: struct.FixedU8.html
-[`FromFixed`]: traits/trait.FromFixed.html
-[`FromStr`]: https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html
-[`From`]: https://doc.rust-lang.org/nightly/core/convert/trait.From.html
-[`I20F12`]: types/type.I20F12.html
-[`I4F12`]: types/type.I4F12.html
-[`I4F4`]: types/type.I4F4.html
-[`Into`]: https://doc.rust-lang.org/nightly/core/convert/trait.Into.html
-[`LosslessTryFrom`]: traits/trait.LosslessTryFrom.html
-[`LosslessTryInto`]: traits/trait.LosslessTryInto.html
-[`LossyFrom`]: traits/trait.LossyFrom.html
-[`LossyInto`]: traits/trait.LossyInto.html
-[`LowerHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html
-[`Octal`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html
-[`ParseFixedError`]: struct.ParseFixedError.html
-[`ToFixed`]: traits/trait.ToFixed.html
-[`U12`]: types/extra/type.U12.html
-[`U20F12`]: types/type.U20F12.html
-[`UpperHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html
-[`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
-[`checked_from_num`]: struct.FixedI32.html#method.checked_from_num
-[`f16`]: https://docs.rs/half/^1/half/struct.f16.html
-[`from_num`]: struct.FixedI32.html#method.from_num
-[`from_str_binary`]: struct.FixedI32.html#method.from_str_binary
-[`from_str_hex`]: struct.FixedI32.html#method.from_str_hex
-[`from_str_octal`]: struct.FixedI32.html#method.from_str_octal
-[`to_num`]: struct.FixedI32.html#method.to_num
+[`Binary`]: `core::fmt::Binary`
+[`Display`]: `core::fmt::Display`
+[`Error`]: `std::error::Error`
+[`FromStr`]: `core::str::FromStr`
+[`I20F12`]: `crate::types::I20F12`
+[`I4F12`]: `crate::types::I4F12`
+[`I4F4`]: `crate::types::I4F4`
+[`LosslessTryFrom`]: `traits::LosslessTryFrom`
+[`LosslessTryInto`]: `traits::LosslessTryInto`
+[`LossyFrom`]: `traits::LossyFrom`
+[`LossyInto`]: `traits::LossyInto`
+[`LowerHex`]: `core::fmt::LowerHex`
+[`Octal`]: `core::fmt::Octal`
+[`U20F12`]: `types::U20F12`
+[`UpperHex`]: `core::fmt::UpperHex`
+[`bf16`]: `half::bf16`
+[`checked_from_num`]: `FixedI32::checked_from_num`
+[`f16`]: `half::f16`
+[`from_num`]: `FixedI32::from_num`
+[`from_str_binary`]: `FixedI32::from_str_binary`
+[`from_str_hex`]: `FixedI32::from_str_hex`
+[`from_str_octal`]: `FixedI32::from_str_octal`
+[`to_num`]: `FixedI32::to_num`
 [const generics]: https://github.com/rust-lang/rust/issues/44580
 */
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -435,7 +419,6 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
 ```
 
 [*typenum* crate]: https://crates.io/crates/typenum
-[`Unsigned`]: https://docs.rs/typenum/^1.10/typenum/marker_traits/trait.Unsigned.html
 [const generics]: https://github.com/rust-lang/rust/issues/44580
 ";
             #[repr(transparent)]
@@ -684,13 +667,8 @@ impl F128Bits {
 /// ```
 ///
 /// [*fixed-macro* crate]: https://crates.io/crates/fixed-macro
-/// [`FixedI32`]: struct.FixedI32.html
-/// [`I16F16`]: types/type.I16F16.html
-/// [`U32`]: types/extra/type.U32.html
-/// [`from_num`]: struct.FixedI32.html#method.from_num
-/// [`i16`]: https://doc.rust-lang.org/nightly/core/i16/index.html
-/// [`i32::MAX`]: https://doc.rust-lang.org/nightly/core/i32/constant.MAX.html
-/// [`i32`]: https://doc.rust-lang.org/nightly/core/i32/index.html
+/// [`I16F16`]: `crate::types::I16F16`
+/// [`from_num`]: `FixedI32::from_num`
 #[macro_export]
 macro_rules! const_fixed_from_int {
     ($(const $NAME:ident: $Fixed:ty = $int:expr;)*) => { $(

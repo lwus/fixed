@@ -426,8 +426,6 @@ macro_rules! bool_to_fixed {
             ///
             /// This conversion never fails (infallible) and cannot
             /// lose any fractional bits (lossless).
-            ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             #[inline]
             fn from(src: bool) -> Self {
                 let unshifted = Self::from_bits(src.into()).to_bits();
@@ -445,8 +443,6 @@ macro_rules! bool_to_fixed {
             ///
             /// This conversion never fails (infallible) and cannot
             /// lose any fractional bits (lossless).
-            ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             #[inline]
             fn from(src: bool) -> Self {
                 let unshifted = Self::from_bits(src.into()).to_bits();
@@ -464,8 +460,6 @@ macro_rules! bool_to_fixed {
             ///
             /// This conversion never fails (infallible) and cannot
             /// lose any fractional bits, so it is actually lossless.
-            ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             #[inline]
             fn lossy_from(src: bool) -> Self {
                 src.into()
@@ -481,8 +475,6 @@ macro_rules! bool_to_fixed {
             ///
             /// This conversion never fails (infallible) and cannot
             /// lose any fractional bits, so it is actually lossless.
-            ///
-            /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
             #[inline]
             fn lossy_from(src: bool) -> Self {
                 src.into()

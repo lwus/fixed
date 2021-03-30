@@ -29,7 +29,8 @@ The other number can be:
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds
     to the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
-    which case this method returns [`src.to_fixed()`][`to_fixed`].
+    which case this method returns
+    [`src.to_fixed()`][`ToFixed::to_fixed`].
 
 # Panics
 
@@ -69,27 +70,10 @@ assert_eq!(Fix::from_num(",
             "0b111 << (4-2)));
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`ToFixed`]: traits/trait.ToFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`to_fixed`]: traits/trait.ToFixed.html#tymethod.to_fixed
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[`wrapping_from_num`]: #method.wrapping_from_num
-[finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
+[`wrapping_from_num`]: `Self::wrapping_from_num`
+[finite]: `f64::is_finite`
 ";
             #[inline]
             pub fn from_num<Src: ToFixed>(src: Src) -> $Fixed<Frac> {
@@ -113,7 +97,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::from_fixed(self)`][`from_fixed`].
+    [`Dst::from_fixed(self)`][`FromFixed::from_fixed`].
 
 # Panics
 
@@ -157,26 +141,9 @@ assert_eq!(",
             "1.625f64);
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`FromFixed`]: traits/trait.FromFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`from_fixed`]: traits/trait.FromFixed.html#tymethod.from_fixed
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[`wrapping_to_num`]: #method.wrapping_to_num
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
+[`wrapping_to_num`]: `Self::wrapping_to_num`
 ";
             #[inline]
             pub fn to_num<Dst: FromFixed>(self) -> Dst {
@@ -199,7 +166,8 @@ The other number can be:
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
-    which case this method returns [`src.checked_to_fixed()`][`checked_to_fixed`].
+    which case this method returns
+    [`src.checked_to_fixed()`][`ToFixed::checked_to_fixed`].
 
 # Examples
 
@@ -243,26 +211,8 @@ assert!(Fix::checked_from_num(2e38).is_none());
 assert!(Fix::checked_from_num(std::f64::NAN).is_none());
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
-[`ToFixed`]: traits/trait.ToFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`checked_to_fixed`]: traits/trait.ToFixed.html#tymethod.checked_to_fixed
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
 ";
             #[inline]
             pub fn checked_from_num<Src: ToFixed>(src: Src) -> Option<$Fixed<Frac>> {
@@ -287,7 +237,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::checked_from_fixed(self)`][`checked_from_fixed`].
+    [`Dst::checked_from_fixed(self)`][`FromFixed::checked_from_fixed`].
 
 # Examples
 
@@ -330,26 +280,8 @@ let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
 assert_eq!(one_point_625.checked_to_num::<f32>(), Some(1.625f32));
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`FromFixed`]: traits/trait.FromFixed.html
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`checked_from_fixed`]: traits/trait.FromFixed.html#tymethod.checked_from_fixed
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
 ";
             #[inline]
             pub fn checked_to_num<Dst: FromFixed>(self) -> Option<Dst> {
@@ -373,7 +305,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.saturating_to_fixed()`][`saturating_to_fixed`].
+    [`src.saturating_to_fixed()`][`ToFixed::saturating_to_fixed`].
 
 # Panics
 
@@ -419,26 +351,9 @@ assert_eq!(Fix::saturating_from_num(2e38), Fix::MAX);
 assert_eq!(Fix::saturating_from_num(std::f64::NEG_INFINITY), Fix::MIN);
 ```
 
-[NaN]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_nan
-[`F128Bits`]: struct.F128Bits.html
-[`ToFixed`]: traits/trait.ToFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`saturating_to_fixed`]: traits/trait.ToFixed.html#tymethod.saturating_to_fixed
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
+[NaN]: `f64::is_nan`
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
 ";
             #[inline]
             pub fn saturating_from_num<Src: ToFixed>(src: Src) -> $Fixed<Frac> {
@@ -463,7 +378,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::saturating_from_fixed(self)`][`saturating_from_fixed`].
+    [`Dst::saturating_from_fixed(self)`][`FromFixed::saturating_from_fixed`].
 
 # Examples
 
@@ -503,25 +418,8 @@ let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
 assert_eq!(one_point_625.saturating_to_num::<f32>(), 1.625f32);
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`FromFixed`]: traits/trait.FromFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`saturating_from_fixed`]: traits/trait.FromFixed.html#tymethod.saturating_from_fixed
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
 ";
             #[inline]
             pub fn saturating_to_num<Dst: FromFixed>(self) -> Dst {
@@ -544,7 +442,8 @@ The other number can be:
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
-    which case this method returns [`src.wrapping_to_fixed()`][`wrapping_to_fixed`].
+    which case this method returns
+    [`src.wrapping_to_fixed()`][`ToFixed::wrapping_to_fixed`].
 
 # Panics
 
@@ -582,26 +481,9 @@ let wrapped = Fix::from_bits(0b1100 << (", $s_nbits, " - 4));
 assert_eq!(Fix::wrapping_from_num(large), wrapped);
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`ToFixed`]: traits/trait.ToFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`wrapping_to_fixed`]: traits/trait.ToFixed.html#tymethod.wrapping_to_fixed
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
+[finite]: `f64::is_finite`
 ";
             #[inline]
             pub fn wrapping_from_num<Src: ToFixed>(src: Src) -> $Fixed<Frac> {
@@ -626,7 +508,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::wrapping_from_fixed(self)`][`wrapping_from_fixed`].
+    [`Dst::wrapping_from_fixed(self)`][`FromFixed::wrapping_from_fixed`].
 
 # Examples
 
@@ -666,25 +548,8 @@ let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
 assert_eq!(one_point_625.wrapping_to_num::<f32>(), 1.625f32);
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`FromFixed`]: traits/trait.FromFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[`wrapping_from_fixed`]: traits/trait.FromFixed.html#tymethod.wrapping_from_fixed
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
 ";
             #[inline]
             pub fn wrapping_to_num<Dst: FromFixed>(self) -> Dst {
@@ -740,25 +605,9 @@ let too_large = ", $s_fixed, "::<U0>::from_bits(0b1101 << (", $s_nbits, " - 7));
 let _overflow = Fix::unwrapped_from_num(too_large);
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`ToFixed`]: traits/trait.ToFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
+[finite]: `f64::is_finite`
 ";
             #[inline]
             #[track_caller]
@@ -818,24 +667,8 @@ type TooFewIntBits = ", $s_fixed, "<U6>;
 let _overflow = Fix::MAX.unwrapped_to_num::<TooFewIntBits>();
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`FromFixed`]: traits/trait.FromFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
 ";
             #[inline]
             #[track_caller]
@@ -865,7 +698,8 @@ The other number can be:
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
-    which case this method returns [`src.overflowing_to_fixed()`][`overflowing_to_fixed`].
+    which case this method returns
+    [`src.overflowing_to_fixed()`][`ToFixed::overflowing_to_fixed`].
 
 # Panics
 
@@ -905,27 +739,9 @@ let wrapped = Fix::from_bits(0b1100 << (", $s_nbits, " - 4));
 assert_eq!(Fix::overflowing_from_num(large), (wrapped, true));
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`ToFixed`]: traits/trait.ToFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`overflowing_to_fixed`]: traits/trait.ToFixed.html#tymethod.overflowing_to_fixed
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-[finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
+[finite]: `f64::is_finite`
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
@@ -953,7 +769,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::overflowing_from_fixed(self)`][`overflowing_from_fixed`].
+    [`Dst::overflowing_from_fixed(self)`][`FromFixed::overflowing_from_fixed`].
 
 # Examples
 
@@ -995,26 +811,8 @@ let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
 assert_eq!(one_point_625.overflowing_to_num::<f32>(), (1.625f32, false));
 ```
 
-[`F128Bits`]: struct.F128Bits.html
-[`FromFixed`]: traits/trait.FromFixed.html
-[`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-[`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-[`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-[`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-[`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-[`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-[`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-[`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-[`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-[`overflowing_from_fixed`]: traits/trait.FromFixed.html#tymethod.overflowing_from_fixed
-[`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-[`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-[`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-[`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-[`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
+[`bf16`]: `half::bf16`
+[`f16`]: `half::f16`
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
@@ -1378,7 +1176,6 @@ assert_eq!(U8F8::overflowing_from_str(\"9999.5\"), Ok((U8F8::from_num(15.5), tru
             },
             "```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
@@ -1417,7 +1214,6 @@ assert_eq!(U8F8::overflowing_from_str_binary(\"101100111000.1\"), Ok((check, tru
             },
             "```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
@@ -1456,7 +1252,6 @@ assert_eq!(U8F8::overflowing_from_str_octal(\"7165.4\"), Ok((check, true)));
             },
             "```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]
@@ -1495,7 +1290,6 @@ assert_eq!(U8F8::overflowing_from_str_hex(\"C0F.FE\"), Ok((check, true)));
             },
             "```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
             #[inline]

@@ -64,9 +64,6 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert!(", if_signed_unsigned!($Signedness, "", "!"), "Fix::IS_SIGNED);
 ```
-
-[`", $s_fixed, "`]: #
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 ";
                 pub const IS_SIGNED: bool = if_signed_unsigned!($Signedness, true, false);
             }
@@ -603,8 +600,6 @@ assert!(Fix::from_num(5).is_positive());
 assert!(!Fix::from_num(0).is_positive());
 assert!(!Fix::from_num(-5).is_positive());
 ```
-
-[`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 ";
                     #[inline]
                     pub const fn is_positive(self) -> bool {
@@ -624,8 +619,6 @@ assert!(!Fix::from_num(5).is_negative());
 assert!(!Fix::from_num(0).is_negative());
 assert!(Fix::from_num(-5).is_negative());
 ```
-
-[`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 ";
                     #[inline]
                     pub const fn is_negative(self) -> bool {
@@ -652,8 +645,6 @@ let half = Fix::from_bits(0b1000);
 assert!(!three_eights.is_power_of_two());
 assert!(half.is_power_of_two());
 ```
-
-[`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 ";
                     #[inline]
                     pub const fn is_power_of_two(self) -> bool {
@@ -744,7 +735,7 @@ assert_eq!(Fix::MAX.mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
                 },
                 "```
 
-[`wrapping_mul_add`]: #method.wrapping_mul_add
+[`wrapping_mul_add`]: `Self::wrapping_mul_add`
 ";
                 #[inline]
                 pub fn mul_add<MulFrac: $LeEqU>(
@@ -896,7 +887,7 @@ assert_eq!(Fix::from_num(4).next_power_of_two(), Fix::from_num(4));
 assert_eq!(Fix::from_num(6.5).next_power_of_two(), Fix::from_num(8));
 ```
 
-[`checked_next_power_of_two`]: #method.checked_next_power_of_two
+[`checked_next_power_of_two`]: `Self::checked_next_power_of_two`
 ";
                     #[inline]
                     pub const fn next_power_of_two(self) -> $Fixed<Frac> {
@@ -959,8 +950,6 @@ assert_eq!(Fix::from_num(5).checked_neg(), None);",
                 },
                 "
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub const fn checked_neg(self) -> Option<$Fixed<Frac>> {
@@ -983,8 +972,6 @@ let one = Fix::from_num(1);
 assert_eq!((Fix::MAX - one).checked_add(one), Some(Fix::MAX));
 assert_eq!(Fix::MAX.checked_add(one), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub const fn checked_add(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
@@ -1007,8 +994,6 @@ let one = Fix::from_num(1);
 assert_eq!((Fix::MIN + one).checked_sub(one), Some(Fix::MIN));
 assert_eq!(Fix::MIN.checked_sub(one), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub const fn checked_sub(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
@@ -1031,8 +1016,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(1.5).checked_rem(Fix::from_num(1)), Some(Fix::from_num(0.5)));
 assert_eq!(Fix::from_num(1.5).checked_rem(Fix::from_num(0)), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_rem(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
@@ -1086,8 +1069,6 @@ assert_eq!(Fix::MAX.checked_mul_add(Fix::from_num(1.5), -Fix::MAX), Some(Fix::MA
 "
                 },
                 "```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_mul_add<MulFrac: $LeEqU>(
@@ -1118,8 +1099,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::MAX.checked_mul_int(1), Some(Fix::MAX));
 assert_eq!(Fix::MAX.checked_mul_int(2), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub const fn checked_mul_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
@@ -1154,8 +1133,6 @@ assert_eq!(Fix::from_num(1).checked_div_int(0), None);
 ",
                 },
                 "```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_div_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
@@ -1185,8 +1162,6 @@ assert_eq!(num.checked_rem_euclid(Fix::from_num(0)), None);
 ",
                 },
                 "```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub fn checked_rem_euclid(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
@@ -1216,8 +1191,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!((Fix::from_num(1) / 2).checked_shl(3), Some(Fix::from_num(4)));
 assert_eq!((Fix::from_num(1) / 2).checked_shl(", $s_nbits, "), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub const fn checked_shl(self, rhs: u32) -> Option<$Fixed<Frac>> {
@@ -1240,8 +1213,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(4).checked_shr(3), Some(Fix::from_num(1) / 2));
 assert_eq!(Fix::from_num(4).checked_shr(", $s_nbits, "), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                 #[inline]
                 pub const fn checked_shr(self, rhs: u32) -> Option<$Fixed<Frac>> {
@@ -1267,8 +1238,6 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(-5).checked_abs(), Some(Fix::from_num(5)));
 assert_eq!(Fix::MIN.checked_abs(), None);
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                     #[inline]
                     pub const fn checked_abs(self) -> Option<$Fixed<Frac>> {
@@ -1298,8 +1267,6 @@ let half = Fix::from_bits(0b1000);
 assert_eq!(three_eights.checked_next_power_of_two(), Some(half));
 assert!(Fix::MAX.checked_next_power_of_two().is_none());
 ```
-
-[`None`]: https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None
 ";
                     #[inline]
                     pub const fn checked_next_power_of_two(self) -> Option<$Fixed<Frac>> {
@@ -2294,7 +2261,6 @@ assert_eq!(Fix::from_num(5).overflowing_neg(), (Fix::from_bits(neg_five_bits), t
                 "
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -2323,7 +2289,6 @@ assert_eq!(Fix::MAX.overflowing_add(one), (",
                 "one_minus_bit, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -2357,7 +2322,6 @@ assert_eq!(Fix::from_num(0)",
                 ".overflowing_sub(one), (Fix::MAX - one_minus_bit, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -2406,7 +2370,6 @@ assert_eq!(
                 },
                 "```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -2440,7 +2403,6 @@ let wrapped = Fix::from_bits(!0 << 2);
 assert_eq!(Fix::MAX.overflowing_mul_int(4), (wrapped, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -2483,8 +2445,6 @@ assert_eq!(Fix::from_num(3).overflowing_div_int(2), (one_point_5, false));
                 },
                 "```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
-[`false`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -2510,7 +2470,6 @@ assert_eq!((Fix::from_num(1) / 2).overflowing_shl(3), (Fix::from_num(4), false))
 assert_eq!((Fix::from_num(1) / 2).overflowing_shl(3 + ", $s_nbits, "), (Fix::from_num(4), true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -2536,7 +2495,6 @@ assert_eq!((Fix::from_num(4)).overflowing_shr(3), (Fix::from_num(1) / 2, false))
 assert_eq!((Fix::from_num(4)).overflowing_shr(3 + ", $s_nbits, "), (Fix::from_num(1) / 2, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                 #[inline]
@@ -2566,7 +2524,6 @@ assert_eq!(Fix::from_num(-5).overflowing_abs(), (Fix::from_num(5), false));
 assert_eq!(Fix::MIN.overflowing_abs(), (Fix::MIN, true));
 ```
 
-[`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
 [tuple]: https://doc.rust-lang.org/nightly/std/primitive.tuple.html
 ";
                     #[inline]

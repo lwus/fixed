@@ -69,7 +69,7 @@ impl<F: Fixed> Wrapping<F> {
     /// ```
     pub const MAX: Wrapping<F> = Wrapping(F::MAX);
 
-    /// [`true`][`bool`] if the type is signed.
+    /// [`true`] if the type is signed.
     ///
     /// # Examples
     ///
@@ -81,8 +81,6 @@ impl<F: Fixed> Wrapping<F> {
     /// assert!(Wrapping::<I16F16>::IS_SIGNED);
     /// assert!(!Wrapping::<U16F16>::IS_SIGNED);
     /// ```
-    ///
-    /// [`bool`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     pub const IS_SIGNED: bool = F::IS_SIGNED;
 
     /// The number of integer bits.
@@ -351,7 +349,7 @@ impl<F: Fixed> Wrapping<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other number `src` for which [`ToFixed`] is
     ///     implemented, in which case this method returns
-    ///     <code>[Wrapping][`Wrapping`]([src.wrapping_to_fixed()][`wrapping_to_fixed`])</code>.
+    ///     <code>[Wrapping][`Wrapping`]([src.wrapping_to_fixed()][`ToFixed::wrapping_to_fixed`])</code>.
     ///
     /// # Panics
     ///
@@ -381,27 +379,10 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(dst_float, Wrapping(I4F4::from_bits(0b11100)));
     /// ```
     ///
-    /// [`F128Bits`]: struct.F128Bits.html
-    /// [`ToFixed`]: traits/trait.ToFixed.html
-    /// [`Wrapping`]: struct.Wrapping.html
-    /// [`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-    /// [`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-    /// [`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-    /// [`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-    /// [`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-    /// [`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-    /// [`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-    /// [`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-    /// [`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-    /// [`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-    /// [`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-    /// [`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-    /// [`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-    /// [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-    /// [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-    /// [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-    /// [`wrapping_to_fixed`]: traits/trait.ToFixed.html#tymethod.wrapping_to_fixed
-    /// [finite]: https://doc.rust-lang.org/nightly/std/primitive.f64.html#method.is_finite
+    /// [`F128Bits`]: `crate::F128Bits`
+    /// [`bf16`]: `half::bf16`
+    /// [`f16`]: `half::f16`
+    /// [finite]: `f64::is_finite`
     #[inline]
     pub fn from_num<Src: ToFixed>(src: Src) -> Wrapping<F> {
         Wrapping(src.wrapping_to_fixed())
@@ -423,7 +404,7 @@ impl<F: Fixed> Wrapping<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other type `Dst` for which [`FromFixed`] is
     ///     implemented, in which case this method returns
-    ///     [`Dst::wrapping_from_fixed(self.0)`][`wrapping_from_fixed`].
+    ///     [`Dst::wrapping_from_fixed(self.0)`][`FromFixed::wrapping_from_fixed`].
     ///
     /// # Examples
     ///
@@ -444,25 +425,9 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(src.to_num::<I2F6>(), wrapped);
     /// ```
     ///
-    /// [`F128Bits`]: struct.F128Bits.html
-    /// [`FromFixed`]: traits/trait.FromFixed.html
-    /// [`bf16`]: https://docs.rs/half/^1.2/half/struct.bf16.html
-    /// [`f16`]: https://docs.rs/half/^1.2/half/struct.f16.html
-    /// [`f32`]: https://doc.rust-lang.org/nightly/std/primitive.f32.html
-    /// [`f64`]: https://doc.rust-lang.org/nightly/std/primitive.f64.html
-    /// [`i128`]: https://doc.rust-lang.org/nightly/std/primitive.i128.html
-    /// [`i16`]: https://doc.rust-lang.org/nightly/std/primitive.i16.html
-    /// [`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
-    /// [`i64`]: https://doc.rust-lang.org/nightly/std/primitive.i64.html
-    /// [`i8`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html
-    /// [`isize`]: https://doc.rust-lang.org/nightly/std/primitive.isize.html
-    /// [`u128`]: https://doc.rust-lang.org/nightly/std/primitive.u128.html
-    /// [`u16`]: https://doc.rust-lang.org/nightly/std/primitive.u16.html
-    /// [`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
-    /// [`u64`]: https://doc.rust-lang.org/nightly/std/primitive.u64.html
-    /// [`u8`]: https://doc.rust-lang.org/nightly/std/primitive.u8.html
-    /// [`usize`]: https://doc.rust-lang.org/nightly/std/primitive.usize.html
-    /// [`wrapping_from_fixed`]: traits/trait.FromFixed.html#tymethod.wrapping_from_fixed
+    /// [`F128Bits`]: `crate::F128Bits`
+    /// [`bf16`]: `half::bf16`
+    /// [`f16`]: `half::f16`
     #[inline]
     pub fn to_num<Dst: FromFixed>(self) -> Dst {
         Dst::wrapping_from_fixed(self.0)
@@ -533,8 +498,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(Wrapping(I16F16::from_num(-12.25)).int(), Wrapping(I16F16::from_num(-13)));
     /// ```
     ///
-    /// [`I0F16`]: types/type.I0F16.html
-    /// [`Wrapping`]: struct.Wrapping.html
+    /// [`I0F16`]: `crate::types::I0F16`
     #[inline]
     pub fn int(self) -> Wrapping<F> {
         Wrapping(self.0.int())
@@ -557,8 +521,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(Wrapping(I16F16::from_num(-12.25)).frac(), Wrapping(I16F16::from_num(0.75)));
     /// ```
     ///
-    /// [`I0F16`]: types/type.I0F16.html
-    /// [`Wrapping`]: struct.Wrapping.html
+    /// [`I0F16`]: `crate::types::I0F16`
     #[inline]
     pub fn frac(self) -> Wrapping<F> {
         Wrapping(self.0.frac())
@@ -969,8 +932,6 @@ impl<F: FixedSigned> Wrapping<F> {
     /// assert!(!Wrapping(I16F16::from_num(0)).is_positive());
     /// assert!(!Wrapping(I16F16::from_num(-4.3)).is_positive());
     /// ```
-    ///
-    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     pub fn is_positive(self) -> bool {
         self.0.is_positive()
@@ -986,8 +947,6 @@ impl<F: FixedSigned> Wrapping<F> {
     /// assert!(!Wrapping(I16F16::from_num(0)).is_negative());
     /// assert!(Wrapping(I16F16::from_num(-4.3)).is_negative());
     /// ```
-    ///
-    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     pub fn is_negative(self) -> bool {
         self.0.is_negative()
@@ -1044,9 +1003,8 @@ impl<F: FixedSigned> Wrapping<F> {
     /// assert_eq!(Wrapping(<I0F32>::from_num(-0.5)).signum(), Wrapping(I0F32::from_num(0)));
     /// ```
     ///
-    /// [`I0F16`]: types/type.I0F16.html
-    /// [`I1F15`]: types/type.I1F15.html
-    /// [`Wrapping`]: struct.Wrapping.html
+    /// [`I0F16`]: `crate::types::I0F16`
+    /// [`I1F15`]: `crate::types::I1F15`
     #[inline]
     pub fn signum(self) -> Wrapping<F> {
         Wrapping(self.0.wrapping_signum())
@@ -1081,8 +1039,6 @@ impl<F: FixedUnsigned> Wrapping<F> {
     /// assert!(Wrapping(U16F16::from_num(4)).is_power_of_two());
     /// assert!(!Wrapping(U16F16::from_num(5)).is_power_of_two());
     /// ```
-    ///
-    /// [`true`]: https://doc.rust-lang.org/nightly/std/primitive.bool.html
     #[inline]
     pub fn is_power_of_two(self) -> bool {
         self.0.is_power_of_two()
