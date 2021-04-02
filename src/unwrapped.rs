@@ -788,6 +788,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped(i).reverse_bits(), Unwrapped(i.reverse_bits()));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn reverse_bits(self) -> Unwrapped<F> {
         Unwrapped(self.0.reverse_bits())
     }
@@ -802,6 +803,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped(i).rotate_left(12), Unwrapped(i.rotate_left(12)));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn rotate_left(self, n: u32) -> Unwrapped<F> {
         Unwrapped(self.0.rotate_left(n))
     }
@@ -816,6 +818,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped(i).rotate_right(12), Unwrapped(i.rotate_right(12)));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn rotate_right(self, n: u32) -> Unwrapped<F> {
         Unwrapped(self.0.rotate_right(n))
     }
@@ -832,6 +835,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(three.mean(-four), Unwrapped(I16F16::from_num(-0.5)));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn mean(self, other: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.mean(other.0))
     }
@@ -892,6 +896,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn mul_add(self, mul: Unwrapped<F>, add: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_mul_add(mul.0, add.0))
     }
@@ -920,6 +925,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn div_euclid(self, divisor: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_div_euclid(divisor.0))
     }
@@ -941,6 +947,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn rem_euclid(self, divisor: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_rem_euclid(divisor.0))
     }
@@ -968,6 +975,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn div_euclid_int(self, divisor: F::Bits) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_div_euclid_int(divisor))
     }
@@ -997,6 +1005,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn rem_euclid_int(self, divisor: F::Bits) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_rem_euclid_int(divisor))
     }

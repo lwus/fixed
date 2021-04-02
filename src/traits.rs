@@ -718,15 +718,19 @@ where
     fn checked_int_log10(self) -> Option<i32>;
 
     /// Reverses the order of the bits of the fixed-point number.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn reverse_bits(self) -> Self;
 
     /// Shifts to the left by `n` bits, wrapping the truncated bits to the right end.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rotate_left(self, n: u32) -> Self;
 
     /// Shifts to the right by `n` bits, wrapping the truncated bits to the left end.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rotate_right(self, n: u32) -> Self;
 
     /// Returns the mean of `self` and `other`.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn mean(self, other: Self) -> Self;
 
     /// Returns the reciprocal.
@@ -744,6 +748,7 @@ where
     /// fractional bits.
     ///
     /// [`mul_add`]: `FixedI32::mul_add`
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn mul_add(self, mul: Self, add: Self) -> Self;
 
     /// Euclidean division by an integer.
@@ -751,6 +756,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the division results in overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn div_euclid(self, rhs: Self) -> Self;
 
     /// Remainder for Euclidean division.
@@ -758,6 +764,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rem_euclid(self, rhs: Self) -> Self;
 
     /// Euclidean division by an integer.
@@ -765,6 +772,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the division results in overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn div_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Remainder for Euclidean division by an integer.
@@ -772,26 +780,32 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the division results in overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Checked negation. Returns the negated value, or [`None`] on overflow.
     fn checked_neg(self) -> Option<Self>;
 
     /// Checked addition. Returns the sum, or [`None`] on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_add(self, rhs: Self) -> Option<Self>;
 
     /// Checked subtraction. Returns the difference, or [`None`] on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_sub(self, rhs: Self) -> Option<Self>;
 
     /// Checked multiplication. Returns the product, or [`None`] on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_mul(self, rhs: Self) -> Option<Self>;
 
     /// Checked division. Returns the quotient, or [`None`] if the
     /// divisor is zero or on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div(self, rhs: Self) -> Option<Self>;
 
     /// Checked remainder. Returns the remainder, or [`None`] if the
     /// divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem(self, rhs: Self) -> Option<Self>;
 
     /// Checked reciprocal. Returns the reciprocal, or [`None`] if
@@ -799,59 +813,72 @@ where
     fn checked_recip(self) -> Option<Self>;
 
     /// Checked multiply and add. Returns `self` × `mul` + `add`, or [`None`] on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_mul_add(self, mul: Self, add: Self) -> Option<Self>;
 
     /// Checked remainder for Euclidean division. Returns the
     /// remainder, or [`None`] if the divisor is zero or the division
     /// results in overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div_euclid(self, rhs: Self) -> Option<Self>;
 
     /// Checked remainder for Euclidean division. Returns the
     /// remainder, or [`None`] if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem_euclid(self, rhs: Self) -> Option<Self>;
 
     /// Checked multiplication by an integer. Returns the product, or
     /// [`None`] on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_mul_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked division by an integer. Returns the quotient, or
     /// [`None`] if the divisor is zero or if the division results in
     /// overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked fixed-point remainder for division by an integer.
     /// Returns the remainder, or [`None`] if the divisor is zero or
     /// if the division results in overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked Euclidean division by an integer. Returns the
     /// quotient, or [`None`] if the divisor is zero or if the
     /// division results in overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div_euclid_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked remainder for Euclidean division by an integer.
     /// Returns the remainder, or [`None`] if the divisor is zero or
     /// if the remainder results in overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem_euclid_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked shift left. Returns the shifted number, or [`None`] if
     /// `rhs` ≥ the number of bits.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_shl(self, rhs: u32) -> Option<Self>;
 
     /// Checked shift right. Returns the shifted number, or [`None`]
     /// if `rhs` ≥ the number of bits.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_shr(self, rhs: u32) -> Option<Self>;
 
     /// Saturated negation. Returns the negated value, saturating on overflow.
     fn saturating_neg(self) -> Self;
 
     /// Saturating addition. Returns the sum, saturating on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_add(self, rhs: Self) -> Self;
 
     /// Saturating subtraction. Returns the difference, saturating on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_sub(self, rhs: Self) -> Self;
 
     /// Saturating multiplication. Returns the product, saturating on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_mul(self, rhs: Self) -> Self;
 
     /// Saturating division. Returns the quotient, saturating on overflow.
@@ -859,6 +886,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_div(self, rhs: Self) -> Self;
 
     /// Saturating reciprocal.
@@ -869,6 +897,7 @@ where
     fn saturating_recip(self) -> Self;
 
     /// Saturating multiply and add. Returns `self` × `mul` + `add`, saturating on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_mul_add(self, mul: Self, add: Self) -> Self;
 
     /// Saturating Euclidean division. Returns the quotient, saturating on overflow.
@@ -876,21 +905,26 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_div_euclid(self, rhs: Self) -> Self;
 
     /// Saturating multiplication by an integer. Returns the product, saturating on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_mul_int(self, rhs: Self::Bits) -> Self;
 
     /// Wrapping negation. Returns the negated value, wrapping on overflow.
     fn wrapping_neg(self) -> Self;
 
     /// Wrapping addition. Returns the sum, wrapping on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_add(self, rhs: Self) -> Self;
 
     /// Wrapping subtraction. Returns the difference, wrapping on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_sub(self, rhs: Self) -> Self;
 
     /// Wrapping multiplication. Returns the product, wrapping on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_mul(self, rhs: Self) -> Self;
 
     /// Wrapping division. Returns the quotient, wrapping on overflow.
@@ -898,6 +932,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_div(self, rhs: Self) -> Self;
 
     /// Wrapping reciprocal.
@@ -908,6 +943,7 @@ where
     fn wrapping_recip(self) -> Self;
 
     /// Wrapping multiply and add. Returns `self` × `mul` + `add`, wrapping on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_mul_add(self, mul: Self, add: Self) -> Self;
 
     /// Wrapping Euclidean division. Returns the quotient, wrapping on overflow.
@@ -915,9 +951,11 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_div_euclid(self, rhs: Self) -> Self;
 
     /// Wrapping multiplication by an integer. Returns the product, wrapping on overflow.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_mul_int(self, rhs: Self::Bits) -> Self;
 
     /// Wrapping division by an integer. Returns the quotient, wrapping on overflow.
@@ -927,6 +965,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_div_int(self, rhs: Self::Bits) -> Self;
 
     /// Wrapping Euclidean division by an integer. Returns the
@@ -937,6 +976,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_div_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Wrapping remainder for Euclidean division by an integer.
@@ -945,14 +985,17 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Wrapping shift left. Wraps `rhs` if `rhs` ≥ the number of
     /// bits, then shifts and returns the number.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_shl(self, rhs: u32) -> Self;
 
     /// Wrapping shift right. Wraps `rhs` if `rhs` ≥ the number of
     /// bits, then shifts and returns the number.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_shr(self, rhs: u32) -> Self;
 
     /// Unwrapped negation. Returns the negated value, panicking on overflow.
@@ -969,6 +1012,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_add(self, rhs: Self) -> Self;
 
     /// Unwrapped subtraction. Returns the difference, panicking on overflow.
@@ -977,6 +1021,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_sub(self, rhs: Self) -> Self;
 
     /// Unwrapped multiplication. Returns the product, panicking on overflow.
@@ -985,6 +1030,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_mul(self, rhs: Self) -> Self;
 
     /// Unwrapped division. Returns the quotient, panicking on overflow.
@@ -993,6 +1039,7 @@ where
     ///
     /// Panics if the divisor is zero or if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_div(self, rhs: Self) -> Self;
 
     /// Unwrapped remainder. Returns the quotient, panicking if the divisor is zero.
@@ -1001,6 +1048,7 @@ where
     ///
     /// Panics if the divisor is zero.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_rem(self, rhs: Self) -> Self;
 
     /// Unwrapped reciprocal. Returns reciprocal, panicking on overflow.
@@ -1017,6 +1065,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_mul_add(self, mul: Self, add: Self) -> Self;
 
     /// Unwrapped Euclidean division. Returns the quotient, panicking on overflow.
@@ -1025,6 +1074,7 @@ where
     ///
     /// Panics if the divisor is zero or if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_div_euclid(self, rhs: Self) -> Self;
 
     /// Unwrapped remainder for Euclidean division. Returns the
@@ -1034,6 +1084,7 @@ where
     ///
     /// Panics if the divisor is zero.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_rem_euclid(self, rhs: Self) -> Self;
 
     /// Unwrapped multiplication by an integer. Returns the product, panicking on overflow.
@@ -1042,6 +1093,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_mul_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped division by an integer. Returns the quotient, panicking on overflow.
@@ -1052,6 +1104,7 @@ where
     ///
     /// Panics if the divisor is zero or if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_div_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped remainder for division by an integer. Returns the
@@ -1061,6 +1114,7 @@ where
     ///
     /// Panics if the divisor is zero.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_rem_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped Euclidean division by an integer. Returns the
@@ -1072,6 +1126,7 @@ where
     ///
     /// Panics if the divisor is zero or if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_div_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped remainder for Euclidean division by an integer.
@@ -1081,6 +1136,7 @@ where
     ///
     /// Panics if the divisor is zero or if the result does not fit.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Unwrapped shift left. Panics if `rhs` ≥ the number of bits.
@@ -1089,6 +1145,7 @@ where
     ///
     /// Panics if `rhs` ≥ the number of bits.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_shl(self, rhs: u32) -> Self;
 
     /// Unwrapped shift right. Panics if `rhs` ≥ the number of bits.
@@ -1097,6 +1154,7 @@ where
     ///
     /// Panics if `rhs` ≥ the number of bits.
     #[track_caller]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_shr(self, rhs: u32) -> Self;
 
     /// Overflowing negation.
@@ -1111,6 +1169,7 @@ where
     /// Returns a [tuple] of the sum and a [`bool`], indicating whether
     /// an overflow has occurred. On overflow, the wrapped value is
     /// returned.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_add(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing subtraction.
@@ -1118,6 +1177,7 @@ where
     /// Returns a [tuple] of the difference and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_sub(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing multiplication.
@@ -1125,6 +1185,7 @@ where
     /// Returns a [tuple] of the product and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_mul(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing division.
@@ -1136,6 +1197,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_div(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing reciprocal.
@@ -1154,6 +1216,7 @@ where
     /// Returns a [tuple] of `self` × `mul` + `add` and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_mul_add(self, mul: Self, add: Self) -> (Self, bool);
 
     /// Overflowing Euclidean division.
@@ -1165,6 +1228,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool);
 
     /// Overflowing multiplication by an integer.
@@ -1172,6 +1236,7 @@ where
     /// Returns a [tuple] of the product and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_mul_int(self, rhs: Self::Bits) -> (Self, bool);
 
     /// Overflowing division by an integer.
@@ -1183,6 +1248,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_div_int(self, rhs: Self::Bits) -> (Self, bool);
 
     /// Overflowing Euclidean division by an integer.
@@ -1194,6 +1260,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_div_euclid_int(self, rhs: Self::Bits) -> (Self, bool);
 
     /// Overflowing remainder for Euclidean division by an integer.
@@ -1205,6 +1272,7 @@ where
     /// # Panics
     ///
     /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_rem_euclid_int(self, rhs: Self::Bits) -> (Self, bool);
 
     /// Overflowing shift left.
@@ -1212,6 +1280,7 @@ where
     /// Returns a [tuple] of the shifted value and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_shl(self, rhs: u32) -> (Self, bool);
 
     /// Overflowing shift right.
@@ -1219,6 +1288,7 @@ where
     /// Returns a [tuple] of the shifted value and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_shr(self, rhs: u32) -> (Self, bool);
 }
 

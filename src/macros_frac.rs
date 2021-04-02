@@ -278,6 +278,7 @@ assert_eq!(Fix::from_num(7.5).div_euclid(Fix::from_num(2)), Fix::from_num(3));
 [`wrapping_div_euclid`]: `Self::wrapping_div_euclid`
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     let q = (self / rhs).round_to_zero();
                     if_signed! {
@@ -329,6 +330,7 @@ assert_eq!(Fix::from_num(7.5).div_euclid_int(2), Fix::from_num(3));
 [`wrapping_div_euclid_int`]: `Self::wrapping_div_euclid_int`
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn div_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     let q = (self / rhs).round_to_zero();
                     if_signed! {
@@ -367,6 +369,7 @@ assert_eq!(Fix::from_num(7.5).rem_euclid_int(2), Fix::from_num(1.5));
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn rem_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_rem_euclid_int(rhs);
                     debug_assert!(!overflow, "overflow");
@@ -429,6 +432,7 @@ assert_eq!(Fix::MAX.checked_mul(Fix::from_num(2)), None);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_mul(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     match self.to_bits().mul_overflow(rhs.to_bits(), Frac::U32) {
                         (ans, false) => Some(Self::from_bits(ans)),
@@ -451,6 +455,7 @@ assert_eq!(Fix::MAX.checked_div(Fix::from_num(1) / 2), None);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_div(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     if rhs.to_bits() == 0 {
                         return None;
@@ -509,6 +514,7 @@ assert_eq!(Fix::MAX.checked_div_euclid(Fix::from_num(0.25)), None);
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_div_euclid(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     let q = self.checked_div(rhs)?.round_to_zero();
                     if_signed! {
@@ -545,6 +551,7 @@ assert_eq!(Fix::from_num(3.75).checked_rem_int(0), None);
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_rem_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
                     // Overflow converting rhs to $Fixed<Frac> means that either
                     //   * |rhs| > |self|, and so remainder is self, or
@@ -592,6 +599,7 @@ assert_eq!(Fix::from_num(7.5).checked_div_euclid_int(0), None);
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_div_euclid_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
                     let q = self.checked_div_int(rhs)?.round_to_zero();
                     if_signed! {
@@ -635,6 +643,7 @@ assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(20), None);
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_rem_euclid_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
                     if_signed! {
                         $Signedness;
@@ -720,6 +729,7 @@ assert_eq!(Fix::MAX.saturating_mul(Fix::from_num(2)), Fix::MAX);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn saturating_mul(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.to_bits().mul_overflow(rhs.to_bits(), Frac::U32) {
                         (ans, false) => Self::from_bits(ans),
@@ -752,6 +762,7 @@ assert_eq!(Fix::MAX.saturating_div(one_half), Fix::MAX);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn saturating_div(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.to_bits().div_overflow(rhs.to_bits(), Frac::U32) {
                         (ans, false) => Self::from_bits(ans),
@@ -829,6 +840,7 @@ assert_eq!(Fix::MIN.saturating_div_euclid(Fix::from_num(0.25)), Fix::MIN);
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn saturating_div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     if rhs.to_bits() == 0 {
                         panic!("division by zero");
@@ -899,6 +911,7 @@ assert_eq!(Fix::MAX.wrapping_mul(Fix::from_num(4)), wrapped);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn wrapping_mul(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     let (ans, _) = self.to_bits().mul_overflow(rhs.to_bits(), Frac::U32);
                     Self::from_bits(ans)
@@ -925,6 +938,7 @@ assert_eq!(Fix::MAX.wrapping_div(quarter), wrapped);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn wrapping_div(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     let (ans, _) = self.to_bits().div_overflow(rhs.to_bits(), Frac::U32);
                     Self::from_bits(ans)
@@ -973,6 +987,7 @@ assert_eq!(Fix::MAX.wrapping_div_euclid(Fix::from_num(0.25)), wrapped);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn wrapping_div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.overflowing_div_euclid(rhs).0
                 }
@@ -1012,6 +1027,7 @@ assert_eq!(Fix::MIN.wrapping_div_euclid_int(-1), wrapped);
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn wrapping_div_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     self.overflowing_div_euclid_int(rhs).0
                 }
@@ -1052,6 +1068,7 @@ assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(20), Fix::from_num(-3.5))
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn wrapping_rem_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     self.overflowing_rem_euclid_int(rhs).0
                 }
@@ -1124,6 +1141,7 @@ let _overflow = Fix::MAX.unwrapped_mul(Fix::from_num(4));
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_mul(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.checked_mul(rhs).expect("overflow")
                 }
@@ -1156,6 +1174,7 @@ let _overflow = Fix::MAX.unwrapped_div(quarter);
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_div(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_div(rhs) {
                         (_, true) => panic!("overflow"),
@@ -1215,6 +1234,7 @@ let _overflow = Fix::MAX.unwrapped_div_euclid(Fix::from_num(0.25));
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_div_euclid(rhs) {
                         (_, true) => panic!("overflow"),
@@ -1249,6 +1269,7 @@ let _divisor_is_zero = Fix::from_num(3.75).unwrapped_rem_int(0);
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_rem_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     self.checked_rem_int(rhs).expect("division by zero")
                 }
@@ -1300,6 +1321,7 @@ let _overflow = Fix::MIN.unwrapped_div_euclid_int(-1);
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_div_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.overflowing_div_euclid_int(rhs) {
                         (_, true) => panic!("overflow"),
@@ -1356,6 +1378,7 @@ let _overflow = Fix::from_num(-7.5).unwrapped_rem_euclid_int(20);
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_rem_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.overflowing_rem_euclid_int(rhs) {
                         (_, true) => panic!("overflow"),
@@ -1425,6 +1448,7 @@ assert_eq!(Fix::MAX.overflowing_mul(Fix::from_num(4)), (wrapped, true));
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn overflowing_mul(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
                     let (ans, overflow) = self.to_bits().mul_overflow(rhs.to_bits(), Frac::U32);
                     (Self::from_bits(ans), overflow)
@@ -1454,6 +1478,7 @@ assert_eq!(Fix::MAX.overflowing_div(quarter), (wrapped, true));
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn overflowing_div(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
                     let (ans, overflow) = self.to_bits().div_overflow(rhs.to_bits(), Frac::U32);
                     (Self::from_bits(ans), overflow)
@@ -1541,6 +1566,7 @@ assert_eq!(Fix::MAX.overflowing_div_euclid(Fix::from_num(0.25)), (wrapped, true)
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn overflowing_div_euclid(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
                     let (mut q, overflow) = self.overflowing_div(rhs);
                     q = q.round_to_zero();
@@ -1601,6 +1627,7 @@ assert_eq!(Fix::MIN.overflowing_div_euclid_int(-1), (wrapped, true));
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn overflowing_div_euclid_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
                     let (mut q, overflow) = self.overflowing_div_int(rhs);
                     q = q.round_to_zero();
@@ -1663,6 +1690,7 @@ assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn overflowing_rem_euclid_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
                     if_signed! {
                         $Signedness;

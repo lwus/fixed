@@ -86,6 +86,7 @@ The conversions supported cover the following cases.
       * [`unwrapped_rem`][f-ur-1-8],
         [`unwrapped_rem_euclid`][f-ure-1-8]
       * [`unwrapped_rem_int`][f-uri-1-8]
+  * Many methods were marked with the `must_use` attribute.
 
 [f-ur-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem
 [f-ure-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_euclid

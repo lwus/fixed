@@ -730,6 +730,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(Wrapping(i).reverse_bits(), Wrapping(i.reverse_bits()));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn reverse_bits(self) -> Wrapping<F> {
         Wrapping(self.0.reverse_bits())
     }
@@ -744,6 +745,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(Wrapping(i).rotate_left(12), Wrapping(i.rotate_left(12)));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn rotate_left(self, n: u32) -> Wrapping<F> {
         Wrapping(self.0.rotate_left(n))
     }
@@ -758,6 +760,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(Wrapping(i).rotate_right(12), Wrapping(i.rotate_right(12)));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn rotate_right(self, n: u32) -> Wrapping<F> {
         Wrapping(self.0.rotate_right(n))
     }
@@ -774,6 +777,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(three.mean(-four), Wrapping(I16F16::from_num(-0.5)));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn mean(self, other: Wrapping<F>) -> Wrapping<F> {
         Wrapping(self.0.mean(other.0))
     }
@@ -812,6 +816,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(max.mul_add(three, max), Wrapping(I16F16::from_bits(!0 << 2)));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn mul_add(self, mul: Wrapping<F>, add: Wrapping<F>) -> Wrapping<F> {
         Wrapping(self.0.wrapping_mul_add(mul.0, add.0))
     }
@@ -834,6 +839,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(Wrapping(I16F16::MAX).div_euclid(quarter), check);
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn div_euclid(self, divisor: Wrapping<F>) -> Wrapping<F> {
         Wrapping(self.0.wrapping_div_euclid(divisor.0))
     }
@@ -854,6 +860,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!((-num).rem_euclid(den), Wrapping(I16F16::from_num(0.5)));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn rem_euclid(self, divisor: Wrapping<F>) -> Wrapping<F> {
         Wrapping(self.0.rem_euclid(divisor.0))
     }
@@ -874,6 +881,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(min.div_euclid_int(-1), min);
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn div_euclid_int(self, divisor: F::Bits) -> Wrapping<F> {
         Wrapping(self.0.wrapping_div_euclid_int(divisor))
     }
@@ -893,6 +901,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!((-num).rem_euclid_int(2), Wrapping(I16F16::from_num(0.5)));
     /// ```
     #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn rem_euclid_int(self, divisor: F::Bits) -> Wrapping<F> {
         Wrapping(self.0.wrapping_rem_euclid_int(divisor))
     }

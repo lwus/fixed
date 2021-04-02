@@ -539,6 +539,7 @@ assert_eq!(Fix::from_bits(bits).reverse_bits(), Fix::from_bits(rev_bits));
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn reverse_bits(self) -> $Fixed<Frac> {
                     $Fixed::from_bits(self.to_bits().reverse_bits())
                 }
@@ -560,6 +561,7 @@ assert_eq!(Fix::from_bits(bits).rotate_left(3), Fix::from_bits(rot));
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn rotate_left(self, n: u32) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().rotate_left(n))
                 }
@@ -581,6 +583,7 @@ assert_eq!(Fix::from_bits(bits).rotate_right(3), Fix::from_bits(rot));
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn rotate_right(self, n: u32) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().rotate_right(n))
                 }
@@ -679,6 +682,7 @@ assert_eq!(a.wide_mul(b), 1.328_125);
 ```
 ";
                     #[inline]
+                    #[must_use = "this returns the result of the operation, without modifying the original"]
                     pub fn wide_mul<RhsFrac>(
                         self,
                         rhs: $Fixed<RhsFrac>,
@@ -738,6 +742,7 @@ assert_eq!(Fix::MAX.mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
 [`wrapping_mul_add`]: `Self::wrapping_mul_add`
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn mul_add<MulFrac: $LeEqU>(
                     self,
                     mul: $Fixed<MulFrac>,
@@ -775,6 +780,7 @@ assert_eq!(Fix::from_num(7.5).rem_euclid(Fix::from_num(2)), Fix::from_num(1.5));
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     let rhs_bits = rhs.to_bits();
                     if_signed! {
@@ -914,6 +920,7 @@ assert_eq!(Fix::from_num(3).mean(Fix::from_num(4)), Fix::from_num(3.5));
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn mean(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     // a & b == common bits
                     // a ^ b == different bits
@@ -974,6 +981,7 @@ assert_eq!(Fix::MAX.checked_add(one), None);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn checked_add(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_add(rhs.to_bits()) {
                         None => None,
@@ -996,6 +1004,7 @@ assert_eq!(Fix::MIN.checked_sub(one), None);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn checked_sub(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_sub(rhs.to_bits()) {
                         None => None,
@@ -1018,6 +1027,7 @@ assert_eq!(Fix::from_num(1.5).checked_rem(Fix::from_num(0)), None);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_rem(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     let rhs_bits = rhs.to_bits();
                     if_signed! {
@@ -1071,6 +1081,7 @@ assert_eq!(Fix::MAX.checked_mul_add(Fix::from_num(1.5), -Fix::MAX), Some(Fix::MA
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_mul_add<MulFrac: $LeEqU>(
                     self,
                     mul: $Fixed<MulFrac>,
@@ -1101,6 +1112,7 @@ assert_eq!(Fix::MAX.checked_mul_int(2), None);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn checked_mul_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_mul(rhs) {
                         None => None,
@@ -1135,6 +1147,7 @@ assert_eq!(Fix::from_num(1).checked_div_int(0), None);
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_div_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_div(rhs) {
                         None => None,
@@ -1164,6 +1177,7 @@ assert_eq!(num.checked_rem_euclid(Fix::from_num(0)), None);
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn checked_rem_euclid(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     let rhs_bits = rhs.to_bits();
                     if_signed! {
@@ -1193,6 +1207,7 @@ assert_eq!((Fix::from_num(1) / 2).checked_shl(", $s_nbits, "), None);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn checked_shl(self, rhs: u32) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_shl(rhs) {
                         None => None,
@@ -1215,6 +1230,7 @@ assert_eq!(Fix::from_num(4).checked_shr(", $s_nbits, "), None);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn checked_shr(self, rhs: u32) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_shr(rhs) {
                         None => None,
@@ -1333,6 +1349,7 @@ assert_eq!(Fix::MAX.saturating_add(Fix::from_num(1)), Fix::MAX);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn saturating_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_add(rhs) {
                         (val, false) => val,
@@ -1365,6 +1382,7 @@ assert_eq!(Fix::from_num(0).saturating_sub(Fix::from_num(1)), Fix::from_num(0));
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn saturating_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_sub(rhs) {
                         (val, false) => val,
@@ -1420,6 +1438,7 @@ assert_eq!(Fix::MAX.saturating_mul_add(Fix::from_num(1.5), -Fix::MAX), half_max)
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn saturating_mul_add<MulFrac: $LeEqU>(
                     self,
                     mul: $Fixed<MulFrac>,
@@ -1460,6 +1479,7 @@ assert_eq!(Fix::MAX.saturating_mul_int(2), Fix::MAX);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn saturating_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.overflowing_mul_int(rhs) {
                         (val, false) => val,
@@ -1554,6 +1574,7 @@ assert_eq!(Fix::MAX.wrapping_add(one), ",
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn wrapping_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_add(rhs.to_bits()))
                 }
@@ -1581,6 +1602,7 @@ assert_eq!(Fix::from_num(0)",
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn wrapping_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_sub(rhs.to_bits()))
                 }
@@ -1609,6 +1631,7 @@ assert_eq!(Fix::MAX.wrapping_mul_add(Fix::from_num(3), Fix::MAX), wrapped);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn wrapping_mul_add<MulFrac: $LeEqU>(
                     self,
                     mul: $Fixed<MulFrac>,
@@ -1637,6 +1660,7 @@ assert_eq!(Fix::MAX.wrapping_mul_int(4), wrapped);
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn wrapping_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_mul(rhs))
                 }
@@ -1676,6 +1700,7 @@ assert_eq!(Fix::from_num(3).wrapping_div_int(2), one_point_5);
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn wrapping_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_div(rhs))
                 }
@@ -1695,6 +1720,7 @@ assert_eq!((Fix::from_num(1) / 2).wrapping_shl(3 + ", $s_nbits, "), Fix::from_nu
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn wrapping_shl(self, rhs: u32) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_shl(rhs))
                 }
@@ -1714,6 +1740,7 @@ assert_eq!((Fix::from_num(4)).wrapping_shr(3 + ", $s_nbits, "), Fix::from_num(1)
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn wrapping_shr(self, rhs: u32) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_shr(rhs))
                 }
@@ -1852,6 +1879,7 @@ let _overflow = Fix::MAX.unwrapped_add(Fix::from_bits(1));
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.checked_add(rhs).expect("overflow")
                 }
@@ -1889,6 +1917,7 @@ let _overflow = Fix::MIN.unwrapped_sub(Fix::from_bits(1));
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.checked_sub(rhs).expect("overflow")
                 }
@@ -1919,6 +1948,7 @@ let _divisor_is_zero = Fix::from_num(1.5).unwrapped_rem(Fix::from_num(0));
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_rem(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.checked_rem(rhs).expect("division by zero")
                 }
@@ -1973,6 +2003,7 @@ let _overflow = Fix::MAX.unwrapped_mul_add(Fix::from_num(1), Fix::from_bits(1));
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_mul_add<MulFrac: $LeEqU>(
                     self,
                     mul: $Fixed<MulFrac>,
@@ -2007,6 +2038,7 @@ let _overflow = Fix::MAX.unwrapped_mul_int(4);
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     self.checked_mul_int(rhs).expect("overflow")
                 }
@@ -2059,6 +2091,7 @@ let _overflow = Fix::MIN.unwrapped_div_int(-1);
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.overflowing_div_int(rhs) {
                         (_, true) => panic!("overflow"),
@@ -2091,6 +2124,7 @@ let _divisor_is_zero = Fix::from_num(3).unwrapped_rem_euclid(Fix::from_num(0));
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.checked_rem_euclid(rhs).expect("division by zero")
                 }
@@ -2121,6 +2155,7 @@ let _overflow = Fix::from_num(1).unwrapped_shl(", $s_nbits, ");
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_shl(self, rhs: u32) -> $Fixed<Frac> {
                     self.checked_shl(rhs).expect("overflow")
                 }
@@ -2151,6 +2186,7 @@ let _overflow = Fix::from_num(1).unwrapped_shr(", $s_nbits, ");
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn unwrapped_shr(self, rhs: u32) -> $Fixed<Frac> {
                     self.checked_shr(rhs).expect("overflow")
                 }
@@ -2288,6 +2324,7 @@ assert_eq!(Fix::MAX.overflowing_add(one), (",
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn overflowing_add(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_add(rhs.to_bits());
                     (Self::from_bits(ans), o)
@@ -2319,6 +2356,7 @@ assert_eq!(Fix::from_num(0)",
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn overflowing_sub(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_sub(rhs.to_bits());
                     (Self::from_bits(ans), o)
@@ -2365,6 +2403,7 @@ assert_eq!(
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn overflowing_mul_add<MulFrac: $LeEqU>(
                     self,
                     mul: $Fixed<MulFrac>,
@@ -2396,6 +2435,7 @@ assert_eq!(Fix::MAX.overflowing_mul_int(4), (wrapped, true));
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn overflowing_mul_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_mul(rhs);
                     (Self::from_bits(ans), o)
@@ -2436,6 +2476,7 @@ assert_eq!(Fix::from_num(3).overflowing_div_int(2), (one_point_5, false));
                 "```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn overflowing_div_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_div(rhs);
                     (Self::from_bits(ans), o)
@@ -2459,6 +2500,7 @@ assert_eq!((Fix::from_num(1) / 2).overflowing_shl(3 + ", $s_nbits, "), (Fix::fro
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn overflowing_shl(self, rhs: u32) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_shl(rhs);
                     (Self::from_bits(ans), o)
@@ -2482,6 +2524,7 @@ assert_eq!((Fix::from_num(4)).overflowing_shr(3 + ", $s_nbits, "), (Fix::from_nu
 ```
 ";
                 #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn overflowing_shr(self, rhs: u32) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_shr(rhs);
                     (Self::from_bits(ans), o)
