@@ -240,7 +240,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2).recip(), Fix::from_num(0.5));
 ```
 
-[`wrapping_recip`]: `Self::wrapping_recip`
+[`wrapping_recip`]: Self::wrapping_recip
 ";
                 #[inline] pub fn recip(self) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_recip();
@@ -275,7 +275,7 @@ assert_eq!(Fix::from_num(7.5).div_euclid(Fix::from_num(2)), Fix::from_num(3));
                 },
                 "```
 
-[`wrapping_div_euclid`]: `Self::wrapping_div_euclid`
+[`wrapping_div_euclid`]: Self::wrapping_div_euclid
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
@@ -327,7 +327,7 @@ assert_eq!(Fix::from_num(7.5).div_euclid_int(2), Fix::from_num(3));
                 },
                 "```
 
-[`wrapping_div_euclid_int`]: `Self::wrapping_div_euclid_int`
+[`wrapping_div_euclid_int`]: Self::wrapping_div_euclid_int
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]

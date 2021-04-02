@@ -372,7 +372,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other number `src` for which [`ToFixed`] is
     ///     implemented, in which case this method returns
-    ///     <code>[Unwrapped][`Unwrapped`]([src.unwrapped_to_fixed()][`ToFixed::unwrapped_to_fixed`])</code>.
+    ///     <code>[Unwrapped]\([src.unwrapped_to_fixed()][ToFixed::unwrapped_to_fixed])</code>.
     ///
     /// # Panics
     ///
@@ -403,10 +403,10 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = Unwrapped::<I4F4>::from_num(src);
     /// ```
     ///
-    /// [`F128Bits`]: `crate::F128Bits`
-    /// [`bf16`]: `half::bf16`
-    /// [`f16`]: `half::f16`
-    /// [finite]: `f64::is_finite`
+    /// [`F128Bits`]: crate::F128Bits
+    /// [`bf16`]: half::bf16
+    /// [`f16`]: half::f16
+    /// [finite]: f64::is_finite
     #[inline]
     #[track_caller]
     pub fn from_num<Src: ToFixed>(src: Src) -> Unwrapped<F> {
@@ -432,7 +432,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other type `Dst` for which [`FromFixed`] is
     ///     implemented, in which case this method returns
-    ///     [`Dst::unwrapped_from_fixed(self.0)`][`FromFixed::unwrapped_from_fixed`].
+    ///     [`Dst::unwrapped_from_fixed(self.0)`][FromFixed::unwrapped_from_fixed].
     ///
     /// # Examples
     ///
@@ -456,9 +456,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = src.to_num::<I2F6>();
     /// ```
     ///
-    /// [`F128Bits`]: `crate::F128Bits`
-    /// [`bf16`]: `half::bf16`
-    /// [`f16`]: `half::f16`
+    /// [`F128Bits`]: crate::F128Bits
+    /// [`bf16`]: half::bf16
+    /// [`f16`]: half::f16
     #[inline]
     #[track_caller]
     pub fn to_num<Dst: FromFixed>(self) -> Dst {
@@ -522,8 +522,8 @@ impl<F: Fixed> Unwrapped<F> {
     /// negative numbers with non-zero fractional parts will be
     /// rounded towards −∞, except in the case where there are no
     /// integer bits, for example for the type
-    /// <code>[Unwrapped][`Unwrapped`]&lt;[I0F16][`I0F16`]&gt;</code>,
-    /// where the return value is always zero.
+    /// <code>[Unwrapped]&lt;[I0F16]&gt;</code>, where the return
+    /// value is always zero.
     ///
     /// # Examples
     ///
@@ -533,7 +533,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped(I16F16::from_num(-12.25)).int(), Unwrapped(I16F16::from_num(-13)));
     /// ```
     ///
-    /// [`I0F16`]: `crate::types::I0F16`
+    /// [I0F16]: crate::types::I0F16
     #[inline]
     pub fn int(self) -> Unwrapped<F> {
         Unwrapped(self.0.int())
@@ -545,8 +545,8 @@ impl<F: Fixed> Unwrapped<F> {
     /// the returned fraction will be non-negative for negative
     /// numbers, except in the case where there are no integer bits,
     /// for example for the type
-    /// <code>[Unwrapped][`Unwrapped`]&lt;[I0F16][`I0F16`]&gt;</code>,
-    /// where the return value is always equal to `self`.
+    /// <code>[Unwrapped]&lt;[I0F16]&gt;</code>, where the return
+    /// value is always equal to `self`.
     ///
     /// # Examples
     ///
@@ -556,7 +556,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped(I16F16::from_num(-12.25)).frac(), Unwrapped(I16F16::from_num(0.75)));
     /// ```
     ///
-    /// [`I0F16`]: `crate::types::I0F16`
+    /// [I0F16]: crate::types::I0F16
     #[inline]
     pub fn frac(self) -> Unwrapped<F> {
         Unwrapped(self.0.frac())

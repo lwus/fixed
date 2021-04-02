@@ -30,7 +30,7 @@ The other number can be:
     to the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.to_fixed()`][`ToFixed::to_fixed`].
+    [`src.to_fixed()`][ToFixed::to_fixed].
 
 # Panics
 
@@ -70,10 +70,10 @@ assert_eq!(Fix::from_num(",
             "0b111 << (4-2)));
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
-[`wrapping_from_num`]: `Self::wrapping_from_num`
-[finite]: `f64::is_finite`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
+[`wrapping_from_num`]: Self::wrapping_from_num
+[finite]: f64::is_finite
 ";
             #[inline]
             pub fn from_num<Src: ToFixed>(src: Src) -> $Fixed<Frac> {
@@ -97,7 +97,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::from_fixed(self)`][`FromFixed::from_fixed`].
+    [`Dst::from_fixed(self)`][FromFixed::from_fixed].
 
 # Panics
 
@@ -141,9 +141,9 @@ assert_eq!(",
             "1.625f64);
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
-[`wrapping_to_num`]: `Self::wrapping_to_num`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
+[`wrapping_to_num`]: Self::wrapping_to_num
 ";
             #[inline]
             pub fn to_num<Dst: FromFixed>(self) -> Dst {
@@ -167,7 +167,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.checked_to_fixed()`][`ToFixed::checked_to_fixed`].
+    [`src.checked_to_fixed()`][ToFixed::checked_to_fixed].
 
 # Examples
 
@@ -211,8 +211,8 @@ assert!(Fix::checked_from_num(2e38).is_none());
 assert!(Fix::checked_from_num(std::f64::NAN).is_none());
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
 ";
             #[inline]
             pub fn checked_from_num<Src: ToFixed>(src: Src) -> Option<$Fixed<Frac>> {
@@ -237,7 +237,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::checked_from_fixed(self)`][`FromFixed::checked_from_fixed`].
+    [`Dst::checked_from_fixed(self)`][FromFixed::checked_from_fixed].
 
 # Examples
 
@@ -280,8 +280,8 @@ let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
 assert_eq!(one_point_625.checked_to_num::<f32>(), Some(1.625f32));
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
 ";
             #[inline]
             pub fn checked_to_num<Dst: FromFixed>(self) -> Option<Dst> {
@@ -305,7 +305,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.saturating_to_fixed()`][`ToFixed::saturating_to_fixed`].
+    [`src.saturating_to_fixed()`][ToFixed::saturating_to_fixed].
 
 # Panics
 
@@ -351,9 +351,9 @@ assert_eq!(Fix::saturating_from_num(2e38), Fix::MAX);
 assert_eq!(Fix::saturating_from_num(std::f64::NEG_INFINITY), Fix::MIN);
 ```
 
-[NaN]: `f64::is_nan`
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
+[NaN]: f64::is_nan
+[`bf16`]: half::bf16
+[`f16`]: half::f16
 ";
             #[inline]
             pub fn saturating_from_num<Src: ToFixed>(src: Src) -> $Fixed<Frac> {
@@ -378,7 +378,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::saturating_from_fixed(self)`][`FromFixed::saturating_from_fixed`].
+    [`Dst::saturating_from_fixed(self)`][FromFixed::saturating_from_fixed].
 
 # Examples
 
@@ -418,8 +418,8 @@ let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
 assert_eq!(one_point_625.saturating_to_num::<f32>(), 1.625f32);
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
 ";
             #[inline]
             pub fn saturating_to_num<Dst: FromFixed>(self) -> Dst {
@@ -443,7 +443,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.wrapping_to_fixed()`][`ToFixed::wrapping_to_fixed`].
+    [`src.wrapping_to_fixed()`][ToFixed::wrapping_to_fixed].
 
 # Panics
 
@@ -481,9 +481,9 @@ let wrapped = Fix::from_bits(0b1100 << (", $s_nbits, " - 4));
 assert_eq!(Fix::wrapping_from_num(large), wrapped);
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
-[finite]: `f64::is_finite`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
+[finite]: f64::is_finite
 ";
             #[inline]
             pub fn wrapping_from_num<Src: ToFixed>(src: Src) -> $Fixed<Frac> {
@@ -508,7 +508,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::wrapping_from_fixed(self)`][`FromFixed::wrapping_from_fixed`].
+    [`Dst::wrapping_from_fixed(self)`][FromFixed::wrapping_from_fixed].
 
 # Examples
 
@@ -548,8 +548,8 @@ let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
 assert_eq!(one_point_625.wrapping_to_num::<f32>(), 1.625f32);
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
 ";
             #[inline]
             pub fn wrapping_to_num<Dst: FromFixed>(self) -> Dst {
@@ -605,9 +605,9 @@ let too_large = ", $s_fixed, "::<U0>::from_bits(0b1101 << (", $s_nbits, " - 7));
 let _overflow = Fix::unwrapped_from_num(too_large);
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
-[finite]: `f64::is_finite`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
+[finite]: f64::is_finite
 ";
             #[inline]
             #[track_caller]
@@ -667,8 +667,8 @@ type TooFewIntBits = ", $s_fixed, "<U6>;
 let _overflow = Fix::MAX.unwrapped_to_num::<TooFewIntBits>();
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
 ";
             #[inline]
             #[track_caller]
@@ -699,7 +699,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.overflowing_to_fixed()`][`ToFixed::overflowing_to_fixed`].
+    [`src.overflowing_to_fixed()`][ToFixed::overflowing_to_fixed].
 
 # Panics
 
@@ -739,9 +739,9 @@ let wrapped = Fix::from_bits(0b1100 << (", $s_nbits, " - 4));
 assert_eq!(Fix::overflowing_from_num(large), (wrapped, true));
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
-[finite]: `f64::is_finite`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
+[finite]: f64::is_finite
 ";
             #[inline]
             pub fn overflowing_from_num<Src: ToFixed>(src: Src) -> ($Fixed<Frac>, bool) {
@@ -768,7 +768,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::overflowing_from_fixed(self)`][`FromFixed::overflowing_from_fixed`].
+    [`Dst::overflowing_from_fixed(self)`][FromFixed::overflowing_from_fixed].
 
 # Examples
 
@@ -810,8 +810,8 @@ let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
 assert_eq!(one_point_625.overflowing_to_num::<f32>(), (1.625f32, false));
 ```
 
-[`bf16`]: `half::bf16`
-[`f16`]: `half::f16`
+[`bf16`]: half::bf16
+[`f16`]: half::f16
 ";
             #[inline]
             pub fn overflowing_to_num<Dst: FromFixed>(self) -> (Dst, bool) {

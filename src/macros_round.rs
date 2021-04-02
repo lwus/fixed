@@ -55,7 +55,7 @@ assert_eq!((-two_and_quarter).int(), -three);
             if_unsigned_else_empty_str! {
                 $Signedness,
                 "
-[`floor`]: `Self::floor`
+[`floor`]: Self::floor
 "
             };
             #[inline]
@@ -139,7 +139,7 @@ assert_eq!(Fix::from_num(-2.9).round_to_zero(), Fix::from_num(-2));
             if_unsigned_else_empty_str! {
                 $Signedness,
                 "
-[`floor`]: `Self::floor`
+[`floor`]: Self::floor
 "
             };
             #[inline]
@@ -184,7 +184,7 @@ assert_eq!(Fix::from_num(2.5).ceil(), Fix::from_num(3));
             },
             "```
 
-[`wrapping_ceil`]: `Self::wrapping_ceil`
+[`wrapping_ceil`]: Self::wrapping_ceil
 ";
             #[inline]
             pub fn ceil(self) -> $Fixed<Frac> {
@@ -226,7 +226,7 @@ assert_eq!(Fix::from_num(2.5).floor(), Fix::from_num(2));
             },
             "```
 
-[`wrapping_floor`]: `Self::wrapping_floor`
+[`wrapping_floor`]: Self::wrapping_floor
 ";
             #[inline]
             pub fn floor(self) -> $Fixed<Frac> {
@@ -262,7 +262,7 @@ assert_eq!(Fix::from_num(2.5).round(), Fix::from_num(3));
             },
             "```
 
-[`wrapping_round`]: `Self::wrapping_round`
+[`wrapping_round`]: Self::wrapping_round
 ";
             #[inline]
             pub fn round(self) -> $Fixed<Frac> {
@@ -293,7 +293,7 @@ assert_eq!(Fix::from_num(2.5).round_ties_to_even(), Fix::from_num(2));
 assert_eq!(Fix::from_num(3.5).round_ties_to_even(), Fix::from_num(4));
 ```
 
-[`wrapping_round_ties_to_even`]: `Self::wrapping_round_ties_to_even`
+[`wrapping_round_ties_to_even`]: Self::wrapping_round_ties_to_even
 ";
             #[inline]
             pub fn round_ties_to_even(self) -> $Fixed<Frac> {

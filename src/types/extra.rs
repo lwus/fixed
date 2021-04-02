@@ -33,18 +33,18 @@ pub use typenum::{
     U9, U90, U91, U92, U93, U94, U95, U96, U97, U98, U99,
 };
 
-/// Implemented for all [`Unsigned`](trait.Unsigned.html) integers ≤ 8.
+/// Implemented for all [`Unsigned`] integers ≤ 8.
 pub trait LeEqU8: Unsigned + IsLessOrEqual<U8, Output = True> {}
 impl<T: Unsigned + IsLessOrEqual<U8, Output = True>> LeEqU8 for T {}
-/// Implemented for all [`Unsigned`](trait.Unsigned.html) integers ≤ 16.
+/// Implemented for all [`Unsigned`] integers ≤ 16.
 pub trait LeEqU16: Unsigned + IsLessOrEqual<U16, Output = True> {}
 impl<T: Unsigned + IsLessOrEqual<U16, Output = True>> LeEqU16 for T {}
-/// Implemented for all [`Unsigned`](trait.Unsigned.html) integers ≤ 32.
+/// Implemented for all [`Unsigned`] integers ≤ 32.
 pub trait LeEqU32: Unsigned + IsLessOrEqual<U32, Output = True> {}
 impl<T: Unsigned + IsLessOrEqual<U32, Output = True>> LeEqU32 for T {}
-/// Implemented for all [`Unsigned`](trait.Unsigned.html) integers ≤ 64.
+/// Implemented for all [`Unsigned`] integers ≤ 64.
 pub trait LeEqU64: Unsigned + IsLessOrEqual<U64, Output = True> {}
 impl<T: Unsigned + IsLessOrEqual<U64, Output = True>> LeEqU64 for T {}
-/// Implemented for all [`Unsigned`](trait.Unsigned.html) integers ≤ 128.
+/// Implemented for all [`Unsigned`] integers ≤ 128.
 pub trait LeEqU128: Unsigned + IsLessOrEqual<U128, Output = True> {}
 impl<T: Unsigned + IsLessOrEqual<U128, Output = True>> LeEqU128 for T {}

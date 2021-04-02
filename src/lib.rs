@@ -248,29 +248,29 @@ additional terms or conditions.
 [*typenum* crate]: https://crates.io/crates/typenum
 [LICENSE-APACHE]: https://www.apache.org/licenses/LICENSE-2.0
 [LICENSE-MIT]: https://opensource.org/licenses/MIT
-[`Binary`]: `core::fmt::Binary`
-[`Display`]: `core::fmt::Display`
-[`Error`]: `std::error::Error`
-[`FromStr`]: `core::str::FromStr`
-[`I20F12`]: `crate::types::I20F12`
-[`I4F12`]: `crate::types::I4F12`
-[`I4F4`]: `crate::types::I4F4`
-[`LosslessTryFrom`]: `traits::LosslessTryFrom`
-[`LosslessTryInto`]: `traits::LosslessTryInto`
-[`LossyFrom`]: `traits::LossyFrom`
-[`LossyInto`]: `traits::LossyInto`
-[`LowerHex`]: `core::fmt::LowerHex`
-[`Octal`]: `core::fmt::Octal`
-[`U20F12`]: `types::U20F12`
-[`UpperHex`]: `core::fmt::UpperHex`
-[`bf16`]: `half::bf16`
-[`checked_from_num`]: `FixedI32::checked_from_num`
-[`f16`]: `half::f16`
-[`from_num`]: `FixedI32::from_num`
-[`from_str_binary`]: `FixedI32::from_str_binary`
-[`from_str_hex`]: `FixedI32::from_str_hex`
-[`from_str_octal`]: `FixedI32::from_str_octal`
-[`to_num`]: `FixedI32::to_num`
+[`Binary`]: core::fmt::Binary
+[`Display`]: core::fmt::Display
+[`Error`]: std::error::Error
+[`FromStr`]: core::str::FromStr
+[`I20F12`]: crate::types::I20F12
+[`I4F12`]: crate::types::I4F12
+[`I4F4`]: crate::types::I4F4
+[`LosslessTryFrom`]: traits::LosslessTryFrom
+[`LosslessTryInto`]: traits::LosslessTryInto
+[`LossyFrom`]: traits::LossyFrom
+[`LossyInto`]: traits::LossyInto
+[`LowerHex`]: core::fmt::LowerHex
+[`Octal`]: core::fmt::Octal
+[`U20F12`]: types::U20F12
+[`UpperHex`]: core::fmt::UpperHex
+[`bf16`]: half::bf16
+[`checked_from_num`]: FixedI32::checked_from_num
+[`f16`]: half::f16
+[`from_num`]: FixedI32::from_num
+[`from_str_binary`]: FixedI32::from_str_binary
+[`from_str_hex`]: FixedI32::from_str_hex
+[`from_str_octal`]: FixedI32::from_str_octal
+[`to_num`]: FixedI32::to_num
 [const generics]: https://github.com/rust-lang/rust/issues/44580
 */
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -666,8 +666,8 @@ impl F128Bits {
 /// ```
 ///
 /// [*fixed-macro* crate]: https://crates.io/crates/fixed-macro
-/// [`I16F16`]: `crate::types::I16F16`
-/// [`from_num`]: `FixedI32::from_num`
+/// [`I16F16`]: crate::types::I16F16
+/// [`from_num`]: FixedI32::from_num
 #[macro_export]
 macro_rules! const_fixed_from_int {
     ($(const $NAME:ident: $Fixed:ty = $int:expr;)*) => { $(

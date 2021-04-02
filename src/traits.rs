@@ -134,9 +134,9 @@ depending on the crate’s [optional features].
         value 1
       * [`Num`] because it has [`One`] as a supertrait
       * [`MulAdd`], [`MulAddAssign`] because
-        <code>[MulAdd][`MulAdd`]::[mul_add][`MulAdd::mul_add`]</code>
+        <code>[MulAdd][`MulAdd`]::[mul_add][`mul_add`]</code>
         conflicts with
-        <code>[Fixed][`Fixed`]::[mul_add][`Fixed::mul_add`]</code>
+        <code>[Fixed]::[mul_add][Fixed::mul_add]</code>
 
     Similarly, [`Signed`] and [`Unsigned`] are *not* supertraits of
     [`FixedSigned`] and [`FixedUnsigned`] because they have [`Num`] as
@@ -145,13 +145,13 @@ depending on the crate’s [optional features].
  2. If the `serde` feature is enabled, [`Serialize`] and
     [`Deserialize`] are supertraits of [`Fixed`].
 
-[`MulAdd::mul_add`]: `num_traits::ops::mul_add::MulAdd::mul_add`
-[`MulAddAssign`]: `num_traits::ops::mul_add::MulAddAssign`
-[`MulAdd`]: `num_traits::ops::mul_add::MulAdd`
+[`MulAddAssign`]: num_traits::ops::mul_add::MulAddAssign
+[`MulAdd`]: num_traits::ops::mul_add::MulAdd
 [`Num`]: https://docs.rs/num-traits/^0.2/num_traits/trait.Num.html
-[`One`]: `num_traits::identities::One`
-[`Signed`]: `num_traits::sign::Signed`
-[`Unsigned`]: `num_traits::sign::Unsigned`
+[`One`]: num_traits::identities::One
+[`Signed`]: num_traits::sign::Signed
+[`Unsigned`]: num_traits::sign::Unsigned
+[`mul_add`]: num_traits::ops::mul_add::MulAdd::mul_add
 [optional features]: ../index.html#optional-features
 "
 }
@@ -255,7 +255,7 @@ depending on the crate’s [optional features].
 /// assert_eq!(val, Some(Fixed::from_num(750.25)));
 /// ```
 ///
-/// [`TryFrom`]: `core::convert::TryFrom`
+/// [`TryFrom`]: core::convert::TryFrom
 pub trait Fixed
 where
     Self: Copy + Default + Hash + Ord,
@@ -295,10 +295,10 @@ where
 
     /// The number of fractional bits.
     ///
-    /// <code>&lt;F as [Fixed]&gt;::Frac::[U32][`U32`]</code> is equivalent to
-    /// <code>&lt;F as [Fixed]&gt;::[FRAC_NBITS][`Fixed::FRAC_NBITS`]</code>.
+    /// <code>&lt;F as [Fixed]&gt;::Frac::[U32]</code> is equivalent to
+    /// <code>&lt;F as [Fixed]&gt;::[FRAC_NBITS][Fixed::FRAC_NBITS]</code>.
     ///
-    /// [`U32`]: `crate::types::extra::Unsigned::U32`
+    /// [U32]: crate::types::extra::Unsigned::U32
     type Frac: Unsigned;
 
     /// The smallest value that can be represented.
@@ -371,51 +371,51 @@ where
 
     /// Creates a fixed-point number from another number.
     ///
-    /// Returns the same value as [`src.to_fixed()`][`ToFixed::to_fixed`].
+    /// Returns the same value as [`src.to_fixed()`][ToFixed::to_fixed].
     fn from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number.
     ///
-    /// Returns the same value as [`Dst::from_fixed(self)`][`FromFixed::from_fixed`].
+    /// Returns the same value as [`Dst::from_fixed(self)`][FromFixed::from_fixed].
     fn to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number if it fits,
     /// otherwise returns [`None`].
     ///
-    /// Returns the same value as [`src.checked_to_fixed()`][`ToFixed::checked_to_fixed`].
+    /// Returns the same value as [`src.checked_to_fixed()`][ToFixed::checked_to_fixed].
     fn checked_from_num<Src: ToFixed>(src: Src) -> Option<Self>;
 
     /// Converts a fixed-point number to another number if it fits,
     /// otherwise returns [`None`].
     ///
     /// Returns the same value as
-    /// [`Dst::checked_from_fixed(self)`][`FromFixed::checked_from_fixed`].
+    /// [`Dst::checked_from_fixed(self)`][FromFixed::checked_from_fixed].
     fn checked_to_num<Dst: FromFixed>(self) -> Option<Dst>;
 
     /// Creates a fixed-point number from another number, saturating the
     /// value if it does not fit.
     ///
-    /// Returns the same value as [`src.saturating_to_fixed()`][`ToFixed::saturating_to_fixed`].
+    /// Returns the same value as [`src.saturating_to_fixed()`][ToFixed::saturating_to_fixed].
     fn saturating_from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number, saturating the
     /// value if it does not fit.
     ///
     /// Returns the same value as
-    /// [`Dst::saturating_from_fixed(self)`][`FromFixed::saturating_from_fixed`].
+    /// [`Dst::saturating_from_fixed(self)`][FromFixed::saturating_from_fixed].
     fn saturating_to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number, wrapping the
     /// value on overflow.
     ///
-    /// Returns the same value as [`src.wrapping_to_fixed()`][`ToFixed::wrapping_to_fixed`].
+    /// Returns the same value as [`src.wrapping_to_fixed()`][ToFixed::wrapping_to_fixed].
     fn wrapping_from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number, wrapping the
     /// value on overflow.
     ///
     /// Returns the same value as
-    /// [`Src::wrapping_from_fixed(self)`][`FromFixed::wrapping_from_fixed`].
+    /// [`Src::wrapping_from_fixed(self)`][FromFixed::wrapping_from_fixed].
     fn wrapping_to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number, panicking on overflow.
@@ -436,13 +436,13 @@ where
 
     /// Creates a fixed-point number from another number.
     ///
-    /// Returns the same value as [`src.overflowing_to_fixed()`][`ToFixed::overflowing_to_fixed`].
+    /// Returns the same value as [`src.overflowing_to_fixed()`][ToFixed::overflowing_to_fixed].
     fn overflowing_from_num<Src: ToFixed>(src: Src) -> (Self, bool);
 
     /// Converts a fixed-point number to another number.
     ///
     /// Returns the same value as
-    /// [`Dst::overflowing_from_fixed(self)`][`FromFixed::overflowing_from_fixed`].
+    /// [`Dst::overflowing_from_fixed(self)`][FromFixed::overflowing_from_fixed].
     fn overflowing_to_num<Dst: FromFixed>(self) -> (Dst, bool);
 
     /// Parses a string slice containing binary digits to return a fixed-point number.
@@ -753,7 +753,7 @@ where
     /// fixed-point type like `self` but with a different number of
     /// fractional bits.
     ///
-    /// [`mul_add`]: `FixedI32::mul_add`
+    /// [`mul_add`]: FixedI32::mul_add
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn mul_add(self, mul: Self, add: Self) -> Self;
 
@@ -1621,7 +1621,7 @@ pub trait FromFixed {
     /// change if in the future it panics; if wrapping is required use
     /// [`wrapping_from_fixed`] instead.
     ///
-    /// [`wrapping_from_fixed`]: `FromFixed::wrapping_from_fixed`
+    /// [`wrapping_from_fixed`]: FromFixed::wrapping_from_fixed
     fn from_fixed<F: Fixed>(src: F) -> Self;
 
     /// Converts from a fixed-point number if it fits, otherwise returns [`None`].
@@ -1712,8 +1712,8 @@ pub trait ToFixed {
     /// breaking change if in the future it panics; if wrapping is
     /// required use [`wrapping_to_fixed`] instead.
     ///
-    /// [`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
-    /// [finite]: `f64::is_finite`
+    /// [`wrapping_to_fixed`]: ToFixed::wrapping_to_fixed
+    /// [finite]: f64::is_finite
     fn to_fixed<F: Fixed>(self) -> F;
 
     /// Converts to a fixed-point number if it fits, otherwise returns [`None`].
@@ -1729,7 +1729,7 @@ pub trait ToFixed {
     ///
     /// Panics if `self` is a floating-point number that is [NaN].
     ///
-    /// [NaN]: `f64::is_nan`
+    /// [NaN]: f64::is_nan
     fn saturating_to_fixed<F: Fixed>(self) -> F;
 
     /// Converts to a fixed-point number, wrapping if it does not fit.
@@ -1740,7 +1740,7 @@ pub trait ToFixed {
     ///
     /// Panics if `self` is a floating-point number that is not [finite].
     ///
-    /// [finite]: `f64::is_finite`
+    /// [finite]: f64::is_finite
     fn wrapping_to_fixed<F: Fixed>(self) -> F;
 
     /// Converts to a fixed-point number.
@@ -1755,7 +1755,7 @@ pub trait ToFixed {
     ///
     /// Panics if `self` is a floating-point number that is not [finite].
     ///
-    /// [finite]: `f64::is_finite`
+    /// [finite]: f64::is_finite
     fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool);
 
     /// Converts to a fixed-point number, panicking if it does not fit.
@@ -1768,7 +1768,7 @@ pub trait ToFixed {
     /// [finite] or if the value does not fit, even if debug
     /// assertions are not enabled.
     ///
-    /// [finite]: `f64::is_finite`
+    /// [finite]: f64::is_finite
     #[inline]
     #[track_caller]
     fn unwrapped_to_fixed<F: Fixed>(self) -> F
@@ -1793,7 +1793,7 @@ impl ToFixed for bool {
     /// change if in the future it panics; if wrapping is required use
     /// [`wrapping_to_fixed`] instead.
     ///
-    /// [`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
+    /// [`wrapping_to_fixed`]: ToFixed::wrapping_to_fixed
     #[inline]
     fn to_fixed<F: Fixed>(self) -> F {
         ToFixed::to_fixed(self as u8)
@@ -1857,7 +1857,7 @@ macro_rules! impl_int {
             /// panics; if wrapping is required use
             /// [`wrapping_from_fixed`] instead.
             ///
-            /// [`wrapping_from_fixed`]: `FromFixed::wrapping_from_fixed`
+            /// [`wrapping_from_fixed`]: FromFixed::wrapping_from_fixed
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 $Int::from_repr_fixed(FromFixed::from_fixed(src))
@@ -1926,7 +1926,7 @@ macro_rules! impl_int {
             /// panics; if wrapping is required use
             /// [`wrapping_to_fixed`] instead.
             ///
-            /// [`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
+            /// [`wrapping_to_fixed`]: ToFixed::wrapping_to_fixed
             #[inline]
             fn to_fixed<F: Fixed>(self) -> F {
                 ToFixed::to_fixed(self.to_repr_fixed())
@@ -2003,7 +2003,7 @@ macro_rules! impl_float {
             /// panics; if wrapping is required use
             /// [`wrapping_from_fixed`] instead.
             ///
-            /// [`wrapping_from_fixed`]: `FromFixed::wrapping_from_fixed`
+            /// [`wrapping_from_fixed`]: FromFixed::wrapping_from_fixed
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 let helper = src.private_to_float_helper();
@@ -2079,8 +2079,8 @@ fit. When debug assertions are not enabled, the wrapped value can be
 returned, but it is not considered a breaking change if in the future
 it panics; if wrapping is required use [`wrapping_to_fixed`] instead.
 
-[`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
-[finite]: `", $link, "::is_finite`
+[`wrapping_to_fixed`]: ToFixed::wrapping_to_fixed
+[finite]: ", $link, "::is_finite
 ";
                 #[inline]
                 fn to_fixed<F: Fixed>(self) -> F {
@@ -2120,7 +2120,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 Panics if `self` is [NaN].
 
-[NaN]: `", $link, "::is_nan`
+[NaN]: ", $link, "::is_nan
 ";
                 #[inline]
                 fn saturating_to_fixed<F: Fixed>(self) -> F {
@@ -2140,7 +2140,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 Panics if `self` is not [finite].
 
-[finite]: `", $link, "::is_finite`
+[finite]: ", $link, "::is_finite
 ";
                 #[inline]
                 fn wrapping_to_fixed<F: Fixed>(self) -> F {
@@ -2162,7 +2162,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 Panics if `self` is not [finite].
 
-[finite]: `", $link, "::is_finite`
+[finite]: ", $link, "::is_finite
 ";
                 #[inline]
                 #[track_caller]
@@ -2184,7 +2184,7 @@ Rounding is to the nearest, with ties rounded to even.
 Panics if `self` is not [finite] or if the value does not fit, even
 when debug assertions are not enabled.
 
-[finite]: `", $link, "::is_finite`
+[finite]: ", $link, "::is_finite
 ";
                 #[inline]
                 fn unwrapped_to_fixed<F: Fixed>(self) -> F {
@@ -2444,7 +2444,7 @@ macro_rules! impl_fixed {
             /// panics; if wrapping is required use
             /// [`wrapping_from_fixed`] instead.
             ///
-            /// [`wrapping_from_fixed`]: `FromFixed::wrapping_from_fixed`
+            /// [`wrapping_from_fixed`]: FromFixed::wrapping_from_fixed
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 let (wrapped, overflow) = FromFixed::overflowing_from_fixed(src);
@@ -2567,7 +2567,7 @@ macro_rules! impl_fixed {
             /// panics; if wrapping is required use
             /// [`wrapping_to_fixed`] instead.
             ///
-            /// [`wrapping_to_fixed`]: `ToFixed::wrapping_to_fixed`
+            /// [`wrapping_to_fixed`]: ToFixed::wrapping_to_fixed
             #[inline]
             fn to_fixed<F: Fixed>(self) -> F {
                 FromFixed::from_fixed(self)

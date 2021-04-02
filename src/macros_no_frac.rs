@@ -769,7 +769,7 @@ assert_eq!(Fix::MAX.mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
                 },
                 "```
 
-[`wrapping_mul_add`]: `Self::wrapping_mul_add`
+[`wrapping_mul_add`]: Self::wrapping_mul_add
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
@@ -923,7 +923,7 @@ assert_eq!(Fix::from_num(4).next_power_of_two(), Fix::from_num(4));
 assert_eq!(Fix::from_num(6.5).next_power_of_two(), Fix::from_num(8));
 ```
 
-[`checked_next_power_of_two`]: `Self::checked_next_power_of_two`
+[`checked_next_power_of_two`]: Self::checked_next_power_of_two
 ";
                     #[inline]
                     pub const fn next_power_of_two(self) -> $Fixed<Frac> {

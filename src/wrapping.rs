@@ -369,7 +369,7 @@ impl<F: Fixed> Wrapping<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other number `src` for which [`ToFixed`] is
     ///     implemented, in which case this method returns
-    ///     <code>[Wrapping][`Wrapping`]([src.wrapping_to_fixed()][`ToFixed::wrapping_to_fixed`])</code>.
+    ///     <code>[Wrapping]\([src.wrapping_to_fixed()][ToFixed::wrapping_to_fixed])</code>.
     ///
     /// # Panics
     ///
@@ -399,10 +399,10 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(dst_float, Wrapping(I4F4::from_bits(0b11100)));
     /// ```
     ///
-    /// [`F128Bits`]: `crate::F128Bits`
-    /// [`bf16`]: `half::bf16`
-    /// [`f16`]: `half::f16`
-    /// [finite]: `f64::is_finite`
+    /// [`F128Bits`]: crate::F128Bits
+    /// [`bf16`]: half::bf16
+    /// [`f16`]: half::f16
+    /// [finite]: f64::is_finite
     #[inline]
     pub fn from_num<Src: ToFixed>(src: Src) -> Wrapping<F> {
         Wrapping(src.wrapping_to_fixed())
@@ -424,7 +424,7 @@ impl<F: Fixed> Wrapping<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other type `Dst` for which [`FromFixed`] is
     ///     implemented, in which case this method returns
-    ///     [`Dst::wrapping_from_fixed(self.0)`][`FromFixed::wrapping_from_fixed`].
+    ///     [`Dst::wrapping_from_fixed(self.0)`][FromFixed::wrapping_from_fixed].
     ///
     /// # Examples
     ///
@@ -445,9 +445,9 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(src.to_num::<I2F6>(), wrapped);
     /// ```
     ///
-    /// [`F128Bits`]: `crate::F128Bits`
-    /// [`bf16`]: `half::bf16`
-    /// [`f16`]: `half::f16`
+    /// [`F128Bits`]: crate::F128Bits
+    /// [`bf16`]: half::bf16
+    /// [`f16`]: half::f16
     #[inline]
     pub fn to_num<Dst: FromFixed>(self) -> Dst {
         Dst::wrapping_from_fixed(self.0)
@@ -507,8 +507,8 @@ impl<F: Fixed> Wrapping<F> {
     /// negative numbers with non-zero fractional parts will be
     /// rounded towards −∞, except in the case where there are no
     /// integer bits, for example for the type
-    /// <code>[Wrapping][`Wrapping`]&lt;[I0F16][`I0F16`]&gt;</code>,
-    /// where the return value is always zero.
+    /// <code>[Wrapping]&lt;[I0F16]&gt;</code>, where the return value
+    /// is always zero.
     ///
     /// # Examples
     ///
@@ -518,7 +518,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(Wrapping(I16F16::from_num(-12.25)).int(), Wrapping(I16F16::from_num(-13)));
     /// ```
     ///
-    /// [`I0F16`]: `crate::types::I0F16`
+    /// [I0F16]: crate::types::I0F16
     #[inline]
     pub fn int(self) -> Wrapping<F> {
         Wrapping(self.0.int())
@@ -530,7 +530,7 @@ impl<F: Fixed> Wrapping<F> {
     /// the returned fraction will be non-negative for negative
     /// numbers, except in the case where there are no integer bits,
     /// for example for the type
-    /// <code>[Wrapping][`Wrapping`]&lt;[I0F16][`I0F16`]&gt;</code>,
+    /// <code>[Wrapping]&lt;[I0F16]&gt;</code>,
     /// where the return value is always equal to `self`.
     ///
     /// # Examples
@@ -541,7 +541,7 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(Wrapping(I16F16::from_num(-12.25)).frac(), Wrapping(I16F16::from_num(0.75)));
     /// ```
     ///
-    /// [`I0F16`]: `crate::types::I0F16`
+    /// [I0F16]: crate::types::I0F16
     #[inline]
     pub fn frac(self) -> Wrapping<F> {
         Wrapping(self.0.frac())
@@ -1008,13 +1008,13 @@ impl<F: FixedSigned> Wrapping<F> {
     /// following wrapped results.
     ///
     ///   * When there are no integer bits, for example for the type
-    ///     <code>[Wrapping][`Wrapping`]&lt;[I0F16][`I0F16`]&gt;</code>,
-    ///     the return value is always zero.
+    ///     <code>[Wrapping]&lt;[I0F16]&gt;</code>, the return value
+    ///     is always zero.
     ///   * When there is one integer bit, for example for the type
-    ///     <code>[Wrapping][`Wrapping`]&lt;[I1F15][`I1F15`]&gt;</code>,
-    ///     the return value is zero when `self` is zero, and −1
-    ///     otherwise. This means that for a positive number, −1 is
-    ///     returned, because +1 does not fit and is wrapped to −1.
+    ///     <code>[Wrapping]&lt;[I1F15]&gt;</code>, the return value
+    ///     is zero when `self` is zero, and −1 otherwise. This means
+    ///     that for a positive number, −1 is returned, because +1
+    ///     does not fit and is wrapped to −1.
     ///
     /// # Examples
     ///
@@ -1032,8 +1032,8 @@ impl<F: FixedSigned> Wrapping<F> {
     /// assert_eq!(Wrapping(<I0F32>::from_num(-0.5)).signum(), Wrapping(I0F32::ZERO));
     /// ```
     ///
-    /// [`I0F16`]: `crate::types::I0F16`
-    /// [`I1F15`]: `crate::types::I1F15`
+    /// [I0F16]: crate::types::I0F16
+    /// [I1F15]: crate::types::I1F15
     #[inline]
     pub fn signum(self) -> Wrapping<F> {
         Wrapping(self.0.wrapping_signum())
