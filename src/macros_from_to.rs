@@ -116,7 +116,7 @@ type Fix = ", $s_fixed, "<U4>;
 let src = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(src.to_num::<I30F2>(), I30F2::from_bits(0b111));
 // src >> 2 is 0.0111, which for I30F2 is truncated to 0.01
-assert_eq!((src >> 2u32).to_num::<I30F2>(), I30F2::from_bits(1));
+assert_eq!((src >> 2u32).to_num::<I30F2>(), I30F2::from_bits(0b1));
 
 // 2.5 is 10.1 in binary
 let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
@@ -924,7 +924,7 @@ assert_eq!(I8F8::saturating_from_str(\"-9999\"), Ok(I8F8::MIN));
 ",
                 "use fixed::types::U8F8;
 assert_eq!(U8F8::saturating_from_str(\"9999\"), Ok(U8F8::MAX));
-assert_eq!(U8F8::saturating_from_str(\"-1\"), Ok(U8F8::from_num(0)));
+assert_eq!(U8F8::saturating_from_str(\"-1\"), Ok(U8F8::ZERO));
 ",
             },
             "```
@@ -953,7 +953,7 @@ assert_eq!(I8F8::saturating_from_str_binary(\"-101100111000\"), Ok(I8F8::MIN));
 ",
                 "use fixed::types::U8F8;
 assert_eq!(U8F8::saturating_from_str_binary(\"101100111000\"), Ok(U8F8::MAX));
-assert_eq!(U8F8::saturating_from_str_binary(\"-1\"), Ok(U8F8::from_num(0)));
+assert_eq!(U8F8::saturating_from_str_binary(\"-1\"), Ok(U8F8::ZERO));
 ",
             },
             "```
@@ -982,7 +982,7 @@ assert_eq!(I8F8::saturating_from_str_octal(\"-7777\"), Ok(I8F8::MIN));
 ",
                 "use fixed::types::U8F8;
 assert_eq!(U8F8::saturating_from_str_octal(\"7777\"), Ok(U8F8::MAX));
-assert_eq!(U8F8::saturating_from_str_octal(\"-1\"), Ok(U8F8::from_num(0)));
+assert_eq!(U8F8::saturating_from_str_octal(\"-1\"), Ok(U8F8::ZERO));
 ",
             },
             "```
@@ -1011,7 +1011,7 @@ assert_eq!(I8F8::saturating_from_str_hex(\"-FFFF\"), Ok(I8F8::MIN));
 ",
                 "use fixed::types::U8F8;
 assert_eq!(U8F8::saturating_from_str_hex(\"FFFF\"), Ok(U8F8::MAX));
-assert_eq!(U8F8::saturating_from_str_hex(\"-1\"), Ok(U8F8::from_num(0)));
+assert_eq!(U8F8::saturating_from_str_hex(\"-1\"), Ok(U8F8::ZERO));
 ",
             },
             "```

@@ -44,7 +44,7 @@ use core::{
 /// ```should_panic
 /// use fixed::{types::I16F16, Unwrapped};
 /// let max = Unwrapped(I16F16::MAX);
-/// let delta = Unwrapped(I16F16::from_bits(1));
+/// let delta = Unwrapped(I16F16::DELTA);
 /// let _overflow = max + delta;
 /// ```
 #[repr(transparent)]
@@ -878,7 +878,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// ```should_panic
     /// use fixed::{types::I8F24, Unwrapped};
-    /// let frac_1_512 = Unwrapped(I8F24::from_num(1) / 512);
+    /// let frac_1_512 = Unwrapped(I8F24::ONE / 512);
     /// let _overflow = frac_1_512.recip();
     /// ```
     #[inline]
@@ -910,7 +910,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// ```should_panic
     /// use fixed::{types::I16F16, Unwrapped};
-    /// let one = Unwrapped(I16F16::from_num(1));
+    /// let one = Unwrapped(I16F16::ONE);
     /// let max = Unwrapped(I16F16::MAX);
     /// let _overflow = max.mul_add(one, one);
     /// ```
@@ -1062,7 +1062,7 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// ```rust
     /// use fixed::{types::I16F16, Unwrapped};
     /// assert!(Unwrapped(I16F16::from_num(4.3)).is_positive());
-    /// assert!(!Unwrapped(I16F16::from_num(0)).is_positive());
+    /// assert!(!Unwrapped(I16F16::ZERO).is_positive());
     /// assert!(!Unwrapped(I16F16::from_num(-4.3)).is_positive());
     /// ```
     #[inline]
@@ -1077,7 +1077,7 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// ```rust
     /// use fixed::{types::I16F16, Unwrapped};
     /// assert!(!Unwrapped(I16F16::from_num(4.3)).is_negative());
-    /// assert!(!Unwrapped(I16F16::from_num(0)).is_negative());
+    /// assert!(!Unwrapped(I16F16::ZERO).is_negative());
     /// assert!(Unwrapped(I16F16::from_num(-4.3)).is_negative());
     /// ```
     #[inline]
@@ -1129,8 +1129,8 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// ```rust
     /// use fixed::{types::I16F16, Unwrapped};
     /// assert_eq!(Unwrapped(<I16F16>::from_num(-3.9)).signum(), Unwrapped(I16F16::from_num(-1)));
-    /// assert_eq!(Unwrapped(<I16F16>::from_num(0)).signum(), Unwrapped(I16F16::from_num(0)));
-    /// assert_eq!(Unwrapped(<I16F16>::from_num(3.9)).signum(), Unwrapped(I16F16::from_num(1)));
+    /// assert_eq!(Unwrapped(<I16F16>::ZERO).signum(), Unwrapped(I16F16::from_num(0)));
+    /// assert_eq!(Unwrapped(<I16F16>::from_num(3.9)).signum(), Unwrapped(I16F16::ONE));
     /// ```
     ///
     /// The following panics because of overflow.
@@ -1194,7 +1194,7 @@ impl<F: FixedUnsigned> Unwrapped<F> {
     /// assert_eq!(T::from_num(0.3).highest_one(), T::from_num(0.25));
     /// assert_eq!(T::from_num(4).highest_one(), T::from_num(4));
     /// assert_eq!(T::from_num(6.5).highest_one(), T::from_num(4));
-    /// assert_eq!(T::from_num(0).highest_one(), T::from_num(0));
+    /// assert_eq!(T::ZERO.highest_one(), T::ZERO);
     /// ```
     #[inline]
     pub fn highest_one(self) -> Unwrapped<F> {

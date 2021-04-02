@@ -84,7 +84,7 @@ numbers, except in the case where there are no integer bits, that is
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 // 0000.0100
-let quarter = Fix::from_num(1) / 4;
+let quarter = Fix::ONE / 4;
 // 0010.0100
 let two_and_quarter = quarter * 9;
 assert_eq!(two_and_quarter.frac(), quarter);
@@ -608,7 +608,7 @@ assert_eq!(Fix::from_num(2.5).wrapping_floor(), Fix::from_num(2));
                 $Signedness,
                 "assert_eq!(Fix::from_num(-2.5).wrapping_floor(), Fix::from_num(-3));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
-assert_eq!(AllFrac::MIN.wrapping_floor(), AllFrac::from_num(0));
+assert_eq!(AllFrac::MIN.wrapping_floor(), AllFrac::ZERO);
 ",
             },
             "```
@@ -893,7 +893,7 @@ assert_eq!(Fix::from_num(2.5).overflowing_floor(), (Fix::from_num(2), false));
                 $Signedness,
                 "assert_eq!(Fix::from_num(-2.5).overflowing_floor(), (Fix::from_num(-3), false));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
-assert_eq!(AllFrac::MIN.overflowing_floor(), (AllFrac::from_num(0), true));
+assert_eq!(AllFrac::MIN.overflowing_floor(), (AllFrac::ZERO, true));
 ",
             },
             "```

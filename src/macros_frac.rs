@@ -127,7 +127,7 @@ Returns the logarithm or [`None`] if the fixed-point number is
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::from_num(0).checked_int_log2(), None);
+assert_eq!(Fix::ZERO.checked_int_log2(), None);
 assert_eq!(Fix::from_num(4).checked_int_log2(), Some(2));
 assert_eq!(Fix::from_num(3.9375).checked_int_log2(), Some(1));
 assert_eq!(Fix::from_num(0.25).checked_int_log2(), Some(-2));
@@ -156,7 +156,7 @@ use fixed::{
     types::extra::{U2, U6},
     ", $s_fixed, ",
 };
-assert_eq!(", $s_fixed, "::<U2>::from_num(0).checked_int_log10(), None);
+assert_eq!(", $s_fixed, "::<U2>::ZERO.checked_int_log10(), None);
 assert_eq!(", $s_fixed, "::<U2>::from_num(10).checked_int_log10(), Some(1));
 assert_eq!(", $s_fixed, "::<U2>::from_num(9.75).checked_int_log10(), Some(0));
 assert_eq!(", $s_fixed, "::<U6>::from_num(0.109375).checked_int_log10(), Some(-1));
@@ -204,7 +204,7 @@ represented is almost certainly a bug.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(5).signum(), 1);
-assert_eq!(Fix::from_num(0).signum(), 0);
+assert_eq!(Fix::ZERO.signum(), 0);
 assert_eq!(Fix::from_num(-5).signum(), -1);
 ```
 ";
@@ -397,8 +397,8 @@ use fixed::{
     ", $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::from_num(5).checked_signum(), Some(Fix::from_num(1)));
-assert_eq!(Fix::from_num(0).checked_signum(), Some(Fix::from_num(0)));
+assert_eq!(Fix::from_num(5).checked_signum(), Some(Fix::ONE));
+assert_eq!(Fix::ZERO.checked_signum(), Some(Fix::ZERO));
 assert_eq!(Fix::from_num(-5).checked_signum(), Some(Fix::from_num(-1)));
 
 type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
@@ -427,7 +427,7 @@ assert_eq!(ZeroIntBits::from_num(-0.5).checked_signum(), None);
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::MAX.checked_mul(Fix::from_num(1)), Some(Fix::MAX));
+assert_eq!(Fix::MAX.checked_mul(Fix::ONE), Some(Fix::MAX));
 assert_eq!(Fix::MAX.checked_mul(Fix::from_num(2)), None);
 ```
 ";
@@ -450,8 +450,8 @@ the divisor is zero or on overflow.
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::MAX.checked_div(Fix::from_num(1)), Some(Fix::MAX));
-assert_eq!(Fix::MAX.checked_div(Fix::from_num(1) / 2), None);
+assert_eq!(Fix::MAX.checked_div(Fix::ONE), Some(Fix::MAX));
+assert_eq!(Fix::MAX.checked_div(Fix::ONE / 2), None);
 ```
 ";
                 #[inline]
@@ -477,7 +477,7 @@ assert_eq!(Fix::MAX.checked_div(Fix::from_num(1) / 2), None);
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2).checked_recip(), Some(Fix::from_num(0.5)));
-assert_eq!(Fix::from_num(0).checked_recip(), None);
+assert_eq!(Fix::ZERO.checked_recip(), None);
 ```
 ";
                 #[inline]
@@ -503,7 +503,7 @@ assert_eq!(Fix::from_num(0).checked_recip(), None);
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).checked_div_euclid(Fix::from_num(2)), Some(Fix::from_num(3)));
-assert_eq!(Fix::from_num(7.5).checked_div_euclid(Fix::from_num(0)), None);
+assert_eq!(Fix::from_num(7.5).checked_div_euclid(Fix::ZERO), None);
 assert_eq!(Fix::MAX.checked_div_euclid(Fix::from_num(0.25)), None);
 ",
                 if_signed_else_empty_str! {
@@ -695,7 +695,7 @@ use fixed::{
 };
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(5).saturating_signum(), 1);
-assert_eq!(Fix::from_num(0).saturating_signum(), 0);
+assert_eq!(Fix::ZERO.saturating_signum(), 0);
 assert_eq!(Fix::from_num(-5).saturating_signum(), -1);
 
 type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
@@ -756,8 +756,8 @@ Panics if the divisor is zero.
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-let one_half = Fix::from_num(1) / 2;
-assert_eq!(Fix::from_num(1).saturating_div(Fix::from_num(2)), one_half);
+let one_half = Fix::ONE / 2;
+assert_eq!(Fix::ONE.saturating_div(Fix::from_num(2)), one_half);
 assert_eq!(Fix::MAX.saturating_div(one_half), Fix::MAX);
 ```
 ";
@@ -876,7 +876,7 @@ use fixed::{
 };
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(5).wrapping_signum(), 1);
-assert_eq!(Fix::from_num(0).wrapping_signum(), 0);
+assert_eq!(Fix::ZERO.wrapping_signum(), 0);
 assert_eq!(Fix::from_num(-5).wrapping_signum(), -1);
 
 type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
@@ -932,7 +932,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let one_point_5 = Fix::from_bits(0b11 << (4 - 1));
 assert_eq!(Fix::from_num(3).wrapping_div(Fix::from_num(2)), one_point_5);
-let quarter = Fix::from_num(1) / 4;
+let quarter = Fix::ONE / 4;
 let wrapped = Fix::from_bits(!0 << 2);
 assert_eq!(Fix::MAX.wrapping_div(quarter), wrapped);
 ```
@@ -959,7 +959,7 @@ Panics if the fixed-point number is zero.
 use fixed::{types::extra::U", $s_nbits_m1, ", ", $s_fixed, "};
 // only one integer bit
 type Fix = ", $s_fixed, "<U", $s_nbits_m1, ">;
-assert_eq!(Fix::from_num(0.25).wrapping_recip(), Fix::from_num(0));
+assert_eq!(Fix::from_num(0.25).wrapping_recip(), Fix::ZERO);
 ```
 ";
                 #[inline]
@@ -1096,7 +1096,7 @@ Panics if the result does not fit.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(5).unwrapped_signum(), 1);
-assert_eq!(Fix::from_num(0).unwrapped_signum(), 0);
+assert_eq!(Fix::ZERO.unwrapped_signum(), 0);
 assert_eq!(Fix::from_num(-5).unwrapped_signum(), -1);
 ```
 
@@ -1168,7 +1168,7 @@ The following panics because of overflow.
 ```should_panic
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-let quarter = Fix::from_num(1) / 4;
+let quarter = Fix::ONE / 4;
 let _overflow = Fix::MAX.unwrapped_div(quarter);
 ```
 ";
@@ -1409,15 +1409,15 @@ use fixed::{
     ", $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::from_num(5).overflowing_signum(), (Fix::from_num(1), false));
-assert_eq!(Fix::from_num(0).overflowing_signum(), (Fix::from_num(0), false));
+assert_eq!(Fix::from_num(5).overflowing_signum(), (Fix::ONE, false));
+assert_eq!(Fix::ZERO.overflowing_signum(), (Fix::ZERO, false));
 assert_eq!(Fix::from_num(-5).overflowing_signum(), (Fix::from_num(-1), false));
 
 type OneIntBit = ", $s_fixed, "<U", $s_nbits_m1, ">;
 type ZeroIntBits = ", $s_fixed, "<U", $s_nbits, ">;
 assert_eq!(OneIntBit::from_num(0.5).overflowing_signum(), (OneIntBit::from_num(-1), true));
-assert_eq!(ZeroIntBits::from_num(0.25).overflowing_signum(), (ZeroIntBits::from_num(0), true));
-assert_eq!(ZeroIntBits::from_num(-0.5).overflowing_signum(), (ZeroIntBits::from_num(0), true));
+assert_eq!(ZeroIntBits::from_num(0.25).overflowing_signum(), (ZeroIntBits::ZERO, true));
+assert_eq!(ZeroIntBits::from_num(-0.5).overflowing_signum(), (ZeroIntBits::ZERO, true));
 ```
 ";
                     #[inline]
@@ -1472,7 +1472,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let one_point_5 = Fix::from_bits(0b11 << (4 - 1));
 assert_eq!(Fix::from_num(3).overflowing_div(Fix::from_num(2)), (one_point_5, false));
-let quarter = Fix::from_num(1) / 4;
+let quarter = Fix::ONE / 4;
 let wrapped = Fix::from_bits(!0 << 2);
 assert_eq!(Fix::MAX.overflowing_div(quarter), (wrapped, true));
 ```
@@ -1506,7 +1506,7 @@ type Fix = ", $s_fixed, "<U4>;
 // only one integer bit
 type Small = ", $s_fixed, "<U", $s_nbits_m1, ">;
 assert_eq!(Fix::from_num(0.25).overflowing_recip(), (Fix::from_num(4), false));
-assert_eq!(Small::from_num(0.25).overflowing_recip(), (Small::from_num(0), true));
+assert_eq!(Small::from_num(0.25).overflowing_recip(), (Small::ZERO, true));
 ```
 ";
                 #[inline]

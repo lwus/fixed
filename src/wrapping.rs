@@ -41,7 +41,7 @@ use core::{
 /// ```rust
 /// use fixed::{types::I16F16, Wrapping};
 /// let max = Wrapping(I16F16::MAX);
-/// let delta = Wrapping(I16F16::from_bits(1));
+/// let delta = Wrapping(I16F16::DELTA);
 /// assert_eq!(I16F16::MIN, (max + delta).0);
 /// ```
 #[repr(transparent)]
@@ -593,7 +593,7 @@ impl<F: Fixed> Wrapping<F> {
     /// };
     /// let two_half = Wrapping(I16F16::from_num(5) / 2);
     /// assert_eq!(two_half.floor(), Wrapping(I16F16::from_num(2)));
-    /// assert_eq!(Wrapping(I0F32::MIN).floor(), Wrapping(I0F32::from_num(0)));
+    /// assert_eq!(Wrapping(I0F32::MIN).floor(), Wrapping(I0F32::ZERO));
     /// ```
     #[inline]
     pub fn floor(self) -> Wrapping<F> {
@@ -813,9 +813,9 @@ impl<F: Fixed> Wrapping<F> {
     /// ```rust
     /// use fixed::{types::I8F24, Wrapping};
     /// let quarter = Wrapping(I8F24::from_num(0.25));
-    /// let frac_1_512 = Wrapping(I8F24::from_num(1) / 512);
+    /// let frac_1_512 = Wrapping(I8F24::ONE / 512);
     /// assert_eq!(quarter.recip(), Wrapping(I8F24::from_num(4)));
-    /// assert_eq!(frac_1_512.recip(), Wrapping(I8F24::from_num(0)));
+    /// assert_eq!(frac_1_512.recip(), Wrapping(I8F24::ZERO));
     /// ```
     #[inline]
     pub fn recip(self) -> Wrapping<F> {
@@ -958,7 +958,7 @@ impl<F: FixedSigned> Wrapping<F> {
     /// ```rust
     /// use fixed::{types::I16F16, Wrapping};
     /// assert!(Wrapping(I16F16::from_num(4.3)).is_positive());
-    /// assert!(!Wrapping(I16F16::from_num(0)).is_positive());
+    /// assert!(!Wrapping(I16F16::ZERO).is_positive());
     /// assert!(!Wrapping(I16F16::from_num(-4.3)).is_positive());
     /// ```
     #[inline]
@@ -973,7 +973,7 @@ impl<F: FixedSigned> Wrapping<F> {
     /// ```rust
     /// use fixed::{types::I16F16, Wrapping};
     /// assert!(!Wrapping(I16F16::from_num(4.3)).is_negative());
-    /// assert!(!Wrapping(I16F16::from_num(0)).is_negative());
+    /// assert!(!Wrapping(I16F16::ZERO).is_negative());
     /// assert!(Wrapping(I16F16::from_num(-4.3)).is_negative());
     /// ```
     #[inline]
@@ -1024,12 +1024,12 @@ impl<F: FixedSigned> Wrapping<F> {
     ///     Wrapping,
     /// };
     /// assert_eq!(Wrapping(<I16F16>::from_num(-3.9)).signum(), Wrapping(I16F16::from_num(-1)));
-    /// assert_eq!(Wrapping(<I16F16>::from_num(0)).signum(), Wrapping(I16F16::from_num(0)));
-    /// assert_eq!(Wrapping(<I16F16>::from_num(3.9)).signum(), Wrapping(I16F16::from_num(1)));
+    /// assert_eq!(Wrapping(<I16F16>::ZERO).signum(), Wrapping(I16F16::ZERO));
+    /// assert_eq!(Wrapping(<I16F16>::from_num(3.9)).signum(), Wrapping(I16F16::ONE));
     ///
     /// assert_eq!(Wrapping(<I1F31>::from_num(0.5)).signum(), Wrapping(I1F31::from_num(-1)));
-    /// assert_eq!(Wrapping(<I0F32>::from_num(0.25)).signum(), Wrapping(I0F32::from_num(0)));
-    /// assert_eq!(Wrapping(<I0F32>::from_num(-0.5)).signum(), Wrapping(I0F32::from_num(0)));
+    /// assert_eq!(Wrapping(<I0F32>::from_num(0.25)).signum(), Wrapping(I0F32::ZERO));
+    /// assert_eq!(Wrapping(<I0F32>::from_num(-0.5)).signum(), Wrapping(I0F32::ZERO));
     /// ```
     ///
     /// [`I0F16`]: `crate::types::I0F16`
@@ -1088,7 +1088,7 @@ impl<F: FixedUnsigned> Wrapping<F> {
     /// assert_eq!(T::from_num(0.3).highest_one(), T::from_num(0.25));
     /// assert_eq!(T::from_num(4).highest_one(), T::from_num(4));
     /// assert_eq!(T::from_num(6.5).highest_one(), T::from_num(4));
-    /// assert_eq!(T::from_num(0).highest_one(), T::from_num(0));
+    /// assert_eq!(T::ZERO.highest_one(), T::ZERO);
     /// ```
     #[inline]
     pub fn highest_one(self) -> Wrapping<F> {
@@ -1109,7 +1109,7 @@ impl<F: FixedUnsigned> Wrapping<F> {
     /// assert_eq!(T::from_num(4).next_power_of_two(), T::from_num(4));
     /// assert_eq!(T::from_num(6.5).next_power_of_two(), T::from_num(8));
     /// // if the next power of two is too large, it is wrapped to zero
-    /// assert_eq!(T::MAX.next_power_of_two(), T::from_num(0));
+    /// assert_eq!(T::MAX.next_power_of_two(), T::ZERO);
     /// ```
     #[inline]
     pub fn next_power_of_two(self) -> Wrapping<F> {

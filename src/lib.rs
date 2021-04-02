@@ -585,12 +585,11 @@ fixed! {
 ///
 /// ```rust
 /// use fixed::{types::I16F16, F128Bits};
-/// let one_fixed = I16F16::from_num(1);
 /// // binary128 representation for 1.0 is 0x3FFF << 112
 /// let one = F128Bits(0x3FFF_u128 << 112);
 ///
-/// assert_eq!(one_fixed.to_num::<F128Bits>(), one);
-/// assert_eq!(I16F16::from_num(one), one_fixed);
+/// assert_eq!(I16F16::ONE.to_num::<F128Bits>(), one);
+/// assert_eq!(I16F16::from_num(one), I16F16::ONE);
 ///
 /// // fixed-point numbers can be compared directly to F128Bits values
 /// assert!(I16F16::from_num(1.5) > one);
