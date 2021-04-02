@@ -414,7 +414,7 @@ macro_rules! fixed_arith {
             where
                 I: Iterator<Item = $Fixed<Frac>>,
             {
-                iter.fold(Self::from_bits(0), Add::add)
+                iter.fold(Self::ZERO, Add::add)
             }
         }
 
@@ -423,7 +423,7 @@ macro_rules! fixed_arith {
             where
                 I: Iterator<Item = &'a $Fixed<Frac>>,
             {
-                iter.fold(Self::from_bits(0), Add::add)
+                iter.fold(Self::ZERO, Add::add)
             }
         }
 
@@ -1005,16 +1005,16 @@ mod tests {
             let min = <$F>::MIN;
             let max = <$F>::MAX;
             let hmax = max / 2;
-            let eps = <$F>::from_bits(1);
-            let zero = <$F>::from_num(0);
-            let one = <$F>::from_num(1);
-            let three = <$F>::from_num(3);
+            let delta = <$F>::DELTA;
+            let zero = <$F>::ZERO;
+            let one = <$F>::ONE;
+            let three = one * 3;
             let m_hmax = zero.wrapping_sub(hmax);
-            let m_eps = zero.wrapping_sub(eps);
-            let max_m_eps = max - eps;
+            let m_delta = zero.wrapping_sub(delta);
+            let max_m_delta = max - delta;
             assert_eq!(max.overflowing_mul_add(one, zero), (max, false));
-            assert_eq!(max.overflowing_mul_add(one, eps), (min, true));
-            assert_eq!(max.overflowing_mul_add(one, m_eps), (max_m_eps, m_eps > 0));
+            assert_eq!(max.overflowing_mul_add(one, delta), (min, true));
+            assert_eq!(max.overflowing_mul_add(one, m_delta), (max_m_delta, m_delta > 0));
             assert_eq!(max.overflowing_mul_add(three, max), (<$F>::from_bits(!0 << 2), true));
             assert_eq!(hmax.overflowing_mul_add(three, m_hmax), (hmax * 2, m_hmax > 0));
         )* };

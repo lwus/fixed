@@ -211,7 +211,7 @@ assert_eq!(Fix::from_num(-5).signum(), -1);
                     #[inline]
                     pub fn signum(self) -> $Fixed<Frac> {
                         match self.to_bits().cmp(&0) {
-                            Ordering::Equal => Self::from_bits(0),
+                            Ordering::Equal => Self::ZERO,
                             Ordering::Greater => Self::from_num(1),
                             Ordering::Less => Self::from_num(-1),
                         }
@@ -411,7 +411,7 @@ assert_eq!(ZeroIntBits::from_num(-0.5).checked_signum(), None);
                     #[inline]
                     pub fn checked_signum(self) -> Option<$Fixed<Frac>> {
                         match self.to_bits().cmp(&0) {
-                            Ordering::Equal => Some(Self::from_bits(0)),
+                            Ordering::Equal => Some(Self::ZERO),
                             Ordering::Greater => Self::checked_from_num(1),
                             Ordering::Less => Self::checked_from_num(-1),
                         }
@@ -564,7 +564,7 @@ assert_eq!(Fix::from_num(3.75).checked_rem_int(0), None);
                             if self == Self::MIN
                                 && (Self::INT_NBITS > 0 && rhs == 1 << (Self::INT_NBITS - 1))
                             {
-                                Self::from_bits(0)
+                                Self::ZERO
                             } else {
                                 self
                             },
@@ -708,7 +708,7 @@ assert_eq!(ZeroIntBits::from_num(-0.5).saturating_signum(), ZeroIntBits::MIN);
                     #[inline]
                     pub fn saturating_signum(self) -> $Fixed<Frac> {
                         match self.to_bits().cmp(&0) {
-                            Ordering::Equal => Self::from_bits(0),
+                            Ordering::Equal => Self::ZERO,
                             Ordering::Greater => Self::saturating_from_num(1),
                             Ordering::Less => Self::saturating_from_num(-1),
                         }
@@ -889,7 +889,7 @@ assert_eq!(ZeroIntBits::from_num(-0.5).wrapping_signum(), 0);
                     #[inline]
                     pub fn wrapping_signum(self) -> $Fixed<Frac> {
                         match self.to_bits().cmp(&0) {
-                            Ordering::Equal => Self::from_bits(0),
+                            Ordering::Equal => Self::ZERO,
                             Ordering::Greater => Self::wrapping_from_num(1),
                             Ordering::Less => Self::wrapping_from_num(-1),
                         }
@@ -1423,7 +1423,7 @@ assert_eq!(ZeroIntBits::from_num(-0.5).overflowing_signum(), (ZeroIntBits::from_
                     #[inline]
                     pub fn overflowing_signum(self) -> ($Fixed<Frac>, bool) {
                         match self.to_bits().cmp(&0) {
-                            Ordering::Equal => (Self::from_bits(0), false),
+                            Ordering::Equal => (Self::ZERO, false),
                             Ordering::Greater => Self::overflowing_from_num(1),
                             Ordering::Less => Self::overflowing_from_num(-1),
                         }

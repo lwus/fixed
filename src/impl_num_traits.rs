@@ -93,7 +93,7 @@ macro_rules! impl_traits {
         impl<Frac> Zero for $Fixed<Frac> {
             #[inline]
             fn zero() -> Self {
-                Self::from_bits(0)
+                Self::ZERO
             }
             #[inline]
             fn is_zero(&self) -> bool {
@@ -107,7 +107,7 @@ macro_rules! impl_traits {
         {
             #[inline]
             fn one() -> Self {
-                Self::from_bits(Self::from_bits(1).to_bits() << Frac::U32)
+                Self::ONE
             }
         }
 
@@ -151,7 +151,7 @@ macro_rules! impl_traits {
                 #[inline]
                 fn abs_sub(&self, other: &Self) -> Self {
                     if *self < *other {
-                        Self::from_bits(0)
+                        Self::ZERO
                     } else {
                         *other - *self
                     }

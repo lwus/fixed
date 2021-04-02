@@ -816,7 +816,7 @@ assert_eq!(Fix::from_num(7.5).rem_euclid(Fix::from_num(2)), Fix::from_num(1.5));
                     if_signed! {
                         $Signedness;
                         if rhs_bits == -1 {
-                            return Self::from_bits(0);
+                            return Self::ZERO;
                         }
                     }
                     Self::from_bits(self.to_bits().rem_euclid(rhs_bits))
@@ -1063,7 +1063,7 @@ assert_eq!(Fix::from_num(1.5).checked_rem(Fix::from_num(0)), None);
                     if_signed! {
                         $Signedness;
                         if rhs_bits == -1 {
-                            return Some(Self::from_bits(0));
+                            return Some(Self::ZERO);
                         }
                     }
                     match self.to_bits().checked_rem(rhs_bits) {
@@ -1213,7 +1213,7 @@ assert_eq!(num.checked_rem_euclid(Fix::from_num(0)), None);
                     if_signed! {
                         $Signedness;
                         if rhs_bits == -1 {
-                            return Some(Self::from_bits(0));
+                            return Some(Self::ZERO);
                         }
                     }
                     match self.to_bits().checked_rem_euclid(rhs_bits) {
@@ -1361,7 +1361,7 @@ assert_eq!(Fix::from_num(5).saturating_neg(), Fix::from_num(0));",
                                 (_, true) => Self::MAX,
                             }
                         },
-                        Self::from_bits(0),
+                        Self::ZERO,
                     }
                 }
             }
@@ -1822,7 +1822,7 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
                     pub const fn wrapping_next_power_of_two(self) -> $Fixed<Frac> {
                         match self.checked_next_power_of_two() {
                             Some(x) => x,
-                            None => Self::from_bits(0),
+                            None => Self::ZERO,
                         }
                     }
                 }

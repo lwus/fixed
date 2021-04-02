@@ -1382,7 +1382,7 @@ impl<F: Fixed> Sum<Wrapping<F>> for Wrapping<F> {
     where
         I: Iterator<Item = Wrapping<F>>,
     {
-        iter.fold(Wrapping(F::from_num(0)), Add::add)
+        iter.fold(Wrapping(F::ZERO), Add::add)
     }
 }
 
@@ -1391,7 +1391,7 @@ impl<'a, F: 'a + Fixed> Sum<&'a Wrapping<F>> for Wrapping<F> {
     where
         I: Iterator<Item = &'a Wrapping<F>>,
     {
-        iter.fold(Wrapping(F::from_num(0)), Add::add)
+        iter.fold(Wrapping(F::ZERO), Add::add)
     }
 }
 

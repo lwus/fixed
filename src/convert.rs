@@ -1256,9 +1256,9 @@ mod tests {
         // 0.00101 -> 0000.0010 (tie to even)
         assert_eq!(Fix::from_num(5.0 / 32.0), Fix::from_bits(2));
         // 0.000011 -> 0000.0001 (nearest)
-        assert_eq!(Fix::from_num(3.0 / 64.0), Fix::from_bits(1));
+        assert_eq!(Fix::from_num(3.0 / 64.0), Fix::DELTA);
         // 0.00001 -> 0000.0000 (tie to even)
-        assert_eq!(Fix::from_num(1.0 / 32.0), Fix::from_bits(0));
+        assert_eq!(Fix::from_num(1.0 / 32.0), Fix::ZERO);
 
         // -1.1 -> -0001.1000
         assert_eq!(Fix::from_num(-3.0 / 2.0), Fix::from_bits(-24));
@@ -1275,7 +1275,7 @@ mod tests {
         // -0.000011 -> -0000.0001 (nearest)
         assert_eq!(Fix::from_num(-3.0 / 64.0), Fix::from_bits(-1));
         // -0.00001 -> 0000.0000 (tie to even)
-        assert_eq!(Fix::from_num(-1.0 / 32.0), Fix::from_bits(0));
+        assert_eq!(Fix::from_num(-1.0 / 32.0), Fix::ZERO);
 
         // 111.1111 -> 111.1111
         assert_eq!(Fix::from_num(127.0 / 16.0), Fix::from_bits(127));
@@ -1314,11 +1314,11 @@ mod tests {
         // 0.00101 -> 0000.0010 (tie to even)
         assert_eq!(Fix::from_num(5.0 / 32.0), Fix::from_bits(2));
         // 0.000011 -> 0000.0001 (nearest)
-        assert_eq!(Fix::from_num(3.0 / 64.0), Fix::from_bits(1));
+        assert_eq!(Fix::from_num(3.0 / 64.0), Fix::DELTA);
         // 0.00001 -> 0000.0000 (tie to even)
-        assert_eq!(Fix::from_num(1.0 / 32.0), Fix::from_bits(0));
+        assert_eq!(Fix::from_num(1.0 / 32.0), Fix::ZERO);
         // -0.00001 -> 0000.0000 (tie to even)
-        assert_eq!(Fix::from_num(-1.0 / 32.0), Fix::from_bits(0));
+        assert_eq!(Fix::from_num(-1.0 / 32.0), Fix::ZERO);
         // -0.0001 -> too small
         assert_eq!(
             Fix::overflowing_from_num(-1.0 / 16.0),
@@ -1328,10 +1328,7 @@ mod tests {
         // 1111.1111 -> 1111.1111
         assert_eq!(Fix::from_num(255.0 / 16.0), Fix::from_bits(255));
         // 1111.11111 -> too large (tie to even)
-        assert_eq!(
-            Fix::overflowing_from_num(511.0 / 32.0),
-            (Fix::from_bits(0), true)
-        );
+        assert_eq!(Fix::overflowing_from_num(511.0 / 32.0), (Fix::ZERO, true));
     }
 
     #[test]
@@ -1489,7 +1486,7 @@ mod tests {
 
         // not_too_large is 1.ffff_feff_ffff... << 127,
         // which will be rounded to 1.ffff_fe << 127.
-        let not_too_large = still_too_large - U128F0::from_bits(1);
+        let not_too_large = still_too_large - U128F0::DELTA;
         assert_eq!(not_too_large.count_ones(), 127);
         assert!(!not_too_large.to_num::<f32>().is_infinite());
 
@@ -1568,10 +1565,10 @@ mod tests {
             F128Bits(0xBF7F_u128 << 112)
         );
         // 0 -> sign 0, biased exp 0, mantissa 0
-        assert_eq!(I8F8::from_num(0).to_num::<F128Bits>(), F128Bits(0));
+        assert_eq!(I8F8::ZERO.to_num::<F128Bits>(), F128Bits(0));
         // 1 >> 128 -> sign 0, biased exp 3F7F, mantissa 0
         assert_eq!(
-            I0F128::from_bits(1).to_num::<F128Bits>(),
+            I0F128::DELTA.to_num::<F128Bits>(),
             F128Bits(0x3F7F_u128 << 112)
         );
         // 0.5 -> sign 0, biased exp 3FFE, mantissa 0
@@ -1580,10 +1577,7 @@ mod tests {
             F128Bits(0x3FFE_u128 << 112)
         );
         // 1 -> sign 0, biased exp 3FFF, mantissa 0
-        assert_eq!(
-            I8F8::from_num(1).to_num::<F128Bits>(),
-            F128Bits(0x3FFF_u128 << 112)
-        );
+        assert_eq!(I8F8::ONE.to_num::<F128Bits>(), F128Bits(0x3FFF_u128 << 112));
         // 01.3A -> sign 0, biased exp 3FFF, mantissa 3A00 << 96
         assert_eq!(
             I8F8::from_bits(0x013A).to_num::<F128Bits>(),
@@ -1599,7 +1593,7 @@ mod tests {
 
         assert_eq!(f16::lossy_from(f32::NEG_INFINITY), f16::NEG_INFINITY);
         assert!(f16::lossy_from(f32::NAN).is_nan());
-        assert_eq!(f16::lossy_from(1e-37f32), f16::from_bits(0));
+        assert_eq!(f16::lossy_from(1e-37f32), f16::ZERO);
         // -1.625 << 15 is 1 11110 1010000000 is FA80
         assert_eq!(f16::lossy_from(-32768f32 * 1.625), f16::from_bits(0xFA80));
         assert_eq!(f16::lossy_from(32768f32 * 2.), f16::INFINITY);
@@ -1624,11 +1618,11 @@ mod tests {
             f16::lossy_from((-24f32).exp2() * 0.5001),
             f16::from_bits(0x0001)
         );
-        assert_eq!(f16::lossy_from((-24f32).exp2() * 0.5), f16::from_bits(0));
+        assert_eq!(f16::lossy_from((-24f32).exp2() * 0.5), f16::ZERO);
 
         assert_eq!(f16::lossy_from(f64::NEG_INFINITY), f16::NEG_INFINITY);
         assert!(f16::lossy_from(f64::NAN).is_nan());
-        assert_eq!(f16::lossy_from(1e-37f64), f16::from_bits(0));
+        assert_eq!(f16::lossy_from(1e-37f64), f16::ZERO);
         // -1.625 << 15 is 1 11110 1010000000 is FA80
         assert_eq!(f16::lossy_from(-32768f64 * 1.625), f16::from_bits(0xFA80));
         assert_eq!(f16::lossy_from(32768f64 * 2.), f16::INFINITY);
@@ -1653,7 +1647,7 @@ mod tests {
             f16::lossy_from((-24f64).exp2() * 0.5001),
             f16::from_bits(0x0001)
         );
-        assert_eq!(f16::lossy_from((-24f32).exp2() * 0.5), f16::from_bits(0));
+        assert_eq!(f16::lossy_from((-24f32).exp2() * 0.5), f16::ZERO);
     }
 
     #[test]
@@ -1699,7 +1693,7 @@ mod tests {
 
         assert_eq!(bf16::lossy_from(f64::NEG_INFINITY), bf16::NEG_INFINITY);
         assert!(bf16::lossy_from(f64::NAN).is_nan());
-        assert_eq!(bf16::lossy_from(1e-100f64), bf16::from_bits(0));
+        assert_eq!(bf16::lossy_from(1e-100f64), bf16::ZERO);
         // -1.625 << 127 is 1 11111110 1010000 is FF50
         assert_eq!(
             bf16::lossy_from(127f64.exp2() * -1.625),
@@ -1712,7 +1706,7 @@ mod tests {
             bf16::lossy_from((-133f64).exp2() * 0.5001),
             bf16::from_bits(0x0001)
         );
-        assert_eq!(bf16::lossy_from((-133f32).exp2() * 0.5), bf16::from_bits(0));
+        assert_eq!(bf16::lossy_from((-133f32).exp2() * 0.5), bf16::ZERO);
     }
 
     #[test]
@@ -1726,10 +1720,10 @@ mod tests {
         assert_eq!(U32F0::from_num(U0F32::MIN), 0);
         assert_eq!(U32F0::from_num(U0F32::MAX), 0);
 
-        assert_eq!(I0F32::from_num(I32F0::from_bits(0)), 0);
-        assert_eq!(I0F32::from_num(U32F0::from_bits(0)), 0);
-        assert_eq!(U0F32::from_num(I32F0::from_bits(0)), 0);
-        assert_eq!(U0F32::from_num(U32F0::from_bits(0)), 0);
+        assert_eq!(I0F32::from_num(I32F0::ZERO), 0);
+        assert_eq!(I0F32::from_num(U32F0::ZERO), 0);
+        assert_eq!(U0F32::from_num(I32F0::ZERO), 0);
+        assert_eq!(U0F32::from_num(U32F0::ZERO), 0);
 
         assert_eq!(I128F0::from_num(I0F128::MIN), -1);
         assert_eq!(I128F0::from_num(I0F128::MAX), 0);
@@ -1740,9 +1734,9 @@ mod tests {
         assert_eq!(U128F0::from_num(U0F128::MIN), 0);
         assert_eq!(U128F0::from_num(U0F128::MAX), 0);
 
-        assert_eq!(I0F128::from_num(I128F0::from_bits(0)), 0);
-        assert_eq!(I0F128::from_num(U128F0::from_bits(0)), 0);
-        assert_eq!(U0F128::from_num(I128F0::from_bits(0)), 0);
-        assert_eq!(U0F128::from_num(U128F0::from_bits(0)), 0);
+        assert_eq!(I0F128::from_num(I128F0::ZERO), 0);
+        assert_eq!(I0F128::from_num(U128F0::ZERO), 0);
+        assert_eq!(U0F128::from_num(I128F0::ZERO), 0);
+        assert_eq!(U0F128::from_num(U128F0::ZERO), 0);
     }
 }

@@ -1523,7 +1523,7 @@ impl<F: Fixed> Sum<Unwrapped<F>> for Unwrapped<F> {
     where
         I: Iterator<Item = Unwrapped<F>>,
     {
-        iter.fold(Unwrapped(F::from_num(0)), Add::add)
+        iter.fold(Unwrapped(F::ZERO), Add::add)
     }
 }
 
@@ -1533,7 +1533,7 @@ impl<'a, F: 'a + Fixed> Sum<&'a Unwrapped<F>> for Unwrapped<F> {
     where
         I: Iterator<Item = &'a Unwrapped<F>>,
     {
-        iter.fold(Unwrapped(F::from_num(0)), Add::add)
+        iter.fold(Unwrapped(F::ZERO), Add::add)
     }
 }
 
