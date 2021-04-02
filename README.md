@@ -50,6 +50,8 @@ have different trade-offs, for example trading some correctness for
 speed. Implementations can be provided in other crates.
 
   * The [*fixed-sqrt* crate] provides the square root operation.
+  * The [*cordic* crate] provides various functions implemented using
+    the [CORDIC] algorithm.
 
 The conversions supported cover the following cases.
 
@@ -392,6 +394,7 @@ additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*az* crate]: https://crates.io/crates/az
+[*cordic* crate]: https://crates.io/crates/cordic
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-macro* crate]: https://crates.io/crates/fixed-macro
 [*fixed-sqrt* crate]: https://crates.io/crates/fixed-sqrt
@@ -399,6 +402,7 @@ additional terms or conditions.
 [*num-traits* crate]: https://crates.io/crates/num-traits
 [*serde* crate]: https://crates.io/crates/serde
 [*typenum* crate]: https://crates.io/crates/typenum
+[CORDIC]: https://en.wikipedia.org/wiki/CORDIC
 [LICENSE-APACHE]: https://www.apache.org/licenses/LICENSE-2.0
 [LICENSE-MIT]: https://opensource.org/licenses/MIT
 [`Binary`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html
