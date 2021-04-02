@@ -81,6 +81,12 @@ The conversions supported cover the following cases.
 
 ### Version 1.8.0 news (unreleased)
 
+  * The following constants were added to all fixed-point numbers, to
+    the [`Fixed`][tf-1-8] trait, and to the [`Wrapping`][w-1-8] and
+    [`Unwrapped`][u-1-8] wrappers:
+      * [`ZERO`][f-z-1-8], [`DELTA`][f-d-1-8]
+  * The [`ONE`][f-o-1-8] constant was added to all fixed-point numbers
+    that can represent the value 1.
   * The following methods were added to all fixed-point numbers and to
     the [`Fixed`][tf-1-8] trait:
       * [`unwrapped_rem`][f-ur-1-8],
@@ -88,10 +94,15 @@ The conversions supported cover the following cases.
       * [`unwrapped_rem_int`][f-uri-1-8]
   * Many methods were marked with the `must_use` attribute.
 
+[f-d-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.DELTA
+[f-o-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.ONE
 [f-ur-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem
 [f-ure-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_euclid
 [f-uri-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_int
+[f-z-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.ZERO
 [tf-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[u-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
+[w-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 
 ### Version 1.7.0 news (2021-03-25)
 

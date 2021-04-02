@@ -52,6 +52,36 @@ assert_eq!(Fix::MAX, Fix::from_bits(", $s_inner, "::MAX));
             }
 
             comment! {
+                "Zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::ZERO, Fix::from_bits(0));
+```
+";
+                pub const ZERO: $Fixed<Frac> = Self::from_bits(0);
+            }
+
+            comment! {
+                "The smallest positive value that can be represented.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::DELTA, Fix::from_bits(1));
+// binary 0.0001 is decimal 0.0625
+assert_eq!(Fix::DELTA, 0.0625);
+```
+";
+                pub const DELTA: $Fixed<Frac> = Self::from_bits(1);
+            }
+
+            comment! {
                 if_signed_unsigned!($Signedness, "[`true`]", "[`false`]"),
                 "[`bool`] because the [`", $s_fixed, "`] type is ",
                 if_signed_unsigned!($Signedness, "signed", "unsigned"),

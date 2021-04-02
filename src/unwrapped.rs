@@ -72,6 +72,26 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     pub const MAX: Unwrapped<F> = Unwrapped(F::MAX);
 
+    /// Zero.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// assert_eq!(Unwrapped::<I16F16>::ZERO, Unwrapped(I16F16::ZERO));
+    /// ```
+    pub const ZERO: Unwrapped<F> = Unwrapped(F::ZERO);
+
+    /// The smallest positive value that can be represented.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// assert_eq!(Unwrapped::<I16F16>::DELTA, Unwrapped(I16F16::DELTA));
+    /// ```
+    pub const DELTA: Unwrapped<F> = Unwrapped(F::DELTA);
+
     /// [`true`] if the type is signed.
     ///
     /// # Examples

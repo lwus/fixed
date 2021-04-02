@@ -69,6 +69,26 @@ impl<F: Fixed> Wrapping<F> {
     /// ```
     pub const MAX: Wrapping<F> = Wrapping(F::MAX);
 
+    /// Zero.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// assert_eq!(Wrapping::<I16F16>::ZERO, Wrapping(I16F16::ZERO));
+    /// ```
+    pub const ZERO: Wrapping<F> = Wrapping(F::ZERO);
+
+    /// The smallest positive value that can be represented.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// assert_eq!(Wrapping::<I16F16>::DELTA, Wrapping(I16F16::DELTA));
+    /// ```
+    pub const DELTA: Wrapping<F> = Wrapping(F::DELTA);
+
     /// [`true`] if the type is signed.
     ///
     /// # Examples

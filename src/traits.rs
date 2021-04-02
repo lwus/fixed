@@ -307,6 +307,12 @@ where
     /// The largest value that can be represented.
     const MAX: Self;
 
+    /// Zero.
+    const ZERO: Self;
+
+    /// The smallest positive value that can be represented.
+    const DELTA: Self;
+
     /// [`true`] if the type is signed.
     const IS_SIGNED: bool;
 
@@ -2235,6 +2241,8 @@ macro_rules! impl_fixed {
             type Frac = Frac;
             const MIN: Self = Self::MIN;
             const MAX: Self = Self::MAX;
+            const ZERO: Self = Self::ZERO;
+            const DELTA: Self = Self::DELTA;
             const IS_SIGNED: bool = Self::IS_SIGNED;
             const INT_NBITS: u32 = Self::INT_NBITS;
             const FRAC_NBITS: u32 = Self::FRAC_NBITS;

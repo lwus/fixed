@@ -193,6 +193,21 @@ let _ = Fix::LOG2_E;
             where
                 Frac: IsLessOrEqual<$LeEqU_C1, Output = True>,
             {
+                comment! {
+                    "One.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::ONE, Fix::from_num(1));
+```
+";
+                    pub const ONE: $Fixed<Frac> =
+                        $Fixed::from_bits($Fixed::<Frac>::DELTA.to_bits() << Frac::U32);
+                }
+
                 /// τ/4 = 1.57079…
                 pub const FRAC_TAU_4: $Fixed<Frac> = shift!(FRAC_TAU_4, 127, $Fixed<Frac>);
 
