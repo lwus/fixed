@@ -918,6 +918,24 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_mul_int(self, rhs: Self::Bits) -> Self;
 
+    /// Saturating Euclidean division by an integer. Returns the
+    /// quotient, saturating on overflow.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    fn saturating_div_euclid_int(self, rhs: Self::Bits) -> Self;
+
+    /// Saturating remainder for Euclidean division by an integer.
+    /// Returns the remainder, saturating on overflow.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the divisor is zero.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    fn saturating_rem_euclid_int(self, rhs: Self::Bits) -> Self;
+
     /// Wrapping negation. Returns the negated value, wrapping on overflow.
     fn wrapping_neg(self) -> Self;
 
@@ -2383,6 +2401,8 @@ macro_rules! impl_fixed {
             trait_delegate! { fn saturating_mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn saturating_div_euclid(self, rhs: Self) -> Self }
             trait_delegate! { fn saturating_mul_int(self, rhs: Self::Bits) -> Self }
+            trait_delegate! { fn saturating_div_euclid_int(self, rhs: Self::Bits) -> Self }
+            trait_delegate! { fn saturating_rem_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn wrapping_neg(self) -> Self }
             trait_delegate! { fn wrapping_add(self, rhs: Self) -> Self }
             trait_delegate! { fn wrapping_sub(self, rhs: Self) -> Self }

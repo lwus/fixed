@@ -16,6 +16,8 @@ Version 1.8.0 (unreleased)
     that can represent the value 1.
   * The following methods were added to all fixed-point numbers and to
     the [`Fixed`][tf-1-8] trait:
+      * [`saturating_div_euclid_int`][f-sdei-1-8],
+        [`saturating_rem_euclid_int`][f-srei-1-8]
       * [`unwrapped_rem`][f-ur-1-8],
         [`unwrapped_rem_euclid`][f-ure-1-8]
       * [`unwrapped_rem_int`][f-uri-1-8]
@@ -23,6 +25,8 @@ Version 1.8.0 (unreleased)
 
 [f-d-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.DELTA
 [f-o-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.ONE
+[f-sdei-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_div_euclid_int
+[f-srei-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_rem_euclid_int
 [f-ur-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem
 [f-ure-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_euclid
 [f-uri-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_int
