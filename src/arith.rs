@@ -832,13 +832,14 @@ mod tests {
 
     #[test]
     fn fixed_u128() {
-        use crate::types::extra::U7 as Frac;
-        let frac = Frac::U32;
+        use crate::types::{U0F128, U121F7, U128F0};
+
+        let frac = U121F7::FRAC_NBITS;
         let a = 0x0003_4567_89ab_cdef_0123_4567_89ab_cdef_u128;
         let b = 5;
         for &(a, b) in &[(a, b), (b, a)] {
-            let af = FixedU128::<Frac>::from_num(a);
-            let bf = FixedU128::<Frac>::from_num(b);
+            let af = U121F7::from_num(a);
+            let bf = U121F7::from_num(b);
             assert_eq!((af + bf).to_bits(), (a << frac) + (b << frac));
             if a > b {
                 assert_eq!((af - bf).to_bits(), (a << frac) - (b << frac));
@@ -856,13 +857,32 @@ mod tests {
             assert_eq!((b * af).to_bits(), (a << frac) * b);
             assert_eq!((af / b).to_bits(), (a << frac) / b);
             assert_eq!((af % b).to_bits(), (a << frac) % (b << frac));
+
+            let af = U0F128::from_bits(a);
+            let bf = U0F128::from_bits(b);
+            assert_eq!(af * bf, 0);
+            assert_eq!(af * b, U0F128::from_bits(a * b));
+            assert_eq!(a * bf, U0F128::from_bits(a * b));
+            assert_eq!(bf * af, 0);
+
+            let af = U128F0::from_num(a);
+            let bf = U128F0::from_num(b);
+            assert_eq!(af * bf, a * b);
+            assert_eq!(af * b, a * b);
+            assert_eq!(a * bf, a * b);
+            assert_eq!(bf * af, a * b);
+            assert_eq!(af / bf, a / b);
+            assert_eq!(af / b, a / b);
+            assert_eq!(af % bf, a % b);
+            assert_eq!(af % b, a % b);
         }
     }
 
     #[test]
     fn fixed_i128() {
-        use crate::types::extra::U7 as Frac;
-        let frac = Frac::U32;
+        use crate::types::{I0F128, I121F7, I128F0};
+
+        let frac = I121F7::FRAC_NBITS;
         let a = 0x0003_4567_89ab_cdef_0123_4567_89ab_cdef_i128;
         let b = 5;
         for &(a, b) in &[
@@ -875,8 +895,8 @@ mod tests {
             (-b, a),
             (-b, -a),
         ] {
-            let af = FixedI128::<Frac>::from_num(a);
-            let bf = FixedI128::<Frac>::from_num(b);
+            let af = I121F7::from_num(a);
+            let bf = I121F7::from_num(b);
             assert_eq!((af + bf).to_bits(), (a << frac) + (b << frac));
             assert_eq!((af - bf).to_bits(), (a << frac) - (b << frac));
             assert_eq!((af * bf).to_bits(), (a << frac) * b);
@@ -893,6 +913,29 @@ mod tests {
             assert_eq!((b * af).to_bits(), (a << frac) * b);
             assert_eq!((af / b).to_bits(), (a << frac) / b);
             assert_eq!((af % b).to_bits(), (a << frac) % (b << frac));
+
+            let af = I0F128::from_bits(a);
+            let bf = I0F128::from_bits(b);
+            let prod = if a.is_negative() == b.is_negative() {
+                I0F128::ZERO
+            } else {
+                -I0F128::DELTA
+            };
+            assert_eq!(af * bf, prod);
+            assert_eq!(af * b, I0F128::from_bits(a * b));
+            assert_eq!(a * bf, I0F128::from_bits(a * b));
+            assert_eq!(bf * af, prod);
+
+            let af = I128F0::from_num(a);
+            let bf = I128F0::from_num(b);
+            assert_eq!(af * bf, a * b);
+            assert_eq!(af * b, a * b);
+            assert_eq!(a * bf, a * b);
+            assert_eq!(bf * af, a * b);
+            assert_eq!(af / bf, a / b);
+            assert_eq!(af / b, a / b);
+            assert_eq!(af % bf, a % b);
+            assert_eq!(af % b, a % b);
         }
     }
 
@@ -1020,6 +1063,25 @@ mod tests {
         )* };
     }
 
+    macro_rules! check_mul_add_no_int {
+        ($($F:ty)*) => { $(
+            let min = <$F>::MIN;
+            let max = <$F>::MAX;
+            let hmax = max / 2;
+            let delta = <$F>::DELTA;
+            let zero = <$F>::ZERO;
+            let quarter = delta << (<$F>::FRAC_NBITS - 2);
+            assert_eq!(max.overflowing_mul_add(quarter, zero), (max >> 2, false));
+            if <$F>::IS_SIGNED {
+                assert_eq!(max.overflowing_mul_add(max, zero), (hmax, false));
+                assert_eq!(max.overflowing_mul_add(max, max), (min + hmax - delta, true));
+            } else {
+                assert_eq!(max.overflowing_mul_add(max, zero), (max - delta, false));
+                assert_eq!(max.overflowing_mul_add(max, max), (max - 2 * delta, true));
+            }
+        )* };
+    }
+
     #[test]
     fn mul_add() {
         use crate::types::*;
@@ -1029,6 +1091,9 @@ mod tests {
         check_mul_add! { U2F6 U2F14 U2F30 U2F62 U2F126 }
         check_mul_add! { U4F4 U8F8 U16F16 U32F32 U64F64 }
         check_mul_add! { U8F0 U16F0 U32F0 U64F0 U128F0 }
+
+        check_mul_add_no_int! { I0F8 I0F16 I0F32 I0F64 I0F128 }
+        check_mul_add_no_int! { U0F8 U0F16 U0F32 U0F64 U0F128 }
     }
 
     #[test]
