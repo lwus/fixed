@@ -675,15 +675,15 @@ impl F128Bits {
 #[macro_export]
 macro_rules! const_fixed_from_int {
     ($(const $NAME:ident: $Fixed:ty = $int:expr;)*) => { $(
-        const $NAME: $Fixed = {
-            const FRAC: u32 = <$Fixed>::FRAC_NBITS;
-            // Use $Fixed as type because there isn't a const way to use the inner type.
-            const INT: $Fixed = <$Fixed>::from_bits($int);
+        const $NAME: $Fixed = <$Fixed>::from_bits({
+            // Coerce type.
+            let int = <$Fixed>::from_bits($int).to_bits();
             // Divide shift into two parts for cases where $Fixed cannot represent 1.
-            const ONE_A: $Fixed = <$Fixed>::from_bits(<$Fixed>::DELTA.to_bits() << FRAC / 2);
-            const ONE_B: $Fixed = <$Fixed>::from_bits(<$Fixed>::DELTA.to_bits() << FRAC - FRAC / 2);
-            <$Fixed>::from_bits(INT.to_bits() * ONE_A.to_bits() * ONE_B.to_bits())
-        };
+            let frac_nbits = <$Fixed>::FRAC_NBITS;
+            let one_a = <$Fixed>::DELTA.to_bits() << (frac_nbits / 2);
+            let one_b = <$Fixed>::DELTA.to_bits() << (frac_nbits - frac_nbits / 2);
+            int * one_a * one_b
+        });
     )* };
 }
 
