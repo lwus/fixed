@@ -648,7 +648,7 @@ impl F128Bits {
 /// <code>[i32][`i32`]::[MAX][`i32::MAX`]</code> is not representable
 /// by [`I16F16`].
 ///
-/// ```compile_fail
+/// ```rust,compile_fail
 /// use fixed::{const_fixed_from_int, types::I16F16};
 /// const_fixed_from_int! {
 ///     // fails because i32::MAX > I16F16::MAX
@@ -661,7 +661,7 @@ impl F128Bits {
 /// this macro can define [`FixedI32`] constants using [`i32`]
 /// expressions, not [`i16`] expressions.
 ///
-/// ```compile_fail
+/// ```rust,compile_fail
 /// use fixed::{const_fixed_from_int, types::I16F16};
 /// const_fixed_from_int! {
 ///     // fails because 0i16 is not of type i32
@@ -731,19 +731,19 @@ macro_rules! const_fixed_from_int {
 /// The rest of the tests should all fail compilation.
 ///
 /// Not enough integer bits for 1.
-/// ```compile_fail
+/// ```rust,compile_fail
 /// use fixed::{const_fixed_from_int, types::*};
 /// const_fixed_from_int! {
 ///     const _ONE: I0F32 = 1;
 /// }
 /// ```
-/// ```compile_fail
+/// ```rust,compile_fail
 /// use fixed::{const_fixed_from_int, types::*};
 /// const_fixed_from_int! {
 ///     const _ONE: I1F31 = 1;
 /// }
 /// ```
-/// ```compile_fail
+/// ```rust,compile_fail
 /// use fixed::{const_fixed_from_int, types::*};
 /// const_fixed_from_int! {
 ///     const _ONE: U0F32 = 1;
@@ -751,7 +751,7 @@ macro_rules! const_fixed_from_int {
 /// ```
 ///
 /// Not enough integer bits for -1.
-/// ```compile_fail
+/// ```rust,compile_fail
 /// use fixed::{const_fixed_from_int, types::*};
 /// const_fixed_from_int! {
 ///     const _MINUS_ONE: I0F32 = -1;
@@ -759,7 +759,7 @@ macro_rules! const_fixed_from_int {
 /// ```
 ///
 /// Not enough integer bits for -2.
-/// ```compile_fail
+/// ```rust,compile_fail
 /// use fixed::{const_fixed_from_int, types::*};
 /// const_fixed_from_int! {
 ///     const _MINUS_TWO: I1F31 = -2;

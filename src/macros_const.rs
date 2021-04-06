@@ -98,7 +98,7 @@ The following example fails to compile, since the maximum
 representable value with ", $s_nbits, " fractional bits and 0 integer
 bits is < 0.5.
 
-```compile_fail
+```rust,compile_fail
 use fixed::{consts, types::extra::U", $s_nbits, ", ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U", $s_nbits, ">;
 let _ = Fix::LN_2;
@@ -179,7 +179,7 @@ representable value with ",
             if_signed_unsigned!($Signedness, "1 integer bit", "0 integer bits"),
             " is < 1.
 
-```compile_fail
+```rust,compile_fail
 use fixed::{consts, types::extra::U",
             if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
             ", ", $s_fixed, "};
@@ -275,7 +275,7 @@ representable value with ",
             if_signed_unsigned!($Signedness, "2 integer bits", "1 integer bit"),
             " is < 2.
 
-```compile_fail
+```rust,compile_fail
 use fixed::{consts, types::extra::U",
             if_signed_unsigned!($Signedness, $s_nbits_m2, $s_nbits_m1),
             ", ", $s_fixed, "};
@@ -338,7 +338,7 @@ representable value with ",
             if_signed_unsigned!($Signedness, "3", "2"),
             " integer bits is < 4.
 
-```compile_fail
+```rust,compile_fail
 use fixed::{consts, types::extra::U",
             if_signed_unsigned!($Signedness, $s_nbits_m3, $s_nbits_m2),
             ", ", $s_fixed, "};

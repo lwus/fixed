@@ -41,7 +41,7 @@ use core::{
 ///
 /// This panics even when debug assertions are disabled.
 ///
-/// ```should_panic
+/// ```rust,should_panic
 /// use fixed::{types::I16F16, Unwrapped};
 /// let max = Unwrapped(I16F16::MAX);
 /// let delta = Unwrapped(I16F16::DELTA);

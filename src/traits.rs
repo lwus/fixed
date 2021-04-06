@@ -191,7 +191,7 @@ depending on the crate’s [optional features].
 /// The following example fails to compile, since the compiler cannot
 /// infer that 500 in the `checked_mul_int` call is of type `F::Bits`.
 ///
-/// ```compile_fail
+/// ```rust,compile_fail
 /// use fixed::traits::Fixed;
 ///
 /// fn checked_add_times_500<F: Fixed>(lhs: F, rhs: F) -> Option<F> {
@@ -220,7 +220,7 @@ depending on the crate’s [optional features].
 /// [`i16`], even if the value 500 does fit in [`i16`], so that the
 /// following example would fail to compile.
 ///
-/// ```compile_fail
+/// ```rust,compile_fail
 /// use fixed::{traits::Fixed, types::I12F4};
 ///
 /// fn checked_add_times_500<F: Fixed>(lhs: F, rhs: F) -> Option<F>
