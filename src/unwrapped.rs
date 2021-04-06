@@ -52,6 +52,16 @@ use core::{
 pub struct Unwrapped<F>(pub F);
 
 impl<F: Fixed> Unwrapped<F> {
+    /// Zero.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// assert_eq!(Unwrapped::<I16F16>::ZERO, Unwrapped(I16F16::ZERO));
+    /// ```
+    pub const ZERO: Unwrapped<F> = Unwrapped(F::ZERO);
+
     /// The smallest value that can be represented.
     ///
     /// # Examples
@@ -71,16 +81,6 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped::<I16F16>::MAX, Unwrapped(I16F16::MAX));
     /// ```
     pub const MAX: Unwrapped<F> = Unwrapped(F::MAX);
-
-    /// Zero.
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use fixed::{types::I16F16, Unwrapped};
-    /// assert_eq!(Unwrapped::<I16F16>::ZERO, Unwrapped(I16F16::ZERO));
-    /// ```
-    pub const ZERO: Unwrapped<F> = Unwrapped(F::ZERO);
 
     /// The smallest positive value that can be represented.
     ///

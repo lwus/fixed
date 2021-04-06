@@ -24,6 +24,20 @@ macro_rules! fixed_no_frac {
         /// of the number of fractional bits `Frac`.
         impl<Frac> $Fixed<Frac> {
             comment! {
+                "Zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::ZERO, Fix::from_bits(0));
+```
+";
+                pub const ZERO: $Fixed<Frac> = Self::from_bits(0);
+            }
+
+            comment! {
                 "The smallest value that can be represented.
 
 # Examples
@@ -49,20 +63,6 @@ assert_eq!(Fix::MAX, Fix::from_bits(", $s_inner, "::MAX));
 ```
 ";
                 pub const MAX: $Fixed<Frac> = Self::from_bits(<$Inner>::MAX);
-            }
-
-            comment! {
-                "Zero.
-
-# Examples
-
-```rust
-use fixed::{types::extra::U4, ", $s_fixed, "};
-type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::ZERO, Fix::from_bits(0));
-```
-";
-                pub const ZERO: $Fixed<Frac> = Self::from_bits(0);
             }
 
             comment! {

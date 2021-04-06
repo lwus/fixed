@@ -301,14 +301,14 @@ where
     /// [U32]: crate::types::extra::Unsigned::U32
     type Frac: Unsigned;
 
+    /// Zero.
+    const ZERO: Self;
+
     /// The smallest value that can be represented.
     const MIN: Self;
 
     /// The largest value that can be represented.
     const MAX: Self;
-
-    /// Zero.
-    const ZERO: Self;
 
     /// The smallest positive value that can be represented.
     const DELTA: Self;
@@ -2257,9 +2257,9 @@ macro_rules! impl_fixed {
             type Bits = $Bits;
             type Bytes = [u8; mem::size_of::<$Bits>()];
             type Frac = Frac;
+            const ZERO: Self = Self::ZERO;
             const MIN: Self = Self::MIN;
             const MAX: Self = Self::MAX;
-            const ZERO: Self = Self::ZERO;
             const DELTA: Self = Self::DELTA;
             const IS_SIGNED: bool = Self::IS_SIGNED;
             const INT_NBITS: u32 = Self::INT_NBITS;
