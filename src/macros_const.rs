@@ -36,7 +36,7 @@ macro_rules! fixed_const {
         $Signedness:tt
     ) => {
         comment! {
-            "This block contains constants in the range 0 ≤ <i>x</i> < 0.5.
+            "This block contains constants in the range 0 < <i>x</i> < 0.5.
 
 # Examples
 
