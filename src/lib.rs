@@ -70,7 +70,7 @@ These functions are not provided because different implementations can
 have different trade-offs, for example trading some correctness for
 speed. Implementations can be provided in other crates.
 
-  * The [*fixed-sqrt* crate] provides the square root operation. The
+  * The [*fixed-sqrt* crate] provides the square root operation.
   * The [*cordic* crate] provides various functions implemented using
     the [CORDIC] algorithm.
 
