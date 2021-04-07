@@ -59,6 +59,16 @@ impl<F: Fixed> Wrapping<F> {
     /// ```
     pub const ZERO: Wrapping<F> = Wrapping(F::ZERO);
 
+    /// The difference between any two successive representable numbers, <i>Δ</i>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// assert_eq!(Wrapping::<I16F16>::DELTA, Wrapping(I16F16::DELTA));
+    /// ```
+    pub const DELTA: Wrapping<F> = Wrapping(F::DELTA);
+
     /// The smallest value that can be represented.
     ///
     /// # Examples
@@ -78,16 +88,6 @@ impl<F: Fixed> Wrapping<F> {
     /// assert_eq!(Wrapping::<I16F16>::MAX, Wrapping(I16F16::MAX));
     /// ```
     pub const MAX: Wrapping<F> = Wrapping(F::MAX);
-
-    /// The smallest positive value that can be represented.
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use fixed::{types::I16F16, Wrapping};
-    /// assert_eq!(Wrapping::<I16F16>::DELTA, Wrapping(I16F16::DELTA));
-    /// ```
-    pub const DELTA: Wrapping<F> = Wrapping(F::DELTA);
 
     /// [`true`] if the type is signed.
     ///

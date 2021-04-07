@@ -304,14 +304,14 @@ where
     /// Zero.
     const ZERO: Self;
 
+    /// The difference between any two successive representable numbers, <i>Δ</i>.
+    const DELTA: Self;
+
     /// The smallest value that can be represented.
     const MIN: Self;
 
     /// The largest value that can be represented.
     const MAX: Self;
-
-    /// The smallest positive value that can be represented.
-    const DELTA: Self;
 
     /// [`true`] if the type is signed.
     const IS_SIGNED: bool;
@@ -2258,9 +2258,9 @@ macro_rules! impl_fixed {
             type Bytes = [u8; mem::size_of::<$Bits>()];
             type Frac = Frac;
             const ZERO: Self = Self::ZERO;
+            const DELTA: Self = Self::DELTA;
             const MIN: Self = Self::MIN;
             const MAX: Self = Self::MAX;
-            const DELTA: Self = Self::DELTA;
             const IS_SIGNED: bool = Self::IS_SIGNED;
             const INT_NBITS: u32 = Self::INT_NBITS;
             const FRAC_NBITS: u32 = Self::FRAC_NBITS;

@@ -62,6 +62,16 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     pub const ZERO: Unwrapped<F> = Unwrapped(F::ZERO);
 
+    /// The difference between any two successive representable numbers, <i>Δ</i>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// assert_eq!(Unwrapped::<I16F16>::DELTA, Unwrapped(I16F16::DELTA));
+    /// ```
+    pub const DELTA: Unwrapped<F> = Unwrapped(F::DELTA);
+
     /// The smallest value that can be represented.
     ///
     /// # Examples
@@ -81,16 +91,6 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped::<I16F16>::MAX, Unwrapped(I16F16::MAX));
     /// ```
     pub const MAX: Unwrapped<F> = Unwrapped(F::MAX);
-
-    /// The smallest positive value that can be represented.
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use fixed::{types::I16F16, Unwrapped};
-    /// assert_eq!(Unwrapped::<I16F16>::DELTA, Unwrapped(I16F16::DELTA));
-    /// ```
-    pub const DELTA: Unwrapped<F> = Unwrapped(F::DELTA);
 
     /// [`true`] if the type is signed.
     ///

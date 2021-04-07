@@ -38,6 +38,22 @@ assert_eq!(Fix::ZERO, Fix::from_bits(0));
             }
 
             comment! {
+                "The difference between any two successive representable numbers, <i>Δ</i>.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::DELTA, Fix::from_bits(1));
+// binary 0.0001 is decimal 0.0625
+assert_eq!(Fix::DELTA, 0.0625);
+```
+";
+                pub const DELTA: $Fixed<Frac> = Self::from_bits(1);
+            }
+
+            comment! {
                 "The smallest value that can be represented.
 
 # Examples
@@ -63,22 +79,6 @@ assert_eq!(Fix::MAX, Fix::from_bits(", $s_inner, "::MAX));
 ```
 ";
                 pub const MAX: $Fixed<Frac> = Self::from_bits(<$Inner>::MAX);
-            }
-
-            comment! {
-                "The smallest positive value that can be represented.
-
-# Examples
-
-```rust
-use fixed::{types::extra::U4, ", $s_fixed, "};
-type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::DELTA, Fix::from_bits(1));
-// binary 0.0001 is decimal 0.0625
-assert_eq!(Fix::DELTA, 0.0625);
-```
-";
-                pub const DELTA: $Fixed<Frac> = Self::from_bits(1);
             }
 
             comment! {

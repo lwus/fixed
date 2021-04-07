@@ -24,10 +24,22 @@ The [*fixed* crate] provides fixed-point numbers.
   * [`FixedI64`] and [`FixedU64`] are 64-bit fixed-point numbers.
   * [`FixedI128`] and [`FixedU128`] are 128-bit fixed-point numbers.
 
-These types can have `Frac` fractional bits, where
-0 ≤ `Frac` ≤ <i>n</i> and <i>n</i> is the total number of bits. When
-`Frac` = 0, the fixed-point number behaves like an <i>n</i>-bit
-integer. When `Frac` = <i>n</i>, the value <i>x</i> lies in the range
+These types can have <i>f</i> = `Frac` fractional bits, where
+0 ≤ <i>f</i> ≤ <i>n</i> and <i>n</i> is the total number of bits. For
+example, [`FixedI32<Frac>`] is a 32-bit signed fixed-point number with
+<i>n</i> = 32. The value <i>x</i> can lie in the range
+−2<sup><i>n</i> − <i>f</i> − 1</sup> ≤ <i>x</i> < 2<sup><i>n</i> − <i>f</i> − 1</sup>
+for signed numbers, and in the range
+0 ≤ <i>x</i> < 2<sup><i>n</i> − <i>f</i></sup> for unsigned numbers. The
+difference between successive numbers is constant throughout the
+range: <i>Δ</i> = 2<sup>−<i>f</i></sup>.
+
+When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves
+like an <i>n</i>-bit integer with the value lying in the range
+−2<sup><i>n</i> − 1</sup> ≤ <i>x</i> < 2<sup><i>n</i> − 1</sup> for signed
+numbers, and in the range 0 ≤ <i>x</i> < 2<sup><i>n</i></sup> for
+unsigned numbers. When <i>f</i> = <i>n</i>,
+<i>Δ</i> = 2<sup>−<i>n</i></sup> and the value lies in the range
 −0.5 ≤ <i>x</i> < 0.5 for signed numbers, and in the range
 0 ≤ <i>x</i> < 1 for unsigned numbers.
 
@@ -401,12 +413,42 @@ macro_rules! fixed {
         $Double:ident, $DoubleInner:ty, $HasDouble:tt
     ) => {
         comment! {
-            $description,
+            $description, "-bit ",
+            if_signed_unsigned!($Signedness, "signed", "unsigned"),
             " number with `Frac` fractional bits.
 
+The number has ", $s_nbits, " bits, of which <i>f</i> = `Frac` are
+fractional bits and ", $s_nbits, " − <i>f</i> are integer bits. The
+value <i>x</i> can lie in the range ",
+            if_signed_unsigned!(
+                $Signedness,
+                concat!("−2<sup>", $s_nbits_m1, " − <i>f</i></sup>"),
+                "0",
+            ),
+            " ≤ <i>x</i> < 2<sup>",
+            if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
+            " − <i>f</i></sup>. The difference between successive
+numbers is constant throughout the range:
+<i>Δ</i> = 2<sup>−<i>f</i></sup>.
+
+When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves
+like an ", $s_nbits, "-bit integer ([`", $s_inner, "`]) with the value
+lying in the range ",
+            if_signed_unsigned!(
+                $Signedness,
+                concat!("−2<sup>", $s_nbits_m1, "</sup>"),
+                "0",
+            ),
+            " ≤ <i>x</i> < 2<sup>",
+            if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
+            "</sup>. When <i>f</i> = ", $s_nbits, ",
+<i>Δ</i> = 2<sup>−", $s_nbits, "</sup> and the value lies in the range ",
+            if_signed_unsigned!($Signedness, "−0.5 ≤ <i>x</i> < 0.5", "0 ≤ <i>x</i> < 1"),
+            ".
+
 `Frac` is an [`Unsigned`] as provided by the [*typenum* crate]; the
-plan is to move to [const generics] in version 2 when they are
-supported by the Rust compiler.
+plan is to to have a major version 2 with [const generics] instead
+when the Rust compiler support for them is powerful enough.
 
 # Examples
 
@@ -482,7 +524,7 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
 }
 
 fixed! {
-    "An eight-bit fixed-point unsigned",
+    "An eight",
     FixedU8(u8, LeEqU8, "8", "7", "6", "5", "4"),
     1, "0x12", "0x12", "[0x12]", "[0x12]",
     FixedU8, u8, Unsigned,
@@ -490,7 +532,7 @@ fixed! {
     FixedU16, u16, True
 }
 fixed! {
-    "A 16-bit fixed-point unsigned",
+    "A 16",
     FixedU16(u16, LeEqU16, "16", "15", "14", "13", "12"),
     2, "0x1234", "0x3412", "[0x12, 0x34]", "[0x34, 0x12]",
     FixedU16, u16, Unsigned,
@@ -498,7 +540,7 @@ fixed! {
     FixedU32, u32, True
 }
 fixed! {
-    "A 32-bit fixed-point unsigned",
+    "A 32",
     FixedU32(u32, LeEqU32, "32", "31", "30", "29", "28"),
     4, "0x1234_5678", "0x7856_3412", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
     FixedU32, u32, Unsigned,
@@ -506,7 +548,7 @@ fixed! {
     FixedU64, u64, True
 }
 fixed! {
-    "A 64-bit fixed-point unsigned",
+    "A 64",
     FixedU64(u64, LeEqU64, "64", "63", "62", "61", "60"),
     8, "0x1234_5678_9ABC_DE0F", "0x0FDE_BC9A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0x0F]",
@@ -516,7 +558,7 @@ fixed! {
     FixedU128, u128, True
 }
 fixed! {
-    "A 128-bit fixed-point unsigned",
+    "A 128",
     FixedU128(u128, LeEqU128, "128", "127", "126", "125", "124"),
     16, "0x1234_5678_9ABC_DEF0_0102_0304_0506_0708",
     "0x0807_0605_0403_0201_F0DE_BC9A_7856_3412",
@@ -529,7 +571,7 @@ fixed! {
     FixedU128, u128, False
 }
 fixed! {
-    "An eight-bit fixed-point signed",
+    "An eight",
     FixedI8(i8, LeEqU8, "8", "7", "6", "5", "4"),
     1, "0x12", "0x12", "[0x12]", "[0x12]",
     FixedU8, u8, Signed,
@@ -537,7 +579,7 @@ fixed! {
     FixedI16, i16, True
 }
 fixed! {
-    "A 16-bit fixed-point signed",
+    "A 16",
     FixedI16(i16, LeEqU16, "16", "15", "14", "13", "12"),
     2, "0x1234", "0x3412", "[0x12, 0x34]", "[0x34, 0x12]",
     FixedU16, u16, Signed,
@@ -545,7 +587,7 @@ fixed! {
     FixedI32, i32, True
 }
 fixed! {
-    "A 32-bit fixed-point signed",
+    "A 32",
     FixedI32(i32, LeEqU32, "32", "31", "30", "29", "28"),
     4, "0x1234_5678", "0x7856_3412", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
     FixedU32, u32, Signed,
@@ -553,7 +595,7 @@ fixed! {
     FixedI64, i64, True
 }
 fixed! {
-    "A 64-bit fixed-point signed",
+    "A 64",
     FixedI64(i64, LeEqU64, "64", "63", "62", "61", "60"),
     8, "0x1234_5678_9ABC_DE0F", "0x0FDE_BC9A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0x0F]",
@@ -563,7 +605,7 @@ fixed! {
     FixedI128, i128, True
 }
 fixed! {
-    "A 128-bit fixed-point signed",
+    "A 128",
     FixedI128(i128, LeEqU128, "128", "127", "126", "125", "124"),
     16, "0x1234_5678_9ABC_DEF0_0102_0304_0506_0708",
     "0x0807_0605_0403_0201_F0DE_BC9A_7856_3412",
