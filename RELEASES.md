@@ -21,8 +21,28 @@ Version 1.8.0 (unreleased)
       * [`unwrapped_rem`][f-ur-1-8],
         [`unwrapped_rem_euclid`][f-ure-1-8]
       * [`unwrapped_rem_int`][f-uri-1-8]
+  * The following methods were added to all fixed-point numbers:
+      * [`const_neg`][f-cne-1-8] (only for signed types)
+      * [`const_add`][f-ca-1-8], [`const_sub`][f-cs-1-8],
+        [`const_rem`][f-cr-1-8]
+      * [`const_mul_int`][f-cmi-1-8], [`const_div_int`][f-cdi-1-8]
+      * [`const_shl`][f-cshl-1-8], [`const_shr`][f-cshr-1-8]
+      * [`const_not`][f-cno-1-8], [`const_bitand`][f-cba-1-8],
+        [`const_bitor`][f-cbo-1-8], [`const_bitxor`][f-cbx-1-8]
   * Many methods were marked with the `must_use` attribute.
 
+[f-ca-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_add
+[f-cba-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_bitand
+[f-cbo-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_bitor
+[f-cbx-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_bitxor
+[f-cdi-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_div_int
+[f-cmi-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_mul_int
+[f-cne-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_neg
+[f-cno-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_not
+[f-cr-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_rem
+[f-cs-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_sub
+[f-cshl-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_shl
+[f-cshr-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_shr
 [f-d-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.DELTA
 [f-o-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.ONE
 [f-sdei-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_div_euclid_int
