@@ -18,7 +18,7 @@ macro_rules! fixed_no_frac {
         $Fixed:ident[$s_fixed:expr]($Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
-        $Double:ident, $DoubleInner:ty, $HasDouble:tt
+        $Double:ident, $DoubleInner:ty, $s_nbits_2:expr, $HasDouble:tt
     ) => {
         /// The implementation of items in this block is independent
         /// of the number of fractional bits `Frac`.
@@ -692,10 +692,11 @@ assert!(half.is_power_of_two());
                     "Multiplies two fixed-point numbers and returns a
 wider type to retain all precision.
 
-If `self` has <i>i</i> integer bits and <i>f</i> fractional bits, and
-`rhs` has <i>j</i> integer bits and <i>g</i> fractional bits, then the
-returned fixed-point number will have <i>i</i> + <i>j</i> integer bits
-and <i>f</i> + <i>g</i> fractional bits.
+If `self` has <i>f</i> fractional bits and ", $s_nbits, " − <i>f</i>
+integer bits, and `rhs` has <i>g</i> fractional bits and ", $s_nbits,
+" − <i>g</i> integer bits, then the returned fixed-point number will
+have <i>f</i> + <i>g</i> fractional bits and ", $s_nbits_2,
+" − <i>f</i> − <i>g</i> integer bits.
 
 # Examples
 
