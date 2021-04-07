@@ -152,7 +152,7 @@ depending on the crate’s [optional features].
 [`Signed`]: num_traits::sign::Signed
 [`Unsigned`]: num_traits::sign::Unsigned
 [`mul_add`]: num_traits::ops::mul_add::MulAdd::mul_add
-[optional features]: ../index.html#optional-features
+[optional features]: crate#optional-features
 "
 }
 

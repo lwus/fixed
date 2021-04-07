@@ -645,8 +645,8 @@ impl F128Bits {
 /// ```
 ///
 /// The following would fail to compile because
-/// <code>[i32][`i32`]::[MAX][`i32::MAX`]</code> is not representable
-/// by [`I16F16`].
+/// <code>[i32]::[MAX][i32::MAX]</code> is not representable by
+/// [`I16F16`].
 ///
 /// ```rust,compile_fail
 /// use fixed::{const_fixed_from_int, types::I16F16};
@@ -657,9 +657,9 @@ impl F128Bits {
 /// ```
 ///
 /// The following would fail to compile because [`I16F16`] is an alias
-/// for <code>[FixedI32][`FixedI32`]&lt;[U32][`U32`]&gt;</code>, and
-/// this macro can define [`FixedI32`] constants using [`i32`]
-/// expressions, not [`i16`] expressions.
+/// for <code>[FixedI32]&lt;[U32]&gt;</code>, and this macro
+/// can define [`FixedI32`] constants using [`i32`] expressions, not
+/// [`i16`] expressions.
 ///
 /// ```rust,compile_fail
 /// use fixed::{const_fixed_from_int, types::I16F16};
