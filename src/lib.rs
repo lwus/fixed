@@ -26,19 +26,19 @@ The [*fixed* crate] provides fixed-point numbers.
 
 These types can have <i>f</i> = `Frac` fractional bits, where
 0 ≤ <i>f</i> ≤ <i>n</i> and <i>n</i> is the total number of bits. For
-example, [`FixedI32<Frac>`] is a 32-bit signed fixed-point number with
-<i>n</i> = 32. The value <i>x</i> can lie in the range
+example, [`FixedI32<Frac>`][`FixedI32`] is a 32-bit signed fixed-point
+number with <i>n</i> = 32. The value <i>x</i> can lie in the range
 −2<sup><i>n</i> − <i>f</i> − 1</sup> ≤ <i>x</i> < 2<sup><i>n</i> − <i>f</i> − 1</sup>
 for signed numbers, and in the range
-0 ≤ <i>x</i> < 2<sup><i>n</i> − <i>f</i></sup> for unsigned numbers. The
-difference between successive numbers is constant throughout the
+0 ≤ <i>x</i> < 2<sup><i>n</i> − <i>f</i></sup> for unsigned numbers.
+The difference between successive numbers is constant throughout the
 range: <i>Δ</i> = 2<sup>−<i>f</i></sup>.
 
 When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves
 like an <i>n</i>-bit integer with the value lying in the range
-−2<sup><i>n</i> − 1</sup> ≤ <i>x</i> < 2<sup><i>n</i> − 1</sup> for signed
-numbers, and in the range 0 ≤ <i>x</i> < 2<sup><i>n</i></sup> for
-unsigned numbers. When <i>f</i> = <i>n</i>,
+−2<sup><i>n</i> − 1</sup> ≤ <i>x</i> < 2<sup><i>n</i> − 1</sup> for
+signed numbers, and in the range 0 ≤ <i>x</i> < 2<sup><i>n</i></sup>
+for unsigned numbers. When <i>f</i> = <i>n</i>,
 <i>Δ</i> = 2<sup>−<i>n</i></sup> and the value lies in the range
 −0.5 ≤ <i>x</i> < 0.5 for signed numbers, and in the range
 0 ≤ <i>x</i> < 1 for unsigned numbers.
