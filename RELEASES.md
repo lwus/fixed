@@ -26,6 +26,7 @@ Version 1.8.0 (unreleased)
       * [`rem_euclid`][f-re-1-8], [`checked_rem_euclid`][f-cre-1-8]
       * [`checked_div_int`][f-cdi-1-8],
         [`wrapping_div_int`][f-wdi-1-8],
+        [`unwrapped_div_int`][f-udi-1-8],
         [`overflowing_div_int`][f-odi-1-8]
   * The following methods were added to all fixed-point numbers:
       * [`const_not`][f-cn-1-8]
@@ -46,6 +47,7 @@ Version 1.8.0 (unreleased)
 [f-re-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.rem_euclid
 [f-sdei-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_div_euclid_int
 [f-srei-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_rem_euclid_int
+[f-udi-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_div_int
 [f-ur-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem
 [f-ure-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_euclid
 [f-uri-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_int

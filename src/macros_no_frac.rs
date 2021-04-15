@@ -2264,29 +2264,33 @@ type Fix = ", $s_fixed, "<U4>;
 // 1.5 is binary 1.1
 let one_point_5 = Fix::from_bits(0b11 << (4 - 1));
 assert_eq!(Fix::from_num(3).unwrapped_div_int(2), one_point_5);
+```
+
+The following panics because the divisor is zero.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _divisor_is_zero = Fix::from_num(3).unwrapped_div_int(0);
+```
 ",
                 if_signed_else_empty_str! {
                     $Signedness,
-                    "```
-
+                    "
 The following panics because of overflow.
 
 ```should_panic
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::MIN.unwrapped_div_int(-1);
+```
 ",
-                },
-                "```
-";
+                };
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
-                    match self.overflowing_div_int(rhs) {
-                        (_, true) => panic!("overflow"),
-                        (ans, false) => ans,
-                    }
+                pub const fn unwrapped_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                    Self::from_bits(self.to_bits() / rhs)
                 }
             }
 
