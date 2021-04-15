@@ -978,50 +978,6 @@ assert_eq!(Fix::from_num(3).mean(Fix::from_num(4)), Fix::from_num(3.5));
             }
 
             comment! {
-                "Remainder. Usable in constant context.
-
-This is equivalent to the `%` operator and
-<code>[Rem][core::ops::Rem]::[rem][core::ops::Rem::rem]</code>, but
-can also be used in constant context. Unless required in constant
-context, use the operator or trait instead.
-
-# Planned deprecation
-
-This method will be deprecated when the `%` operator and the
-[`Rem`][core::ops::Rem] trait are usable in constant context.
-
-# Panics
-
-Panics if the divisor is zero.
-
-# Examples
-
-```rust
-use fixed::{const_fixed_from_int, types::extra::U4, ", $s_fixed, "};
-type Fix = ", $s_fixed, "<U4>;
-const_fixed_from_int! {
-    const THREE: Fix = 3;
-    const FIVE: Fix = 5;
-}
-const TWO: Fix = FIVE.const_rem(THREE);
-assert_eq!(TWO, FIVE % THREE);
-```
-";
-                #[inline]
-                #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn const_rem(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
-                    let rhs_bits = rhs.to_bits();
-                    if_signed! {
-                        $Signedness;
-                        if rhs_bits == -1 {
-                            return Self::ZERO;
-                        }
-                    }
-                    Self::from_bits(self.to_bits() % rhs_bits)
-                }
-            }
-
-            comment! {
                 "Bitwise NOT. Usable in constant context.
 
 This is equivalent to the `!` operator and
@@ -2176,8 +2132,15 @@ let _divisor_is_zero = Fix::from_num(1.5).unwrapped_rem(Fix::ZERO);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_rem(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
-                    self.checked_rem(rhs).expect("division by zero")
+                pub const fn unwrapped_rem(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    let rhs_bits = rhs.to_bits();
+                    if_signed! {
+                        $Signedness;
+                        if rhs_bits == -1 {
+                            return Self::ZERO;
+                        }
+                    }
+                    Self::from_bits(self.to_bits() % rhs_bits)
                 }
             }
 
@@ -2352,8 +2315,8 @@ let _divisor_is_zero = Fix::from_num(3).unwrapped_rem_euclid(Fix::ZERO);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
-                    self.checked_rem_euclid(rhs).expect("division by zero")
+                pub const fn unwrapped_rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    self.rem_euclid(rhs)
                 }
             }
 

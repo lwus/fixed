@@ -109,13 +109,12 @@ The conversions supported cover the following cases.
         [`unwrapped_rem_euclid`][f-ure-1-8]
       * [`unwrapped_rem_int`][f-uri-1-8]
   * The following methods are now `const` functions:
-      * [`checked_rem`][f-chr-1-8]
+      * [`checked_rem`][f-cr-1-8]
       * [`rem_euclid`][f-re-1-8], [`checked_rem_euclid`][f-cre-1-8]
       * [`checked_div_int`][f-cdi-1-8],
         [`wrapping_div_int`][f-wdi-1-8],
         [`overflowing_div_int`][f-odi-1-8]
   * The following methods were added to all fixed-point numbers:
-      * [`const_rem`][f-cor-1-8]
       * [`const_not`][f-cn-1-8]
       * [`const_bitand`][f-cba-1-8], [`const_bitor`][f-cbo-1-8],
         [`const_bitxor`][f-cbx-1-8]
@@ -125,9 +124,8 @@ The conversions supported cover the following cases.
 [f-cbo-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_bitor
 [f-cbx-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_bitxor
 [f-cdi-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_div_int
-[f-chr-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_rem
 [f-cn-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_not
-[f-cor-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_rem
+[f-cr-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_rem
 [f-cre-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_rem_euclid
 [f-d-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.DELTA
 [f-o-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.ONE
