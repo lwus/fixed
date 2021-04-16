@@ -35,30 +35,27 @@ macro_rules! if_unsigned {
 }
 
 macro_rules! if_signed_unsigned {
-    (Signed, $signed:expr, $unsigned:expr) => {
+    (Signed, $signed:expr, $unsigned:expr $(,)?) => {
         $signed
     };
-    (Unsigned, $signed:expr, $unsigned:expr) => {
+    (Unsigned, $signed:expr, $unsigned:expr $(,)?) => {
         $unsigned
-    };
-    ($Signedness:tt, $signed:expr, $unsigned:expr,) => {
-        if_signed_unsigned! { $Signedness, $signed, $unsigned }
     };
 }
 
 macro_rules! if_signed_else_empty_str {
-    (Signed, $($signed:tt)*) => {
+    (Signed; $($signed:tt)*) => {
         concat!($($signed)*)
     };
-    (Unsigned, $($signed:tt)*) => {
+    (Unsigned; $($signed:tt)*) => {
         ""
     };
 }
 macro_rules! if_unsigned_else_empty_str {
-    (Signed, $($unsigned:tt)*) => {
+    (Signed; $($unsigned:tt)*) => {
         ""
     };
-    (Unsigned, $($unsigned:tt)*) => {
+    (Unsigned; $($unsigned:tt)*) => {
         concat!($($unsigned)*)
     };
 }
@@ -71,7 +68,7 @@ macro_rules! doc_comment {
 }
 
 macro_rules! comment {
-    ($($comment:expr),*; $($tt:tt)*) => {
+    ($($comment:expr),* $(,)?; $($tt:tt)*) => {
         doc_comment! {
             concat!($($comment),*);
             $($tt)*

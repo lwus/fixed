@@ -2538,7 +2538,7 @@ macro_rules! impl_fixed {
                 if conv.overflow {
                     return if src < 0 { Self::MIN } else { Self::MAX };
                 }
-                let bits = if_signed_unsigned! {
+                let bits = if_signed_unsigned!(
                     $Signedness,
                     match conv.bits {
                         Widest::Unsigned(bits) => {
@@ -2555,7 +2555,7 @@ macro_rules! impl_fixed {
                             return Self::MIN;
                         }
                     },
-                };
+                );
                 Self::from_bits(bits)
             }
 
@@ -2579,7 +2579,7 @@ macro_rules! impl_fixed {
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
                 let conv = src.private_to_fixed_helper(Self::FRAC_NBITS, Self::INT_NBITS);
                 let mut new_overflow = false;
-                let bits = if_signed_unsigned! {
+                let bits = if_signed_unsigned!(
                     $Signedness,
                     match conv.bits {
                         Widest::Unsigned(bits) => {
@@ -2597,7 +2597,7 @@ macro_rules! impl_fixed {
                             bits as $Bits
                         }
                     },
-                };
+                );
                 (Self::from_bits(bits), conv.overflow || new_overflow)
             }
 

@@ -269,7 +269,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).div_euclid(Fix::from_num(2)), Fix::from_num(3));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).div_euclid(Fix::from_num(2)), Fix::from_num(-4));
 ",
                 },
@@ -304,7 +304,7 @@ Panics if the divisor is zero.
 
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "When debug assertions are enabled, this method
 also panics if the division overflows. Overflow can only occur when
 dividing the minimum value by −1. When debug assertions are not
@@ -321,7 +321,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).div_euclid_int(2), Fix::from_num(3));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).div_euclid_int(2), Fix::from_num(-4));
 ",
                 },
@@ -352,7 +352,7 @@ assert_eq!(Fix::from_num(7.5).div_euclid_int(2), Fix::from_num(3));
 
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "The product `a` × `b` does not need to be representable for
 a valid computation: if the product would overflow but the final result would
 not overflow, this method still returns the correct result.
@@ -380,7 +380,7 @@ acc.mul_acc(Fix::from_num(4), Fix::from_num(0.5));
 assert_eq!(acc, 5);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "
 // MAX × 1.5 − MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
@@ -423,7 +423,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).rem_euclid_int(2), Fix::from_num(1.5));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).rem_euclid_int(2), Fix::from_num(0.5));
 ",
                 },
@@ -568,7 +568,7 @@ assert_eq!(Fix::from_num(7.5).checked_div_euclid(Fix::ZERO), None);
 assert_eq!(Fix::MAX.checked_div_euclid(Fix::from_num(0.25)), None);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).checked_div_euclid(Fix::from_num(2)), Some(Fix::from_num(-4)));
 ",
                 },
@@ -605,7 +605,7 @@ When overflow occurs, `self` is not modified and retains its previous value.
 
 "#,
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "The product `a` × `b` does not need to be representable for
 a valid computation: if the product would overflow but the final result would
 not overflow, this method still returns the correct result.
@@ -632,7 +632,7 @@ assert_eq!(check, None);
 assert_eq!(acc, Fix::DELTA);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "
 // MAX × 1.5 − MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
@@ -678,7 +678,7 @@ assert_eq!(Fix::from_num(3.75).checked_rem_int(2), Some(Fix::from_num(1.75)));
 assert_eq!(Fix::from_num(3.75).checked_rem_int(0), None);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-3.75).checked_rem_int(2), Some(Fix::from_num(-1.75)));
 ",
                 },
@@ -712,7 +712,7 @@ assert_eq!(Fix::from_num(3.75).checked_rem_int(0), None);
                 "Checked Euclidean division by an integer. Returns the
 quotient, or [`None`] if the divisor is zero",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     " or if the division results in overflow",
                 },
                 ".
@@ -726,7 +726,7 @@ assert_eq!(Fix::from_num(7.5).checked_div_euclid_int(2), Some(Fix::from_num(3)))
 assert_eq!(Fix::from_num(7.5).checked_div_euclid_int(0), None);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::MIN.checked_div_euclid_int(-1), None);
 ",
                 },
@@ -754,7 +754,7 @@ assert_eq!(Fix::from_num(7.5).checked_div_euclid_int(0), None);
                 "Checked remainder for Euclidean division by an integer.
 Returns the remainder, or [`None`] if the divisor is zero",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     " or if the remainder results in overflow",
                 },
                 ".
@@ -768,7 +768,7 @@ assert_eq!(Fix::from_num(7.5).checked_rem_euclid_int(2), Some(Fix::from_num(1.5)
 assert_eq!(Fix::from_num(7.5).checked_rem_euclid_int(0), None);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(2), Some(Fix::from_num(0.5)));
 // −8 ≤ Fix < 8, so the answer 12.5 overflows
 assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(20), None);
@@ -928,7 +928,7 @@ type Fix = ", $s_fixed, "<U", $s_nbits_m1, ">;
 assert_eq!(Fix::from_num(0.25).saturating_recip(), Fix::MAX);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-0.25).saturating_recip(), Fix::MIN);
 ",
                 },
@@ -966,7 +966,7 @@ assert_eq!(Fix::from_num(7.5).saturating_div_euclid(Fix::from_num(2)), Fix::from
 assert_eq!(Fix::MAX.saturating_div_euclid(Fix::from_num(0.25)), Fix::MAX);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).saturating_div_euclid(Fix::from_num(2)), Fix::from_num(-4));
 assert_eq!(Fix::MIN.saturating_div_euclid(Fix::from_num(0.25)), Fix::MIN);
 ",
@@ -991,7 +991,7 @@ assert_eq!(Fix::MIN.saturating_div_euclid(Fix::from_num(0.25)), Fix::MIN);
 
             comment! {
                 "Saturating Euclidean division by an integer. Returns the quotient",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     ", saturating on overflow.
 
@@ -999,7 +999,7 @@ Overflow can only occur when dividing the minimum value by −1.",
                     ".
 
 Can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
@@ -1014,7 +1014,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).saturating_div_euclid_int(2), Fix::from_num(3));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).saturating_div_euclid_int(2), Fix::from_num(-4));
 assert_eq!(Fix::MIN.saturating_div_euclid_int(-1), Fix::MAX);
 ",
@@ -1037,7 +1037,7 @@ saturating on overflow.
 
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "The product `a` × `b` does not need to be representable for
 a valid computation: if the product would overflow but the final result would
 not overflow, this method still returns the correct result.
@@ -1061,7 +1061,7 @@ acc.saturating_mul_acc(Fix::MAX / 2, Fix::from_num(3));
 assert_eq!(acc, Fix::MAX);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "
 // MAX × 1.5 − MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
@@ -1083,11 +1083,11 @@ assert_eq!(acc, Fix::MAX / 2);
                         AFrac::I32 + BFrac::I32 - Frac::I32,
                     );
                     *self = if overflow {
-                        let negative = if_signed_unsigned! {
+                        let negative = if_signed_unsigned!(
                             $Signedness,
                             a.is_negative() != b.is_negative(),
                             false,
-                        };
+                        );
                         if negative {
                             Self::MIN
                         } else {
@@ -1101,13 +1101,13 @@ assert_eq!(acc, Fix::MAX / 2);
 
             comment! {
                 "Saturating remainder for Euclidean division by an integer. Returns the remainder",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     ", saturating on overflow.",
                     ".
 
 Can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
@@ -1122,7 +1122,7 @@ type Fix = ", $s_fixed, "<U", $s_nbits_m4, ">;
 assert_eq!(Fix::from_num(7.5).saturating_rem_euclid_int(2), Fix::from_num(1.5));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).saturating_rem_euclid_int(2), Fix::from_num(0.5));
 // −8 ≤ Fix < 8, so the answer 12.5 saturates
 assert_eq!(Fix::from_num(-7.5).saturating_rem_euclid_int(20), Fix::MAX);
@@ -1280,7 +1280,7 @@ assert_eq!(Fix::MAX.wrapping_div_euclid(Fix::from_num(0.25)), wrapped);
 
             comment! {
                 "Wrapping Euclidean division by an integer. Returns the quotient",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     ", wrapping on overflow.
 
@@ -1288,7 +1288,7 @@ Overflow can only occur when dividing the minimum value by −1.",
                     ".
 
 Can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
@@ -1303,7 +1303,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).wrapping_div_euclid_int(2), Fix::from_num(3));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).wrapping_div_euclid_int(2), Fix::from_num(-4));
 let wrapped = Fix::MIN.round_to_zero();
 assert_eq!(Fix::MIN.wrapping_div_euclid_int(-1), wrapped);
@@ -1356,7 +1356,7 @@ assert_eq!(acc, Fix::MAX.wrapping_mul_int(4));
 
             comment! {
                 "Wrapping remainder for Euclidean division by an integer. Returns the remainder",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     ", wrapping on overflow.
 
@@ -1365,7 +1365,7 @@ the wrapped value can be negative.",
                     ".
 
 Can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
@@ -1380,7 +1380,7 @@ type Fix = ", $s_fixed, "<U", $s_nbits_m4, ">;
 assert_eq!(Fix::from_num(7.5).wrapping_rem_euclid_int(2), Fix::from_num(1.5));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(2), Fix::from_num(0.5));
 // −8 ≤ Fix < 8, so the answer 12.5 wraps to −3.5
 assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(20), Fix::from_num(-3.5));
@@ -1570,7 +1570,7 @@ panicking on overflow.
 
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "The product `a` × `b` does not need to be representable for
 a valid computation: if the product would overflow but the final result would
 not overflow, this method still returns the correct result.
@@ -1594,7 +1594,7 @@ acc.unwrapped_mul_acc(Fix::from_num(4), Fix::from_num(0.5));
 assert_eq!(acc, 5);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "
 // MAX × 1.5 − MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
@@ -1666,7 +1666,7 @@ let _divisor_is_zero = Fix::from_num(3.75).unwrapped_rem_int(0);
 
             comment! {
                 "Unwrapped Euclidean division by an integer. Returns the quotient",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     ", panicking on overflow.
 
@@ -1674,14 +1674,14 @@ Overflow can only occur when dividing the minimum value by −1.",
                     ".
 
 Can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
 
 Panics if the divisor is zero",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     " or if the division results in overflow",
                 },
                 ".
@@ -1694,7 +1694,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).unwrapped_div_euclid_int(2), Fix::from_num(3));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).unwrapped_div_euclid_int(2), Fix::from_num(-4));
 ```
 
@@ -1721,7 +1721,7 @@ let _overflow = Fix::MIN.unwrapped_div_euclid_int(-1);
 
             comment! {
                 "Unwrapped remainder for Euclidean division by an integer. Returns the remainder",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     ", panicking on overflow.
 
@@ -1730,14 +1730,14 @@ the wrapped value can be negative.",
                     ".
 
 Can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
 
 Panics if the divisor is zero",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     " or if the division results in overflow",
                 },
                 ".
@@ -1750,7 +1750,7 @@ type Fix = ", $s_fixed, "<U", $s_nbits_m4, ">;
 assert_eq!(Fix::from_num(7.5).unwrapped_rem_euclid_int(2), Fix::from_num(1.5));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).unwrapped_rem_euclid_int(2), Fix::from_num(0.5));
 ```
 
@@ -1986,13 +1986,13 @@ assert_eq!(Fix::MAX.overflowing_div_euclid(Fix::from_num(0.25)), (wrapped, true)
                 "Overflowing Euclidean division by an integer.
 
 Returns a [tuple] of the quotient and ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "a [`bool`] indicating whether an overflow has
 occurred. On overflow, the wrapped value is returned. Overflow can
 only occur when dividing the minimum value by −1.",
                     "[`false`], as the division can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
@@ -2007,7 +2007,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).overflowing_div_euclid_int(2), (Fix::from_num(3), false));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).overflowing_div_euclid_int(2), (Fix::from_num(-4), false));
 let wrapped = Fix::MIN.round_to_zero();
 assert_eq!(Fix::MIN.overflowing_div_euclid_int(-1), (wrapped, true));
@@ -2049,7 +2049,7 @@ wrapping and returning [`true`] if overflow occurs.
 
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "The product `a` × `b` does not need to be representable for
 a valid computation: if the product would overflow but the final result would
 not overflow, this method still returns the correct result.
@@ -2073,7 +2073,7 @@ assert!(acc.overflowing_mul_acc(Fix::MAX, Fix::from_num(3)));
 assert_eq!(acc, Fix::MAX.wrapping_mul_int(4));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "
 // MAX × 1.5 − MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
@@ -2104,7 +2104,7 @@ assert_eq!(acc, Fix::MAX / 2);
                 "Remainder for Euclidean division by an integer.
 
 Returns a [tuple] of the remainder and ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "a [`bool`] indicating whether an overflow has
 occurred. On overflow, the wrapped value is returned.
@@ -2112,7 +2112,7 @@ occurred. On overflow, the wrapped value is returned.
 Note that while remainder for Euclidean division cannot be negative,
 the wrapped value can be negative.",
                     "[`false`], as this can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
@@ -2127,7 +2127,7 @@ type Fix = ", $s_fixed, "<U", $s_nbits_m4, ">;
 assert_eq!(Fix::from_num(7.5).overflowing_rem_euclid_int(2), (Fix::from_num(1.5), false));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(2), (Fix::from_num(0.5), false));
 // −8 ≤ Fix < 8, so the answer 12.5 wraps to −3.5
 assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3.5), true));

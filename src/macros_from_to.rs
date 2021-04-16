@@ -53,20 +53,20 @@ assert_eq!(Fix::from_num(src), Fix::from_bits(0b111 << (4 - 2)));
 
 assert_eq!(Fix::from_num(3i32), Fix::from_bits(3 << 4));
 assert_eq!(Fix::from_num(",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "-3i64), Fix::from_bits(-",
                 "3i64), Fix::from_bits(",
-            },
+            ),
             "3 << 4));
 
 assert_eq!(Fix::from_num(1.75f32), Fix::from_bits(0b111 << (4 - 2)));
 assert_eq!(Fix::from_num(",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "-1.75f64), Fix::from_bits(-",
                 "1.75f64), Fix::from_bits(",
-            },
+            ),
             "0b111 << (4-2)));
 ```
 
@@ -122,22 +122,22 @@ assert_eq!((src >> 2u32).to_num::<I30F2>(), I30F2::from_bits(0b1));
 let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
 assert_eq!(two_point_5.to_num::<i32>(), 2);
 assert_eq!(",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "(-two_point_5).to_num::<i64>(), -3",
                 "two_point_5.to_num::<i64>(), 2",
-            },
+            ),
             ");
 
 // 1.625 is 1.101 in binary
 let one_point_625 = Fix::from_bits(0b1101 << (4 - 3));
 assert_eq!(one_point_625.to_num::<f32>(), 1.625f32);
 assert_eq!(",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "(-one_point_625).to_num::<f64>(), -",
                 "one_point_625.to_num::<f64>(), "
-            },
+            ),
             "1.625f64);
 ```
 
@@ -189,11 +189,11 @@ assert_eq!(Fix::checked_from_num(3), Some(Fix::from_bits(3 << 4)));
 let too_large = ", $s_inner, "::MAX;
 assert!(Fix::checked_from_num(too_large).is_none());
 let too_small = ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!($s_inner, "::MIN"),
                 "-1",
-            },
+            ),
             ";
 assert!(Fix::checked_from_num(too_small).is_none());
 
@@ -201,11 +201,11 @@ assert!(Fix::checked_from_num(too_small).is_none());
 let expected = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(Fix::checked_from_num(1.75f32), Some(expected));
 assert_eq!(Fix::checked_from_num(",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "-1.75f64), Some(-",
                 "1.75f64), Some(",
-            },
+            ),
             "expected));
 assert!(Fix::checked_from_num(2e38).is_none());
 assert!(Fix::checked_from_num(std::f64::NAN).is_none());
@@ -260,19 +260,19 @@ assert!(Fix::MAX.checked_to_num::<TooFewIntBits>().is_none());
 let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
 assert_eq!(two_point_5.checked_to_num::<i32>(), Some(2));
 assert_eq!(",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "(-two_point_5).checked_to_num::<i64>(), Some(-3",
                 "two_point_5.checked_to_num::<i64>(), Some(2",
-            },
+            ),
             "));
 type AllInt = ", $s_fixed, "<U0>;
 assert!(AllInt::",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "from_bits(-1).checked_to_num::<u",
                 "MAX.checked_to_num::<i",
-            },
+            ),
             $s_nbits, ">().is_none());
 
 // 1.625 is 1.101 in binary
@@ -329,11 +329,11 @@ assert_eq!(Fix::saturating_from_num(too_large), Fix::MAX);
 
 assert_eq!(Fix::saturating_from_num(3), Fix::from_bits(3 << 4));
 let too_small = ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!($s_inner, "::MIN"),
                 "-1",
-            },
+            ),
             ";
 assert_eq!(Fix::saturating_from_num(too_small), Fix::MIN);
 
@@ -341,11 +341,11 @@ assert_eq!(Fix::saturating_from_num(too_small), Fix::MIN);
 let expected = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(Fix::saturating_from_num(1.75f32), expected);
 assert_eq!(Fix::saturating_from_num(",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "-1.75f64), -",
                 "1.75f64), ",
-            },
+            ),
             "expected);
 assert_eq!(Fix::saturating_from_num(2e38), Fix::MAX);
 assert_eq!(Fix::saturating_from_num(std::f64::NEG_INFINITY), Fix::MIN);
@@ -403,14 +403,14 @@ let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
 assert_eq!(two_point_5.saturating_to_num::<i32>(), 2);
 type AllInt = ", $s_fixed, "<U0>;
 assert_eq!(",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!("AllInt::from_bits(-1).saturating_to_num::<u", $s_nbits, ">(), 0"),
                 concat!(
                     "AllInt::MAX.saturating_to_num::<i", $s_nbits, ">(), ",
                     "i", $s_nbits, "::MAX",
                 ),
-            },
+            ),
             ");
 
 // 1.625 is 1.101 in binary
@@ -533,14 +533,14 @@ let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
 assert_eq!(two_point_5.wrapping_to_num::<i32>(), 2);
 type AllInt = ", $s_fixed, "<U0>;
 assert_eq!(",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!(
                     "AllInt::from_bits(-1).wrapping_to_num::<u", $s_nbits, ">(), ",
                     "u", $s_nbits, "::MAX",
                 ),
                 concat!("AllInt::MAX.wrapping_to_num::<i", $s_nbits, ">(), -1"),
-            },
+            ),
             ");
 
 // 1.625 is 1.101 in binary
@@ -792,17 +792,17 @@ assert_eq!(Fix::MAX.overflowing_to_num::<TooFewIntBits>(), (wrapped, true));
 let two_point_5 = Fix::from_bits(0b101 << (4 - 1));
 assert_eq!(two_point_5.overflowing_to_num::<i32>(), (2, false));
 let does_not_fit = ", $s_fixed, "::<U0>::",
-            if_signed_unsigned! { $Signedness, "from_bits(-1)", "MAX" },
+            if_signed_unsigned!($Signedness, "from_bits(-1)", "MAX"),
             ";
 let wrapped = ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!("1u", $s_nbits, ".wrapping_neg()"),
                 concat!("-1i", $s_nbits),
-            },
+            ),
             ";
 assert_eq!(does_not_fit.overflowing_to_num::<",
-            if_signed_unsigned! { $Signedness, "u", "i" },
+            if_signed_unsigned!($Signedness, "u", "i"),
             $s_nbits, ">(), (wrapped, true));
 
 // 1.625 is 1.101 in binary
@@ -835,7 +835,7 @@ let check = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(f, Ok(check));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "let neg = Fix::from_str_binary(\"-1.11\");
 assert_eq!(neg, Ok(-check));
 ",
@@ -864,7 +864,7 @@ let check = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(f, Ok(check));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "let neg = Fix::from_str_octal(\"-1.6\");
 assert_eq!(neg, Ok(-check));
 ",
@@ -893,7 +893,7 @@ let check = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(f, Ok(check));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "let neg = Fix::from_str_hex(\"-1.C\");
 assert_eq!(neg, Ok(-check));
 ",
@@ -916,7 +916,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 assert_eq!(I8F8::saturating_from_str(\"9999\"), Ok(I8F8::MAX));
@@ -926,7 +926,7 @@ assert_eq!(I8F8::saturating_from_str(\"-9999\"), Ok(I8F8::MIN));
 assert_eq!(U8F8::saturating_from_str(\"9999\"), Ok(U8F8::MAX));
 assert_eq!(U8F8::saturating_from_str(\"-1\"), Ok(U8F8::ZERO));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -945,7 +945,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 assert_eq!(I8F8::saturating_from_str_binary(\"101100111000\"), Ok(I8F8::MAX));
@@ -955,7 +955,7 @@ assert_eq!(I8F8::saturating_from_str_binary(\"-101100111000\"), Ok(I8F8::MIN));
 assert_eq!(U8F8::saturating_from_str_binary(\"101100111000\"), Ok(U8F8::MAX));
 assert_eq!(U8F8::saturating_from_str_binary(\"-1\"), Ok(U8F8::ZERO));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -974,7 +974,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 assert_eq!(I8F8::saturating_from_str_octal(\"7777\"), Ok(I8F8::MAX));
@@ -984,7 +984,7 @@ assert_eq!(I8F8::saturating_from_str_octal(\"-7777\"), Ok(I8F8::MIN));
 assert_eq!(U8F8::saturating_from_str_octal(\"7777\"), Ok(U8F8::MAX));
 assert_eq!(U8F8::saturating_from_str_octal(\"-1\"), Ok(U8F8::ZERO));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -1003,7 +1003,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 assert_eq!(I8F8::saturating_from_str_hex(\"FFFF\"), Ok(I8F8::MAX));
@@ -1013,7 +1013,7 @@ assert_eq!(I8F8::saturating_from_str_hex(\"-FFFF\"), Ok(I8F8::MIN));
 assert_eq!(U8F8::saturating_from_str_hex(\"FFFF\"), Ok(U8F8::MAX));
 assert_eq!(U8F8::saturating_from_str_hex(\"-1\"), Ok(U8F8::ZERO));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -1032,7 +1032,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 // 9999.5 = 15.5 + 256 × n
@@ -1044,7 +1044,7 @@ assert_eq!(I8F8::wrapping_from_str(\"-9999.5\"), Ok(I8F8::from_num(-15.5)));
 assert_eq!(U8F8::wrapping_from_str(\"9999.5\"), Ok(U8F8::from_num(15.5)));
 assert_eq!(U8F8::wrapping_from_str(\"-9999.5\"), Ok(U8F8::from_num(240.5)));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -1063,7 +1063,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 let check = I8F8::from_bits(0b1110001 << (8 - 1));
@@ -1075,7 +1075,7 @@ let check = U8F8::from_bits(0b1110001 << (8 - 1));
 assert_eq!(U8F8::wrapping_from_str_binary(\"101100111000.1\"), Ok(check));
 assert_eq!(U8F8::wrapping_from_str_binary(\"-101100111000.1\"), Ok(check.wrapping_neg()));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -1094,7 +1094,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 let check = I8F8::from_bits(0o1654 << (8 - 3));
@@ -1106,7 +1106,7 @@ let check = U8F8::from_bits(0o1654 << (8 - 3));
 assert_eq!(U8F8::wrapping_from_str_octal(\"7165.4\"), Ok(check));
 assert_eq!(U8F8::wrapping_from_str_octal(\"-7165.4\"), Ok(check.wrapping_neg()));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -1125,7 +1125,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 let check = I8F8::from_bits(0xFFE);
@@ -1137,7 +1137,7 @@ let check = U8F8::from_bits(0xFFE);
 assert_eq!(U8F8::wrapping_from_str_hex(\"C0F.FE\"), Ok(check));
 assert_eq!(U8F8::wrapping_from_str_hex(\"-C0F.FE\"), Ok(check.wrapping_neg()));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -1159,7 +1159,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 assert_eq!(I8F8::overflowing_from_str(\"99.5\"), Ok((I8F8::from_num(99.5), false)));
@@ -1171,7 +1171,7 @@ assert_eq!(U8F8::overflowing_from_str(\"99.5\"), Ok((U8F8::from_num(99.5), false
 // 9999.5 = 15.5 + 256 × n
 assert_eq!(U8F8::overflowing_from_str(\"9999.5\"), Ok((U8F8::from_num(15.5), true)));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -1195,7 +1195,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 let check = I8F8::from_bits(0b1110001 << (8 - 1));
@@ -1207,7 +1207,7 @@ let check = U8F8::from_bits(0b1110001 << (8 - 1));
 assert_eq!(U8F8::overflowing_from_str_binary(\"111000.1\"), Ok((check, false)));
 assert_eq!(U8F8::overflowing_from_str_binary(\"101100111000.1\"), Ok((check, true)));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -1231,7 +1231,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 let check = I8F8::from_bits(0o1654 << (8 - 3));
@@ -1243,7 +1243,7 @@ let check = U8F8::from_bits(0o1654 << (8 - 3));
 assert_eq!(U8F8::overflowing_from_str_octal(\"165.4\"), Ok((check, false)));
 assert_eq!(U8F8::overflowing_from_str_octal(\"7165.4\"), Ok((check, true)));
 ",
-            },
+            ),
             "```
 ";
             #[inline]
@@ -1267,7 +1267,7 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "use fixed::types::I8F8;
 let check = I8F8::from_bits(0xFFE);
@@ -1279,7 +1279,7 @@ let check = U8F8::from_bits(0xFFE);
 assert_eq!(U8F8::overflowing_from_str_hex(\"F.FE\"), Ok((check, false)));
 assert_eq!(U8F8::overflowing_from_str_hex(\"C0F.FE\"), Ok((check, true)));
 ",
-            },
+            ),
             "```
 ";
             #[inline]

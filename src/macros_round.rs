@@ -19,7 +19,7 @@ macro_rules! fixed_round {
             "Returns the integer part.
 
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!(
                     "Note that since the numbers are stored in two’s
@@ -28,7 +28,7 @@ rounded towards −∞, except in the case where there are no integer
 bits, that is `", $s_fixed, "<U", $s_nbits, ">`, where the return value is always zero.",
                 ),
                 "Note that for unsigned numbers, this is equivalent to [`floor`].",
-            },
+            ),
             "
 
 # Examples
@@ -43,7 +43,7 @@ let two_and_quarter = two + two / 8;
 assert_eq!(two_and_quarter.int(), two);
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "// 1101.0000
 let three = Fix::from_num(3);
 // 1101.1100
@@ -53,7 +53,7 @@ assert_eq!((-two_and_quarter).int(), -three);
             "```
 ",
             if_unsigned_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "
 [`floor`]: Self::floor
 "
@@ -69,7 +69,7 @@ assert_eq!((-two_and_quarter).int(), -three);
 
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "Note that since the numbers are stored in two’s
 complement, the returned fraction will be non-negative for negative
 numbers, except in the case where there are no integer bits, that is
@@ -90,7 +90,7 @@ let two_and_quarter = quarter * 9;
 assert_eq!(two_and_quarter.frac(), quarter);
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "// 0000.1100
 let three_quarters = quarter * 3;
 // 1101.1100
@@ -109,7 +109,7 @@ assert_eq!((-two_and_quarter).frac(), three_quarters);
             "Rounds to the next integer towards 0.
 
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "Note that for negative numbers, this is different
 from truncating/discarding the fractional bits. This is because in
@@ -117,7 +117,7 @@ two’s-complement representations, the value of all the bits except for
 the most significant bit is positive; discarding positive bits would
 round towards −∞ unlike this method which rounds towards zero.",
                 "Note that for unsigned numbers, this is equivalent to [`floor`].",
-            },
+            ),
             "
 
 # Examples
@@ -129,7 +129,7 @@ assert_eq!(Fix::from_num(2.1).round_to_zero(), Fix::from_num(2));
 assert_eq!(Fix::from_num(2.9).round_to_zero(), Fix::from_num(2));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.1).round_to_zero(), Fix::from_num(-2));
 assert_eq!(Fix::from_num(-2.9).round_to_zero(), Fix::from_num(-2));
 ",
@@ -137,7 +137,7 @@ assert_eq!(Fix::from_num(-2.9).round_to_zero(), Fix::from_num(-2));
             "```
 ",
             if_unsigned_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "
 [`floor`]: Self::floor
 "
@@ -178,7 +178,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).ceil(), Fix::from_num(3));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).ceil(), Fix::from_num(-2));
 ",
             },
@@ -200,7 +200,7 @@ assert_eq!(Fix::from_num(2.5).ceil(), Fix::from_num(3));
 
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "# Panics
 
 When debug assertions are enabled, panics if the result does not fit.
@@ -220,7 +220,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).floor(), Fix::from_num(2));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).floor(), Fix::from_num(-3));
 ",
             },
@@ -256,7 +256,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).round(), Fix::from_num(3));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).round(), Fix::from_num(-3));
 ",
             },
@@ -316,7 +316,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).checked_ceil(), Some(Fix::from_num(3)));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).checked_ceil(), Some(Fix::from_num(-2)));
 ",
             },
@@ -332,20 +332,20 @@ assert_eq!(Fix::from_num(2.5).checked_ceil(), Some(Fix::from_num(3)));
 
         comment! {
             "Checked floor. Rounds to the next integer towards −∞.",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "Returns [`None`] on overflow.
 
 Overflow can only occur when there are zero integer bits.",
                 "Always returns [`Some`] for unsigned values.",
-            },
+            ),
             "
 
 # Examples
 
 ```rust
 use fixed::{",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!(
                     "
@@ -354,13 +354,13 @@ use fixed::{",
 ",
                 ),
                 concat!("types::extra::U4, ", $s_fixed),
-            },
+            ),
             "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).checked_floor(), Some(Fix::from_num(2)));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).checked_floor(), Some(Fix::from_num(-3)));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
 assert!(AllFrac::MIN.checked_floor().is_none());
@@ -387,7 +387,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).checked_round(), Some(Fix::from_num(3)));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).checked_round(), Some(Fix::from_num(-3)));
 ",
             },
@@ -434,7 +434,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).saturating_ceil(), Fix::from_num(3));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).saturating_ceil(), Fix::from_num(-2));
 ",
             },
@@ -450,20 +450,20 @@ assert_eq!(Fix::from_num(2.5).saturating_ceil(), Fix::from_num(3));
 
         comment! {
             "Saturating floor. Rounds to the next integer towards −∞",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 ", saturating on overflow.
 
 Overflow can only occur when there are zero integer bits.",
                 ". Cannot overflow for unsigned values.",
-            },
+            ),
             "
 
 # Examples
 
 ```rust
 use fixed::{",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!(
                     "
@@ -472,13 +472,13 @@ use fixed::{",
 ",
                 ),
                 concat!("types::extra::U4, ", $s_fixed),
-            },
+            ),
             "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).saturating_floor(), Fix::from_num(2));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).saturating_floor(), Fix::from_num(-3));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
 assert_eq!(AllFrac::MIN.saturating_floor(), AllFrac::MIN);
@@ -505,7 +505,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).saturating_round(), Fix::from_num(3));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).saturating_round(), Fix::from_num(-3));
 ",
             },
@@ -562,7 +562,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).wrapping_ceil(), Fix::from_num(3));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).wrapping_ceil(), Fix::from_num(-2));
 ",
             },
@@ -577,20 +577,20 @@ assert_eq!(Fix::from_num(2.5).wrapping_ceil(), Fix::from_num(3));
 
         comment! {
             "Wrapping floor. Rounds to the next integer towards −∞",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 ", wrapping on overflow.
 
 Overflow can only occur when there are zero integer bits.",
                 ". Cannot overflow for unsigned values.",
-            },
+            ),
             "
 
 # Examples
 
 ```rust
 use fixed::{",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!(
                     "
@@ -599,13 +599,13 @@ use fixed::{",
 ",
                 ),
                 concat!("types::extra::U4, ", $s_fixed),
-            },
+            ),
             "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).wrapping_floor(), Fix::from_num(2));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).wrapping_floor(), Fix::from_num(-3));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
 assert_eq!(AllFrac::MIN.wrapping_floor(), AllFrac::ZERO);
@@ -631,7 +631,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).wrapping_round(), Fix::from_num(3));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).wrapping_round(), Fix::from_num(-3));
 ",
             },
@@ -680,7 +680,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).unwrapped_ceil(), Fix::from_num(3));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).unwrapped_ceil(), Fix::from_num(-2));
 ",
             },
@@ -703,7 +703,7 @@ let _overflow = Fix::MAX.unwrapped_ceil();
 
         comment! {
             "Unwrapped floor. Rounds to the next integer towards −∞",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 ", panicking on overflow.
 
@@ -713,7 +713,7 @@ Overflow can only occur when there are zero integer bits.
 
 Panics if the result does not fit.",
                 ". Cannot overflow for unsigned values.",
-            },
+            ),
             "
 
 # Examples
@@ -724,7 +724,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).unwrapped_floor(), Fix::from_num(2));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).unwrapped_floor(), Fix::from_num(-3));
 ```
 
@@ -761,7 +761,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).unwrapped_round(), Fix::from_num(3));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).unwrapped_round(), Fix::from_num(-3));
 ",
             },
@@ -829,7 +829,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).overflowing_ceil(), (Fix::from_num(3), false));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).overflowing_ceil(), (Fix::from_num(-2), false));
 "
             },
@@ -862,20 +862,20 @@ assert_eq!(Fix::from_num(2.5).overflowing_ceil(), (Fix::from_num(3), false));
 
 Returns a [tuple] of the fixed-point number and
 ",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 "a [`bool`], indicating whether an overflow has
 occurred. On overflow, the wrapped value isreturned. Overflow can only
 occur when there are zero integer bits.",
                 "[`false`].",
-            },
+            ),
             "
 
 # Examples
 
 ```rust
 use fixed::{",
-            if_signed_unsigned! {
+            if_signed_unsigned!(
                 $Signedness,
                 concat!(
                     "
@@ -884,13 +884,13 @@ use fixed::{",
 ",
                 ),
                 concat!("types::extra::U4, ", $s_fixed),
-            },
+            ),
             "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).overflowing_floor(), (Fix::from_num(2), false));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).overflowing_floor(), (Fix::from_num(-3), false));
 type AllFrac = ", $s_fixed, "<U", $s_nbits, ">;
 assert_eq!(AllFrac::MIN.overflowing_floor(), (AllFrac::ZERO, true));
@@ -927,7 +927,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(2.5).overflowing_round(), (Fix::from_num(3), false));
 ",
             if_signed_else_empty_str! {
-                $Signedness,
+                $Signedness;
                 "assert_eq!(Fix::from_num(-2.5).overflowing_round(), (Fix::from_num(-3), false));
 ",
             },

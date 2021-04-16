@@ -733,7 +733,7 @@ assert_eq!(a.wide_mul(b), 1.328_125);
 
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "The product `self` × `mul` does not need to be
 representable for a valid computation: if the product would overflow
 but the final result would not overflow, this method still returns the
@@ -763,7 +763,7 @@ assert_eq!(
 );
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "// MAX × 1.5 − MAX = MAX / 2, which does not overflow
 assert_eq!(Fix::MAX.mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
 "
@@ -804,7 +804,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(7.5).rem_euclid(Fix::from_num(2)), Fix::from_num(1.5));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).rem_euclid(Fix::from_num(2)), Fix::from_num(0.5));
 ",
                 },
@@ -959,7 +959,7 @@ type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::from_num(3).mean(Fix::from_num(4)), Fix::from_num(3.5));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::from_num(-3).mean(Fix::from_num(4)), Fix::from_num(0.5));
 ",
                 },
@@ -1096,11 +1096,11 @@ assert_eq!(C, Fix::from_bits(0x3E) ^ Fix::from_bits(0x55));
                 "Checked negation. Returns the negated value, or [`None`] on overflow.
 
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "Overflow can only occur when negating the minimum value.",
                     "Only zero can be negated without overflow.",
-                },
+                ),
                 "
 
 # Examples
@@ -1109,13 +1109,13 @@ assert_eq!(C, Fix::from_bits(0x3E) ^ Fix::from_bits(0x55));
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "assert_eq!(Fix::from_num(5).checked_neg(), Some(Fix::from_num(-5)));
 assert_eq!(Fix::MIN.checked_neg(), None);",
                     "assert_eq!(Fix::ZERO.checked_neg(), Some(Fix::ZERO));
 assert_eq!(Fix::from_num(5).checked_neg(), None);",
-                },
+                ),
                 "
 ```
 ";
@@ -1214,7 +1214,7 @@ Returns `self` × `mul` + `add`, or [`None`] on overflow.
 
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "The product `self` × `mul` does not need to be
 representable for a valid computation: if the product would overflow
 but the final result would not overflow, this method still returns the
@@ -1238,7 +1238,7 @@ assert_eq!(Fix::MAX.checked_mul_add(Fix::ONE, Fix::ZERO), Some(Fix::MAX));
 assert_eq!(Fix::MAX.checked_mul_add(Fix::ONE, Fix::DELTA), None);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "// MAX × 1.5 − MAX = MAX / 2, which does not overflow
 assert_eq!(Fix::MAX.checked_mul_add(Fix::from_num(1.5), -Fix::MAX), Some(Fix::MAX / 2));
 "
@@ -1289,11 +1289,11 @@ assert_eq!(Fix::MAX.checked_mul_int(2), None);
             comment! {
                 "Checked division by an integer. Returns the quotient, or
 [`None`] if the divisor is zero",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     " or if the division results in overflow.",
                     ".",
-                },
+                ),
                 "
 
 # Examples
@@ -1305,7 +1305,7 @@ assert_eq!(Fix::MAX.checked_div_int(1), Some(Fix::MAX));
 assert_eq!(Fix::ONE.checked_div_int(0), None);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::MIN.checked_div_int(-1), None);
 ",
                 },
@@ -1347,7 +1347,7 @@ assert_eq!(num.checked_rem_euclid(Fix::from_num(2)), Some(Fix::from_num(1.5)));
 assert_eq!(num.checked_rem_euclid(Fix::ZERO), None);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!((-num).checked_rem_euclid(Fix::from_num(2)), Some(Fix::from_num(0.5)));
 ",
                 },
@@ -1481,11 +1481,11 @@ assert!(Fix::MAX.checked_next_power_of_two().is_none());
                 "Saturating negation. Returns the negated value, saturating on overflow.
 
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "Overflow can only occur when negating the minimum value.",
                     "This method always returns zero.",
-                },
+                ),
                 "
 
 # Examples
@@ -1494,19 +1494,19 @@ assert!(Fix::MAX.checked_next_power_of_two().is_none());
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "assert_eq!(Fix::from_num(5).saturating_neg(), Fix::from_num(-5));
 assert_eq!(Fix::MIN.saturating_neg(), Fix::MAX);",
                     "assert_eq!(Fix::ZERO.saturating_neg(), Fix::from_num(0));
 assert_eq!(Fix::from_num(5).saturating_neg(), Fix::ZERO);",
-                },
+                ),
                 "
 ```
 ";
                 #[inline]
                 pub const fn saturating_neg(self) -> $Fixed<Frac> {
-                    if_signed_unsigned! {
+                    if_signed_unsigned!(
                         $Signedness,
                         {
                             match self.overflowing_neg() {
@@ -1515,7 +1515,7 @@ assert_eq!(Fix::from_num(5).saturating_neg(), Fix::ZERO);",
                             }
                         },
                         Self::ZERO,
-                    }
+                    )
                 }
             }
 
@@ -1536,11 +1536,11 @@ assert_eq!(Fix::MAX.saturating_add(Fix::ONE), Fix::MAX);
                 pub const fn saturating_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_add(rhs) {
                         (val, false) => val,
-                        (_, true) => if_signed_unsigned! {
+                        (_, true) => if_signed_unsigned!(
                             $Signedness,
                             if self.is_negative() { Self::MIN } else { Self::MAX },
                             Self::MAX,
-                        },
+                        ),
                     }
                 }
             }
@@ -1554,13 +1554,13 @@ assert_eq!(Fix::MAX.saturating_add(Fix::ONE), Fix::MAX);
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "assert_eq!(Fix::ONE.saturating_sub(Fix::from_num(3)), Fix::from_num(-2));
 assert_eq!(Fix::MIN.saturating_sub(Fix::ONE), Fix::MIN);",
                     "assert_eq!(Fix::from_num(5).saturating_sub(Fix::from_num(3)), Fix::from_num(2));
 assert_eq!(Fix::ZERO.saturating_sub(Fix::from_num(1)), Fix::from_num(0));",
-                },
+                ),
                 "
 ```
 ";
@@ -1569,7 +1569,7 @@ assert_eq!(Fix::ZERO.saturating_sub(Fix::from_num(1)), Fix::from_num(0));",
                 pub const fn saturating_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_sub(rhs) {
                         (val, false) => val,
-                        (_, true) => if_signed_unsigned! {
+                        (_, true) => if_signed_unsigned!(
                             $Signedness,
                             if self.to_bits() < rhs.to_bits() {
                                 Self::MIN
@@ -1577,7 +1577,7 @@ assert_eq!(Fix::ZERO.saturating_sub(Fix::from_num(1)), Fix::from_num(0));",
                                 Self::MAX
                             },
                             Self::MIN,
-                        },
+                        ),
                     }
                 }
             }
@@ -1588,7 +1588,7 @@ Returns `self` × `mul` + `add`, saturating on overflow.
 
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "The product `self` × `mul` does not need to be
 representable for a valid computation: if the product would overflow
 but the final result would not overflow, this method still returns the
@@ -1612,7 +1612,7 @@ let half_max = Fix::MAX / 2;
 assert_eq!(half_max.saturating_mul_add(Fix::from_num(3), half_max), Fix::MAX);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(half_max.saturating_mul_add(Fix::from_num(-5), half_max), Fix::MIN);
 // MAX × 1.5 − MAX = MAX / 2, which does not overflow
 assert_eq!(Fix::MAX.saturating_mul_add(Fix::from_num(1.5), -Fix::MAX), half_max);
@@ -1634,11 +1634,11 @@ assert_eq!(Fix::MAX.saturating_mul_add(Fix::from_num(1.5), -Fix::MAX), half_max)
                     ) {
                         (ans, false) => Self::from_bits(ans),
                         (_, true) => {
-                            let negative = if_signed_unsigned! {
+                            let negative = if_signed_unsigned!(
                                 $Signedness,
                                 self.is_negative() != mul.is_negative(),
                                 false,
-                            };
+                            );
                             if negative {
                                 Self::MIN
                             } else {
@@ -1666,7 +1666,7 @@ assert_eq!(Fix::MAX.saturating_mul_int(2), Fix::MAX);
                 pub const fn saturating_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.overflowing_mul_int(rhs) {
                         (val, false) => val,
-                        (_, true) => if_signed_unsigned! {
+                        (_, true) => if_signed_unsigned!(
                             $Signedness,
                             if self.is_negative() != rhs.is_negative() {
                                 Self::MIN
@@ -1674,7 +1674,7 @@ assert_eq!(Fix::MAX.saturating_mul_int(2), Fix::MAX);
                                 Self::MAX
                             },
                             Self::MAX,
-                        },
+                        ),
                     }
                 }
             }
@@ -1709,11 +1709,11 @@ assert_eq!(Fix::MIN.saturating_abs(), Fix::MAX);
                 "Wrapping negation. Returns the negated value, wrapping on overflow.
 
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "Overflow can only occur when negating the minimum value.",
                     "Only zero can be negated without overflow.",
-                },
+                ),
                 "
 
 # Examples
@@ -1722,7 +1722,7 @@ assert_eq!(Fix::MIN.saturating_abs(), Fix::MAX);
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "assert_eq!(Fix::from_num(5).wrapping_neg(), Fix::from_num(-5));
 assert_eq!(Fix::MIN.wrapping_neg(), Fix::MIN);",
@@ -1730,7 +1730,7 @@ assert_eq!(Fix::MIN.wrapping_neg(), Fix::MIN);",
 assert_eq!(Fix::from_num(5).wrapping_neg(), Fix::wrapping_from_num(-5));
 let neg_five_bits = !Fix::from_num(5).to_bits() + 1;
 assert_eq!(Fix::from_num(5).wrapping_neg(), Fix::from_bits(neg_five_bits));",
-                },
+                ),
                 "
 ```
 ";
@@ -1751,7 +1751,7 @@ type Fix = ", $s_fixed, "<U4>;
 let one_minus_delta = Fix::ONE - Fix::DELTA;
 assert_eq!(Fix::from_num(3).wrapping_add(Fix::from_num(2)), Fix::from_num(5));
 assert_eq!(Fix::MAX.wrapping_add(Fix::ONE), ",
-                if_signed_else_empty_str! { $Signedness, "Fix::MIN + " },
+                if_signed_else_empty_str! { $Signedness; "Fix::MIN + " },
                 "one_minus_delta);
 ```
 ";
@@ -1772,13 +1772,13 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let one_minus_delta = Fix::ONE - Fix::DELTA;
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "assert_eq!(Fix::from_num(3).wrapping_sub(Fix::from_num(5)), Fix::from_num(-2));
 assert_eq!(Fix::MIN",
                     "assert_eq!(Fix::from_num(5).wrapping_sub(Fix::from_num(3)), Fix::from_num(2));
 assert_eq!(Fix::ZERO",
-                },
+                ),
                 ".wrapping_sub(Fix::ONE), Fix::MAX - one_minus_delta);
 ```
 ";
@@ -1849,7 +1849,7 @@ assert_eq!(Fix::MAX.wrapping_mul_int(4), wrapped);
 
             comment! {
                 "Wrapping division by an integer. Returns the quotient",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     ", wrapping on overflow.
 
@@ -1857,7 +1857,7 @@ Overflow can only occur when dividing the minimum value by −1.",
                     ".
 
 Can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
@@ -1874,7 +1874,7 @@ let one_point_5 = Fix::from_bits(0b11 << (4 - 1));
 assert_eq!(Fix::from_num(3).wrapping_div_int(2), one_point_5);
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::MIN.wrapping_div_int(-1), Fix::MIN);
 ",
                 },
@@ -1985,11 +1985,11 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
                 "Unwrapped negation. Returns the negated value, panicking on overflow.
 
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "Overflow can only occur when negating the minimum value.",
                     "Only zero can be negated without overflow.",
-                },
+                ),
                 "
 
 # Panics
@@ -2002,7 +2002,7 @@ Panics if the result does not fit.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     concat!(
                         "assert_eq!(Fix::from_num(5).unwrapped_neg(), Fix::from_num(-5));
@@ -2026,7 +2026,7 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let _overflow = Fix::from_num(5).unwrapped_neg();",
                     ),
-                },
+                ),
                 "
 ```
 ";
@@ -2081,13 +2081,13 @@ Panics if the result does not fit.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "assert_eq!(Fix::from_num(3).unwrapped_sub(Fix::from_num(5)), Fix::from_num(-2));
 ",
                     "assert_eq!(Fix::from_num(5).unwrapped_sub(Fix::from_num(3)), Fix::from_num(2));
 ",
-                },
+                ),
                 "```
 
 The following panics because of overflow.
@@ -2150,7 +2150,7 @@ Returns `self` × `mul` + `add`, panicking on overflow.
 
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "The product `self` × `mul` does not need to be
 representable for a valid computation: if the product would overflow
 but the final result would not overflow, this method still returns the
@@ -2176,7 +2176,7 @@ assert_eq!(
 );
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "// MAX × 1.5 − MAX = MAX / 2, which does not overflow
 assert_eq!(Fix::MAX.unwrapped_mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
 "
@@ -2236,7 +2236,7 @@ let _overflow = Fix::MAX.unwrapped_mul_int(4);
 
             comment! {
                 "Unwrapped division by an integer. Returns the quotient",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     ", panicking on overflow.
 
@@ -2244,14 +2244,14 @@ Overflow can only occur when dividing the minimum value by −1.",
                     ".
 
 Can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
 
 Panics if the divisor is zero",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     " or if the division results in overflow",
                 },
                 ".
@@ -2275,7 +2275,7 @@ let _divisor_is_zero = Fix::from_num(3).unwrapped_div_int(0);
 ```
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "
 The following panics because of overflow.
 
@@ -2466,11 +2466,11 @@ Returns a [tuple] of the negated value and a [`bool`] indicating whether
 an overflow has occurred. On overflow, the wrapped value is returned.
 
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "Overflow can only occur when negating the minimum value.",
                     "Only zero can be negated without overflow.",
-                },
+                ),
                 "
 
 # Examples
@@ -2479,7 +2479,7 @@ an overflow has occurred. On overflow, the wrapped value is returned.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "assert_eq!(Fix::from_num(5).overflowing_neg(), (Fix::from_num(-5), false));
 assert_eq!(Fix::MIN.overflowing_neg(), (Fix::MIN, true));",
@@ -2487,7 +2487,7 @@ assert_eq!(Fix::MIN.overflowing_neg(), (Fix::MIN, true));",
 assert_eq!(Fix::from_num(5).overflowing_neg(), Fix::overflowing_from_num(-5));
 let neg_five_bits = !Fix::from_num(5).to_bits() + 1;
 assert_eq!(Fix::from_num(5).overflowing_neg(), (Fix::from_bits(neg_five_bits), true));",
-                },
+                ),
                 "
 ```
 ";
@@ -2512,7 +2512,7 @@ type Fix = ", $s_fixed, "<U4>;
 let one_minus_delta = Fix::ONE - Fix::DELTA;
 assert_eq!(Fix::from_num(3).overflowing_add(Fix::from_num(2)), (Fix::from_num(5), false));
 assert_eq!(Fix::MAX.overflowing_add(Fix::ONE), (",
-                if_signed_else_empty_str! { $Signedness, "Fix::MIN + " },
+                if_signed_else_empty_str! { $Signedness; "Fix::MIN + " },
                 "one_minus_delta, true));
 ```
 ";
@@ -2537,13 +2537,13 @@ use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let one_minus_delta = Fix::ONE - Fix::DELTA;
 ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "assert_eq!(Fix::from_num(3).overflowing_sub(Fix::from_num(5)), (Fix::from_num(-2), false));
 assert_eq!(Fix::MIN",
                     "assert_eq!(Fix::from_num(5).overflowing_sub(Fix::from_num(3)), (Fix::from_num(2), false));
 assert_eq!(Fix::ZERO",
-                },
+                ),
                 ".overflowing_sub(Fix::ONE), (Fix::MAX - one_minus_delta, true));
 ```
 ";
@@ -2584,7 +2584,7 @@ assert_eq!(
 );
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "// MAX × 1.5 − MAX = MAX / 2, which does not overflow
 assert_eq!(
     Fix::MAX.overflowing_mul_add(Fix::from_num(1.5), -Fix::MAX),
@@ -2638,13 +2638,13 @@ assert_eq!(Fix::MAX.overflowing_mul_int(4), (wrapped, true));
                 "Overflowing division by an integer.
 
 Returns a [tuple] of the quotient and ",
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     "a [`bool`] indicating whether an overflow has
 occurred. On overflow, the wrapped value is returned. Overflow can
 only occur when dividing the minimum value by −1.",
                     "[`false`], as the division can never overflow for unsigned values.",
-                },
+                ),
                 "
 
 # Panics
@@ -2661,7 +2661,7 @@ let one_point_5 = Fix::from_bits(0b11 << (4 - 1));
 assert_eq!(Fix::from_num(3).overflowing_div_int(2), (one_point_5, false));
 ",
                 if_signed_else_empty_str! {
-                    $Signedness,
+                    $Signedness;
                     "assert_eq!(Fix::MIN.overflowing_div_int(-1), (Fix::MIN, true));
 ",
                 },

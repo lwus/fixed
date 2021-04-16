@@ -71,13 +71,13 @@ assert_eq!(Fix::LOG10_2, Fix::from_num(consts::LOG10_2));
             "This block contains constants in the range 0.5 ≤ <i>x</i> < 1.
 
 ",
-            if_signed_else_empty_str!(
-                $Signedness,
+            if_signed_else_empty_str! {
+                $Signedness;
                 "These constants are not representable in signed
 fixed-point numbers with less than 1 integer bit.
 
 "
-            ),
+            },
             "# Examples
 
 ```rust
@@ -91,8 +91,8 @@ assert_eq!(Fix::LN_2, Fix::from_num(consts::LN_2));
 assert!(0.5 <= Fix::LN_2 && Fix::LN_2 < 1);
 ```
 ",
-            if_signed_else_empty_str!(
-                $Signedness,
+            if_signed_else_empty_str! {
+                $Signedness;
                 "
 The following example fails to compile, since the maximum
 representable value with ", $s_nbits, " fractional bits and 0 integer
@@ -104,7 +104,7 @@ type Fix = ", $s_fixed, "<U", $s_nbits, ">;
 let _ = Fix::LN_2;
 ```
 "
-            );
+            };
             impl<Frac: Unsigned> $Fixed<Frac>
             where
                 Frac: IsLessOrEqual<$LeEqU_C0, Output = True>,

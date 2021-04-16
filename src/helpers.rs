@@ -90,7 +90,7 @@ macro_rules! impl_sealed {
                 if conv.overflow {
                     return saturated;
                 }
-                let bits = if_signed_unsigned! {
+                let bits = if_signed_unsigned!(
                     $Signedness,
                     match conv.bits {
                         Widest::Unsigned(bits) => {
@@ -106,7 +106,7 @@ macro_rules! impl_sealed {
                         Widest::Unsigned(bits) => bits as _,
                         Widest::Negative(_) => return Self::MIN,
                     },
-                };
+                );
                 Self::from_bits(bits)
             }
             #[inline]
@@ -118,7 +118,7 @@ macro_rules! impl_sealed {
                     FloatKind::Finite { conv, .. } => conv,
                 };
                 let mut new_overflow = false;
-                let bits = if_signed_unsigned! {
+                let bits = if_signed_unsigned!(
                     $Signedness,
                     match conv.bits {
                         Widest::Unsigned(bits) => {
@@ -137,7 +137,7 @@ macro_rules! impl_sealed {
                             bits as _
                         }
                     },
-                };
+                );
                 (Self::from_bits(bits), conv.overflow || new_overflow)
             }
         }

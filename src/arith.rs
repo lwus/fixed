@@ -219,7 +219,8 @@ macro_rules! shift_all {
 macro_rules! fixed_arith {
     ($Fixed:ident($Inner:ty, $LeEqU:ident, $bits_count:expr), $Signedness:tt) => {
         if_signed! {
-            $Signedness; pass_one! { impl Neg for $Fixed { neg } }
+            $Signedness;
+            pass_one! { impl Neg for $Fixed { neg } }
         }
 
         pass! { impl Add for $Fixed { add } }
@@ -510,7 +511,7 @@ macro_rules! mul_div_widen {
                 };
                 let lo = (prod2 >> frac_nbits) as Unsigned;
                 let hi = (prod2 >> frac_nbits >> NBITS) as $Single;
-                if_signed_unsigned! {
+                if_signed_unsigned!(
                     $Signedness,
                     {
                         let (uns, carry) = lo.overflowing_add(add as Unsigned);
@@ -526,7 +527,7 @@ macro_rules! mul_div_widen {
                         let (ans, overflow) = lo.overflowing_add(add);
                         (ans, overflow2 || overflow || hi != 0)
                     },
-                }
+                )
             }
 
             #[inline]
@@ -536,11 +537,11 @@ macro_rules! mul_div_widen {
                 let rhs2 = <$Double>::from(rhs);
                 let quot2 = lhs2 / rhs2;
                 let quot = quot2 as $Single;
-                let overflow = if_signed_unsigned! {
+                let overflow = if_signed_unsigned!(
                     $Signedness,
                     quot2 >> NBITS != if quot < 0 { -1 } else { 0 },
                     quot2 >> NBITS != 0
-                };
+                );
                 (quot, overflow)
             }
         }
@@ -754,7 +755,7 @@ macro_rules! mul_div_fallback {
                 } else if frac_nbits > NBITS {
                     frac_nbits -= NBITS;
                     debug_assert!(frac_nbits <= NBITS);
-                    let sign_extension = if_signed_unsigned!($Signedness, ans23 >> (NBITS - 1), 0,);
+                    let sign_extension = if_signed_unsigned!($Signedness, ans23 >> (NBITS - 1), 0);
                     ans01 = ans23.wrapping_as::<$Uns>();
                     ans23 = sign_extension;
                 }
@@ -772,11 +773,11 @@ macro_rules! mul_div_fallback {
                     let lhs2 = (self >> (NBITS - frac_nbits), (self << frac_nbits) as $Uns);
                     let (quot2, _) = rhs.div_rem_from(lhs2);
                     let quot = quot2.1 as $Single;
-                    let overflow = if_signed_unsigned! {
+                    let overflow = if_signed_unsigned!(
                         $Signedness,
                         quot2.0 != if quot < 0 { -1 } else { 0 },
                         quot2.0 != 0
-                    };
+                    );
                     (quot, overflow)
                 }
             }
