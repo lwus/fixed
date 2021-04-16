@@ -348,7 +348,7 @@ assert_eq!(Fix::from_num(7.5).div_euclid_int(2), Fix::from_num(3));
             }
 
             comment! {
-                "Multiply and accumulate. Add (`a` × `b`) to `self`.
+                "Multiply and accumulate. Adds (`a` × `b`) to `self`.
 
 ",
                 if_signed_else_empty_str! {
@@ -593,10 +593,17 @@ assert_eq!(Fix::MAX.checked_div_euclid(Fix::from_num(0.25)), None);
             }
 
             comment! {
-                "Checked multiply and accumulate. Add (`a` × `b`) to `self`, or
-return [`Err`] on overflow.
+                r#"Checked multiply and accumulate. Adds (`a` × `b`) to `self`,
+or returns [`None`] on overflow.
 
-",
+Like all other checked methods, this method wraps the successful return value in
+an [`Option`]. Since the unchecked [`mul_acc`] method does not return a value,
+which is equivalent to returning [`()`][unit], this method wraps [`()`][unit]
+into <code>[Some]\([()][unit])</code> on success.
+
+When overflow occurs, `self` is not modified and retains its previous value.
+
+"#,
                 if_signed_else_empty_str! {
                     $Signedness,
                     "The product `a` × `b` does not need to be representable for
@@ -614,11 +621,13 @@ not overflow, this method still returns the correct result.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 let mut acc = Fix::from_num(3);
-assert!(acc.checked_mul_acc(Fix::from_num(4), Fix::from_num(0.5)).is_ok());
+let check = acc.checked_mul_acc(Fix::from_num(4), Fix::from_num(0.5));
+assert_eq!(check, Some(()));
 assert_eq!(acc, 5);
 
 acc = Fix::DELTA;
-assert!(acc.checked_mul_acc(Fix::MAX, Fix::ONE).is_err());
+let check = acc.checked_mul_acc(Fix::MAX, Fix::ONE);
+assert_eq!(check, None);
 // acc is unchanged on error
 assert_eq!(acc, Fix::DELTA);
 ",
@@ -627,28 +636,32 @@ assert_eq!(acc, Fix::DELTA);
                     "
 // MAX × 1.5 − MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
-assert!(acc.checked_mul_acc(Fix::MAX, Fix::from_num(1.5)).is_ok());
+let check = acc.checked_mul_acc(Fix::MAX, Fix::from_num(1.5));
+assert_eq!(check, Some(()));
 assert_eq!(acc, Fix::MAX / 2);
 "
                 },
                 "```
+
+[`mul_acc`]: Self::mul_acc
 ";
                 #[inline]
+                #[must_use = "this `Option` may be a `None` variant indicating overflow, which should be handled"]
                 pub fn checked_mul_acc<AFrac: $LeEqU, BFrac: $LeEqU>(
                     &mut self,
                     a: $Fixed<AFrac>,
                     b: $Fixed<BFrac>,
-                ) -> Result<(), ()> {
+                ) -> Option<()> {
                     let (ans, overflow) = a.to_bits().mul_add_overflow(
                         b.to_bits(),
                         self.to_bits(),
                         AFrac::I32 + BFrac::I32 - Frac::I32,
                     );
                     if overflow {
-                        return Err(());
+                        return None;
                     }
                     *self = Self::from_bits(ans);
-                    Ok(())
+                    Some(())
                 }
             }
 
@@ -1019,7 +1032,7 @@ assert_eq!(Fix::MIN.saturating_div_euclid_int(-1), Fix::MAX);
             }
 
             comment! {
-                "Saturating multiply and accumulate. Add (`a` × `b`) to `self`,
+                "Saturating multiply and accumulate. Adds (`a` × `b`) to `self`,
 saturating on overflow.
 
 ",
@@ -1306,7 +1319,7 @@ assert_eq!(Fix::MIN.wrapping_div_euclid_int(-1), wrapped);
             }
 
             comment! {
-                "Wrapping multiply and accumulate. Add (`a` × `b`) to `self`,
+                "Wrapping multiply and accumulate. Adds (`a` × `b`) to `self`,
 wrapping on overflow.
 
 The `a` and `b` parameters can have a fixed-point type like
@@ -1552,7 +1565,7 @@ let _overflow = Fix::MAX.unwrapped_div_euclid(Fix::from_num(0.25));
             }
 
             comment! {
-                "Unwrapped multiply and accumulate. Add (`a` × `b`) to `self`,
+                "Unwrapped multiply and accumulate. Adds (`a` × `b`) to `self`,
 panicking on overflow.
 
 ",
@@ -2031,7 +2044,7 @@ assert_eq!(Fix::MIN.overflowing_div_euclid_int(-1), (wrapped, true));
             }
 
             comment! {
-                "Overflowing multiply and accumulate. Add (`a` × `b`) to `self`,
+                "Overflowing multiply and accumulate. Adds (`a` × `b`) to `self`,
 wrapping and returning [`true`] if overflow occurs.
 
 ",

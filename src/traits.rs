@@ -831,8 +831,10 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_mul_add(self, mul: Self, add: Self) -> Option<Self>;
 
-    /// Checked multiply and accumulate. Adds (`a` × `b`) to `self`, or returns [`Err`] on overflow.
-    fn checked_mul_acc(&mut self, a: Self, b: Self) -> Result<(), ()>;
+    /// Checked multiply and accumulate. Adds (`a` × `b`) to `self`, or returns
+    /// [`None`] on overflow.
+    #[must_use = "this `Option` may be a `None` variant indicating overflow, which should be handled"]
+    fn checked_mul_acc(&mut self, a: Self, b: Self) -> Option<()>;
 
     /// Checked remainder for Euclidean division. Returns the
     /// remainder, or [`None`] if the divisor is zero or the division
@@ -2421,7 +2423,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn checked_rem(self, rhs: Self) -> Option<Self> }
             trait_delegate! { fn checked_recip(self) -> Option<Self> }
             trait_delegate! { fn checked_mul_add(self, mul: Self, add: Self) -> Option<Self> }
-            trait_delegate! { fn checked_mul_acc(&mut self, a: Self, b: Self) -> Result<(), ()> }
+            trait_delegate! { fn checked_mul_acc(&mut self, a: Self, b: Self) -> Option<()> }
             trait_delegate! { fn checked_div_euclid(self, rhs: Self) -> Option<Self> }
             trait_delegate! { fn checked_rem_euclid(self, rhs: Self) -> Option<Self> }
             trait_delegate! { fn checked_mul_int(self, rhs: Self::Bits) -> Option<Self> }
