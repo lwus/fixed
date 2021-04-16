@@ -12,10 +12,14 @@ Version 1.8.0 (unreleased)
     the [`Fixed`][tf-1-8] trait, and to the [`Wrapping`][w-1-8] and
     [`Unwrapped`][u-1-8] wrappers:
       * [`ZERO`][f-z-1-8], [`DELTA`][f-d-1-8]
+      * [`mul_acc`][f-ma-1-8]
   * The [`ONE`][f-o-1-8] constant was added to all fixed-point numbers
     that can represent the value 1.
   * The following methods were added to all fixed-point numbers and to
     the [`Fixed`][tf-1-8] trait:
+      * [`checked_mul_acc`][f-cma-1-8], [`saturating_mul_acc`][f-sma-1-8],
+        [`wrapping_mul_acc`][f-wma-1-8], [`unwrapped_mul_acc`][f-uma-1-8],
+        [`overflowing_mul_acc`][f-oma-1-8]
       * [`saturating_div_euclid_int`][f-sdei-1-8],
         [`saturating_rem_euclid_int`][f-srei-1-8]
       * [`unwrapped_rem`][f-ur-1-8],
@@ -38,20 +42,26 @@ Version 1.8.0 (unreleased)
 [f-cbo-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_bitor
 [f-cbx-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_bitxor
 [f-cdi-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_div_int
+[f-cma-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_mul_acc
 [f-cn-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.const_not
 [f-cr-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_rem
 [f-cre-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_rem_euclid
 [f-d-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.DELTA
+[f-ma-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.mul_acc
 [f-o-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.ONE
 [f-odi-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_div_int
+[f-oma-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_mul_acc
 [f-re-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.rem_euclid
 [f-sdei-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_div_euclid_int
+[f-sma-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_mul_acc
 [f-srei-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_rem_euclid_int
 [f-udi-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_div_int
+[f-uma-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_mul_acc
 [f-ur-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem
 [f-ure-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_euclid
 [f-uri-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_rem_int
 [f-wdi-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_div_int
+[f-wma-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_mul_acc
 [f-z-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#associatedconstant.ZERO
 [tf-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
 [u-1-8]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html

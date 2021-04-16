@@ -841,6 +841,25 @@ impl<F: Fixed> Wrapping<F> {
         Wrapping(self.0.wrapping_mul_add(mul.0, add.0))
     }
 
+    /// Multiply and accumulate. Adds (`a` × `b`) to `self`.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// let mut acc = Wrapping(I16F16::from_num(3));
+    /// acc.mul_acc(Wrapping(I16F16::from_num(4)), Wrapping(I16F16::from_num(0.5)));
+    /// assert_eq!(acc, Wrapping(I16F16::from_num(5)));
+    ///
+    /// acc = Wrapping(I16F16::MAX);
+    /// acc.mul_acc(Wrapping(I16F16::MAX), Wrapping(I16F16::from_num(3)));
+    /// assert_eq!(acc, Wrapping(I16F16::MAX) * 4);
+    /// ```
+    #[inline]
+    pub fn mul_acc(&mut self, a: Wrapping<F>, b: Wrapping<F>) {
+        self.0.wrapping_mul_acc(a.0, b.0);
+    }
+
     /// Euclidean division.
     ///
     /// # Panics

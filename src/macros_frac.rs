@@ -348,6 +348,67 @@ assert_eq!(Fix::from_num(7.5).div_euclid_int(2), Fix::from_num(3));
             }
 
             comment! {
+                "Multiply and accumulate. Add (`a` × `b`) to `self`.
+
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "The product `a` × `b` does not need to be representable for
+a valid computation: if the product would overflow but the final result would
+not overflow, this method still returns the correct result.
+
+",
+                },
+                "The `a` and `b` parameters can have a fixed-point type like
+`self` but with a different number of fractional bits.
+
+# Panics
+
+When debug assertions are enabled, this method panics if the result
+overflows. When debug assertions are not enabled, the wrapped value
+can be returned, but it is not considered a breaking change if in the
+future it panics; if wrapping is required use [`wrapping_mul_acc`]
+instead.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let mut acc = Fix::from_num(3);
+acc.mul_acc(Fix::from_num(4), Fix::from_num(0.5));
+assert_eq!(acc, 5);
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "
+// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+acc = -Fix::MAX;
+acc.mul_acc(Fix::MAX, Fix::from_num(1.5));
+assert_eq!(acc, Fix::MAX / 2);
+"
+                },
+                "```
+
+[`wrapping_mul_acc`]: Self::wrapping_mul_acc
+";
+                #[inline]
+                pub fn mul_acc<AFrac: $LeEqU, BFrac: $LeEqU>(
+                    &mut self,
+                    a: $Fixed<AFrac>,
+                    b: $Fixed<BFrac>,
+                ) {
+                    let (ans, overflow) = a.to_bits().mul_add_overflow(
+                        b.to_bits(),
+                        self.to_bits(),
+                        AFrac::I32 + BFrac::I32 - Frac::I32,
+                    );
+                    debug_assert!(!overflow, "overflow");
+                    *self = Self::from_bits(ans);
+                }
+            }
+
+            comment! {
                 "Remainder for Euclidean division by an integer.
 
 # Panics
@@ -528,6 +589,66 @@ assert_eq!(Fix::MAX.checked_div_euclid(Fix::from_num(0.25)), None);
                         }
                     }
                     Some(q)
+                }
+            }
+
+            comment! {
+                "Checked multiply and accumulate. Add (`a` × `b`) to `self`, or
+return [`Err`] on overflow.
+
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "The product `a` × `b` does not need to be representable for
+a valid computation: if the product would overflow but the final result would
+not overflow, this method still returns the correct result.
+
+",
+                },
+                "The `a` and `b` parameters can have a fixed-point type like
+`self` but with a different number of fractional bits.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let mut acc = Fix::from_num(3);
+assert!(acc.checked_mul_acc(Fix::from_num(4), Fix::from_num(0.5)).is_ok());
+assert_eq!(acc, 5);
+
+acc = Fix::DELTA;
+assert!(acc.checked_mul_acc(Fix::MAX, Fix::ONE).is_err());
+// acc is unchanged on error
+assert_eq!(acc, Fix::DELTA);
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "
+// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+acc = -Fix::MAX;
+assert!(acc.checked_mul_acc(Fix::MAX, Fix::from_num(1.5)).is_ok());
+assert_eq!(acc, Fix::MAX / 2);
+"
+                },
+                "```
+";
+                #[inline]
+                pub fn checked_mul_acc<AFrac: $LeEqU, BFrac: $LeEqU>(
+                    &mut self,
+                    a: $Fixed<AFrac>,
+                    b: $Fixed<BFrac>,
+                ) -> Result<(), ()> {
+                    let (ans, overflow) = a.to_bits().mul_add_overflow(
+                        b.to_bits(),
+                        self.to_bits(),
+                        AFrac::I32 + BFrac::I32 - Frac::I32,
+                    );
+                    if overflow {
+                        return Err(());
+                    }
+                    *self = Self::from_bits(ans);
+                    Ok(())
                 }
             }
 
@@ -898,6 +1019,74 @@ assert_eq!(Fix::MIN.saturating_div_euclid_int(-1), Fix::MAX);
             }
 
             comment! {
+                "Saturating multiply and accumulate. Add (`a` × `b`) to `self`,
+saturating on overflow.
+
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "The product `a` × `b` does not need to be representable for
+a valid computation: if the product would overflow but the final result would
+not overflow, this method still returns the correct result.
+
+",
+                },
+                "The `a` and `b` parameters can have a fixed-point type like
+`self` but with a different number of fractional bits.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let mut acc = Fix::from_num(3);
+acc.saturating_mul_acc(Fix::from_num(4), Fix::from_num(0.5));
+assert_eq!(acc, 5);
+
+acc = Fix::MAX / 2;
+acc.saturating_mul_acc(Fix::MAX / 2, Fix::from_num(3));
+assert_eq!(acc, Fix::MAX);
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "
+// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+acc = -Fix::MAX;
+acc.saturating_mul_acc(Fix::MAX, Fix::from_num(1.5));
+assert_eq!(acc, Fix::MAX / 2);
+"
+                },
+                "```
+";
+                #[inline]
+                pub fn saturating_mul_acc<AFrac: $LeEqU, BFrac: $LeEqU>(
+                    &mut self,
+                    a: $Fixed<AFrac>,
+                    b: $Fixed<BFrac>,
+                ) {
+                    let (ans, overflow) = a.to_bits().mul_add_overflow(
+                        b.to_bits(),
+                        self.to_bits(),
+                        AFrac::I32 + BFrac::I32 - Frac::I32,
+                    );
+                    *self = if overflow {
+                        let negative = if_signed_unsigned! {
+                            $Signedness,
+                            a.is_negative() != b.is_negative(),
+                            false,
+                        };
+                        if negative {
+                            Self::MIN
+                        } else {
+                            Self::MAX
+                        }
+                    } else {
+                        Self::from_bits(ans)
+                    };
+                }
+            }
+
+            comment! {
                 "Saturating remainder for Euclidean division by an integer. Returns the remainder",
                 if_signed_unsigned! {
                     $Signedness,
@@ -1117,6 +1306,42 @@ assert_eq!(Fix::MIN.wrapping_div_euclid_int(-1), wrapped);
             }
 
             comment! {
+                "Wrapping multiply and accumulate. Add (`a` × `b`) to `self`,
+wrapping on overflow.
+
+The `a` and `b` parameters can have a fixed-point type like
+`self` but with a different number of fractional bits.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let mut acc = Fix::from_num(3);
+acc.wrapping_mul_acc(Fix::from_num(4), Fix::from_num(0.5));
+assert_eq!(acc, 5);
+
+acc = Fix::MAX;
+acc.wrapping_mul_acc(Fix::MAX, Fix::from_num(3));
+assert_eq!(acc, Fix::MAX.wrapping_mul_int(4));
+```
+";
+                #[inline]
+                pub fn wrapping_mul_acc<AFrac: $LeEqU, BFrac: $LeEqU>(
+                    &mut self,
+                    a: $Fixed<AFrac>,
+                    b: $Fixed<BFrac>,
+                ) {
+                    let (ans, _) = a.to_bits().mul_add_overflow(
+                        b.to_bits(),
+                        self.to_bits(),
+                        AFrac::I32 + BFrac::I32 - Frac::I32,
+                    );
+                    *self = Self::from_bits(ans);
+                }
+            }
+
+            comment! {
                 "Wrapping remainder for Euclidean division by an integer. Returns the remainder",
                 if_signed_unsigned! {
                     $Signedness,
@@ -1323,6 +1548,74 @@ let _overflow = Fix::MAX.unwrapped_div_euclid(Fix::from_num(0.25));
                         (_, true) => panic!("overflow"),
                         (ans, false) => ans,
                     }
+                }
+            }
+
+            comment! {
+                "Unwrapped multiply and accumulate. Add (`a` × `b`) to `self`,
+panicking on overflow.
+
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "The product `a` × `b` does not need to be representable for
+a valid computation: if the product would overflow but the final result would
+not overflow, this method still returns the correct result.
+
+",
+                },
+                "The `a` and `b` parameters can have a fixed-point type like
+`self` but with a different number of fractional bits.
+
+# Panics
+
+Panics if the result does not fit.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let mut acc = Fix::from_num(3);
+acc.unwrapped_mul_acc(Fix::from_num(4), Fix::from_num(0.5));
+assert_eq!(acc, 5);
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "
+// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+acc = -Fix::MAX;
+acc.unwrapped_mul_acc(Fix::MAX, Fix::from_num(1.5));
+assert_eq!(acc, Fix::MAX / 2);
+"
+                },
+                "```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let mut acc = Fix::DELTA;
+acc.unwrapped_mul_acc(Fix::MAX, Fix::ONE);
+```
+";
+                #[inline]
+                #[track_caller]
+                pub fn unwrapped_mul_acc<AFrac: $LeEqU, BFrac: $LeEqU>(
+                    &mut self,
+                    a: $Fixed<AFrac>,
+                    b: $Fixed<BFrac>,
+                ) {
+                    let (ans, overflow) = a.to_bits().mul_add_overflow(
+                        b.to_bits(),
+                        self.to_bits(),
+                        AFrac::I32 + BFrac::I32 - Frac::I32,
+                    );
+                    if overflow {
+                        panic!("overflow");
+                    }
+                    *self = Self::from_bits(ans);
                 }
             }
 
@@ -1734,6 +2027,63 @@ assert_eq!(Fix::MIN.overflowing_div_euclid_int(-1), (wrapped, true));
                         }
                     }
                     (q, overflow)
+                }
+            }
+
+            comment! {
+                "Overflowing multiply and accumulate. Add (`a` × `b`) to `self`,
+wrapping and returning [`true`] if overflow occurs.
+
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "The product `a` × `b` does not need to be representable for
+a valid computation: if the product would overflow but the final result would
+not overflow, this method still returns the correct result.
+
+",
+                },
+                "The `a` and `b` parameters can have a fixed-point type like
+`self` but with a different number of fractional bits.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let mut acc = Fix::from_num(3);
+assert!(!acc.overflowing_mul_acc(Fix::from_num(4), Fix::from_num(0.5)));
+assert_eq!(acc, 5);
+
+acc = Fix::MAX;
+assert!(acc.overflowing_mul_acc(Fix::MAX, Fix::from_num(3)));
+assert_eq!(acc, Fix::MAX.wrapping_mul_int(4));
+",
+                if_signed_else_empty_str! {
+                    $Signedness,
+                    "
+// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+acc = -Fix::MAX;
+assert!(!acc.overflowing_mul_acc(Fix::MAX, Fix::from_num(1.5)));
+assert_eq!(acc, Fix::MAX / 2);
+"
+                },
+                "```
+";
+                #[inline]
+                #[must_use = "this returns whether overflow occurs; use `wrapping_mul_acc` if the flag is not needed"]
+                pub fn overflowing_mul_acc<AFrac: $LeEqU, BFrac: $LeEqU>(
+                    &mut self,
+                    a: $Fixed<AFrac>,
+                    b: $Fixed<BFrac>,
+                ) -> bool {
+                    let (ans, overflow) = a.to_bits().mul_add_overflow(
+                        b.to_bits(),
+                        self.to_bits(),
+                        AFrac::I32 + BFrac::I32 - Frac::I32,
+                    );
+                    *self = Self::from_bits(ans);
+                    overflow
                 }
             }
 

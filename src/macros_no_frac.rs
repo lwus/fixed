@@ -782,7 +782,7 @@ assert_eq!(Fix::MAX.mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
                     let (ans, overflow) = self.to_bits().mul_add_overflow(
                         mul.to_bits(),
                         add.to_bits(),
-                        MulFrac::U32,
+                        MulFrac::I32,
                     );
                     debug_assert!(!overflow, "overflow");
                     Self::from_bits(ans)
@@ -1255,7 +1255,7 @@ assert_eq!(Fix::MAX.checked_mul_add(Fix::from_num(1.5), -Fix::MAX), Some(Fix::MA
                     match self.to_bits().mul_add_overflow(
                         mul.to_bits(),
                         add.to_bits(),
-                        MulFrac::U32,
+                        MulFrac::I32,
                     ) {
                         (ans, false) => Some(Self::from_bits(ans)),
                         (_, true) => None,
@@ -1630,7 +1630,7 @@ assert_eq!(Fix::MAX.saturating_mul_add(Fix::from_num(1.5), -Fix::MAX), half_max)
                     match self.to_bits().mul_add_overflow(
                         mul.to_bits(),
                         add.to_bits(),
-                        MulFrac::U32,
+                        MulFrac::I32,
                     ) {
                         (ans, false) => Self::from_bits(ans),
                         (_, true) => {
@@ -1821,7 +1821,7 @@ assert_eq!(Fix::MAX.wrapping_mul_add(Fix::from_num(3), Fix::MAX), wrapped);
                     let (ans, _) = self.to_bits().mul_add_overflow(
                         mul.to_bits(),
                         add.to_bits(),
-                        MulFrac::U32,
+                        MulFrac::I32,
                     );
                     Self::from_bits(ans)
                 }
@@ -2604,7 +2604,7 @@ assert_eq!(
                     let (ans, overflow) = self.to_bits().mul_add_overflow(
                         mul.to_bits(),
                         add.to_bits(),
-                        MulFrac::U32,
+                        MulFrac::I32,
                     );
                     (Self::from_bits(ans), overflow)
                 }

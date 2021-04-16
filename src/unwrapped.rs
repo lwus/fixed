@@ -921,6 +921,33 @@ impl<F: Fixed> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_mul_add(mul.0, add.0))
     }
 
+    /// Multiply and accumulate. Adds (`a` × `b`) to `self`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let mut acc = Unwrapped(I16F16::from_num(3));
+    /// acc.mul_acc(Unwrapped(I16F16::from_num(4)), Unwrapped(I16F16::from_num(0.5)));
+    /// assert_eq!(acc, Unwrapped(I16F16::from_num(5)));
+    /// ```
+    ///
+    /// The following panics because of overflow.
+    ///
+    /// ```should_panic
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let mut acc = Unwrapped(I16F16::MAX);
+    /// acc.mul_acc(Unwrapped(I16F16::MAX), Unwrapped(I16F16::from_num(3)));
+    /// ```
+    #[inline]
+    pub fn mul_acc(&mut self, a: Unwrapped<F>, b: Unwrapped<F>) {
+        self.0.unwrapped_mul_acc(a.0, b.0);
+    }
+
     /// Euclidean division.
     ///
     /// # Panics
