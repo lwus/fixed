@@ -1139,21 +1139,33 @@ mod tests {
 
         assert_eq!(max.mul_add_overflow(max, max, nbits_2), (max, false));
         assert_eq!(max.mul_add_overflow(max, max, nbits_2 - 1), (0, true));
-        assert_eq!(max.mul_add_overflow(max, max - 1, nbits_2 - 1), (max, false));
+        assert_eq!(
+            max.mul_add_overflow(max, max - 1, nbits_2 - 1),
+            (max, false)
+        );
 
         let (min, max) = (i64::MIN, i64::MAX);
 
         assert_eq!(max.mul_add_overflow(max, max, nbits_2 - 2), (max, false));
         assert_eq!(max.mul_add_overflow(max, max, nbits_2 - 3), (min, true));
-        assert_eq!(max.mul_add_overflow(max, max - 1, nbits_2 - 3), (max, false));
+        assert_eq!(
+            max.mul_add_overflow(max, max - 1, nbits_2 - 3),
+            (max, false)
+        );
 
         assert_eq!(min.mul_add_overflow(min, max, nbits_2 - 1), (max, false));
         assert_eq!(min.mul_add_overflow(min, max, nbits_2 - 2), (min, true));
-        assert_eq!(min.mul_add_overflow(min, max - 1, nbits_2 - 2), (max, false));
+        assert_eq!(
+            min.mul_add_overflow(min, max - 1, nbits_2 - 2),
+            (max, false)
+        );
 
         assert_eq!(max.mul_add_overflow(min, -max, nbits_2 - 2), (min, false));
         assert_eq!(max.mul_add_overflow(min, -max, nbits_2 - 3), (max, true));
-        assert_eq!(max.mul_add_overflow(min, -max + 1, nbits_2 - 3), (min, false));
+        assert_eq!(
+            max.mul_add_overflow(min, -max + 1, nbits_2 - 3),
+            (min, false)
+        );
 
         let nbits_2 = 256;
 
@@ -1161,21 +1173,33 @@ mod tests {
 
         assert_eq!(max.mul_add_overflow(max, max, nbits_2), (max, false));
         assert_eq!(max.mul_add_overflow(max, max, nbits_2 - 1), (0, true));
-        assert_eq!(max.mul_add_overflow(max, max - 1, nbits_2 - 1), (max, false));
+        assert_eq!(
+            max.mul_add_overflow(max, max - 1, nbits_2 - 1),
+            (max, false)
+        );
 
         let (min, max) = (i128::MIN, i128::MAX);
 
         assert_eq!(max.mul_add_overflow(max, max, nbits_2 - 2), (max, false));
         assert_eq!(max.mul_add_overflow(max, max, nbits_2 - 3), (min, true));
-        assert_eq!(max.mul_add_overflow(max, max - 1, nbits_2 - 3), (max, false));
+        assert_eq!(
+            max.mul_add_overflow(max, max - 1, nbits_2 - 3),
+            (max, false)
+        );
 
         assert_eq!(min.mul_add_overflow(min, max, nbits_2 - 1), (max, false));
         assert_eq!(min.mul_add_overflow(min, max, nbits_2 - 2), (min, true));
-        assert_eq!(min.mul_add_overflow(min, max - 1, nbits_2 - 2), (max, false));
+        assert_eq!(
+            min.mul_add_overflow(min, max - 1, nbits_2 - 2),
+            (max, false)
+        );
 
         assert_eq!(max.mul_add_overflow(min, -max, nbits_2 - 2), (min, false));
         assert_eq!(max.mul_add_overflow(min, -max, nbits_2 - 3), (max, true));
-        assert_eq!(max.mul_add_overflow(min, -max + 1, nbits_2 - 3), (min, false));
+        assert_eq!(
+            max.mul_add_overflow(min, -max + 1, nbits_2 - 3),
+            (min, false)
+        );
     }
 
     #[test]
@@ -1186,7 +1210,10 @@ mod tests {
 
         assert_eq!(zero.mul_add_overflow(zero, max, -nbits), (max, false));
         assert_eq!(one.mul_add_overflow(one, max, -nbits), (max, true));
-        assert_eq!(one.mul_add_overflow(one, zero, 1 - nbits), (max - max / 2, false));
+        assert_eq!(
+            one.mul_add_overflow(one, zero, 1 - nbits),
+            (max - max / 2, false)
+        );
         assert_eq!(one.mul_add_overflow(one, max, 1 - nbits), (max / 2, true));
 
         let (zero, one, min, max) = (0i64, 1i64, i64::MIN, i64::MAX);
@@ -1211,7 +1238,10 @@ mod tests {
 
         assert_eq!(zero.mul_add_overflow(zero, max, -nbits), (max, false));
         assert_eq!(one.mul_add_overflow(one, max, -nbits), (max, true));
-        assert_eq!(one.mul_add_overflow(one, zero, 1 - nbits), (max - max / 2, false));
+        assert_eq!(
+            one.mul_add_overflow(one, zero, 1 - nbits),
+            (max - max / 2, false)
+        );
         assert_eq!(one.mul_add_overflow(one, max, 1 - nbits), (max / 2, true));
 
         let (zero, one, min, max) = (0i128, 1i128, i128::MIN, i128::MAX);
