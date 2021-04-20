@@ -353,9 +353,9 @@ assert_eq!(Fix::from_num(7.5).div_euclid_int(2), Fix::from_num(3));
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "The product `a` × `b` does not need to be representable for
-a valid computation: if the product would overflow but the final result would
-not overflow, this method still returns the correct result.
+                    "For some cases, the product `a` × `b` would overflow on its
+own, but the final result `self` + `a` × `b` is representable; in these cases
+this method saves the correct result without overflow.
 
 ",
                 },
@@ -606,9 +606,9 @@ When overflow occurs, `self` is not modified and retains its previous value.
 "#,
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "The product `a` × `b` does not need to be representable for
-a valid computation: if the product would overflow but the final result would
-not overflow, this method still returns the correct result.
+                    "For some cases, the product `a` × `b` would overflow on its
+own, but the final result `self` + `a` × `b` is representable; in these cases
+this method saves the correct result without overflow.
 
 ",
                 },
@@ -1038,9 +1038,9 @@ saturating on overflow.
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "The product `a` × `b` does not need to be representable for
-a valid computation: if the product would overflow but the final result would
-not overflow, this method still returns the correct result.
+                    "For some cases, the product `a` × `b` would overflow on its
+own, but the final result `self` + `a` × `b` is representable; in these cases
+this method saves the correct result without overflow.
 
 ",
                 },
@@ -1571,9 +1571,9 @@ panicking on overflow.
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "The product `a` × `b` does not need to be representable for
-a valid computation: if the product would overflow but the final result would
-not overflow, this method still returns the correct result.
+                    "For some cases, the product `a` × `b` would overflow on its
+own, but the final result `self` + `a` × `b` is representable; in these cases
+this method saves the correct result without overflow.
 
 ",
                 },
@@ -2050,9 +2050,9 @@ wrapping and returning [`true`] if overflow occurs.
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "The product `a` × `b` does not need to be representable for
-a valid computation: if the product would overflow but the final result would
-not overflow, this method still returns the correct result.
+                    "For some cases, the product `a` × `b` would overflow on its
+own, but the final result `self` + `a` × `b` is representable; in these cases
+this method saves the correct result without overflow.
 
 ",
                 },

@@ -734,10 +734,9 @@ assert_eq!(a.wide_mul(b), 1.328_125);
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "The product `self` × `mul` does not need to be
-representable for a valid computation: if the product would overflow
-but the final result would not overflow, this method still returns the
-correct result.
+                    "For some cases, the product `self` × `mul` would overflow
+on its own, but the final result `self` × `mul` + `add` is representable; in
+these cases this method returns the correct result without overflow.
 
 ",
                 },
@@ -1215,10 +1214,9 @@ Returns `self` × `mul` + `add`, or [`None`] on overflow.
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "The product `self` × `mul` does not need to be
-representable for a valid computation: if the product would overflow
-but the final result would not overflow, this method still returns the
-correct result.
+                    "For some cases, the product `self` × `mul` would overflow
+on its own, but the final result `self` × `mul` + `add` is representable; in
+these cases this method returns the correct result without overflow.
 
 ",
                 },
@@ -1589,10 +1587,9 @@ Returns `self` × `mul` + `add`, saturating on overflow.
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "The product `self` × `mul` does not need to be
-representable for a valid computation: if the product would overflow
-but the final result would not overflow, this method still returns the
-correct result.
+                    "For some cases, the product `self` × `mul` would overflow
+on its own, but the final result `self` × `mul` + `add` is representable; in
+these cases this method returns the correct result without overflow.
 
 ",
                 },
@@ -2151,10 +2148,9 @@ Returns `self` × `mul` + `add`, panicking on overflow.
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "The product `self` × `mul` does not need to be
-representable for a valid computation: if the product would overflow
-but the final result would not overflow, this method still returns the
-correct result.
+                    "For some cases, the product `self` × `mul` would overflow
+on its own, but the final result `self` × `mul` + `add` is representable; in
+these cases this method returns the correct result without overflow.
 
 ",
                 },
@@ -2562,7 +2558,16 @@ Returns a [tuple] of `self` × `mul` + `add` and a [`bool`] indicating
 whether an overflow has occurred. On overflow, the wrapped value is
 returned.
 
-The `mul` parameter can have a fixed-point type like
+",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    "For some cases, the product `self` × `mul` would overflow
+on its own, but the final result `self` × `mul` + `add` is representable; in
+these cases this method returns the correct result without overflow.
+
+",
+                },
+                "The `mul` parameter can have a fixed-point type like
 `self` but with a different number of fractional bits.
 
 # Examples
