@@ -344,19 +344,32 @@ use core::{
 
 /// A prelude to import useful traits.
 ///
-/// This prelude is similar to the
-/// [standard library’s prelude][prelude] in that you’ll almost always
-/// want to import its entire contents, but unlike the standard
-/// library’s prelude you’ll have to do so manually:
+/// This prelude is similar to the [standard library’s prelude][std::prelude] in
+/// that you’ll almost always want to import its entire contents, but unlike the
+/// standard library’s prelude you’ll have to do so manually:
 ///
-/// ```
+/// ```rust
 /// # #[allow(unused_imports)]
 /// use fixed::prelude::*;
 /// ```
 ///
 /// The prelude may grow over time as additional items see ubiquitous use.
 ///
-/// [prelude]: https://doc.rust-lang.org/nightly/std/prelude/index.html
+/// # Contents
+///
+/// The prelude re-exports the following:
+///
+///  * <code>[traits]::{[FromFixed], [ToFixed]}</code>, checked conversions
+///     from/to fixed-point numbers.
+///  * <code>[traits]::{[LossyFrom], [LossyInto]}</code>, infallible lossy
+///    conversions.
+///  * <code>[traits]::{[LosslessTryFrom], [LosslessTryInto]}</code>, checked
+///    lossless conversions.
+///
+/// [LosslessTryFrom]: crate::traits::LosslessTryFrom
+/// [LosslessTryInto]: crate::traits::LosslessTryInto
+/// [LossyFrom]: crate::traits::LossyFrom
+/// [LossyInto]: crate::traits::LossyInto
 pub mod prelude {
     pub use crate::traits::{
         FromFixed, LosslessTryFrom, LosslessTryInto, LossyFrom, LossyInto, ToFixed,
