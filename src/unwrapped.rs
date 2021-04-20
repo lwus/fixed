@@ -54,6 +54,9 @@ pub struct Unwrapped<F>(pub F);
 impl<F: Fixed> Unwrapped<F> {
     /// Zero.
     ///
+    /// See also <code>FixedI32::[ZERO][FixedI32::ZERO]</code> and
+    /// <code>FixedU32::[ZERO][FixedU32::ZERO]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -63,6 +66,9 @@ impl<F: Fixed> Unwrapped<F> {
     pub const ZERO: Unwrapped<F> = Unwrapped(F::ZERO);
 
     /// The difference between any two successive representable numbers, <i>Δ</i>.
+    ///
+    /// See also <code>FixedI32::[DELTA][FixedI32::DELTA]</code> and
+    /// <code>FixedU32::[DELTA][FixedU32::DELTA]</code>.
     ///
     /// # Examples
     ///
@@ -74,6 +80,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// The smallest value that can be represented.
     ///
+    /// See also <code>FixedI32::[MIN][FixedI32::MIN]</code> and
+    /// <code>FixedU32::[MIN][FixedU32::MIN]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -84,6 +93,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// The largest value that can be represented.
     ///
+    /// See also <code>FixedI32::[MAX][FixedI32::MAX]</code> and
+    /// <code>FixedU32::[MAX][FixedU32::MAX]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -93,6 +105,9 @@ impl<F: Fixed> Unwrapped<F> {
     pub const MAX: Unwrapped<F> = Unwrapped(F::MAX);
 
     /// [`true`] if the type is signed.
+    ///
+    /// See also <code>FixedI32::[IS\_SIGNED][FixedI32::IS_SIGNED]</code> and
+    /// <code>FixedU32::[IS\_SIGNED][FixedU32::IS_SIGNED]</code>.
     ///
     /// # Examples
     ///
@@ -108,6 +123,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// The number of integer bits.
     ///
+    /// See also <code>FixedI32::[INT\_NBITS][FixedI32::INT_NBITS]</code> and
+    /// <code>FixedU32::[INT\_NBITS][FixedU32::INT_NBITS]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -117,6 +135,9 @@ impl<F: Fixed> Unwrapped<F> {
     pub const INT_NBITS: u32 = F::INT_NBITS;
 
     /// The number of fractional bits.
+    ///
+    /// See also <code>FixedI32::[FRAC\_NBITS][FixedI32::FRAC_NBITS]</code> and
+    /// <code>FixedU32::[FRAC\_NBITS][FixedU32::FRAC_NBITS]</code>.
     ///
     /// # Examples
     ///
@@ -128,6 +149,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Creates a fixed-point number that has a bitwise representation
     /// identical to the given integer.
+    ///
+    /// See also <code>FixedI32::[from\_bits][FixedI32::from_bits]</code> and
+    /// <code>FixedU32::[from\_bits][FixedU32::from_bits]</code>.
     ///
     /// # Examples
     ///
@@ -143,6 +167,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Creates an integer that has a bitwise representation identical
     /// to the given fixed-point number.
     ///
+    /// See also <code>FixedI32::[to\_bits][FixedI32::to_bits]</code> and
+    /// <code>FixedU32::[to\_bits][FixedU32::to_bits]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -157,6 +184,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Converts a fixed-point number from big endian to the target’s
     /// endianness.
+    ///
+    /// See also <code>FixedI32::[from\_be][FixedI32::from_be]</code> and
+    /// <code>FixedU32::[from\_be][FixedU32::from_be]</code>.
     ///
     /// # Examples
     ///
@@ -177,6 +207,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Converts a fixed-point number from little endian to the
     /// target’s endianness.
     ///
+    /// See also <code>FixedI32::[from\_le][FixedI32::from_le]</code> and
+    /// <code>FixedU32::[from\_le][FixedU32::from_le]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -194,6 +227,9 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Converts `self` to big endian from the target’s endianness.
+    ///
+    /// See also <code>FixedI32::[to\_be][FixedI32::to_be]</code> and
+    /// <code>FixedU32::[to\_be][FixedU32::to_be]</code>.
     ///
     /// # Examples
     ///
@@ -213,6 +249,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Converts `self` to little endian from the target’s endianness.
     ///
+    /// See also <code>FixedI32::[to\_le][FixedI32::to_le]</code> and
+    /// <code>FixedU32::[to\_le][FixedU32::to_le]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -231,6 +270,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Reverses the byte order of the fixed-point number.
     ///
+    /// See also <code>FixedI32::[swap\_bytes][FixedI32::swap_bytes]</code> and
+    /// <code>FixedU32::[swap\_bytes][FixedU32::swap_bytes]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -246,6 +288,10 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Creates a fixed-point number from its representation
     /// as a byte array in big endian.
+    ///
+    /// See also
+    /// <code>FixedI32::[from\_be\_bytes][FixedI32::from_be_bytes]</code> and
+    /// <code>FixedU32::[from\_be\_bytes][FixedU32::from_be_bytes]</code>.
     ///
     /// # Examples
     ///
@@ -265,6 +311,10 @@ impl<F: Fixed> Unwrapped<F> {
     /// Creates a fixed-point number from its representation
     /// as a byte array in little endian.
     ///
+    /// See also
+    /// <code>FixedI32::[from\_le\_bytes][FixedI32::from_le_bytes]</code> and
+    /// <code>FixedU32::[from\_le\_bytes][FixedU32::from_le_bytes]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -282,6 +332,10 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Creates a fixed-point number from its representation
     /// as a byte array in native endian.
+    ///
+    /// See also
+    /// <code>FixedI32::[from\_ne\_bytes][FixedI32::from_ne_bytes]</code> and
+    /// <code>FixedU32::[from\_ne\_bytes][FixedU32::from_ne_bytes]</code>.
     ///
     /// # Examples
     ///
@@ -305,6 +359,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Returns the memory representation of this fixed-point
     /// number as a byte array in big-endian byte order.
     ///
+    /// See also <code>FixedI32::[to\_be\_bytes][FixedI32::to_be_bytes]</code>
+    /// and <code>FixedU32::[to\_be\_bytes][FixedU32::to_be_bytes]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -322,6 +379,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Returns the memory representation of this fixed-point
     /// number as a byte array in little-endian byte order.
     ///
+    /// See also <code>FixedI32::[to\_le\_bytes][FixedI32::to_le_bytes]</code>
+    /// and <code>FixedU32::[to\_le\_bytes][FixedU32::to_le_bytes]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -338,6 +398,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Returns the memory representation of this fixed-point
     /// number as a byte array in native-endian byte order.
+    ///
+    /// See also <code>FixedI32::[to\_ne\_bytes][FixedI32::to_ne_bytes]</code>
+    /// and <code>FixedU32::[to\_ne\_bytes][FixedU32::to_ne_bytes]</code>.
     ///
     /// # Examples
     ///
@@ -373,6 +436,9 @@ impl<F: Fixed> Unwrapped<F> {
     ///   * Any other number `src` for which [`ToFixed`] is
     ///     implemented, in which case this method returns
     ///     <code>[Unwrapped]\([src.unwrapped_to_fixed()][ToFixed::unwrapped_to_fixed])</code>.
+    ///
+    /// See also <code>FixedI32::[from\_num][FixedI32::from_num]</code> and
+    /// <code>FixedU32::[from\_num][FixedU32::from_num]</code>.
     ///
     /// # Panics
     ///
@@ -434,6 +500,9 @@ impl<F: Fixed> Unwrapped<F> {
     ///     implemented, in which case this method returns
     ///     [`Dst::unwrapped_from_fixed(self.0)`][FromFixed::unwrapped_from_fixed].
     ///
+    /// See also <code>FixedI32::[to\_num][FixedI32::to_num]</code> and
+    /// <code>FixedU32::[to\_num][FixedU32::to_num]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -472,6 +541,11 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// Rounding is to the nearest, with ties rounded to even.
     ///
+    /// See also
+    /// <code>FixedI32::[from\_str\_binary][FixedI32::from_str_binary]</code>
+    /// and
+    /// <code>FixedU32::[from\_str\_binary][FixedU32::from_str_binary]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -488,6 +562,10 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// Rounding is to the nearest, with ties rounded to even.
     ///
+    /// See also
+    /// <code>FixedI32::[from\_str\_octal][FixedI32::from_str_octal]</code> and
+    /// <code>FixedU32::[from\_str\_octal][FixedU32::from_str_octal]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -503,6 +581,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Parses a string slice containing hexadecimal digits to return a fixed-point number.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also <code>FixedI32::[from\_str\_hex][FixedI32::from_str_hex]</code>
+    /// and <code>FixedU32::[from\_str\_hex][FixedU32::from_str_hex]</code>.
     ///
     /// # Examples
     ///
@@ -524,6 +605,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// integer bits, for example for the type
     /// <code>[Unwrapped]&lt;[I0F16]&gt;</code>, where the return
     /// value is always zero.
+    ///
+    /// See also <code>FixedI32::[int][FixedI32::int]</code> and
+    /// <code>FixedU32::[int][FixedU32::int]</code>.
     ///
     /// # Examples
     ///
@@ -548,6 +632,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// <code>[Unwrapped]&lt;[I0F16]&gt;</code>, where the return
     /// value is always equal to `self`.
     ///
+    /// See also <code>FixedI32::[frac][FixedI32::frac]</code> and
+    /// <code>FixedU32::[frac][FixedU32::frac]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -564,6 +651,10 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Rounds to the next integer towards 0.
     ///
+    /// See also
+    /// <code>FixedI32::[round\_to\_zero][FixedI32::round_to_zero]</code> and
+    /// <code>FixedU32::[round\_to\_zero][FixedU32::round_to_zero]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -579,6 +670,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Unwrapped ceil. Rounds to the next integer towards +∞, panicking
     /// on overflow.
+    ///
+    /// See also <code>FixedI32::[ceil][FixedI32::ceil]</code> and
+    /// <code>FixedU32::[ceil][FixedU32::ceil]</code>.
     ///
     /// # Panics
     ///
@@ -610,6 +704,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Overflow can only occur for signed numbers with zero integer
     /// bits.
     ///
+    /// See also <code>FixedI32::[floor][FixedI32::floor]</code> and
+    /// <code>FixedU32::[floor][FixedU32::floor]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the result does not fit.
@@ -636,6 +733,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Unwrapped round. Rounds to the next integer to the nearest,
     /// with ties rounded away from zero, and panics on overflow.
+    ///
+    /// See also <code>FixedI32::[round][FixedI32::round]</code> and
+    /// <code>FixedU32::[round][FixedU32::round]</code>.
     ///
     /// # Panics
     ///
@@ -664,6 +764,11 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Unwrapped round. Rounds to the next integer to the nearest,
     /// with ties rounded to even, and panics on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[round\_ties\_to\_even][FixedI32::round_ties_to_even]</code>
+    /// and
+    /// <code>FixedU32::[round\_ties\_to\_even][FixedU32::round_ties_to_even]</code>.
     ///
     /// # Panics
     ///
@@ -694,6 +799,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Returns the number of ones in the binary representation.
     ///
+    /// See also <code>FixedI32::[count\_ones][FixedI32::count_ones]</code> and
+    /// <code>FixedU32::[count\_ones][FixedU32::count_ones]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -707,6 +815,9 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Returns the number of zeros in the binary representation.
+    ///
+    /// See also <code>FixedI32::[count\_zeros][FixedI32::count_zeros]</code>
+    /// and <code>FixedU32::[count\_zeros][FixedU32::count_zeros]</code>.
     ///
     /// # Examples
     ///
@@ -722,6 +833,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Returns the number of leading ones in the binary representation.
     ///
+    /// See also <code>FixedI32::[leading\_ones][FixedI32::leading_ones]</code>
+    /// and <code>FixedU32::[leading\_ones][FixedU32::leading_ones]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -735,6 +849,10 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Returns the number of leading zeros in the binary representation.
+    ///
+    /// See also
+    /// <code>FixedI32::[leading\_zeros][FixedI32::leading_zeros]</code> and
+    /// <code>FixedU32::[leading\_zeros][FixedU32::leading_zeros]</code>.
     ///
     /// # Examples
     ///
@@ -750,6 +868,10 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Returns the number of trailing ones in the binary representation.
     ///
+    /// See also
+    /// <code>FixedI32::[trailing\_ones][FixedI32::trailing_ones]</code> and
+    /// <code>FixedU32::[trailing\_ones][FixedU32::trailing_ones]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -763,6 +885,10 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Returns the number of trailing zeros in the binary representation.
+    ///
+    /// See also
+    /// <code>FixedI32::[trailing\_zeros][FixedI32::trailing_zeros]</code> and
+    /// <code>FixedU32::[trailing\_zeros][FixedU32::trailing_zeros]</code>.
     ///
     /// # Examples
     ///
@@ -778,6 +904,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Integer base-2 logarithm, rounded down.
     ///
+    /// See also <code>FixedI32::[int\_log2][FixedI32::int_log2]</code> and
+    /// <code>FixedU32::[int\_log2][FixedU32::int_log2]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the fixed-point number is ≤ 0.
@@ -789,6 +918,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Integer base-10 logarithm, rounded down.
     ///
+    /// See also <code>FixedI32::[int\_log10][FixedI32::int_log10]</code> and
+    /// <code>FixedU32::[int\_log10][FixedU32::int_log10]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the fixed-point number is ≤ 0.
@@ -799,6 +931,9 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Reverses the order of the bits of the fixed-point number.
+    ///
+    /// See also <code>FixedI32::[reverse\_bits][FixedI32::reverse_bits]</code>
+    /// and <code>FixedU32::[reverse\_bits][FixedU32::reverse_bits]</code>.
     ///
     /// # Examples
     ///
@@ -815,6 +950,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Shifts to the left by `n` bits, unwrapped the truncated bits to the right end.
     ///
+    /// See also <code>FixedI32::[rotate\_left][FixedI32::rotate_left]</code>
+    /// and <code>FixedU32::[rotate\_left][FixedU32::rotate_left]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -830,6 +968,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Shifts to the right by `n` bits, unwrapped the truncated bits to the left end.
     ///
+    /// See also <code>FixedI32::[rotate\_right][FixedI32::rotate_right]</code>
+    /// and <code>FixedU32::[rotate\_right][FixedU32::rotate_right]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -844,6 +985,9 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Returns the mean of `self` and `other`.
+    ///
+    /// See also <code>FixedI32::[mean][FixedI32::mean]</code> and
+    /// <code>FixedU32::[mean][FixedU32::mean]</code>.
     ///
     /// # Examples
     ///
@@ -861,6 +1005,9 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Returns the reciprocal (inverse), 1/`self`.
+    ///
+    /// See also <code>FixedI32::[recip][FixedI32::recip]</code> and
+    /// <code>FixedU32::[recip][FixedU32::recip]</code>.
     ///
     /// # Panics
     ///
@@ -888,6 +1035,9 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Multiply and add. Returns `self` × `mul` + `add`.
+    ///
+    /// See also <code>FixedI32::[mul\_add][FixedI32::mul_add]</code> and
+    /// <code>FixedU32::[mul\_add][FixedU32::mul_add]</code>.
     ///
     /// # Panics
     ///
@@ -923,6 +1073,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Multiply and accumulate. Adds (`a` × `b`) to `self`.
     ///
+    /// See also <code>FixedI32::[mul\_acc][FixedI32::mul_acc]</code> and
+    /// <code>FixedU32::[mul\_acc][FixedU32::mul_acc]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the result does not fit.
@@ -949,6 +1102,9 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Euclidean division.
+    ///
+    /// See also <code>FixedI32::[div\_euclid][FixedI32::div_euclid]</code> and
+    /// <code>FixedU32::[div\_euclid][FixedU32::div_euclid]</code>.
     ///
     /// # Panics
     ///
@@ -979,6 +1135,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Remainder for Euclidean division.
     ///
+    /// See also <code>FixedI32::[rem\_euclid][FixedI32::rem_euclid]</code> and
+    /// <code>FixedU32::[rem\_euclid][FixedU32::rem_euclid]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero.
@@ -1000,6 +1159,10 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Euclidean division by an integer.
+    ///
+    /// See also
+    /// <code>FixedI32::[div\_euclid\_int][FixedI32::div_euclid_int]</code> and
+    /// <code>FixedU32::[div\_euclid\_int][FixedU32::div_euclid_int]</code>.
     ///
     /// # Panics
     ///
@@ -1028,6 +1191,10 @@ impl<F: Fixed> Unwrapped<F> {
     }
 
     /// Remainder for Euclidean division.
+    ///
+    /// See also
+    /// <code>FixedI32::[rem\_euclid\_int][FixedI32::rem_euclid_int]</code> and
+    /// <code>FixedU32::[rem\_euclid\_int][FixedU32::rem_euclid_int]</code>.
     ///
     /// # Panics
     ///
@@ -1065,6 +1232,8 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// negative numbers, and an initial zero for non-negative
     /// numbers.
     ///
+    /// See also <code>FixedI32::[signed\_bits][FixedI32::signed_bits]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -1084,6 +1253,8 @@ impl<F: FixedSigned> Unwrapped<F> {
 
     /// Returns [`true`] if the number is > 0.
     ///
+    /// See also <code>FixedI32::[is\_positive][FixedI32::is_positive]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -1098,6 +1269,8 @@ impl<F: FixedSigned> Unwrapped<F> {
     }
 
     /// Returns [`true`] if the number is < 0.
+    ///
+    /// See also <code>FixedI32::[is\_negative][FixedI32::is_negative]</code>.
     ///
     /// # Examples
     ///
@@ -1117,6 +1290,8 @@ impl<F: FixedSigned> Unwrapped<F> {
     ///
     /// Overflow can only occur when trying to find the absolute value
     /// of the minimum value.
+    ///
+    /// See also <code>FixedI32::[abs][FixedI32::abs]</code>.
     ///
     /// # Panics
     ///
@@ -1142,6 +1317,8 @@ impl<F: FixedSigned> Unwrapped<F> {
     }
 
     /// Returns a number representing the sign of `self`.
+    ///
+    /// See also <code>FixedI32::[signum][FixedI32::signum]</code>.
     ///
     /// # Panics
     ///
@@ -1176,6 +1353,9 @@ impl<F: FixedSigned> Unwrapped<F> {
 impl<F: FixedUnsigned> Unwrapped<F> {
     /// Returns the number of bits required to represent the value.
     ///
+    /// See also
+    /// <code>FixedU32::[significant\_bits][FixedU32::significant_bits]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -1192,6 +1372,9 @@ impl<F: FixedUnsigned> Unwrapped<F> {
 
     /// Returns [`true`] if the fixed-point number is
     /// 2<sup><i>k</i></sup> for some integer <i>k</i>.
+    ///
+    /// See also
+    /// <code>FixedU32::[is\_power\_of\_two][FixedU32::is_power_of_two]</code>.
     ///
     /// # Examples
     ///
@@ -1212,6 +1395,8 @@ impl<F: FixedUnsigned> Unwrapped<F> {
     /// If `self` > 0, the highest one is equal to the largest power
     /// of two that is ≤ `self`.
     ///
+    /// See also <code>FixedU32::[highest\_one][FixedU32::highest_one]</code>.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -1229,6 +1414,9 @@ impl<F: FixedUnsigned> Unwrapped<F> {
     }
 
     /// Returns the smallest power of two that is ≥ `self`.
+    ///
+    /// See also
+    /// <code>FixedU32::[next\_power\_of\_two][FixedU32::next_power_of_two]</code>.
     ///
     /// # Panics
     ///
