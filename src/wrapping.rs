@@ -432,7 +432,7 @@ impl<F: Fixed> Wrapping<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other number `src` for which [`ToFixed`] is
     ///     implemented, in which case this method returns
-    ///     <code>[Wrapping]\([src.wrapping_to_fixed()][ToFixed::wrapping_to_fixed])</code>.
+    ///     <code>[Wrapping]\(src.[wrapping\_to\_fixed][ToFixed::wrapping_to_fixed]\())</code>.
     ///
     /// See also <code>FixedI32::[from\_num][FixedI32::from_num]</code> and
     /// <code>FixedU32::[from\_num][FixedU32::from_num]</code>.
@@ -490,7 +490,7 @@ impl<F: Fixed> Wrapping<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other type `Dst` for which [`FromFixed`] is
     ///     implemented, in which case this method returns
-    ///     [`Dst::wrapping_from_fixed(self.0)`][FromFixed::wrapping_from_fixed].
+    ///     <code>Dst::[wrapping\_from\_fixed][FromFixed::wrapping_from_fixed]\(self.0)</code>.
     ///
     /// See also <code>FixedI32::[to\_num][FixedI32::to_num]</code> and
     /// <code>FixedU32::[to\_num][FixedU32::to_num]</code>.

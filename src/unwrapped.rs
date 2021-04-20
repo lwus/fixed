@@ -435,7 +435,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other number `src` for which [`ToFixed`] is
     ///     implemented, in which case this method returns
-    ///     <code>[Unwrapped]\([src.unwrapped_to_fixed()][ToFixed::unwrapped_to_fixed])</code>.
+    ///     <code>[Unwrapped]\(src.[unwrapped\_to\_fixed][ToFixed::unwrapped_to_fixed]\())</code>.
     ///
     /// See also <code>FixedI32::[from\_num][FixedI32::from_num]</code> and
     /// <code>FixedU32::[from\_num][FixedU32::from_num]</code>.
@@ -476,10 +476,7 @@ impl<F: Fixed> Unwrapped<F> {
     #[inline]
     #[track_caller]
     pub fn from_num<Src: ToFixed>(src: Src) -> Unwrapped<F> {
-        match src.overflowing_to_fixed() {
-            (_, true) => panic!("overflow"),
-            (ans, false) => Unwrapped(ans),
-        }
+        Unwrapped(src.unwrapped_to_fixed())
     }
 
     /// Converts a fixed-point number to another number, panicking on
@@ -498,7 +495,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///     method rounds to the nearest, with ties rounding to even.
     ///   * Any other type `Dst` for which [`FromFixed`] is
     ///     implemented, in which case this method returns
-    ///     [`Dst::unwrapped_from_fixed(self.0)`][FromFixed::unwrapped_from_fixed].
+    ///     <code>Dst::[unwrapped\_from\_fixed][FromFixed::unwrapped_from_fixed]\(self.0)</code>.
     ///
     /// See also <code>FixedI32::[to\_num][FixedI32::to_num]</code> and
     /// <code>FixedU32::[to\_num][FixedU32::to_num]</code>.
@@ -531,10 +528,7 @@ impl<F: Fixed> Unwrapped<F> {
     #[inline]
     #[track_caller]
     pub fn to_num<Dst: FromFixed>(self) -> Dst {
-        match Dst::overflowing_from_fixed(self.0) {
-            (_, true) => panic!("overflow"),
-            (ans, false) => ans,
-        }
+        Dst::unwrapped_from_fixed(self.0)
     }
 
     /// Parses a string slice containing binary digits to return a fixed-point number.

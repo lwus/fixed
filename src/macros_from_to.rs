@@ -16,7 +16,7 @@
 macro_rules! fixed_from_to {
     ($Fixed:ident[$s_fixed:expr]($Inner:ty[$s_inner:expr], $s_nbits:expr), $Signedness:tt) => {
         comment! {
-            "Creates a fixed-point number from another number.
+            r#"Creates a fixed-point number from another number.
 
 The other number can be:
 
@@ -30,7 +30,7 @@ The other number can be:
     to the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.to_fixed()`][ToFixed::to_fixed].
+    <code>src.[to\_fixed][ToFixed::to_fixed]\()</code>.
 
 # Panics
 
@@ -44,7 +44,7 @@ it panics; if wrapping is required use [`wrapping_from_num`] instead.
 # Examples
 
 ```rust
-use fixed::{types::extra::U4, types::I16F16, ", $s_fixed, "};
+use fixed::{types::extra::U4, types::I16F16, "#, $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 
 // 1.75 is 1.11 in binary
@@ -82,7 +82,7 @@ assert_eq!(Fix::from_num(",
         }
 
         comment! {
-            "Converts a fixed-point number to another number.
+            r#"Converts a fixed-point number to another number.
 
 The other number can be:
 
@@ -97,7 +97,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::from_fixed(self)`][FromFixed::from_fixed].
+    <code>Dst::[from\_fixed][FromFixed::from_fixed]\(self)</code>.
 
 # Panics
 
@@ -109,7 +109,7 @@ it panics; if wrapping is required use [`wrapping_to_num`] instead.
 # Examples
 
 ```rust
-use fixed::{types::extra::U4, types::I30F2, ", $s_fixed, "};
+use fixed::{types::extra::U4, types::I30F2, "#, $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 
 // 1.75 is 1.11 in binary
@@ -152,7 +152,7 @@ assert_eq!(",
         }
 
         comment! {
-            "Creates a fixed-point number from another number if it
+            r#"Creates a fixed-point number from another number if it
 fits, otherwise returns [`None`].
 
 The other number can be:
@@ -167,7 +167,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.checked_to_fixed()`][ToFixed::checked_to_fixed].
+    <code>src.[checked\_to\_fixed][ToFixed::checked_to_fixed]\()</code>.
 
 # Examples
 
@@ -175,7 +175,7 @@ The other number can be:
 use fixed::{
     types::extra::{U2, U4},
     types::I16F16,
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -221,7 +221,7 @@ assert!(Fix::checked_from_num(std::f64::NAN).is_none());
         }
 
         comment! {
-            "Converts a fixed-point number to another number if it
+            r#"Converts a fixed-point number to another number if it
 fits, otherwise returns [`None`].
 
 The other number can be:
@@ -237,7 +237,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::checked_from_fixed(self)`][FromFixed::checked_from_fixed].
+    <code>Dst::[checked\_from\_fixed][FromFixed::checked_from_fixed]\(self)</code>.
 
 # Examples
 
@@ -245,7 +245,7 @@ The other number can be:
 use fixed::{
     types::extra::{U0, U4, U6},
     types::I16F16,
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -290,7 +290,7 @@ assert_eq!(one_point_625.checked_to_num::<f32>(), Some(1.625f32));
         }
 
         comment! {
-            "Creates a fixed-point number from another number,
+            r#"Creates a fixed-point number from another number,
 saturating if it does not fit.
 
 The other number can be:
@@ -305,7 +305,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.saturating_to_fixed()`][ToFixed::saturating_to_fixed].
+    <code>src.[saturating\_to\_fixed][ToFixed::saturating_to_fixed]\()</code>.
 
 # Panics
 
@@ -317,7 +317,7 @@ This method panics if the value is a floating-point [NaN].
 use fixed::{
     types::extra::{U2, U4},
     types::I16F16,
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -362,7 +362,7 @@ assert_eq!(Fix::saturating_from_num(std::f64::NEG_INFINITY), Fix::MIN);
         }
 
         comment! {
-            "Converts a fixed-point number to another number,
+            r#"Converts a fixed-point number to another number,
 saturating the value if it does not fit.
 
 The other number can be:
@@ -378,7 +378,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::saturating_from_fixed(self)`][FromFixed::saturating_from_fixed].
+    <code>Dst::[saturating\_from\_fixed][FromFixed::saturating_from_fixed]\(self)</code>.
 
 # Examples
 
@@ -386,7 +386,7 @@ The other number can be:
 use fixed::{
     types::extra::{U0, U4, U6},
     types::I16F16,
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -428,7 +428,7 @@ assert_eq!(one_point_625.saturating_to_num::<f32>(), 1.625f32);
         }
 
         comment! {
-            "Creates a fixed-point number from another number,
+            r#"Creates a fixed-point number from another number,
 wrapping the value on overflow.
 
 The other number can be:
@@ -443,7 +443,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.wrapping_to_fixed()`][ToFixed::wrapping_to_fixed].
+    <code>src.[wrapping\_to\_fixed][ToFixed::wrapping_to_fixed]\()</code>.
 
 # Panics
 
@@ -455,7 +455,7 @@ For floating-point numbers, panics if the value is not [finite].
 use fixed::{
     types::extra::{U0, U4},
     types::I16F16,
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -492,7 +492,7 @@ assert_eq!(Fix::wrapping_from_num(large), wrapped);
         }
 
         comment! {
-            "Converts a fixed-point number to another number,
+            r#"Converts a fixed-point number to another number,
 wrapping the value on overflow.
 
 The other number can be:
@@ -508,7 +508,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::wrapping_from_fixed(self)`][FromFixed::wrapping_from_fixed].
+    <code>Dst::[wrapping\_from\_fixed][FromFixed::wrapping_from_fixed]\(self)</code>.
 
 # Examples
 
@@ -516,7 +516,7 @@ The other number can be:
 use fixed::{
     types::extra::{U0, U4, U6},
     types::I16F16,
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -558,7 +558,7 @@ assert_eq!(one_point_625.wrapping_to_num::<f32>(), 1.625f32);
         }
 
         comment! {
-            "Creates a fixed-point number from another number,
+            r#"Creates a fixed-point number from another number,
 panicking on overflow.
 
 The other number can be:
@@ -571,7 +571,9 @@ The other number can be:
   * A floating-point number of type [`f16`], [`bf16`], [`f32`],
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
-  * Any other number `src` for which [`ToFixed`] is implemented.
+  * Any other number `src` for which [`ToFixed`] is implemented, in
+    which case this method returns
+    <code>src.[unwrapped\_to\_fixed][ToFixed::unwrapped_to_fixed]\()</code>.
 
 # Panics
 
@@ -584,7 +586,7 @@ For floating-point numbers, also panics if the value is not [finite].
 ```rust
 use fixed::{
     types::{extra::U4, I16F16},
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -620,7 +622,7 @@ let _overflow = Fix::unwrapped_from_num(too_large);
         }
 
         comment! {
-            "Converts a fixed-point number to another number,
+            r#"Converts a fixed-point number to another number,
 panicking on overflow.
 
 The other number can be:
@@ -634,7 +636,9 @@ The other number can be:
   * A floating-point number of type [`f16`], [`bf16`], [`f32`],
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
-  * Any other type `Dst` for which [`FromFixed`] is implemented.
+  * Any other type `Dst` for which [`FromFixed`] is implemented, in
+    which case this method returns
+    <code>Dst::[unwrapped\_from\_fixed][FromFixed::unwrapped_from_fixed]\(self)</code>.
 
 # Panics
 
@@ -645,7 +649,7 @@ Panics if the value does not fit.
 ```rust
 use fixed::{
     types::{extra::U4, I16F16},
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -681,7 +685,7 @@ let _overflow = Fix::MAX.unwrapped_to_num::<TooFewIntBits>();
         }
 
         comment! {
-            "Creates a fixed-point number from another number.
+            r#"Creates a fixed-point number from another number.
 
 Returns a [tuple] of the fixed-point number and a [`bool`] indicating
 whether an overflow has occurred. On overflow, the wrapped value is
@@ -699,7 +703,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other number `src` for which [`ToFixed`] is implemented, in
     which case this method returns
-    [`src.overflowing_to_fixed()`][ToFixed::overflowing_to_fixed].
+    <code>src.[overflowing\_to\_fixed][ToFixed::overflowing_to_fixed]\()</code>.
 
 # Panics
 
@@ -711,7 +715,7 @@ For floating-point numbers, panics if the value is not [finite].
 use fixed::{
     types::extra::{U0, U4},
     types::I16F16,
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -750,7 +754,7 @@ assert_eq!(Fix::overflowing_from_num(large), (wrapped, true));
         }
 
         comment! {
-            "Converts a fixed-point number to another number.
+            r#"Converts a fixed-point number to another number.
 
 Returns a [tuple] of the number and a [`bool`] indicating whether an
 overflow has occurred. On overflow, the wrapped value is returned.
@@ -768,7 +772,7 @@ The other number can be:
     the nearest, with ties rounding to even.
   * Any other type `Dst` for which [`FromFixed`] is implemented, in
     which case this method returns
-    [`Dst::overflowing_from_fixed(self)`][FromFixed::overflowing_from_fixed].
+    <code>Dst::[overflowing\_from\_fixed][FromFixed::overflowing_from_fixed]\(self)</code>.
 
 # Examples
 
@@ -776,7 +780,7 @@ The other number can be:
 use fixed::{
     types::extra::{U0, U4, U6},
     types::I16F16,
-    ", $s_fixed, ",
+    "#, $s_fixed, ",
 };
 type Fix = ", $s_fixed, "<U4>;
 
@@ -828,17 +832,17 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
-type Fix = ", $s_fixed, "<U4>;
+type Fix = ", $s_fixed, r#"<U4>;
 // 1.75 is 1.11 in binary
-let f = Fix::from_str_binary(\"1.11\");
+let f = Fix::from_str_binary("1.11");
 let check = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(f, Ok(check));
-",
+"#,
             if_signed_else_empty_str! {
                 $Signedness;
-                "let neg = Fix::from_str_binary(\"-1.11\");
+                r#"let neg = Fix::from_str_binary("-1.11");
 assert_eq!(neg, Ok(-check));
-",
+"#,
             },
             "```
 ";
@@ -857,17 +861,17 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
-type Fix = ", $s_fixed, "<U4>;
+type Fix = ", $s_fixed, r#"<U4>;
 // 1.75 is 1.11 in binary, 1.6 in octal
-let f = Fix::from_str_octal(\"1.6\");
+let f = Fix::from_str_octal("1.6");
 let check = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(f, Ok(check));
-",
+"#,
             if_signed_else_empty_str! {
                 $Signedness;
-                "let neg = Fix::from_str_octal(\"-1.6\");
+                r#"let neg = Fix::from_str_octal("-1.6");
 assert_eq!(neg, Ok(-check));
-",
+"#,
             },
             "```
 ";
@@ -886,17 +890,17 @@ Rounding is to the nearest, with ties rounded to even.
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
-type Fix = ", $s_fixed, "<U4>;
+type Fix = ", $s_fixed, r#"<U4>;
 // 1.75 is 1.11 in binary, 1.C in hexadecimal
-let f = Fix::from_str_hex(\"1.C\");
+let f = Fix::from_str_hex("1.C");
 let check = Fix::from_bits(0b111 << (4 - 2));
 assert_eq!(f, Ok(check));
-",
+"#,
             if_signed_else_empty_str! {
                 $Signedness;
-                "let neg = Fix::from_str_hex(\"-1.C\");
+                r#"let neg = Fix::from_str_hex("-1.C");
 assert_eq!(neg, Ok(-check));
-",
+"#,
             },
             "```
 ";
@@ -918,14 +922,14 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
-assert_eq!(I8F8::saturating_from_str(\"9999\"), Ok(I8F8::MAX));
-assert_eq!(I8F8::saturating_from_str(\"-9999\"), Ok(I8F8::MIN));
-",
-                "use fixed::types::U8F8;
-assert_eq!(U8F8::saturating_from_str(\"9999\"), Ok(U8F8::MAX));
-assert_eq!(U8F8::saturating_from_str(\"-1\"), Ok(U8F8::ZERO));
-",
+                r#"use fixed::types::I8F8;
+assert_eq!(I8F8::saturating_from_str("9999"), Ok(I8F8::MAX));
+assert_eq!(I8F8::saturating_from_str("-9999"), Ok(I8F8::MIN));
+"#,
+                r#"use fixed::types::U8F8;
+assert_eq!(U8F8::saturating_from_str("9999"), Ok(U8F8::MAX));
+assert_eq!(U8F8::saturating_from_str("-1"), Ok(U8F8::ZERO));
+"#,
             ),
             "```
 ";
@@ -947,14 +951,14 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
-assert_eq!(I8F8::saturating_from_str_binary(\"101100111000\"), Ok(I8F8::MAX));
-assert_eq!(I8F8::saturating_from_str_binary(\"-101100111000\"), Ok(I8F8::MIN));
-",
-                "use fixed::types::U8F8;
-assert_eq!(U8F8::saturating_from_str_binary(\"101100111000\"), Ok(U8F8::MAX));
-assert_eq!(U8F8::saturating_from_str_binary(\"-1\"), Ok(U8F8::ZERO));
-",
+                r#"use fixed::types::I8F8;
+assert_eq!(I8F8::saturating_from_str_binary("101100111000"), Ok(I8F8::MAX));
+assert_eq!(I8F8::saturating_from_str_binary("-101100111000"), Ok(I8F8::MIN));
+"#,
+                r#"use fixed::types::U8F8;
+assert_eq!(U8F8::saturating_from_str_binary("101100111000"), Ok(U8F8::MAX));
+assert_eq!(U8F8::saturating_from_str_binary("-1"), Ok(U8F8::ZERO));
+"#,
             ),
             "```
 ";
@@ -976,14 +980,14 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
-assert_eq!(I8F8::saturating_from_str_octal(\"7777\"), Ok(I8F8::MAX));
-assert_eq!(I8F8::saturating_from_str_octal(\"-7777\"), Ok(I8F8::MIN));
-",
-                "use fixed::types::U8F8;
-assert_eq!(U8F8::saturating_from_str_octal(\"7777\"), Ok(U8F8::MAX));
-assert_eq!(U8F8::saturating_from_str_octal(\"-1\"), Ok(U8F8::ZERO));
-",
+                r#"use fixed::types::I8F8;
+assert_eq!(I8F8::saturating_from_str_octal("7777"), Ok(I8F8::MAX));
+assert_eq!(I8F8::saturating_from_str_octal("-7777"), Ok(I8F8::MIN));
+"#,
+                r#"use fixed::types::U8F8;
+assert_eq!(U8F8::saturating_from_str_octal("7777"), Ok(U8F8::MAX));
+assert_eq!(U8F8::saturating_from_str_octal("-1"), Ok(U8F8::ZERO));
+"#,
             ),
             "```
 ";
@@ -1005,14 +1009,14 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
-assert_eq!(I8F8::saturating_from_str_hex(\"FFFF\"), Ok(I8F8::MAX));
-assert_eq!(I8F8::saturating_from_str_hex(\"-FFFF\"), Ok(I8F8::MIN));
-",
-                "use fixed::types::U8F8;
-assert_eq!(U8F8::saturating_from_str_hex(\"FFFF\"), Ok(U8F8::MAX));
-assert_eq!(U8F8::saturating_from_str_hex(\"-1\"), Ok(U8F8::ZERO));
-",
+                r#"use fixed::types::I8F8;
+assert_eq!(I8F8::saturating_from_str_hex("FFFF"), Ok(I8F8::MAX));
+assert_eq!(I8F8::saturating_from_str_hex("-FFFF"), Ok(I8F8::MIN));
+"#,
+                r#"use fixed::types::U8F8;
+assert_eq!(U8F8::saturating_from_str_hex("FFFF"), Ok(U8F8::MAX));
+assert_eq!(U8F8::saturating_from_str_hex("-1"), Ok(U8F8::ZERO));
+"#,
             ),
             "```
 ";
@@ -1034,16 +1038,16 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
+                r#"use fixed::types::I8F8;
 // 9999.5 = 15.5 + 256 × n
-assert_eq!(I8F8::wrapping_from_str(\"9999.5\"), Ok(I8F8::from_num(15.5)));
-assert_eq!(I8F8::wrapping_from_str(\"-9999.5\"), Ok(I8F8::from_num(-15.5)));
-",
-                "use fixed::types::U8F8;
+assert_eq!(I8F8::wrapping_from_str("9999.5"), Ok(I8F8::from_num(15.5)));
+assert_eq!(I8F8::wrapping_from_str("-9999.5"), Ok(I8F8::from_num(-15.5)));
+"#,
+                r#"use fixed::types::U8F8;
 // 9999.5 = 15.5 + 256 × n
-assert_eq!(U8F8::wrapping_from_str(\"9999.5\"), Ok(U8F8::from_num(15.5)));
-assert_eq!(U8F8::wrapping_from_str(\"-9999.5\"), Ok(U8F8::from_num(240.5)));
-",
+assert_eq!(U8F8::wrapping_from_str("9999.5"), Ok(U8F8::from_num(15.5)));
+assert_eq!(U8F8::wrapping_from_str("-9999.5"), Ok(U8F8::from_num(240.5)));
+"#,
             ),
             "```
 ";
@@ -1065,16 +1069,16 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
+                r#"use fixed::types::I8F8;
 let check = I8F8::from_bits(0b1110001 << (8 - 1));
-assert_eq!(I8F8::wrapping_from_str_binary(\"101100111000.1\"), Ok(check));
-assert_eq!(I8F8::wrapping_from_str_binary(\"-101100111000.1\"), Ok(-check));
-",
-                "use fixed::types::U8F8;
+assert_eq!(I8F8::wrapping_from_str_binary("101100111000.1"), Ok(check));
+assert_eq!(I8F8::wrapping_from_str_binary("-101100111000.1"), Ok(-check));
+"#,
+                r#"use fixed::types::U8F8;
 let check = U8F8::from_bits(0b1110001 << (8 - 1));
-assert_eq!(U8F8::wrapping_from_str_binary(\"101100111000.1\"), Ok(check));
-assert_eq!(U8F8::wrapping_from_str_binary(\"-101100111000.1\"), Ok(check.wrapping_neg()));
-",
+assert_eq!(U8F8::wrapping_from_str_binary("101100111000.1"), Ok(check));
+assert_eq!(U8F8::wrapping_from_str_binary("-101100111000.1"), Ok(check.wrapping_neg()));
+"#,
             ),
             "```
 ";
@@ -1096,16 +1100,16 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
+                r#"use fixed::types::I8F8;
 let check = I8F8::from_bits(0o1654 << (8 - 3));
-assert_eq!(I8F8::wrapping_from_str_octal(\"7165.4\"), Ok(check));
-assert_eq!(I8F8::wrapping_from_str_octal(\"-7165.4\"), Ok(-check));
-",
-                "use fixed::types::U8F8;
+assert_eq!(I8F8::wrapping_from_str_octal("7165.4"), Ok(check));
+assert_eq!(I8F8::wrapping_from_str_octal("-7165.4"), Ok(-check));
+"#,
+                r#"use fixed::types::U8F8;
 let check = U8F8::from_bits(0o1654 << (8 - 3));
-assert_eq!(U8F8::wrapping_from_str_octal(\"7165.4\"), Ok(check));
-assert_eq!(U8F8::wrapping_from_str_octal(\"-7165.4\"), Ok(check.wrapping_neg()));
-",
+assert_eq!(U8F8::wrapping_from_str_octal("7165.4"), Ok(check));
+assert_eq!(U8F8::wrapping_from_str_octal("-7165.4"), Ok(check.wrapping_neg()));
+"#,
             ),
             "```
 ";
@@ -1127,16 +1131,16 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
+                r#"use fixed::types::I8F8;
 let check = I8F8::from_bits(0xFFE);
-assert_eq!(I8F8::wrapping_from_str_hex(\"C0F.FE\"), Ok(check));
-assert_eq!(I8F8::wrapping_from_str_hex(\"-C0F.FE\"), Ok(-check));
-",
-                "use fixed::types::U8F8;
+assert_eq!(I8F8::wrapping_from_str_hex("C0F.FE"), Ok(check));
+assert_eq!(I8F8::wrapping_from_str_hex("-C0F.FE"), Ok(-check));
+"#,
+                r#"use fixed::types::U8F8;
 let check = U8F8::from_bits(0xFFE);
-assert_eq!(U8F8::wrapping_from_str_hex(\"C0F.FE\"), Ok(check));
-assert_eq!(U8F8::wrapping_from_str_hex(\"-C0F.FE\"), Ok(check.wrapping_neg()));
-",
+assert_eq!(U8F8::wrapping_from_str_hex("C0F.FE"), Ok(check));
+assert_eq!(U8F8::wrapping_from_str_hex("-C0F.FE"), Ok(check.wrapping_neg()));
+"#,
             ),
             "```
 ";
@@ -1161,16 +1165,16 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
-assert_eq!(I8F8::overflowing_from_str(\"99.5\"), Ok((I8F8::from_num(99.5), false)));
+                r#"use fixed::types::I8F8;
+assert_eq!(I8F8::overflowing_from_str("99.5"), Ok((I8F8::from_num(99.5), false)));
 // 9999.5 = 15.5 + 256 × n
-assert_eq!(I8F8::overflowing_from_str(\"-9999.5\"), Ok((I8F8::from_num(-15.5), true)));
-",
-                "use fixed::types::U8F8;
-assert_eq!(U8F8::overflowing_from_str(\"99.5\"), Ok((U8F8::from_num(99.5), false)));
+assert_eq!(I8F8::overflowing_from_str("-9999.5"), Ok((I8F8::from_num(-15.5), true)));
+"#,
+                r#"use fixed::types::U8F8;
+assert_eq!(U8F8::overflowing_from_str("99.5"), Ok((U8F8::from_num(99.5), false)));
 // 9999.5 = 15.5 + 256 × n
-assert_eq!(U8F8::overflowing_from_str(\"9999.5\"), Ok((U8F8::from_num(15.5), true)));
-",
+assert_eq!(U8F8::overflowing_from_str("9999.5"), Ok((U8F8::from_num(15.5), true)));
+"#,
             ),
             "```
 ";
@@ -1197,16 +1201,16 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
+                r#"use fixed::types::I8F8;
 let check = I8F8::from_bits(0b1110001 << (8 - 1));
-assert_eq!(I8F8::overflowing_from_str_binary(\"111000.1\"), Ok((check, false)));
-assert_eq!(I8F8::overflowing_from_str_binary(\"-101100111000.1\"), Ok((-check, true)));
-",
-                "use fixed::types::U8F8;
+assert_eq!(I8F8::overflowing_from_str_binary("111000.1"), Ok((check, false)));
+assert_eq!(I8F8::overflowing_from_str_binary("-101100111000.1"), Ok((-check, true)));
+"#,
+                r#"use fixed::types::U8F8;
 let check = U8F8::from_bits(0b1110001 << (8 - 1));
-assert_eq!(U8F8::overflowing_from_str_binary(\"111000.1\"), Ok((check, false)));
-assert_eq!(U8F8::overflowing_from_str_binary(\"101100111000.1\"), Ok((check, true)));
-",
+assert_eq!(U8F8::overflowing_from_str_binary("111000.1"), Ok((check, false)));
+assert_eq!(U8F8::overflowing_from_str_binary("101100111000.1"), Ok((check, true)));
+"#,
             ),
             "```
 ";
@@ -1233,16 +1237,16 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
+                r#"use fixed::types::I8F8;
 let check = I8F8::from_bits(0o1654 << (8 - 3));
-assert_eq!(I8F8::overflowing_from_str_octal(\"165.4\"), Ok((check, false)));
-assert_eq!(I8F8::overflowing_from_str_octal(\"-7165.4\"), Ok((-check, true)));
-",
-                "use fixed::types::U8F8;
+assert_eq!(I8F8::overflowing_from_str_octal("165.4"), Ok((check, false)));
+assert_eq!(I8F8::overflowing_from_str_octal("-7165.4"), Ok((-check, true)));
+"#,
+                r#"use fixed::types::U8F8;
 let check = U8F8::from_bits(0o1654 << (8 - 3));
-assert_eq!(U8F8::overflowing_from_str_octal(\"165.4\"), Ok((check, false)));
-assert_eq!(U8F8::overflowing_from_str_octal(\"7165.4\"), Ok((check, true)));
-",
+assert_eq!(U8F8::overflowing_from_str_octal("165.4"), Ok((check, false)));
+assert_eq!(U8F8::overflowing_from_str_octal("7165.4"), Ok((check, true)));
+"#,
             ),
             "```
 ";
@@ -1269,16 +1273,16 @@ Rounding is to the nearest, with ties rounded to even.
 ",
             if_signed_unsigned!(
                 $Signedness,
-                "use fixed::types::I8F8;
+                r#"use fixed::types::I8F8;
 let check = I8F8::from_bits(0xFFE);
-assert_eq!(I8F8::overflowing_from_str_hex(\"F.FE\"), Ok((check, false)));
-assert_eq!(I8F8::overflowing_from_str_hex(\"-C0F.FE\"), Ok((-check, true)));
-",
-                "use fixed::types::U8F8;
+assert_eq!(I8F8::overflowing_from_str_hex("F.FE"), Ok((check, false)));
+assert_eq!(I8F8::overflowing_from_str_hex("-C0F.FE"), Ok((-check, true)));
+"#,
+                r#"use fixed::types::U8F8;
 let check = U8F8::from_bits(0xFFE);
-assert_eq!(U8F8::overflowing_from_str_hex(\"F.FE\"), Ok((check, false)));
-assert_eq!(U8F8::overflowing_from_str_hex(\"C0F.FE\"), Ok((check, true)));
-",
+assert_eq!(U8F8::overflowing_from_str_hex("F.FE"), Ok((check, false)));
+assert_eq!(U8F8::overflowing_from_str_hex("C0F.FE"), Ok((check, true)));
+"#,
             ),
             "```
 ";

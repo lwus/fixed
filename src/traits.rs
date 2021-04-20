@@ -110,7 +110,7 @@ macro_rules! comment_features {
 }
 
 comment_features! {
-    "This trait is used to provide supertraits to the [`Fixed`] trait
+    r#"This trait is used to provide supertraits to the [`Fixed`] trait
 depending on the crate’s [optional features].
 
  1. If the `num-traits` experimental feature is enabled, the following
@@ -134,9 +134,9 @@ depending on the crate’s [optional features].
         value 1
       * [`Num`] because it has [`One`] as a supertrait
       * [`MulAdd`], [`MulAddAssign`] because
-        <code>[MulAdd][`MulAdd`]::[mul_add][`mul_add`]</code>
+        <code>[MulAdd][`MulAdd`]::[mul\_add][`mul_add`]</code>
         conflicts with
-        <code>[Fixed]::[mul_add][Fixed::mul_add]</code>
+        <code>[Fixed]::[mul\_add][Fixed::mul_add]</code>
 
     Similarly, [`Signed`] and [`Unsigned`] are *not* supertraits of
     [`FixedSigned`] and [`FixedUnsigned`] because they have [`Num`] as
@@ -153,7 +153,7 @@ depending on the crate’s [optional features].
 [`Unsigned`]: num_traits::sign::Unsigned
 [`mul_add`]: num_traits::ops::mul_add::MulAdd::mul_add
 [optional features]: crate#optional-features
-"
+"#
 }
 
 /// This trait provides methods common to all fixed-point numbers.
@@ -328,20 +328,20 @@ where
 
     /// [`true`] if the type is signed.
     ///
-    /// See also <code>FixedI32::[IS_SIGNED][FixedI32::IS_SIGNED]</code> and
-    /// <code>FixedU32::[IS_SIGNED][FixedU32::IS_SIGNED]</code>.
+    /// See also <code>FixedI32::[IS\_SIGNED][FixedI32::IS_SIGNED]</code> and
+    /// <code>FixedU32::[IS\_SIGNED][FixedU32::IS_SIGNED]</code>.
     const IS_SIGNED: bool;
 
     /// The number of integer bits.
     ///
-    /// See also <code>FixedI32::[INT_NBITS][FixedI32::INT_NBITS]</code> and
-    /// <code>FixedU32::[INT_NBITS][FixedU32::INT_NBITS]</code>.
+    /// See also <code>FixedI32::[INT\_NBITS][FixedI32::INT_NBITS]</code> and
+    /// <code>FixedU32::[INT\_NBITS][FixedU32::INT_NBITS]</code>.
     const INT_NBITS: u32;
 
     /// The number of fractional bits.
     ///
-    /// See also <code>FixedI32::[FRAC_NBITS][FixedI32::FRAC_NBITS]</code> and
-    /// <code>FixedU32::[FRAC_NBITS][FixedU32::FRAC_NBITS]</code>.
+    /// See also <code>FixedI32::[FRAC\_NBITS][FixedI32::FRAC_NBITS]</code> and
+    /// <code>FixedU32::[FRAC\_NBITS][FixedU32::FRAC_NBITS]</code>.
     const FRAC_NBITS: u32;
 
     /// Creates a fixed-point number that has a bitwise representation
@@ -435,7 +435,8 @@ where
 
     /// Creates a fixed-point number from another number.
     ///
-    /// Returns the same value as [`src.to_fixed()`][ToFixed::to_fixed].
+    /// Returns the same value as
+    /// <code>src.[to\_fixed][ToFixed::to_fixed]\()</code>.
     ///
     /// See also <code>FixedI32::[from\_num][FixedI32::from_num]</code> and
     /// <code>FixedU32::[from\_num][FixedU32::from_num]</code>.
@@ -443,7 +444,8 @@ where
 
     /// Converts a fixed-point number to another number.
     ///
-    /// Returns the same value as [`Dst::from_fixed(self)`][FromFixed::from_fixed].
+    /// Returns the same value as
+    /// <code>Dst::[from\_fixed][FromFixed::from_fixed]\(self)</code>.
     ///
     /// See also <code>FixedI32::[to\_num][FixedI32::to_num]</code> and
     /// <code>FixedU32::[to\_num][FixedU32::to_num]</code>.
@@ -452,7 +454,8 @@ where
     /// Creates a fixed-point number from another number if it fits,
     /// otherwise returns [`None`].
     ///
-    /// Returns the same value as [`src.checked_to_fixed()`][ToFixed::checked_to_fixed].
+    /// Returns the same value as
+    /// <code>src.[checked\_to\_fixed][ToFixed::checked_to_fixed]\()</code>.
     ///
     /// See also
     /// <code>FixedI32::[checked\_from\_num][FixedI32::checked_from_num]</code>
@@ -464,7 +467,7 @@ where
     /// otherwise returns [`None`].
     ///
     /// Returns the same value as
-    /// [`Dst::checked_from_fixed(self)`][FromFixed::checked_from_fixed].
+    /// <code>Dst::[checked\_from\_fixed][FromFixed::checked_from_fixed]\(self)</code>.
     ///
     /// See also
     /// <code>FixedI32::[checked\_to\_num][FixedI32::checked_to_num]</code> and
@@ -474,7 +477,8 @@ where
     /// Creates a fixed-point number from another number, saturating the
     /// value if it does not fit.
     ///
-    /// Returns the same value as [`src.saturating_to_fixed()`][ToFixed::saturating_to_fixed].
+    /// Returns the same value as
+    /// <code>src.[saturating\_to\_fixed][ToFixed::saturating_to_fixed]\()</code>.
     ///
     /// See also
     /// <code>FixedI32::[saturating\_from\_num][FixedI32::saturating_from_num]</code>
@@ -486,7 +490,7 @@ where
     /// value if it does not fit.
     ///
     /// Returns the same value as
-    /// [`Dst::saturating_from_fixed(self)`][FromFixed::saturating_from_fixed].
+    /// <code>Dst::[saturating\_from\_fixed][FromFixed::saturating_from_fixed]\(self)</code>.
     ///
     /// See also
     /// <code>FixedI32::[saturating\_to\_num][FixedI32::saturating_to_num]</code>
@@ -497,7 +501,8 @@ where
     /// Creates a fixed-point number from another number, wrapping the
     /// value on overflow.
     ///
-    /// Returns the same value as [`src.wrapping_to_fixed()`][ToFixed::wrapping_to_fixed].
+    /// Returns the same value as
+    /// <code>src.[wrapping\_to\_fixed][ToFixed::wrapping_to_fixed]\()</code>.
     ///
     /// See also
     /// <code>FixedI32::[wrapping\_from\_num][FixedI32::wrapping_from_num]</code>
@@ -509,7 +514,7 @@ where
     /// value on overflow.
     ///
     /// Returns the same value as
-    /// [`Src::wrapping_from_fixed(self)`][FromFixed::wrapping_from_fixed].
+    /// <code>Dst::[wrapping\_from\_fixed][FromFixed::wrapping_from_fixed]\(self)</code>.
     ///
     /// See also
     /// <code>FixedI32::[wrapping\_to\_num][FixedI32::wrapping_to_num]</code>
@@ -518,6 +523,9 @@ where
     fn wrapping_to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number, panicking on overflow.
+    ///
+    /// Returns the same value as
+    /// <code>src.[unwrapped\_to\_fixed][ToFixed::unwrapped_to_fixed]\()</code>.
     ///
     /// See also
     /// <code>FixedI32::[unwrapped\_from\_num][FixedI32::unwrapped_from_num]</code>
@@ -532,6 +540,9 @@ where
 
     /// Converts a fixed-point number to another number, panicking on overflow.
     ///
+    /// Returns the same value as
+    /// <code>Dst::[unwrapped\_from\_fixed][FromFixed::unwrapped_from_fixed]\(self)</code>.
+    ///
     /// See also
     /// <code>FixedI32::[unwrapped\_to\_num][FixedI32::unwrapped_to_num]</code>
     /// and
@@ -545,7 +556,8 @@ where
 
     /// Creates a fixed-point number from another number.
     ///
-    /// Returns the same value as [`src.overflowing_to_fixed()`][ToFixed::overflowing_to_fixed].
+    /// Returns the same value as
+    /// <code>src.[overflowing\_to\_fixed][ToFixed::overflowing_to_fixed]\()</code>.
     ///
     /// See also
     /// <code>FixedI32::[overflowing\_from\_num][FixedI32::overflowing_from_num]</code>
@@ -556,7 +568,7 @@ where
     /// Converts a fixed-point number to another number.
     ///
     /// Returns the same value as
-    /// [`Dst::overflowing_from_fixed(self)`][FromFixed::overflowing_from_fixed].
+    /// <code>Dst::[overflowing\_from\_fixed][FromFixed::overflowing_from_fixed]\(self)</code>.
     ///
     /// See also
     /// <code>FixedI32::[overflowing\_to\_num][FixedI32::overflowing_to_num]</code>
