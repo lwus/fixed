@@ -295,8 +295,8 @@ where
 
     /// The number of fractional bits.
     ///
-    /// <code>\<F as [Fixed]>::Frac::[U32]</code> is equivalent to <code>\<F as
-    /// [Fixed]>::[FRAC\_NBITS]</code>.
+    /// <code>\<F as [Fixed]>::Frac::[U32]</code> is equivalent to
+    /// <code>\<F as [Fixed]>::[FRAC\_NBITS]</code>.
     ///
     /// [U32]: crate::types::extra::Unsigned::U32
     /// [FRAC\_NBITS]: Fixed::FRAC_NBITS
