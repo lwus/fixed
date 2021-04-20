@@ -15,7 +15,9 @@
 
 macro_rules! fixed_no_frac {
     (
-        $Fixed:ident[$s_fixed:expr]($Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr),
+        $Fixed:ident[$s_fixed:expr](
+            $Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr, $s_nbits_m1:expr
+        ),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
         $Double:ident, $DoubleInner:ty, $s_nbits_2:expr, $HasDouble:tt
@@ -40,6 +42,9 @@ assert_eq!(Fix::ZERO, Fix::from_bits(0));
             comment! {
                 "The difference between any two successive representable numbers, <i>Δ</i>.
 
+If the number has <i>f</i> = `Frac` fractional bits, then
+<i>Δ</i> = 1/2<sup><i>f</i></sup>.
+
 # Examples
 
 ```rust
@@ -56,6 +61,17 @@ assert_eq!(Fix::DELTA, 0.0625);
             comment! {
                 "The smallest value that can be represented.
 
+",
+                if_signed_unsigned! {
+                    $Signedness,
+                    concat!(
+                        "If the number has <i>f</i> = `Frac` fractional bits,
+then the minimum is −2<sup>", $s_nbits_m1, "</sup>/2<sup><i>f</i></sup>."
+                    ),
+                    "The minimum of unsigned numbers is 0."
+                },
+                "
+
 # Examples
 
 ```rust
@@ -69,6 +85,11 @@ assert_eq!(Fix::MIN, Fix::from_bits(", $s_inner, "::MIN));
 
             comment! {
                 "The largest value that can be represented.
+
+If the number has <i>f</i> = `Frac` fractional bits, then the maximum is
+(2<sup>",
+                if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
+                "</sup> − 1)/2<sup><i>f</i></sup>.
 
 # Examples
 
