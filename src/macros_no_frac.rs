@@ -1015,8 +1015,9 @@ This method will be deprecated when the `!` operator and the
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-const C: Fix = Fix::from_bits(0x3E).const_not();
-assert_eq!(C, !Fix::from_bits(0x3E));
+const A: Fix = Fix::from_bits(0x3E);
+const NOT_A: Fix = A.const_not();
+assert_eq!(NOT_A, !A);
 ```
 ";
                 #[inline]
@@ -1043,8 +1044,10 @@ This method will be deprecated when the `&` operator and the
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-const C: Fix = Fix::from_bits(0x3E).const_bitand(Fix::from_bits(0x55));
-assert_eq!(C, Fix::from_bits(0x3E) & Fix::from_bits(0x55));
+const A: Fix = Fix::from_bits(0x3E);
+const B: Fix = Fix::from_bits(0x55);
+const A_BITAND_B: Fix = A.const_bitand(B);
+assert_eq!(A_BITAND_B, A & B);
 ```
 ";
                 #[inline]
@@ -1072,8 +1075,10 @@ This method will be deprecated when the `|` operator and the
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-const C: Fix = Fix::from_bits(0x3E).const_bitor(Fix::from_bits(0x55));
-assert_eq!(C, Fix::from_bits(0x3E) | Fix::from_bits(0x55));
+const A: Fix = Fix::from_bits(0x3E);
+const B: Fix = Fix::from_bits(0x55);
+const A_BITOR_B: Fix = A.const_bitor(B);
+assert_eq!(A_BITOR_B, A | B);
 ```
 ";
                 #[inline]
@@ -1101,8 +1106,10 @@ This method will be deprecated when the `^` operator and the
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-const C: Fix = Fix::from_bits(0x3E).const_bitxor(Fix::from_bits(0x55));
-assert_eq!(C, Fix::from_bits(0x3E) ^ Fix::from_bits(0x55));
+const A: Fix = Fix::from_bits(0x3E);
+const B: Fix = Fix::from_bits(0x55);
+const A_BITXOR_B: Fix = A.const_bitxor(B);
+assert_eq!(A_BITXOR_B, A ^ B);
 ```
 ";
                 #[inline]
