@@ -24,13 +24,15 @@ The [*fixed* crate] provides fixed-point numbers.
   * [`FixedI64`] and [`FixedU64`] are 64-bit fixed-point numbers.
   * [`FixedI128`] and [`FixedU128`] are 128-bit fixed-point numbers.
 
-The fixed-point number types have <i>f</i> = `Frac` fractional bits, where
-0 ≤ <i>f</i> ≤ <i>n</i> and <i>n</i> is the total number of bits. For example,
-<code>[FixedI32]\<Frac></code> is a 32-bit signed fixed-point number with
-<i>n</i> = 32. <code>[FixedI32]\<[U0]></code> behaves like [`i32`], and
-<code>[FixedU32]\<[U0]></code> behaves like [`u32`].
+An <i>n</i>-bit fixed-point number has <i>f</i> = `Frac` fractional bits where
+0 ≤ <i>f</i> ≤ <i>n</i>, and <i>n</i> − <i>f</i> integer bits. For example,
+<code>[FixedI32]\<[U24]></code> is a 32-bit signed fixed-point number with
+<i>n</i> = 32 total bits, <i>f</i> = 24 fractional bits, and
+<i>n</i> − <i>f</i> = 8 integer bits. <code>[FixedI32]\<[U0]></code> behaves
+like [`i32`], and <code>[FixedU32]\<[U0]></code> behaves like [`u32`].
 
-The difference between any two successive representable numbers is
+The difference between any two successive representable numbers is constant
+throughout the possible range for a fixed-point number:
 <i>Δ</i> = 1/2<sup><i>f</i></sup>. When <i>f</i> = 0, like in
 <code>[FixedI32]\<[U0]></code>, <i>Δ</i> = 1 because representable numbers are
 integers, and the difference between two successive integers is 1. When
@@ -246,6 +248,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 [LICENSE-APACHE]: https://www.apache.org/licenses/LICENSE-2.0
 [LICENSE-MIT]: https://opensource.org/licenses/MIT
 [U0]: crate::types::extra::U0
+[U24]: crate::types::extra::U24
 [`Binary`]: core::fmt::Binary
 [`Display`]: core::fmt::Display
 [`Error`]: std::error::Error
