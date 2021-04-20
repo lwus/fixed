@@ -295,94 +295,169 @@ where
 
     /// The number of fractional bits.
     ///
-    /// <code>&lt;F as [Fixed]&gt;::Frac::[U32]</code> is equivalent to
-    /// <code>&lt;F as [Fixed]&gt;::[FRAC_NBITS][Fixed::FRAC_NBITS]</code>.
+    /// <code>\<F as [Fixed]>::Frac::[U32]</code> is equivalent to <code>\<F as
+    /// [Fixed]>::[FRAC\_NBITS]</code>.
     ///
     /// [U32]: crate::types::extra::Unsigned::U32
+    /// [FRAC\_NBITS]: Fixed::FRAC_NBITS
     type Frac: Unsigned;
 
     /// Zero.
+    ///
+    /// See also <code>FixedI32::[ZERO][FixedI32::ZERO]</code> and
+    /// <code>FixedU32::[ZERO][FixedU32::ZERO]</code>.
     const ZERO: Self;
 
     /// The difference between any two successive representable numbers, <i>Δ</i>.
+    ///
+    /// See also <code>FixedI32::[DELTA][FixedI32::DELTA]</code> and
+    /// <code>FixedU32::[DELTA][FixedU32::DELTA]</code>.
     const DELTA: Self;
 
     /// The smallest value that can be represented.
+    ///
+    /// See also <code>FixedI32::[MIN][FixedI32::MIN]</code> and
+    /// <code>FixedU32::[MIN][FixedU32::MIN]</code>.
     const MIN: Self;
 
     /// The largest value that can be represented.
+    ///
+    /// See also <code>FixedI32::[MAX][FixedI32::MAX]</code> and
+    /// <code>FixedU32::[MAX][FixedU32::MAX]</code>.
     const MAX: Self;
 
     /// [`true`] if the type is signed.
+    ///
+    /// See also <code>FixedI32::[IS_SIGNED][FixedI32::IS_SIGNED]</code> and
+    /// <code>FixedU32::[IS_SIGNED][FixedU32::IS_SIGNED]</code>.
     const IS_SIGNED: bool;
 
     /// The number of integer bits.
+    ///
+    /// See also <code>FixedI32::[INT_NBITS][FixedI32::INT_NBITS]</code> and
+    /// <code>FixedU32::[INT_NBITS][FixedU32::INT_NBITS]</code>.
     const INT_NBITS: u32;
 
     /// The number of fractional bits.
+    ///
+    /// See also <code>FixedI32::[FRAC_NBITS][FixedI32::FRAC_NBITS]</code> and
+    /// <code>FixedU32::[FRAC_NBITS][FixedU32::FRAC_NBITS]</code>.
     const FRAC_NBITS: u32;
 
     /// Creates a fixed-point number that has a bitwise representation
     /// identical to the given integer.
+    ///
+    /// See also <code>FixedI32::[from\_bits][FixedI32::from_bits]</code> and
+    /// <code>FixedU32::[from\_bits][FixedU32::from_bits]</code>.
     fn from_bits(bits: Self::Bits) -> Self;
 
     /// Creates an integer that has a bitwise representation identical
     /// to the given fixed-point number.
+    ///
+    /// See also <code>FixedI32::[to\_bits][FixedI32::to_bits]</code> and
+    /// <code>FixedU32::[to\_bits][FixedU32::to_bits]</code>.
     fn to_bits(self) -> Self::Bits;
 
     /// Converts a fixed-point number from big endian to the target’s endianness.
+    ///
+    /// See also <code>FixedI32::[from\_be][FixedI32::from_be]</code> and
+    /// <code>FixedU32::[from\_be][FixedU32::from_be]</code>.
     fn from_be(fixed: Self) -> Self;
 
     /// Converts a fixed-point number from little endian to the target’s endianness.
+    ///
+    /// See also <code>FixedI32::[from\_le][FixedI32::from_le]</code> and
+    /// <code>FixedU32::[from\_le][FixedU32::from_le]</code>.
     fn from_le(fixed: Self) -> Self;
 
     /// Converts this fixed-point number to big endian from the target’s endianness.
+    ///
+    /// See also <code>FixedI32::[to\_be][FixedI32::to_be]</code> and
+    /// <code>FixedU32::[to\_be][FixedU32::to_be]</code>.
     fn to_be(self) -> Self;
 
     /// Converts this fixed-point number to little endian from the target’s endianness.
+    ///
+    /// See also <code>FixedI32::[to\_le][FixedI32::to_le]</code> and
+    /// <code>FixedU32::[to\_le][FixedU32::to_le]</code>.
     fn to_le(self) -> Self;
 
     ///Reverses the byte order of the fixed-point number.
+    ///
+    /// See also <code>FixedI32::[swap\_bytes][FixedI32::swap_bytes]</code> and
+    /// <code>FixedU32::[swap\_bytes][FixedU32::swap_bytes]</code>.
     fn swap_bytes(self) -> Self;
 
     /// Creates a fixed-point number from its representation as a byte
     /// array in big endian.
+    ///
+    /// See also
+    /// <code>FixedI32::[from\_be\_bytes][FixedI32::from_be_bytes]</code> and
+    /// <code>FixedU32::[from\_be\_bytes][FixedU32::from_be_bytes]</code>.
     fn from_be_bytes(bytes: Self::Bytes) -> Self;
 
     /// Creates a fixed-point number from its representation as a byte
     /// array in little endian.
+    ///
+    /// See also
+    /// <code>FixedI32::[from\_le\_bytes][FixedI32::from_le_bytes]</code> and
+    /// <code>FixedU32::[from\_le\_bytes][FixedU32::from_le_bytes]</code>.
     fn from_le_bytes(bytes: Self::Bytes) -> Self;
 
     /// Creates a fixed-point number from its representation as a byte
     /// array in native endian.
+    ///
+    /// See also
+    /// <code>FixedI32::[from\_ne\_bytes][FixedI32::from_ne_bytes]</code> and
+    /// <code>FixedU32::[from\_ne\_bytes][FixedU32::from_ne_bytes]</code>.
     fn from_ne_bytes(bytes: Self::Bytes) -> Self;
 
     /// Returns the memory representation of this fixed-point number
     /// as a byte array in big-endian byte order.
+    ///
+    /// See also <code>FixedI32::[to\_be\_bytes][FixedI32::to_be_bytes]</code>
+    /// and <code>FixedU32::[to\_be\_bytes][FixedU32::to_be_bytes]</code>.
     fn to_be_bytes(self) -> Self::Bytes;
 
     /// Returns the memory representation of this fixed-point number
     /// as a byte array in little-endian byte order.
+    ///
+    /// See also <code>FixedI32::[to\_le\_bytes][FixedI32::to_le_bytes]</code>
+    /// and <code>FixedU32::[to\_le\_bytes][FixedU32::to_le_bytes]</code>.
     fn to_le_bytes(self) -> Self::Bytes;
 
     /// Returns the memory representation of this fixed-point number
     /// as a byte array in native byte order.
+    ///
+    /// See also <code>FixedI32::[to\_ne\_bytes][FixedI32::to_ne_bytes]</code>
+    /// and <code>FixedU32::[to\_ne\_bytes][FixedU32::to_ne_bytes]</code>.
     fn to_ne_bytes(self) -> Self::Bytes;
 
     /// Creates a fixed-point number from another number.
     ///
     /// Returns the same value as [`src.to_fixed()`][ToFixed::to_fixed].
+    ///
+    /// See also <code>FixedI32::[from\_num][FixedI32::from_num]</code> and
+    /// <code>FixedU32::[from\_num][FixedU32::from_num]</code>.
     fn from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number.
     ///
     /// Returns the same value as [`Dst::from_fixed(self)`][FromFixed::from_fixed].
+    ///
+    /// See also <code>FixedI32::[to\_num][FixedI32::to_num]</code> and
+    /// <code>FixedU32::[to\_num][FixedU32::to_num]</code>.
     fn to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number if it fits,
     /// otherwise returns [`None`].
     ///
     /// Returns the same value as [`src.checked_to_fixed()`][ToFixed::checked_to_fixed].
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_from\_num][FixedI32::checked_from_num]</code>
+    /// and
+    /// <code>FixedU32::[checked\_from\_num][FixedU32::checked_from_num]</code>.
     fn checked_from_num<Src: ToFixed>(src: Src) -> Option<Self>;
 
     /// Converts a fixed-point number to another number if it fits,
@@ -390,12 +465,21 @@ where
     ///
     /// Returns the same value as
     /// [`Dst::checked_from_fixed(self)`][FromFixed::checked_from_fixed].
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_to\_num][FixedI32::checked_to_num]</code> and
+    /// <code>FixedU32::[checked\_to\_num][FixedU32::checked_to_num]</code>.
     fn checked_to_num<Dst: FromFixed>(self) -> Option<Dst>;
 
     /// Creates a fixed-point number from another number, saturating the
     /// value if it does not fit.
     ///
     /// Returns the same value as [`src.saturating_to_fixed()`][ToFixed::saturating_to_fixed].
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_from\_num][FixedI32::saturating_from_num]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_from\_num][FixedU32::saturating_from_num]</code>.
     fn saturating_from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number, saturating the
@@ -403,12 +487,22 @@ where
     ///
     /// Returns the same value as
     /// [`Dst::saturating_from_fixed(self)`][FromFixed::saturating_from_fixed].
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_to\_num][FixedI32::saturating_to_num]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_to\_num][FixedU32::saturating_to_num]</code>.
     fn saturating_to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number, wrapping the
     /// value on overflow.
     ///
     /// Returns the same value as [`src.wrapping_to_fixed()`][ToFixed::wrapping_to_fixed].
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_from\_num][FixedI32::wrapping_from_num]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_from\_num][FixedU32::wrapping_from_num]</code>.
     fn wrapping_from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number, wrapping the
@@ -416,9 +510,19 @@ where
     ///
     /// Returns the same value as
     /// [`Src::wrapping_from_fixed(self)`][FromFixed::wrapping_from_fixed].
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_to\_num][FixedI32::wrapping_to_num]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_to\_num][FixedU32::wrapping_to_num]</code>.
     fn wrapping_to_num<Dst: FromFixed>(self) -> Dst;
 
     /// Creates a fixed-point number from another number, panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_from\_num][FixedI32::unwrapped_from_num]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_from\_num][FixedU32::unwrapped_from_num]</code>.
     ///
     /// # Panics
     ///
@@ -427,6 +531,11 @@ where
     fn unwrapped_from_num<Src: ToFixed>(src: Src) -> Self;
 
     /// Converts a fixed-point number to another number, panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_to\_num][FixedI32::unwrapped_to_num]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_to\_num][FixedU32::unwrapped_to_num]</code>.
     ///
     /// # Panics
     ///
@@ -437,75 +546,137 @@ where
     /// Creates a fixed-point number from another number.
     ///
     /// Returns the same value as [`src.overflowing_to_fixed()`][ToFixed::overflowing_to_fixed].
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_from\_num][FixedI32::overflowing_from_num]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_from\_num][FixedU32::overflowing_from_num]</code>.
     fn overflowing_from_num<Src: ToFixed>(src: Src) -> (Self, bool);
 
     /// Converts a fixed-point number to another number.
     ///
     /// Returns the same value as
     /// [`Dst::overflowing_from_fixed(self)`][FromFixed::overflowing_from_fixed].
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_to\_num][FixedI32::overflowing_to_num]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_to\_num][FixedU32::overflowing_to_num]</code>.
     fn overflowing_to_num<Dst: FromFixed>(self) -> (Dst, bool);
 
     /// Parses a string slice containing binary digits to return a fixed-point number.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[from\_str\_binary][FixedI32::from_str_binary]</code>
+    /// and
+    /// <code>FixedU32::[from\_str\_binary][FixedU32::from_str_binary]</code>.
     fn from_str_binary(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing octal digits to return a fixed-point number.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[from\_str\_octal][FixedI32::from_str_octal]</code> and
+    /// <code>FixedU32::[from\_str\_octal][FixedU32::from_str_octal]</code>.
     fn from_str_octal(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing hexadecimal digits to return a fixed-point number.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also <code>FixedI32::[from\_str\_hex][FixedI32::from_str_hex]</code>
+    /// and <code>FixedU32::[from\_str\_hex][FixedU32::from_str_hex]</code>.
     fn from_str_hex(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing decimal digits to return a
     /// fixed-point number, saturating on overflow.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_from\_str][FixedI32::saturating_from_str]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_from\_str][FixedU32::saturating_from_str]</code>.
     fn saturating_from_str(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing binary digits to return a
     /// fixed-point number, saturating on overflow.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_from\_str\_binary][FixedI32::saturating_from_str_binary]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_from\_str\_binary][FixedU32::saturating_from_str_binary]</code>.
     fn saturating_from_str_binary(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing octal digits to return a
     /// fixed-point number, saturating on overflow.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_from\_str\_octal][FixedI32::saturating_from_str_octal]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_from\_str\_octal][FixedU32::saturating_from_str_octal]</code>.
     fn saturating_from_str_octal(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing hexadecimal digits to return a
     /// fixed-point number, saturating on overflow.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_from\_str\_hex][FixedI32::saturating_from_str_hex]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_from\_str\_hex][FixedU32::saturating_from_str_hex]</code>.
     fn saturating_from_str_hex(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing decimal digits to return a
     /// fixed-point number, wrapping on overflow.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_from\_str][FixedI32::wrapping_from_str]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_from\_str][FixedU32::wrapping_from_str]</code>.
     fn wrapping_from_str(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing binary digits to return a
     /// fixed-point number, wrapping on overflow.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_from\_str\_binary][FixedI32::wrapping_from_str_binary]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_from\_str\_binary][FixedU32::wrapping_from_str_binary]</code>.
     fn wrapping_from_str_binary(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing octal digits to return a
     /// fixed-point number, wrapping on overflow.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_from\_str\_octal][FixedI32::wrapping_from_str_octal]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_from\_str\_octal][FixedU32::wrapping_from_str_octal]</code>.
     fn wrapping_from_str_octal(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing hexadecimal digits to return a
     /// fixed-point number, wrapping on overflow.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_from\_str\_hex][FixedI32::wrapping_from_str_hex]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_from\_str\_hex][FixedU32::wrapping_from_str_hex]</code>.
     fn wrapping_from_str_hex(src: &str) -> Result<Self, ParseFixedError>;
 
     /// Parses a string slice containing decimal digits to return a
@@ -516,6 +687,11 @@ where
     /// wrapped value is returned.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_from\_str][FixedI32::overflowing_from_str]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_from\_str][FixedU32::overflowing_from_str]</code>.
     fn overflowing_from_str(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
     /// Parses a string slice containing binary digits to return a
@@ -526,6 +702,11 @@ where
     /// wrapped value is returned.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_from\_str\_binary][FixedI32::overflowing_from_str_binary]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_from\_str\_binary][FixedU32::overflowing_from_str_binary]</code>.
     fn overflowing_from_str_binary(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
     /// Parses a string slice containing octal digits to return a
@@ -536,6 +717,11 @@ where
     /// wrapped value is returned.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_from\_str\_octal][FixedI32::overflowing_from_str_octal]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_from\_str\_octal][FixedU32::overflowing_from_str_octal]</code>.
     fn overflowing_from_str_octal(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
     /// Parses a string slice containing hexadecimal digits to return a
@@ -546,79 +732,164 @@ where
     /// wrapped value is returned.
     ///
     /// Rounding is to the nearest, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_from\_str\_hex][FixedI32::overflowing_from_str_hex]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_from\_str\_hex][FixedU32::overflowing_from_str_hex]</code>.
     fn overflowing_from_str_hex(src: &str) -> Result<(Self, bool), ParseFixedError>;
 
     /// Returns the integer part.
+    ///
+    /// See also <code>FixedI32::[int][FixedI32::int]</code> and
+    /// <code>FixedU32::[int][FixedU32::int]</code>.
     fn int(self) -> Self;
 
     /// Returns the fractional part.
+    ///
+    /// See also <code>FixedI32::[frac][FixedI32::frac]</code> and
+    /// <code>FixedU32::[frac][FixedU32::frac]</code>.
     fn frac(self) -> Self;
 
     /// Rounds to the next integer towards 0.
+    ///
+    /// See also
+    /// <code>FixedI32::[round\_to\_zero][FixedI32::round_to_zero]</code> and
+    /// <code>FixedU32::[round\_to\_zero][FixedU32::round_to_zero]</code>.
     fn round_to_zero(self) -> Self;
 
     /// Rounds to the next integer towards +∞.
+    ///
+    /// See also <code>FixedI32::[ceil][FixedI32::ceil]</code> and
+    /// <code>FixedU32::[ceil][FixedU32::ceil]</code>.
     fn ceil(self) -> Self;
 
     /// Rounds to the next integer towards −∞.
+    ///
+    /// See also <code>FixedI32::[floor][FixedI32::floor]</code> and
+    /// <code>FixedU32::[floor][FixedU32::floor]</code>.
     fn floor(self) -> Self;
 
     /// Rounds to the nearest integer, with ties rounded away from zero.
+    ///
+    /// See also <code>FixedI32::[round][FixedI32::round]</code> and
+    /// <code>FixedU32::[round][FixedU32::round]</code>.
     fn round(self) -> Self;
 
     /// Rounds to the nearest integer, with ties rounded to even.
+    ///
+    /// See also
+    /// <code>FixedI32::[round\_ties\_to\_even][FixedI32::round_ties_to_even]</code>
+    /// and
+    /// <code>FixedU32::[round\_ties\_to\_even][FixedU32::round_ties_to_even]</code>.
     fn round_ties_to_even(self) -> Self;
 
     /// Checked ceil. Rounds to the next integer towards +∞, returning
     /// [`None`] on overflow.
+    ///
+    /// See also <code>FixedI32::[checked\_ceil][FixedI32::checked_ceil]</code>
+    /// and <code>FixedU32::[checked\_ceil][FixedU32::checked_ceil]</code>.
     fn checked_ceil(self) -> Option<Self>;
 
     /// Checked floor. Rounds to the next integer towards −∞, returning
     /// [`None`] on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_floor][FixedI32::checked_floor]</code> and
+    /// <code>FixedU32::[checked\_floor][FixedU32::checked_floor]</code>.
     fn checked_floor(self) -> Option<Self>;
 
     /// Checked round. Rounds to the nearest integer, with ties
     /// rounded away from zero, returning [`None`] on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_round][FixedI32::checked_round]</code> and
+    /// <code>FixedU32::[checked\_round][FixedU32::checked_round]</code>.
     fn checked_round(self) -> Option<Self>;
 
     /// Checked round. Rounds to the nearest integer, with ties
     /// rounded to even, returning [`None`] on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_round\_ties\_to\_even][FixedI32::checked_round_ties_to_even]</code>
+    /// and
+    /// <code>FixedU32::[checked\_round\_ties\_to\_even][FixedU32::checked_round_ties_to_even]</code>.
     fn checked_round_ties_to_even(self) -> Option<Self>;
 
     /// Saturating ceil. Rounds to the next integer towards +∞,
     /// saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_ceil][FixedI32::saturating_ceil]</code> and
+    /// <code>FixedU32::[saturating\_ceil][FixedU32::saturating_ceil]</code>.
     fn saturating_ceil(self) -> Self;
 
     /// Saturating floor. Rounds to the next integer towards −∞,
     /// saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_floor][FixedI32::saturating_floor]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_floor][FixedU32::saturating_floor]</code>.
     fn saturating_floor(self) -> Self;
 
     /// Saturating round. Rounds to the nearest integer, with ties
     /// rounded away from zero, and saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_round][FixedI32::saturating_round]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_round][FixedU32::saturating_round]</code>.
     fn saturating_round(self) -> Self;
 
     /// Saturating round. Rounds to the nearest integer, with ties
     /// rounded to_even, and saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_round\_ties\_to\_even][FixedI32::saturating_round_ties_to_even]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_round\_ties\_to\_even][FixedU32::saturating_round_ties_to_even]</code>.
     fn saturating_round_ties_to_even(self) -> Self;
 
     /// Wrapping ceil. Rounds to the next integer towards +∞, wrapping
     /// on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_ceil][FixedI32::wrapping_ceil]</code> and
+    /// <code>FixedU32::[wrapping\_ceil][FixedU32::wrapping_ceil]</code>.
     fn wrapping_ceil(self) -> Self;
 
     /// Wrapping floor. Rounds to the next integer towards −∞,
     /// wrapping on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_floor][FixedI32::wrapping_floor]</code> and
+    /// <code>FixedU32::[wrapping\_floor][FixedU32::wrapping_floor]</code>.
     fn wrapping_floor(self) -> Self;
 
     /// Wrapping round. Rounds to the next integer to the nearest,
     /// with ties rounded away from zero, and wrapping on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_round][FixedI32::wrapping_round]</code> and
+    /// <code>FixedU32::[wrapping\_round][FixedU32::wrapping_round]</code>.
     fn wrapping_round(self) -> Self;
 
     /// Wrapping round. Rounds to the next integer to the nearest,
     /// with ties rounded to even, and wrapping on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_round\_ties\_to\_even][FixedI32::wrapping_round_ties_to_even]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_round\_ties\_to\_even][FixedU32::wrapping_round_ties_to_even]</code>.
     fn wrapping_round_ties_to_even(self) -> Self;
 
     /// Unwrapped ceil. Rounds to the next integer towards +∞,
     /// panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_ceil][FixedI32::unwrapped_ceil]</code> and
+    /// <code>FixedU32::[unwrapped\_ceil][FixedU32::unwrapped_ceil]</code>.
     ///
     /// # Panics
     ///
@@ -629,6 +900,10 @@ where
     /// Unwrapped floor. Rounds to the next integer towards −∞,
     /// panicking on overflow.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_floor][FixedI32::unwrapped_floor]</code> and
+    /// <code>FixedU32::[unwrapped\_floor][FixedU32::unwrapped_floor]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the result does not fit.
@@ -638,6 +913,10 @@ where
     /// Unwrapped round. Rounds to the next integer to the nearest,
     /// with ties rounded away from zero, and panicking on overflow.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_round][FixedI32::unwrapped_round]</code> and
+    /// <code>FixedU32::[unwrapped\_round][FixedU32::unwrapped_round]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the result does not fit.
@@ -646,6 +925,11 @@ where
 
     /// Unwrapped round. Rounds to the next integer to the nearest,
     /// with ties rounded to even, and panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_round\_ties\_to\_even][FixedI32::unwrapped_round_ties_to_even]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_round\_ties\_to\_even][FixedU32::unwrapped_round_ties_to_even]</code>.
     ///
     /// # Panics
     ///
@@ -658,6 +942,11 @@ where
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_ceil][FixedI32::overflowing_ceil]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_ceil][FixedU32::overflowing_ceil]</code>.
     fn overflowing_ceil(self) -> (Self, bool);
 
     /// Overflowing floor. Rounds to the next integer towards −∞.
@@ -665,6 +954,11 @@ where
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_floor][FixedI32::overflowing_floor]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_floor][FixedU32::overflowing_floor]</code>.
     fn overflowing_floor(self) -> (Self, bool);
 
     /// Overflowing round. Rounds to the next integer to the nearest,
@@ -673,6 +967,11 @@ where
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_round][FixedI32::overflowing_round]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_round][FixedU32::overflowing_round]</code>.
     fn overflowing_round(self) -> (Self, bool);
 
     /// Overflowing round. Rounds to the next integer to the nearest,
@@ -681,27 +980,56 @@ where
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_round\_ties\_to\_even][FixedI32::overflowing_round_ties_to_even]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_round\_ties\_to\_even][FixedU32::overflowing_round_ties_to_even]</code>.
     fn overflowing_round_ties_to_even(self) -> (Self, bool);
 
     /// Returns the number of ones in the binary representation.
+    ///
+    /// See also <code>FixedI32::[count\_ones][FixedI32::count_ones]</code> and
+    /// <code>FixedU32::[count\_ones][FixedU32::count_ones]</code>.
     fn count_ones(self) -> u32;
 
     /// Returns the number of zeros in the binary representation.
+    ///
+    /// See also <code>FixedI32::[count\_zeros][FixedI32::count_zeros]</code>
+    /// and <code>FixedU32::[count\_zeros][FixedU32::count_zeros]</code>.
     fn count_zeros(self) -> u32;
 
     /// Returns the number of leading ones in the binary representation.
+    ///
+    /// See also <code>FixedI32::[leading\_ones][FixedI32::leading_ones]</code>
+    /// and <code>FixedU32::[leading\_ones][FixedU32::leading_ones]</code>.
     fn leading_ones(self) -> u32;
 
     /// Returns the number of leading zeros in the binary representation.
+    ///
+    /// See also
+    /// <code>FixedI32::[leading\_zeros][FixedI32::leading_zeros]</code> and
+    /// <code>FixedU32::[leading\_zeros][FixedU32::leading_zeros]</code>.
     fn leading_zeros(self) -> u32;
 
     /// Returns the number of trailing ones in the binary representation.
+    ///
+    /// See also
+    /// <code>FixedI32::[trailing\_ones][FixedI32::trailing_ones]</code> and
+    /// <code>FixedU32::[trailing\_ones][FixedU32::trailing_ones]</code>.
     fn trailing_ones(self) -> u32;
 
     /// Returns the number of trailing zeros in the binary representation.
+    ///
+    /// See also
+    /// <code>FixedI32::[trailing\_zeros][FixedI32::trailing_zeros]</code> and
+    /// <code>FixedU32::[trailing\_zeros][FixedU32::trailing_zeros]</code>.
     fn trailing_zeros(self) -> u32;
 
     /// Integer base-2 logarithm, rounded down.
+    ///
+    /// See also <code>FixedI32::[int\_log2][FixedI32::int_log2]</code> and
+    /// <code>FixedU32::[int\_log2][FixedU32::int_log2]</code>.
     ///
     /// # Panics
     ///
@@ -710,6 +1038,9 @@ where
 
     /// Integer base-10 logarithm, rounded down.
     ///
+    /// See also <code>FixedI32::[int\_log10][FixedI32::int_log10]</code> and
+    /// <code>FixedU32::[int\_log10][FixedU32::int_log10]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the fixed-point number is ≤ 0.
@@ -717,29 +1048,54 @@ where
 
     /// Checked integer base-2 logarithm, rounded down. Returns the
     /// logarithm or [`None`] if the fixed-point number is ≤ 0.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_int\_log2][FixedI32::checked_int_log2]</code>
+    /// and
+    /// <code>FixedU32::[checked\_int\_log2][FixedU32::checked_int_log2]</code>.
     fn checked_int_log2(self) -> Option<i32>;
 
     /// Checked integer base-10 logarithm, rounded down. Returns the
     /// logarithm or [`None`] if the fixed-point number is ≤ 0.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_int\_log10][FixedI32::checked_int_log10]</code>
+    /// and
+    /// <code>FixedU32::[checked\_int\_log10][FixedU32::checked_int_log10]</code>.
     fn checked_int_log10(self) -> Option<i32>;
 
     /// Reverses the order of the bits of the fixed-point number.
+    ///
+    /// See also <code>FixedI32::[reverse\_bits][FixedI32::reverse_bits]</code>
+    /// and <code>FixedU32::[reverse\_bits][FixedU32::reverse_bits]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn reverse_bits(self) -> Self;
 
     /// Shifts to the left by `n` bits, wrapping the truncated bits to the right end.
+    ///
+    /// See also <code>FixedI32::[rotate\_left][FixedI32::rotate_left]</code>
+    /// and <code>FixedU32::[rotate\_left][FixedU32::rotate_left]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rotate_left(self, n: u32) -> Self;
 
     /// Shifts to the right by `n` bits, wrapping the truncated bits to the left end.
+    ///
+    /// See also <code>FixedI32::[rotate\_right][FixedI32::rotate_right]</code>
+    /// and <code>FixedU32::[rotate\_right][FixedU32::rotate_right]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rotate_right(self, n: u32) -> Self;
 
     /// Returns the mean of `self` and `other`.
+    ///
+    /// See also <code>FixedI32::[mean][FixedI32::mean]</code> and
+    /// <code>FixedU32::[mean][FixedU32::mean]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn mean(self, other: Self) -> Self;
 
     /// Returns the reciprocal.
+    ///
+    /// See also <code>FixedI32::[recip][FixedI32::recip]</code> and
+    /// <code>FixedU32::[recip][FixedU32::recip]</code>.
     ///
     /// # Panics
     ///
@@ -754,6 +1110,9 @@ where
     /// fractional bits.
     ///
     /// [`mul_add`]: FixedI32::mul_add
+    ///
+    /// See also <code>FixedI32::[mul\_add][FixedI32::mul_add]</code> and
+    /// <code>FixedU32::[mul\_add][FixedU32::mul_add]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn mul_add(self, mul: Self, add: Self) -> Self;
 
@@ -764,9 +1123,15 @@ where
     /// like `self` but with a different number of fractional bits.
     ///
     /// [`mul_acc`]: FixedI32::mul_acc
+    ///
+    /// See also <code>FixedI32::[mul\_acc][FixedI32::mul_acc]</code> and
+    /// <code>FixedU32::[mul\_acc][FixedU32::mul_acc]</code>.
     fn mul_acc(&mut self, a: Self, b: Self);
 
     /// Euclidean division by an integer.
+    ///
+    /// See also <code>FixedI32::[div\_euclid][FixedI32::div_euclid]</code> and
+    /// <code>FixedU32::[div\_euclid][FixedU32::div_euclid]</code>.
     ///
     /// # Panics
     ///
@@ -776,6 +1141,9 @@ where
 
     /// Remainder for Euclidean division.
     ///
+    /// See also <code>FixedI32::[rem\_euclid][FixedI32::rem_euclid]</code> and
+    /// <code>FixedU32::[rem\_euclid][FixedU32::rem_euclid]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero.
@@ -783,6 +1151,10 @@ where
     fn rem_euclid(self, rhs: Self) -> Self;
 
     /// Euclidean division by an integer.
+    ///
+    /// See also
+    /// <code>FixedI32::[div\_euclid\_int][FixedI32::div_euclid_int]</code> and
+    /// <code>FixedU32::[div\_euclid\_int][FixedU32::div_euclid_int]</code>.
     ///
     /// # Panics
     ///
@@ -792,6 +1164,10 @@ where
 
     /// Remainder for Euclidean division by an integer.
     ///
+    /// See also
+    /// <code>FixedI32::[rem\_euclid\_int][FixedI32::rem_euclid_int]</code> and
+    /// <code>FixedU32::[rem\_euclid\_int][FixedU32::rem_euclid_int]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the division results in overflow.
@@ -799,109 +1175,202 @@ where
     fn rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Checked negation. Returns the negated value, or [`None`] on overflow.
+    ///
+    /// See also <code>FixedI32::[checked\_neg][FixedI32::checked_neg]</code>
+    /// and <code>FixedU32::[checked\_neg][FixedU32::checked_neg]</code>.
     fn checked_neg(self) -> Option<Self>;
 
     /// Checked addition. Returns the sum, or [`None`] on overflow.
+    ///
+    /// See also <code>FixedI32::[checked\_add][FixedI32::checked_add]</code>
+    /// and <code>FixedU32::[checked\_add][FixedU32::checked_add]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_add(self, rhs: Self) -> Option<Self>;
 
     /// Checked subtraction. Returns the difference, or [`None`] on overflow.
+    ///
+    /// See also <code>FixedI32::[checked\_sub][FixedI32::checked_sub]</code>
+    /// and <code>FixedU32::[checked\_sub][FixedU32::checked_sub]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_sub(self, rhs: Self) -> Option<Self>;
 
     /// Checked multiplication. Returns the product, or [`None`] on overflow.
+    ///
+    /// See also <code>FixedI32::[checked\_mul][FixedI32::checked_mul]</code>
+    /// and <code>FixedU32::[checked\_mul][FixedU32::checked_mul]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_mul(self, rhs: Self) -> Option<Self>;
 
     /// Checked division. Returns the quotient, or [`None`] if the
     /// divisor is zero or on overflow.
+    ///
+    /// See also <code>FixedI32::[checked\_div][FixedI32::checked_div]</code>
+    /// and <code>FixedU32::[checked\_div][FixedU32::checked_div]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div(self, rhs: Self) -> Option<Self>;
 
     /// Checked remainder. Returns the remainder, or [`None`] if the
     /// divisor is zero.
+    ///
+    /// See also <code>FixedI32::[checked\_rem][FixedI32::checked_rem]</code>
+    /// and <code>FixedU32::[checked\_rem][FixedU32::checked_rem]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem(self, rhs: Self) -> Option<Self>;
 
     /// Checked reciprocal. Returns the reciprocal, or [`None`] if
     /// `self` is zero or on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_recip][FixedI32::checked_recip]</code> and
+    /// <code>FixedU32::[checked\_recip][FixedU32::checked_recip]</code>.
     fn checked_recip(self) -> Option<Self>;
 
     /// Checked multiply and add. Returns `self` × `mul` + `add`, or [`None`] on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_mul\_add][FixedI32::checked_mul_add]</code>
+    /// and
+    /// <code>FixedU32::[checked\_mul\_add][FixedU32::checked_mul_add]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_mul_add(self, mul: Self, add: Self) -> Option<Self>;
 
     /// Checked multiply and accumulate. Adds (`a` × `b`) to `self`, or returns
     /// [`None`] on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_mul\_acc][FixedI32::checked_mul_acc]</code>
+    /// and
+    /// <code>FixedU32::[checked\_mul\_acc][FixedU32::checked_mul_acc]</code>.
     #[must_use = "this `Option` may be a `None` variant indicating overflow, which should be handled"]
     fn checked_mul_acc(&mut self, a: Self, b: Self) -> Option<()>;
 
     /// Checked remainder for Euclidean division. Returns the
     /// remainder, or [`None`] if the divisor is zero or the division
     /// results in overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_div\_euclid][FixedI32::checked_div_euclid]</code>
+    /// and
+    /// <code>FixedU32::[checked\_div\_euclid][FixedU32::checked_div_euclid]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div_euclid(self, rhs: Self) -> Option<Self>;
 
     /// Checked remainder for Euclidean division. Returns the
     /// remainder, or [`None`] if the divisor is zero.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_rem\_euclid][FixedI32::checked_rem_euclid]</code>
+    /// and
+    /// <code>FixedU32::[checked\_rem\_euclid][FixedU32::checked_rem_euclid]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem_euclid(self, rhs: Self) -> Option<Self>;
 
     /// Checked multiplication by an integer. Returns the product, or
     /// [`None`] on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_mul\_int][FixedI32::checked_mul_int]</code>
+    /// and
+    /// <code>FixedU32::[checked\_mul\_int][FixedU32::checked_mul_int]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_mul_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked division by an integer. Returns the quotient, or
     /// [`None`] if the divisor is zero or if the division results in
     /// overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_div\_int][FixedI32::checked_div_int]</code>
+    /// and
+    /// <code>FixedU32::[checked\_div\_int][FixedU32::checked_div_int]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked fixed-point remainder for division by an integer.
     /// Returns the remainder, or [`None`] if the divisor is zero or
     /// if the division results in overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_rem\_int][FixedI32::checked_rem_int]</code>
+    /// and
+    /// <code>FixedU32::[checked\_rem\_int][FixedU32::checked_rem_int]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked Euclidean division by an integer. Returns the
     /// quotient, or [`None`] if the divisor is zero or if the
     /// division results in overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_div\_euclid\_int][FixedI32::checked_div_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[checked\_div\_euclid\_int][FixedU32::checked_div_euclid_int]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div_euclid_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked remainder for Euclidean division by an integer.
     /// Returns the remainder, or [`None`] if the divisor is zero or
     /// if the remainder results in overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_rem\_euclid\_int][FixedI32::checked_rem_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[checked\_rem\_euclid\_int][FixedU32::checked_rem_euclid_int]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem_euclid_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked shift left. Returns the shifted number, or [`None`] if
     /// `rhs` ≥ the number of bits.
+    ///
+    /// See also <code>FixedI32::[checked\_shl][FixedI32::checked_shl]</code>
+    /// and <code>FixedU32::[checked\_shl][FixedU32::checked_shl]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_shl(self, rhs: u32) -> Option<Self>;
 
     /// Checked shift right. Returns the shifted number, or [`None`]
     /// if `rhs` ≥ the number of bits.
+    ///
+    /// See also <code>FixedI32::[checked\_shr][FixedI32::checked_shr]</code>
+    /// and <code>FixedU32::[checked\_shr][FixedU32::checked_shr]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_shr(self, rhs: u32) -> Option<Self>;
 
     /// Saturated negation. Returns the negated value, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_neg][FixedI32::saturating_neg]</code> and
+    /// <code>FixedU32::[saturating\_neg][FixedU32::saturating_neg]</code>.
     fn saturating_neg(self) -> Self;
 
     /// Saturating addition. Returns the sum, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_add][FixedI32::saturating_add]</code> and
+    /// <code>FixedU32::[saturating\_add][FixedU32::saturating_add]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_add(self, rhs: Self) -> Self;
 
     /// Saturating subtraction. Returns the difference, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_sub][FixedI32::saturating_sub]</code> and
+    /// <code>FixedU32::[saturating\_sub][FixedU32::saturating_sub]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_sub(self, rhs: Self) -> Self;
 
     /// Saturating multiplication. Returns the product, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_mul][FixedI32::saturating_mul]</code> and
+    /// <code>FixedU32::[saturating\_mul][FixedU32::saturating_mul]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_mul(self, rhs: Self) -> Self;
 
     /// Saturating division. Returns the quotient, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_div][FixedI32::saturating_div]</code> and
+    /// <code>FixedU32::[saturating\_div][FixedU32::saturating_div]</code>.
     ///
     /// # Panics
     ///
@@ -911,19 +1380,39 @@ where
 
     /// Saturating reciprocal.
     ///
+    /// See also
+    /// <code>FixedI32::[saturating\_recip][FixedI32::saturating_recip]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_recip][FixedU32::saturating_recip]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if `self` is zero.
     fn saturating_recip(self) -> Self;
 
     /// Saturating multiply and add. Returns `self` × `mul` + `add`, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_mul\_add][FixedI32::saturating_mul_add]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_mul\_add][FixedU32::saturating_mul_add]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_mul_add(self, mul: Self, add: Self) -> Self;
 
     /// Saturating multiply and add. Adds (`a` × `b`) to `self`, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_mul\_acc][FixedI32::saturating_mul_acc]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_mul\_acc][FixedU32::saturating_mul_acc]</code>.
     fn saturating_mul_acc(&mut self, a: Self, b: Self);
 
     /// Saturating Euclidean division. Returns the quotient, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_div\_euclid][FixedI32::saturating_div_euclid]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_div\_euclid][FixedU32::saturating_div_euclid]</code>.
     ///
     /// # Panics
     ///
@@ -932,11 +1421,21 @@ where
     fn saturating_div_euclid(self, rhs: Self) -> Self;
 
     /// Saturating multiplication by an integer. Returns the product, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_mul\_int][FixedI32::saturating_mul_int]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_mul\_int][FixedU32::saturating_mul_int]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_mul_int(self, rhs: Self::Bits) -> Self;
 
     /// Saturating Euclidean division by an integer. Returns the
     /// quotient, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_div\_euclid\_int][FixedI32::saturating_div_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_div\_euclid\_int][FixedU32::saturating_div_euclid_int]</code>.
     ///
     /// # Panics
     ///
@@ -947,6 +1446,11 @@ where
     /// Saturating remainder for Euclidean division by an integer.
     /// Returns the remainder, saturating on overflow.
     ///
+    /// See also
+    /// <code>FixedI32::[saturating\_rem\_euclid\_int][FixedI32::saturating_rem_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_rem\_euclid\_int][FixedU32::saturating_rem_euclid_int]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero.
@@ -954,21 +1458,36 @@ where
     fn saturating_rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
     /// Wrapping negation. Returns the negated value, wrapping on overflow.
+    ///
+    /// See also <code>FixedI32::[wrapping\_neg][FixedI32::wrapping_neg]</code>
+    /// and <code>FixedU32::[wrapping\_neg][FixedU32::wrapping_neg]</code>.
     fn wrapping_neg(self) -> Self;
 
     /// Wrapping addition. Returns the sum, wrapping on overflow.
+    ///
+    /// See also <code>FixedI32::[wrapping\_add][FixedI32::wrapping_add]</code>
+    /// and <code>FixedU32::[wrapping\_add][FixedU32::wrapping_add]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_add(self, rhs: Self) -> Self;
 
     /// Wrapping subtraction. Returns the difference, wrapping on overflow.
+    ///
+    /// See also <code>FixedI32::[wrapping\_sub][FixedI32::wrapping_sub]</code>
+    /// and <code>FixedU32::[wrapping\_sub][FixedU32::wrapping_sub]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_sub(self, rhs: Self) -> Self;
 
     /// Wrapping multiplication. Returns the product, wrapping on overflow.
+    ///
+    /// See also <code>FixedI32::[wrapping\_mul][FixedI32::wrapping_mul]</code>
+    /// and <code>FixedU32::[wrapping\_mul][FixedU32::wrapping_mul]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_mul(self, rhs: Self) -> Self;
 
     /// Wrapping division. Returns the quotient, wrapping on overflow.
+    ///
+    /// See also <code>FixedI32::[wrapping\_div][FixedI32::wrapping_div]</code>
+    /// and <code>FixedU32::[wrapping\_div][FixedU32::wrapping_div]</code>.
     ///
     /// # Panics
     ///
@@ -978,19 +1497,38 @@ where
 
     /// Wrapping reciprocal.
     ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_recip][FixedI32::wrapping_recip]</code> and
+    /// <code>FixedU32::[wrapping\_recip][FixedU32::wrapping_recip]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if `self` is zero.
     fn wrapping_recip(self) -> Self;
 
     /// Wrapping multiply and add. Returns `self` × `mul` + `add`, wrapping on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_mul\_add][FixedI32::wrapping_mul_add]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_mul\_add][FixedU32::wrapping_mul_add]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_mul_add(self, mul: Self, add: Self) -> Self;
 
     /// Wrapping multiply and accumulate. Adds (`a` × `b`) to `self`, wrapping on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_mul\_acc][FixedI32::wrapping_mul_acc]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_mul\_acc][FixedU32::wrapping_mul_acc]</code>.
     fn wrapping_mul_acc(&mut self, a: Self, b: Self);
 
     /// Wrapping Euclidean division. Returns the quotient, wrapping on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_div\_euclid][FixedI32::wrapping_div_euclid]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_div\_euclid][FixedU32::wrapping_div_euclid]</code>.
     ///
     /// # Panics
     ///
@@ -999,12 +1537,22 @@ where
     fn wrapping_div_euclid(self, rhs: Self) -> Self;
 
     /// Wrapping multiplication by an integer. Returns the product, wrapping on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_mul\_int][FixedI32::wrapping_mul_int]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_mul\_int][FixedU32::wrapping_mul_int]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_mul_int(self, rhs: Self::Bits) -> Self;
 
     /// Wrapping division by an integer. Returns the quotient, wrapping on overflow.
     ///
     /// Overflow can only occur when dividing the minimum value by −1.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_div\_int][FixedI32::wrapping_div_int]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_div\_int][FixedU32::wrapping_div_int]</code>.
     ///
     /// # Panics
     ///
@@ -1017,6 +1565,11 @@ where
     ///
     /// Overflow can only occur when dividing the minimum value by −1.
     ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_div\_euclid\_int][FixedI32::wrapping_div_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_div\_euclid\_int][FixedU32::wrapping_div_euclid_int]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero.
@@ -1026,6 +1579,11 @@ where
     /// Wrapping remainder for Euclidean division by an integer.
     /// Returns the remainder, wrapping on overflow.
     ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_rem\_euclid\_int][FixedI32::wrapping_rem_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_rem\_euclid\_int][FixedU32::wrapping_rem_euclid_int]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero.
@@ -1034,15 +1592,25 @@ where
 
     /// Wrapping shift left. Wraps `rhs` if `rhs` ≥ the number of
     /// bits, then shifts and returns the number.
+    ///
+    /// See also <code>FixedI32::[wrapping\_shl][FixedI32::wrapping_shl]</code>
+    /// and <code>FixedU32::[wrapping\_shl][FixedU32::wrapping_shl]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_shl(self, rhs: u32) -> Self;
 
     /// Wrapping shift right. Wraps `rhs` if `rhs` ≥ the number of
     /// bits, then shifts and returns the number.
+    ///
+    /// See also <code>FixedI32::[wrapping\_shr][FixedI32::wrapping_shr]</code>
+    /// and <code>FixedU32::[wrapping\_shr][FixedU32::wrapping_shr]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_shr(self, rhs: u32) -> Self;
 
     /// Unwrapped negation. Returns the negated value, panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_neg][FixedI32::unwrapped_neg]</code> and
+    /// <code>FixedU32::[unwrapped\_neg][FixedU32::unwrapped_neg]</code>.
     ///
     /// # Panics
     ///
@@ -1051,6 +1619,10 @@ where
     fn unwrapped_neg(self) -> Self;
 
     /// Unwrapped addition. Returns the sum, panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_add][FixedI32::unwrapped_add]</code> and
+    /// <code>FixedU32::[unwrapped\_add][FixedU32::unwrapped_add]</code>.
     ///
     /// # Panics
     ///
@@ -1061,6 +1633,10 @@ where
 
     /// Unwrapped subtraction. Returns the difference, panicking on overflow.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_sub][FixedI32::unwrapped_sub]</code> and
+    /// <code>FixedU32::[unwrapped\_sub][FixedU32::unwrapped_sub]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the result does not fit.
@@ -1069,6 +1645,10 @@ where
     fn unwrapped_sub(self, rhs: Self) -> Self;
 
     /// Unwrapped multiplication. Returns the product, panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_mul][FixedI32::unwrapped_mul]</code> and
+    /// <code>FixedU32::[unwrapped\_mul][FixedU32::unwrapped_mul]</code>.
     ///
     /// # Panics
     ///
@@ -1079,6 +1659,10 @@ where
 
     /// Unwrapped division. Returns the quotient, panicking on overflow.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_div][FixedI32::unwrapped_div]</code> and
+    /// <code>FixedU32::[unwrapped\_div][FixedU32::unwrapped_div]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the result does not fit.
@@ -1087,6 +1671,10 @@ where
     fn unwrapped_div(self, rhs: Self) -> Self;
 
     /// Unwrapped remainder. Returns the quotient, panicking if the divisor is zero.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_rem][FixedI32::unwrapped_rem]</code> and
+    /// <code>FixedU32::[unwrapped\_rem][FixedU32::unwrapped_rem]</code>.
     ///
     /// # Panics
     ///
@@ -1097,6 +1685,10 @@ where
 
     /// Unwrapped reciprocal. Returns reciprocal, panicking on overflow.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_recip][FixedI32::unwrapped_recip]</code> and
+    /// <code>FixedU32::[unwrapped\_recip][FixedU32::unwrapped_recip]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if `self` is zero or on overflow.
@@ -1104,6 +1696,11 @@ where
     fn unwrapped_recip(self) -> Self;
 
     /// Unwrapped multiply and add. Returns `self` × `mul` + `add`, panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_mul\_add][FixedI32::unwrapped_mul_add]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_mul\_add][FixedU32::unwrapped_mul_add]</code>.
     ///
     /// # Panics
     ///
@@ -1114,6 +1711,11 @@ where
 
     /// Unwrapped multiply and accumulate. Adds (`a` × `b`) to `self`, panicking on overflow.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_mul\_acc][FixedI32::unwrapped_mul_acc]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_mul\_acc][FixedU32::unwrapped_mul_acc]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the result does not fit.
@@ -1121,6 +1723,11 @@ where
     fn unwrapped_mul_acc(&mut self, a: Self, b: Self);
 
     /// Unwrapped Euclidean division. Returns the quotient, panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_div\_euclid][FixedI32::unwrapped_div_euclid]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_div\_euclid][FixedU32::unwrapped_div_euclid]</code>.
     ///
     /// # Panics
     ///
@@ -1132,6 +1739,11 @@ where
     /// Unwrapped remainder for Euclidean division. Returns the
     /// remainder, panicking if the divisor is zero.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_rem\_euclid][FixedI32::unwrapped_rem_euclid]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_rem\_euclid][FixedU32::unwrapped_rem_euclid]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero.
@@ -1140,6 +1752,11 @@ where
     fn unwrapped_rem_euclid(self, rhs: Self) -> Self;
 
     /// Unwrapped multiplication by an integer. Returns the product, panicking on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_mul\_int][FixedI32::unwrapped_mul_int]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_mul\_int][FixedU32::unwrapped_mul_int]</code>.
     ///
     /// # Panics
     ///
@@ -1152,6 +1769,11 @@ where
     ///
     /// Overflow can only occur when dividing the minimum value by −1.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_div\_int][FixedI32::unwrapped_div_int]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_div\_int][FixedU32::unwrapped_div_int]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the result does not fit.
@@ -1161,6 +1783,11 @@ where
 
     /// Unwrapped remainder for division by an integer. Returns the
     /// remainder, panicking if the divisor is zero.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_rem\_int][FixedI32::unwrapped_rem_int]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_rem\_int][FixedU32::unwrapped_rem_int]</code>.
     ///
     /// # Panics
     ///
@@ -1174,6 +1801,11 @@ where
     ///
     /// Overflow can only occur when dividing the minimum value by −1.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_div\_euclid\_int][FixedI32::unwrapped_div_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_div\_euclid\_int][FixedU32::unwrapped_div_euclid_int]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the result does not fit.
@@ -1184,6 +1816,11 @@ where
     /// Unwrapped remainder for Euclidean division by an integer.
     /// Returns the remainder, panicking on overflow.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_rem\_euclid\_int][FixedI32::unwrapped_rem_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_rem\_euclid\_int][FixedU32::unwrapped_rem_euclid_int]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero or if the result does not fit.
@@ -1193,6 +1830,10 @@ where
 
     /// Unwrapped shift left. Panics if `rhs` ≥ the number of bits.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_shl][FixedI32::unwrapped_shl]</code> and
+    /// <code>FixedU32::[unwrapped\_shl][FixedU32::unwrapped_shl]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if `rhs` ≥ the number of bits.
@@ -1201,6 +1842,10 @@ where
     fn unwrapped_shl(self, rhs: u32) -> Self;
 
     /// Unwrapped shift right. Panics if `rhs` ≥ the number of bits.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_shr][FixedI32::unwrapped_shr]</code> and
+    /// <code>FixedU32::[unwrapped\_shr][FixedU32::unwrapped_shr]</code>.
     ///
     /// # Panics
     ///
@@ -1214,6 +1859,10 @@ where
     /// Returns a [tuple] of the negated value and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_neg][FixedI32::overflowing_neg]</code> and
+    /// <code>FixedU32::[overflowing\_neg][FixedU32::overflowing_neg]</code>.
     fn overflowing_neg(self) -> (Self, bool);
 
     /// Overflowing addition.
@@ -1221,6 +1870,10 @@ where
     /// Returns a [tuple] of the sum and a [`bool`], indicating whether
     /// an overflow has occurred. On overflow, the wrapped value is
     /// returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_add][FixedI32::overflowing_add]</code> and
+    /// <code>FixedU32::[overflowing\_add][FixedU32::overflowing_add]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_add(self, rhs: Self) -> (Self, bool);
 
@@ -1229,6 +1882,10 @@ where
     /// Returns a [tuple] of the difference and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_sub][FixedI32::overflowing_sub]</code> and
+    /// <code>FixedU32::[overflowing\_sub][FixedU32::overflowing_sub]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_sub(self, rhs: Self) -> (Self, bool);
 
@@ -1237,6 +1894,10 @@ where
     /// Returns a [tuple] of the product and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_mul][FixedI32::overflowing_mul]</code> and
+    /// <code>FixedU32::[overflowing\_mul][FixedU32::overflowing_mul]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_mul(self, rhs: Self) -> (Self, bool);
 
@@ -1245,6 +1906,10 @@ where
     /// Returns a [tuple] of the quotient and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_div][FixedI32::overflowing_div]</code> and
+    /// <code>FixedU32::[overflowing\_div][FixedU32::overflowing_div]</code>.
     ///
     /// # Panics
     ///
@@ -1258,6 +1923,11 @@ where
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_recip][FixedI32::overflowing_recip]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_recip][FixedU32::overflowing_recip]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if `self` is zero.
@@ -1268,11 +1938,21 @@ where
     /// Returns a [tuple] of `self` × `mul` + `add` and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_mul\_add][FixedI32::overflowing_mul_add]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_mul\_add][FixedU32::overflowing_mul_add]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_mul_add(self, mul: Self, add: Self) -> (Self, bool);
 
     /// Overflowing multiply and accumulate. Adds (`a` × `b`) to `self`,
     /// wrapping and returning [`true`] if overflow occurs.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_mul\_acc][FixedI32::overflowing_mul_acc]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_mul\_acc][FixedU32::overflowing_mul_acc]</code>.
     #[must_use = "this returns whether overflow occurs; use `wrapping_mul_acc` if the flag is not needed"]
     fn overflowing_mul_acc(&mut self, a: Self, b: Self) -> bool;
 
@@ -1281,6 +1961,11 @@ where
     /// Returns a [tuple] of the quotient and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_div\_euclid][FixedI32::overflowing_div_euclid]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_div\_euclid][FixedU32::overflowing_div_euclid]</code>.
     ///
     /// # Panics
     ///
@@ -1293,6 +1978,11 @@ where
     /// Returns a [tuple] of the product and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_mul\_int][FixedI32::overflowing_mul_int]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_mul\_int][FixedU32::overflowing_mul_int]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_mul_int(self, rhs: Self::Bits) -> (Self, bool);
 
@@ -1301,6 +1991,11 @@ where
     /// Returns a [tuple] of the quotient and a [`bool`], indicating
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_div\_int][FixedI32::overflowing_div_int]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_div\_int][FixedU32::overflowing_div_int]</code>.
     ///
     /// # Panics
     ///
@@ -1314,6 +2009,11 @@ where
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
     ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_div\_euclid\_int][FixedI32::overflowing_div_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_div\_euclid\_int][FixedU32::overflowing_div_euclid_int]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero.
@@ -1326,6 +2026,11 @@ where
     /// whether an overflow has occurred. On overflow, the wrapped
     /// value is returned.
     ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_rem\_euclid\_int][FixedI32::overflowing_rem_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_rem\_euclid\_int][FixedU32::overflowing_rem_euclid_int]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the divisor is zero.
@@ -1337,6 +2042,10 @@ where
     /// Returns a [tuple] of the shifted value and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_shl][FixedI32::overflowing_shl]</code> and
+    /// <code>FixedU32::[overflowing\_shl][FixedU32::overflowing_shl]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_shl(self, rhs: u32) -> (Self, bool);
 
@@ -1345,6 +2054,10 @@ where
     /// Returns a [tuple] of the shifted value and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_shr][FixedI32::overflowing_shr]</code> and
+    /// <code>FixedU32::[overflowing\_shr][FixedU32::overflowing_shr]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_shr(self, rhs: u32) -> (Self, bool);
 }
@@ -1363,22 +2076,34 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     type Unsigned: FixedUnsigned;
 
     /// Returns the number of bits required to represent the value.
+    ///
+    /// See also <code>FixedI32::[signed\_bits][FixedI32::signed_bits]</code>.
     fn signed_bits(self) -> u32;
 
     /// Returns [`true`] if the number is > 0.
+    ///
+    /// See also <code>FixedI32::[is\_positive][FixedI32::is_positive]</code>.
     fn is_positive(self) -> bool;
 
     /// Returns [`true`] if the number is < 0.
+    ///
+    /// See also <code>FixedI32::[is\_negative][FixedI32::is_negative]</code>.
     fn is_negative(self) -> bool;
 
     /// Returns the absolute value.
+    ///
+    /// See also <code>FixedI32::[abs][FixedI32::abs]</code>.
     fn abs(self) -> Self;
 
     /// Returns the absolute value using an unsigned type without any
     /// wrapping or panicking.
+    ///
+    /// See also <code>FixedI32::[unsigned\_abs][FixedI32::unsigned_abs]</code>.
     fn unsigned_abs(self) -> Self::Unsigned;
 
     /// Returns a number representing the sign of `self`.
+    ///
+    /// See also <code>FixedI32::[signum][FixedI32::signum]</code>.
     ///
     /// # Panics
     ///
@@ -1398,6 +2123,8 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// Checked absolute value. Returns the absolute value, or [`None`] on overflow.
     ///
     /// Overflow can only occur when trying to find the absolute value of the minimum value.
+    ///
+    /// See also <code>FixedI32::[checked\_abs][FixedI32::checked_abs]</code>.
     fn checked_abs(self) -> Option<Self>;
 
     /// Checked signum. Returns a number representing the sign of
@@ -1408,11 +2135,17 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
     ///         integer bits, such that it cannot hold the value −1.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_signum][FixedI32::checked_signum]</code>.
     fn checked_signum(self) -> Option<Self>;
 
     /// Saturating absolute value. Returns the absolute value, saturating on overflow.
     ///
     /// Overflow can only occur when trying to find the absolute value of the minimum value.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_abs][FixedI32::saturating_abs]</code>.
     fn saturating_abs(self) -> Self;
 
     /// Saturating signum. Returns a number representing the sign of
@@ -1423,11 +2156,16 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
     ///         integer bits, such that it cannot hold the value −1.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_signum][FixedI32::saturating_signum]</code>.
     fn saturating_signum(self) -> Self;
 
     /// Wrapping absolute value. Returns the absolute value, wrapping on overflow.
     ///
     /// Overflow can only occur when trying to find the absolute value of the minimum value.
+    ///
+    /// See also <code>FixedI32::[wrapping\_abs][FixedI32::wrapping_abs]</code>.
     fn wrapping_abs(self) -> Self;
 
     /// Wrapping signum. Returns a number representing the sign of
@@ -1438,11 +2176,17 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
     ///         integer bits, such that it cannot hold the value −1.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_signum][FixedI32::wrapping_signum]</code>.
     fn wrapping_signum(self) -> Self;
 
     /// Unwrapped absolute value. Returns the absolute value, panicking on overflow.
     ///
     /// Overflow can only occur when trying to find the absolute value of the minimum value.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_abs][FixedI32::unwrapped_abs]</code>.
     ///
     /// # Panics
     ///
@@ -1459,6 +2203,9 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     ///   * if the value is negative and the fixed-point number has zero
     ///         integer bits, such that it cannot hold the value −1.
     ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_signum][FixedI32::unwrapped_signum]</code>.
+    ///
     /// # Panics
     ///
     /// Panics if the result does not fit.
@@ -1470,6 +2217,9 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_abs][FixedI32::overflowing_abs]</code>.
     fn overflowing_abs(self) -> (Self, bool);
 
     /// Overflowing signum.
@@ -1483,6 +2233,9 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
     ///         integer bits, such that it cannot hold the value −1.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_signum][FixedI32::overflowing_signum]</code>.
     fn overflowing_signum(self) -> (Self, bool);
 }
 
@@ -1496,29 +2249,49 @@ pub trait FixedSigned: Fixed + Neg<Output = Self> {
 /// [`FixedU64`], and [`FixedU128`].
 pub trait FixedUnsigned: Fixed {
     /// Returns the number of bits required to represent the value.
+    ///
+    /// See also
+    /// <code>FixedU32::[significant\_bits][FixedU32::significant_bits]</code>.
     fn significant_bits(self) -> u32;
 
     /// Returns [`true`] if the fixed-point number is
     /// 2<sup><i>k</i></sup> for some integer <i>k</i>.
+    ///
+    /// See also
+    /// <code>FixedU32::[is\_power\_of\_two][FixedU32::is_power_of_two]</code>.
     fn is_power_of_two(self) -> bool;
 
     /// Returns the highest one in the binary representation, or zero
     /// if `self` is zero.
+    ///
+    /// See also <code>FixedU32::[highest\_one][FixedU32::highest_one]</code>.
     fn highest_one(self) -> Self;
 
     /// Returns the smallest power of two that is ≥ `self`.
+    ///
+    /// See also
+    /// <code>FixedU32::[next\_power\_of\_two][FixedU32::next_power_of_two]</code>.
     fn next_power_of_two(self) -> Self;
 
     /// Returns the smallest power of two that is ≥ `self`, or [`None`] if the
     /// next power of two is too large to represent.
+    ///
+    /// See also
+    /// <code>FixedU32::[checked\_next\_power\_of\_two][FixedU32::checked_next_power_of_two]</code>.
     fn checked_next_power_of_two(self) -> Option<Self>;
 
     /// Returns the smallest power of two that is ≥ `self`, wrapping
     /// to 0 if the next power of two is too large to represent.
+    ///
+    /// See also
+    /// <code>FixedU32::[wrapping\_next\_power\_of\_two][FixedU32::wrapping_next_power_of_two]</code>.
     fn wrapping_next_power_of_two(self) -> Self;
 
     /// Returns the smallest power of two that is ≥ `self`, panicking
     /// if the next power of two is too large to represent.
+    ///
+    /// See also
+    /// <code>FixedU32::[unwrapped\_next\_power\_of\_two][FixedU32::unwrapped_next_power_of_two]</code>.
     ///
     /// # Panics
     ///
