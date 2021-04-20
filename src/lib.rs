@@ -24,24 +24,20 @@ The [*fixed* crate] provides fixed-point numbers.
   * [`FixedI64`] and [`FixedU64`] are 64-bit fixed-point numbers.
   * [`FixedI128`] and [`FixedU128`] are 128-bit fixed-point numbers.
 
-These types can have <i>f</i> = `Frac` fractional bits, where
-0 ≤ <i>f</i> ≤ <i>n</i> and <i>n</i> is the total number of bits. For
-example, [`FixedI32<Frac>`][`FixedI32`] is a 32-bit signed fixed-point
-number with <i>n</i> = 32. The value <i>x</i> can lie in the range
-−2<sup><i>n</i> − <i>f</i> − 1</sup> ≤ <i>x</i> < 2<sup><i>n</i> − <i>f</i> − 1</sup>
-for signed numbers, and in the range
-0 ≤ <i>x</i> < 2<sup><i>n</i> − <i>f</i></sup> for unsigned numbers.
-The difference between successive numbers is constant throughout the
-range: <i>Δ</i> = 2<sup>−<i>f</i></sup>.
+The fixed-point number types have <i>f</i> = `Frac` fractional bits, where
+0 ≤ <i>f</i> ≤ <i>n</i> and <i>n</i> is the total number of bits. For example,
+<code>[FixedI32]\<Frac></code> is a 32-bit signed fixed-point number with
+<i>n</i> = 32. <code>[FixedI32]\<[U0]></code> behaves like [`i32`], and
+<code>[FixedU32]\<[U0]></code> behaves like [`u32`].
 
-When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves
-like an <i>n</i>-bit integer with the value lying in the range
-−2<sup><i>n</i> − 1</sup> ≤ <i>x</i> < 2<sup><i>n</i> − 1</sup> for
-signed numbers, and in the range 0 ≤ <i>x</i> < 2<sup><i>n</i></sup>
-for unsigned numbers. When <i>f</i> = <i>n</i>,
-<i>Δ</i> = 2<sup>−<i>n</i></sup> and the value lies in the range
-−0.5 ≤ <i>x</i> < 0.5 for signed numbers, and in the range
-0 ≤ <i>x</i> < 1 for unsigned numbers.
+The difference between any two successive representable numbers is
+<i>Δ</i> = 1/2<sup><i>f</i></sup>. When <i>f</i> = 0, like in
+<code>[FixedI32]\<[U0]></code>, <i>Δ</i> = 1 because representable numbers are
+integers, and the difference between two successive integers is 1. When
+<i>f</i> = <i>n</i>, <i>Δ</i> = 1/2<sup><i>n</i></sup> and the value lies in the
+range −0.5 ≤ <i>x</i> < 0.5 for signed numbers like
+<code>[FixedI32]\<[U32]></code>, and in the range 0 ≤ <i>x</i> < 1 for unsigned
+numbers like <code>[FixedU32]\<[U32]></code>.
 
 In version 1 the [*typenum* crate] is used for the fractional bit
 count `Frac`; the plan is to to have a major version 2 with [const
@@ -264,6 +260,7 @@ additional terms or conditions.
 [CORDIC]: https://en.wikipedia.org/wiki/CORDIC
 [LICENSE-APACHE]: https://www.apache.org/licenses/LICENSE-2.0
 [LICENSE-MIT]: https://opensource.org/licenses/MIT
+[U0]: crate::types::extra::U0
 [`Binary`]: core::fmt::Binary
 [`Display`]: core::fmt::Display
 [`Error`]: std::error::Error
@@ -422,18 +419,17 @@ fractional bits and ", $s_nbits, " − <i>f</i> are integer bits. The
 value <i>x</i> can lie in the range ",
             if_signed_unsigned!(
                 $Signedness,
-                concat!("−2<sup>", $s_nbits_m1, " − <i>f</i></sup>"),
+                concat!("−2<sup>", $s_nbits_m1, "</sup>/2<sup><i>f</i></sup>"),
                 "0",
             ),
             " ≤ <i>x</i> < 2<sup>",
             if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
-            " − <i>f</i></sup>. The difference between successive
-numbers is constant throughout the range:
-<i>Δ</i> = 2<sup>−<i>f</i></sup>.
+            "</sup>/2<sup><i>f</i></sup>. The difference between successive
+numbers is constant throughout the range: <i>Δ</i> = 1/2<sup><i>f</i></sup>.
 
-When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves
-like an ", $s_nbits, "-bit integer ([`", $s_inner, "`]) with the value
-lying in the range ",
+When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves like ",
+            if_signed_unsigned!($Signedness, "an", "a"),
+            " [`", $s_inner, "`] with the value lying in the range ",
             if_signed_unsigned!(
                 $Signedness,
                 concat!("−2<sup>", $s_nbits_m1, "</sup>"),
@@ -442,8 +438,8 @@ lying in the range ",
             " ≤ <i>x</i> < 2<sup>",
             if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
             "</sup>. When <i>f</i> = ", $s_nbits, ",
-<i>Δ</i> = 2<sup>−", $s_nbits, "</sup> and the value lies in the range ",
-            if_signed_unsigned!($Signedness, "−0.5 ≤ <i>x</i> < 0.5", "0 ≤ <i>x</i> < 1"),
+<i>Δ</i> = 1/2<sup>", $s_nbits, "</sup> and the value lies in the range ",
+            if_signed_unsigned!($Signedness, "−1/2 ≤ <i>x</i> < 1/2", "0 ≤ <i>x</i> < 1"),
             ".
 
 `Frac` is an [`Unsigned`] as provided by the [*typenum* crate]; the

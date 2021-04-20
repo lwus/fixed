@@ -15,24 +15,20 @@ The [*fixed* crate] provides fixed-point numbers.
   * [`FixedI64`] and [`FixedU64`] are 64-bit fixed-point numbers.
   * [`FixedI128`] and [`FixedU128`] are 128-bit fixed-point numbers.
 
-These types can have <i>f</i> = `Frac` fractional bits, where
-0 ≤ <i>f</i> ≤ <i>n</i> and <i>n</i> is the total number of bits. For
-example, [`FixedI32<Frac>`][`FixedI32`] is a 32-bit signed fixed-point
-number with <i>n</i> = 32. The value <i>x</i> can lie in the range
-−2<sup><i>n</i> − <i>f</i> − 1</sup> ≤ <i>x</i> < 2<sup><i>n</i> − <i>f</i> − 1</sup>
-for signed numbers, and in the range
-0 ≤ <i>x</i> < 2<sup><i>n</i> − <i>f</i></sup> for unsigned numbers.
-The difference between successive numbers is constant throughout the
-range: <i>Δ</i> = 2<sup>−<i>f</i></sup>.
+The fixed-point number types have <i>f</i> = `Frac` fractional bits, where
+0 ≤ <i>f</i> ≤ <i>n</i> and <i>n</i> is the total number of bits. For example,
+<code>[FixedI32]\<Frac></code> is a 32-bit signed fixed-point number with
+<i>n</i> = 32. <code>[FixedI32]\<[U0]></code> behaves like [`i32`], and
+<code>[FixedU32]\<[U0]></code> behaves like [`u32`].
 
-When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves
-like an <i>n</i>-bit integer with the value lying in the range
-−2<sup><i>n</i> − 1</sup> ≤ <i>x</i> < 2<sup><i>n</i> − 1</sup> for
-signed numbers, and in the range 0 ≤ <i>x</i> < 2<sup><i>n</i></sup>
-for unsigned numbers. When <i>f</i> = <i>n</i>,
-<i>Δ</i> = 2<sup>−<i>n</i></sup> and the value lies in the range
-−0.5 ≤ <i>x</i> < 0.5 for signed numbers, and in the range
-0 ≤ <i>x</i> < 1 for unsigned numbers.
+The difference between any two successive representable numbers is
+<i>Δ</i> = 1/2<sup><i>f</i></sup>. When <i>f</i> = 0, like in
+<code>[FixedI32]\<[U0]></code>, <i>Δ</i> = 1 because representable numbers are
+integers, and the difference between two successive integers is 1. When
+<i>f</i> = <i>n</i>, <i>Δ</i> = 1/2<sup><i>n</i></sup> and the value lies in the
+range −0.5 ≤ <i>x</i> < 0.5 for signed numbers like
+<code>[FixedI32]\<[U32]></code>, and in the range 0 ≤ <i>x</i> < 1 for unsigned
+numbers like <code>[FixedU32]\<[U32]></code>.
 
 In version 1 the [*typenum* crate] is used for the fractional bit
 count `Frac`; the plan is to to have a major version 2 with [const
@@ -451,8 +447,12 @@ additional terms or conditions.
 [*serde* crate]: https://crates.io/crates/serde
 [*typenum* crate]: https://crates.io/crates/typenum
 [CORDIC]: https://en.wikipedia.org/wiki/CORDIC
+[FixedI32]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html
+[FixedU32]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html
 [LICENSE-APACHE]: https://www.apache.org/licenses/LICENSE-2.0
 [LICENSE-MIT]: https://opensource.org/licenses/MIT
+[U0]: https://docs.rs/fixed/~1.7/fixed/types/extra/type.U0.html
+[U32]: https://docs.rs/fixed/~1.7/fixed/types/extra/type.U32.html
 [`Binary`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html
 [`Display`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html
 [`Error`]: https://doc.rust-lang.org/nightly/std/error/trait.Error.html
@@ -491,5 +491,7 @@ additional terms or conditions.
 [`from_str_binary`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_str_binary
 [`from_str_hex`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_str_hex
 [`from_str_octal`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.from_str_octal
+[`i32`]: https://doc.rust-lang.org/nightly/std/primitive.i32.html
 [`to_num`]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_num
+[`u32`]: https://doc.rust-lang.org/nightly/std/primitive.u32.html
 [const generics]: https://github.com/rust-lang/rust/issues/44580
