@@ -30,10 +30,9 @@ range −0.5 ≤ <i>x</i> < 0.5 for signed numbers like
 <code>[FixedI32]\<[U32]></code>, and in the range 0 ≤ <i>x</i> < 1 for unsigned
 numbers like <code>[FixedU32]\<[U32]></code>.
 
-In version 1 the [*typenum* crate] is used for the fractional bit
-count `Frac`; the plan is to to have a major version 2 with [const
-generics] instead when the Rust compiler support for them is powerful
-enough.
+In version 1 the [*typenum* crate] is used for the fractional bit count `Frac`;
+the plan is to to have a major version 2 with [const generics] instead when the
+Rust compiler support for them is powerful enough.
 
 The main features are
 
@@ -46,46 +45,42 @@ The main features are
 
 This crate does *not* provide general analytic functions.
 
-  * No algebraic functions are provided, for example no `sqrt` or
-    `pow`.
-  * No trigonometric functions are provided, for example no `sin` or
-    `cos`.
-  * No other transcendental functions are provided, for example no
-    `log` or `exp`.
+  * No algebraic functions are provided, for example no `sqrt` or `pow`.
+  * No trigonometric functions are provided, for example no `sin` or `cos`.
+  * No other transcendental functions are provided, for example no `log` or
+    `exp`.
 
-These functions are not provided because different implementations can
-have different trade-offs, for example trading some correctness for
-speed. Implementations can be provided in other crates.
+These functions are not provided because different implementations can have
+different trade-offs, for example trading some correctness for speed.
+Implementations can be provided in other crates.
 
   * The [*fixed-sqrt* crate] provides the square root operation.
-  * The [*cordic* crate] provides various functions implemented using
-    the [CORDIC] algorithm.
+  * The [*cordic* crate] provides various functions implemented using the
+    [CORDIC] algorithm.
 
 The conversions supported cover the following cases.
 
-  * Infallible lossless conversions between fixed-point numbers and
-    numeric primitives are provided using [`From`] and [`Into`]. These
-    never fail (infallible) and do not lose any bits (lossless).
-  * Infallible lossy conversions between fixed-point numbers and
-    numeric primitives are provided using the [`LossyFrom`] and
-    [`LossyInto`] traits. The source can have more fractional bits
-    than the destination.
-  * Checked lossless conversions between fixed-point numbers and
-    numeric primitives are provided using the [`LosslessTryFrom`] and
-    [`LosslessTryInto`] traits. The source cannot have more fractional
-    bits than the destination.
-  * Checked conversions between fixed-point numbers and numeric
-    primitives are provided using the [`FromFixed`] and [`ToFixed`]
-    traits, or using the [`from_num`] and [`to_num`] methods and
-    [their checked versions][`checked_from_num`].
-  * Fixed-point numbers can be parsed from decimal strings using
-    [`FromStr`], and from binary, octal and hexadecimal strings using
-    the [`from_str_binary`], [`from_str_octal`] and [`from_str_hex`]
-    methods. The result is rounded to the nearest, with ties rounded
-    to even.
+  * Infallible lossless conversions between fixed-point numbers and numeric
+    primitives are provided using [`From`] and [`Into`]. These never fail
+    (infallible) and do not lose any bits (lossless).
+  * Infallible lossy conversions between fixed-point numbers and numeric
+    primitives are provided using the [`LossyFrom`] and [`LossyInto`] traits.
+    The source can have more fractional bits than the destination.
+  * Checked lossless conversions between fixed-point numbers and numeric
+    primitives are provided using the [`LosslessTryFrom`] and
+    [`LosslessTryInto`] traits. The source cannot have more fractional bits than
+    the destination.
+  * Checked conversions between fixed-point numbers and numeric primitives are
+    provided using the [`FromFixed`] and [`ToFixed`] traits, or using the
+    [`from_num`] and [`to_num`] methods and [their checked
+    versions][`checked_from_num`].
+  * Fixed-point numbers can be parsed from decimal strings using [`FromStr`],
+    and from binary, octal and hexadecimal strings using the
+    [`from_str_binary`], [`from_str_octal`] and [`from_str_hex`] methods. The
+    result is rounded to the nearest, with ties rounded to even.
   * Fixed-point numbers can be converted to strings using [`Display`],
-    [`Binary`], [`Octal`], [`LowerHex`] and [`UpperHex`]. The output
-    is rounded to the nearest, with ties rounded to even.
+    [`Binary`], [`Octal`], [`LowerHex`] and [`UpperHex`]. The output is rounded
+    to the nearest, with ties rounded to even.
 
 ## What’s new
 
@@ -96,25 +91,22 @@ The conversions supported cover the following cases.
     [`Unwrapped`][u-1-8] wrappers:
       * [`ZERO`][f-z-1-8], [`DELTA`][f-d-1-8]
       * [`mul_acc`][f-ma-1-8]
-  * The [`ONE`][f-o-1-8] constant was added to all fixed-point numbers
-    that can represent the value 1.
-  * The following methods were added to all fixed-point numbers and to
-    the [`Fixed`][tf-1-8] trait:
+  * The [`ONE`][f-o-1-8] constant was added to all fixed-point numbers that can
+    represent the value 1.
+  * The following methods were added to all fixed-point numbers and to the
+    [`Fixed`][tf-1-8] trait:
       * [`checked_mul_acc`][f-cma-1-8], [`saturating_mul_acc`][f-sma-1-8],
         [`wrapping_mul_acc`][f-wma-1-8], [`unwrapped_mul_acc`][f-uma-1-8],
         [`overflowing_mul_acc`][f-oma-1-8]
       * [`saturating_div_euclid_int`][f-sdei-1-8],
         [`saturating_rem_euclid_int`][f-srei-1-8]
-      * [`unwrapped_rem`][f-ur-1-8],
-        [`unwrapped_rem_euclid`][f-ure-1-8]
+      * [`unwrapped_rem`][f-ur-1-8], [`unwrapped_rem_euclid`][f-ure-1-8]
       * [`unwrapped_rem_int`][f-uri-1-8]
   * The following methods are now `const` functions:
       * [`checked_rem`][f-cr-1-8]
       * [`rem_euclid`][f-re-1-8], [`checked_rem_euclid`][f-cre-1-8]
-      * [`checked_div_int`][f-cdi-1-8],
-        [`wrapping_div_int`][f-wdi-1-8],
-        [`unwrapped_div_int`][f-udi-1-8],
-        [`overflowing_div_int`][f-odi-1-8]
+      * [`checked_div_int`][f-cdi-1-8], [`wrapping_div_int`][f-wdi-1-8],
+        [`unwrapped_div_int`][f-udi-1-8], [`overflowing_div_int`][f-odi-1-8]
   * The following methods were added to all fixed-point numbers:
       * [`const_not`][f-cn-1-8]
       * [`const_bitand`][f-cba-1-8], [`const_bitor`][f-cbo-1-8],
@@ -157,9 +149,9 @@ The conversions supported cover the following cases.
       * [`next_power_of_two`][f-npot-1-7],
         [`checked_next_power_of_two`][f-cnpot-1-7],
         [`wrapping_next_power_of_two`][f-wnpot-1-7]
-  * The following constant and methods were added to all fixed-point
-    numbers, to the [`Fixed`][tf-1-7] trait, and to the
-    [`Wrapping`][w-1-7] and [`Unwrapped`][u-1-7] wrappers:
+  * The following constant and methods were added to all fixed-point numbers, to
+    the [`Fixed`][tf-1-7] trait, and to the [`Wrapping`][w-1-7] and
+    [`Unwrapped`][u-1-7] wrappers:
       * [`IS_SIGNED`][f-is-1-7]
       * [`from_be`][f-fb-1-7], [`from_le`][f-fl-1-7]
       * [`to_be`][f-tb-1-7], [`to_le`][f-tl-1-7]
@@ -172,36 +164,33 @@ The conversions supported cover the following cases.
         [`from_ne_bytes`][f-fnb-1-7]
       * [`to_be_bytes`][f-tbb-1-7], [`to_le_bytes`][f-tlb-1-7],
         [`to_ne_bytes`][f-tnb-1-7]
-  * The following methods were added to all unsigned fixed-point
-    types, to the [`FixedUnsigned`][tfu-1-7] trait, and to the
-    [`Wrapping`][w-1-7] and [`Unwrapped`][u-1-7] wrappers for unsigned
-    numbers:
+  * The following methods were added to all unsigned fixed-point types, to the
+    [`FixedUnsigned`][tfu-1-7] trait, and to the [`Wrapping`][w-1-7] and
+    [`Unwrapped`][u-1-7] wrappers for unsigned numbers:
       * [`significant_bits`][f-signi-1-7]
       * [`highest_one`][f-ho-1-7]
-  * The [`signed_bits`][f-signe-1-7] method was added to all signed
-    fixed-point types, to the [`FixedSigned`][tfs-1-7] trait, and to
-    the [`Wrapping`][w-1-7] and [`Unwrapped`][u-1-7] wrappers for
-    signed numbers.
-  * The following constants, which are available in other programming
-    language standard libraries, were added to the [`consts`][c-1-7]
-    module and as associated constants to fixed-point types:
+  * The [`signed_bits`][f-signe-1-7] method was added to all signed fixed-point
+    types, to the [`FixedSigned`][tfs-1-7] trait, and to the [`Wrapping`][w-1-7]
+    and [`Unwrapped`][u-1-7] wrappers for signed numbers.
+  * The following constants, which are available in other programming language
+    standard libraries, were added to the [`consts`][c-1-7] module and as
+    associated constants to fixed-point types:
       * [`SQRT_PI`][c-rp-1-7] (Go), [`FRAC_1_SQRT_PI`][c-1rp-1-7] (C++)
       * [`SQRT_3`][c-r3-1-7] (C++), [`FRAC_1_SQRT_3`][c-1r3-1-7] (C++)
       * [`SQRT_E`][c-re-1-7] (Go)
       * [`SQRT_PHI`][c-rf-1-7] (Go)
       * [`GAMMA`][c-g-1-7] (C++)
       * [`CATALAN`][c-c-1-7] (Julia)
-  * [`Sum`] and [`Product`] are now supertraits of the
-    [`Fixed`][tf-1-7] trait.
-  * The [`F128Bits`][f128-1-7] type was added to support conversions
-    and comparisons between fixed-point numbers and *binary128*
-    floating-point numbers.
+  * [`Sum`] and [`Product`] are now supertraits of the [`Fixed`][tf-1-7] trait.
+  * The [`F128Bits`][f128-1-7] type was added to support conversions and
+    comparisons between fixed-point numbers and *binary128* floating-point
+    numbers.
   * The features that previously required the [`az`][feat-dep-1-7] and
-    [`f16`][feat-dep-1-7] optional features are now always provided.
-    The [`az`][feat-dep-1-7] and [`f16`][feat-dep-1-7] optional
-    features are now deprecated and have no effect.
-  * For the experimental feature [`num-traits`][feat-exp-1-7], the
-    following traits were implemented for all fixed-point numbers:
+    [`f16`][feat-dep-1-7] optional features are now always provided. The
+    [`az`][feat-dep-1-7] and [`f16`][feat-dep-1-7] optional features are now
+    deprecated and have no effect.
+  * For the experimental feature [`num-traits`][feat-exp-1-7], the following
+    traits were implemented for all fixed-point numbers:
       * [`OverflowingAdd`][nt-0-2-oa], [`OverflowingSub`][nt-0-2-os],
         [`OverflowingMul`][nt-0-2-om]
 
@@ -251,10 +240,9 @@ The conversions supported cover the following cases.
 ### Version 1.6.0 news (2021-02-05)
 
   * The crate now requires rustc version 1.47.0 or later.
-  * The optional [*az* crate] dependency was updated to
-    [version 1.1][az-1-1].
-  * The [`unsigned_abs`][f-ua-1-6] method was added to all signed
-    fixed-point types and to the [`FixedSigned`][tfs-1-6] trait.
+  * The optional [*az* crate] dependency was updated to [version 1.1][az-1-1].
+  * The [`unsigned_abs`][f-ua-1-6] method was added to all signed fixed-point
+    types and to the [`FixedSigned`][tfs-1-6] trait.
   * The following methods are now `const` functions:
       * [`checked_neg`][f-cn-1-6], [`checked_add`][f-cad-1-6],
         [`checked_sub`][f-cs-1-6], [`checked_mul_int`][f-cmi-1-6],
@@ -302,12 +290,11 @@ assert_eq!(six_and_third.ceil().to_num::<i32>(), 7);
 assert_eq!(six_and_third.ceil(), 7);
 ```
 
-The type [`I20F12`] is a 32-bit fixed-point signed number with 20
-integer bits and 12 fractional bits. It is an alias to
-<code>[FixedI32][`FixedI32`]&lt;[U12][`U12`]&gt;</code>. The unsigned
-counterpart would be [`U20F12`]. Aliases are provided for all
-combinations of integer and fractional bits adding up to a total of
-eight, 16, 32, 64 or 128 bits.
+The type [`I20F12`] is a 32-bit fixed-point signed number with 20 integer bits
+and 12 fractional bits. It is an alias to <code>[FixedI32]\<[U12]></code>. The
+unsigned counterpart would be [`U20F12`]. Aliases are provided for all
+combinations of integer and fractional bits adding up to a total of eight, 16,
+32, 64 or 128 bits.
 
 ```rust
 use fixed::types::{I4F4, I4F12};
@@ -329,23 +316,22 @@ assert_eq!(ans2, I4F4::from_bits((3 << 4) + 6));
 assert_eq!(ans2.to_string(), "3.4");
 ```
 
-The second example shows some precision and conversion issues. The low
-precision of `a` means that `a / 5` is 3⁄16 instead of 1⁄5, leading to
-an inaccurate result `ans1` = 3 3⁄16 (~3.2). With a higher precision,
-we get `wider_a / 5` equal to 819⁄4096, leading to a more accurate
-intermediate result `wider_ans` = 3 1635⁄4096. When we convert back to
-four fractional bits, we get `ans2` = 3 6⁄16 (~3.4).
+The second example shows some precision and conversion issues. The low precision
+of `a` means that `a / 5` is 3⁄16 instead of 1⁄5, leading to an inaccurate
+result `ans1` = 3 3⁄16 (~3.2). With a higher precision, we get `wider_a / 5`
+equal to 819⁄4096, leading to a more accurate intermediate result `wider_ans` =
+3 1635⁄4096. When we convert back to four fractional bits, we get `ans2` = 3
+6⁄16 (~3.4).
 
-Note that we can convert from [`I4F4`] to [`I4F12`] using [`From`], as
-the target type has the same number of integer bits and a larger
-number of fractional bits. Converting from [`I4F12`] to [`I4F4`]
-cannot use [`From`] as we have less fractional bits, so we use
-[`from_num`] instead.
+Note that we can convert from [`I4F4`] to [`I4F12`] using [`From`], as the
+target type has the same number of integer bits and a larger number of
+fractional bits. Converting from [`I4F12`] to [`I4F4`] cannot use [`From`] as we
+have less fractional bits, so we use [`from_num`] instead.
 
 ## Writing fixed-point constants and values literally
 
-The [*fixed-macro* crate] provides a convenient macro to write down
-fixed-point constants literally in the code.
+The [*fixed-macro* crate] provides a convenient macro to write down fixed-point
+constants literally in the code.
 
 ```rust
 use fixed::types::I16F16;
@@ -358,8 +344,8 @@ assert_eq!(num2, 25.875);
 
 ## Using the *fixed* crate
 
-The *fixed* crate is available on [crates.io][*fixed* crate]. To use
-it in your crate, add it as a dependency inside [*Cargo.toml*]:
+The *fixed* crate is available on [crates.io][*fixed* crate]. To use it in your
+crate, add it as a dependency inside [*Cargo.toml*]:
 
 ```toml
 [dependencies]
@@ -372,21 +358,18 @@ The *fixed* crate requires rustc version 1.50.0 or later.
 
 The *fixed* crate has these optional feature:
 
- 1. `serde`, disabled by default. This provides serialization support
-    for the fixed-point types. This feature requires the
-    [*serde* crate].
- 2. `std`, disabled by default. This is for features that are not
-    possible under `no_std`: currently the implementation of the
-    [`Error`] trait for [`ParseFixedError`].
- 3. `serde-str`, disabled by default. Fixed-point numbers are
-    serialized as strings showing the value when using human-readable
-    formats. This feature requires the `serde` and the `std` optional
-    features. **Warning:** numbers serialized when this feature is
-    enabled cannot be deserialized when this feature is disabled, and
-    vice versa.
+ 1. `serde`, disabled by default. This provides serialization support for the
+    fixed-point types. This feature requires the [*serde* crate].
+ 2. `std`, disabled by default. This is for features that are not possible under
+    `no_std`: currently the implementation of the [`Error`] trait for
+    [`ParseFixedError`].
+ 3. `serde-str`, disabled by default. Fixed-point numbers are serialized as
+    strings showing the value when using human-readable formats. This feature
+    requires the `serde` and the `std` optional features. **Warning:** numbers
+    serialized when this feature is enabled cannot be deserialized when this
+    feature is disabled, and vice versa.
 
-To enable features, you can add the dependency like this to
-[*Cargo.toml*]:
+To enable features, you can add the dependency like this to [*Cargo.toml*]:
 
 ```toml
 [dependencies.fixed]
@@ -396,33 +379,29 @@ features = ["serde"]
 
 ## Experimental optional features
 
-It is not considered a breaking change if the following experimental
-features are removed. The removal of experimental features would
-however require a minor version bump. Similarly, on a minor version
-bump, optional dependencies can be updated to an incompatible newer
-version.
+It is not considered a breaking change if the following experimental features
+are removed. The removal of experimental features would however require a minor
+version bump. Similarly, on a minor version bump, optional dependencies can be
+updated to an incompatible newer version.
 
- 1. `num-traits`, disabled by default. This implements some traits
-    from the [*num-traits* crate]. (The plan is to promote this to an
-    optional feature once the [*num-traits* crate] reaches version
-    1.0.0.)
+ 1. `num-traits`, disabled by default. This implements some traits from the
+    [*num-traits* crate]. (The plan is to promote this to an optional feature
+    once the [*num-traits* crate] reaches version 1.0.0.)
 
 ## Deprecated optional features
 
-The following optional features are deprecated and may be removed in
-the next major version of the crate.
+The following optional features are deprecated and may be removed in the next
+major version of the crate.
 
- 1. `az`, has no effect. Previously required to enable the cast traits
-    provided by the [*az* crate]. Now these cast traits are always
-    provided.
- 2. `f16`, has no effect. Previously required to provide conversion
-    to/from [`f16`] and [`bf16`]. Now these conversions are always
-    provided.
+ 1. `az`, has no effect. Previously required to enable the cast traits provided
+    by the [*az* crate]. Now these cast traits are always provided.
+ 2. `f16`, has no effect. Previously required to provide conversion to/from
+    [`f16`] and [`bf16`]. Now these conversions are always provided.
 
 ## License
 
-This crate is free software: you can redistribute it and/or modify it
-under the terms of either
+This crate is free software: you can redistribute it and/or modify it under the
+terms of either
 
   * the [Apache License, Version 2.0][LICENSE-APACHE] or
   * the [MIT License][LICENSE-MIT]
@@ -431,10 +410,9 @@ at your option.
 
 ### Contribution
 
-Unless you explicitly state otherwise, any contribution intentionally
-submitted for inclusion in the work by you, as defined in the Apache
-License, Version 2.0, shall be dual licensed as above, without any
-additional terms or conditions.
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in the work by you, as defined in the Apache License, Version 2.0,
+shall be dual licensed as above, without any additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*az* crate]: https://crates.io/crates/az
@@ -452,6 +430,7 @@ additional terms or conditions.
 [LICENSE-APACHE]: https://www.apache.org/licenses/LICENSE-2.0
 [LICENSE-MIT]: https://opensource.org/licenses/MIT
 [U0]: https://docs.rs/fixed/~1.7/fixed/types/extra/type.U0.html
+[U12]: https://docs.rs/fixed/~1.7/fixed/types/extra/type.U12.html
 [U32]: https://docs.rs/fixed/~1.7/fixed/types/extra/type.U32.html
 [`Binary`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html
 [`Display`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html
@@ -481,7 +460,6 @@ additional terms or conditions.
 [`Octal`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html
 [`ParseFixedError`]: https://docs.rs/fixed/~1.7/fixed/struct.ParseFixedError.html
 [`ToFixed`]: https://docs.rs/fixed/~1.7/fixed/traits/trait.ToFixed.html
-[`U12`]: https://docs.rs/fixed/~1.7/fixed/types/extra/type.U12.html
 [`U20F12`]: https://docs.rs/fixed/~1.7/fixed/types/type.U20F12.html
 [`UpperHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html
 [`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
