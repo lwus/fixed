@@ -85,6 +85,8 @@ The conversions supported cover the following cases.
     provided using the [`FromFixed`] and [`ToFixed`] traits, or using the
     [`from_num`] and [`to_num`] methods and [their checked
     versions][`checked_from_num`].
+  * Additionally, checked casts from the [*az* crate] are implemented for
+    conversion between fixed-point nubmers and numeric primitives.
   * Fixed-point numbers can be parsed from decimal strings using [`FromStr`],
     and from binary, octal and hexadecimal strings using the
     [`from_str_binary`], [`from_str_octal`] and [`from_str_hex`] methods. The
@@ -92,6 +94,8 @@ The conversions supported cover the following cases.
   * Fixed-point numbers can be converted to strings using [`Display`],
     [`Binary`], [`Octal`], [`LowerHex`] and [`UpperHex`]. The output is rounded
     to the nearest, with ties rounded to even.
+  * All fixed-point numbers are plain old data, so bit casting conversions from
+    the [*bytemuck* crate] can be used.
 
 ## Quick examples
 
@@ -178,14 +182,12 @@ The *fixed* crate requires rustc version 1.50.0 or later.
 
 The *fixed* crate has these optional feature:
 
- 1. `bytemuck`, disabled by default. This implements some traits from the
-    [*bytemuck* crate].
- 2. `serde`, disabled by default. This provides serialization support for the
+ 1. `serde`, disabled by default. This provides serialization support for the
     fixed-point types. This feature requires the [*serde* crate].
- 3. `std`, disabled by default. This is for features that are not possible under
+ 2. `std`, disabled by default. This is for features that are not possible under
     `no_std`: currently the implementation of the [`Error`] trait for
     [`ParseFixedError`].
- 4. `serde-str`, disabled by default. Fixed-point numbers are serialized as
+ 3. `serde-str`, disabled by default. Fixed-point numbers are serialized as
     strings showing the value when using human-readable formats. This feature
     requires the `serde` and the `std` optional features. **Warning:** numbers
     serialized when this feature is enabled cannot be deserialized when this
@@ -299,7 +301,6 @@ mod display;
 mod float_helper;
 mod from_str;
 mod helpers;
-#[cfg(feature = "bytemuck")]
 mod impl_bytemuck;
 #[cfg(feature = "num-traits")]
 mod impl_num_traits;

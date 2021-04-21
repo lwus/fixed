@@ -76,6 +76,8 @@ The conversions supported cover the following cases.
     provided using the [`FromFixed`] and [`ToFixed`] traits, or using the
     [`from_num`] and [`to_num`] methods and [their checked
     versions][`checked_from_num`].
+  * Additionally, checked casts from the [*az* crate] are implemented for
+    conversion between fixed-point nubmers and numeric primitives.
   * Fixed-point numbers can be parsed from decimal strings using [`FromStr`],
     and from binary, octal and hexadecimal strings using the
     [`from_str_binary`], [`from_str_octal`] and [`from_str_hex`] methods. The
@@ -83,15 +85,19 @@ The conversions supported cover the following cases.
   * Fixed-point numbers can be converted to strings using [`Display`],
     [`Binary`], [`Octal`], [`LowerHex`] and [`UpperHex`]. The output is rounded
     to the nearest, with ties rounded to even.
+  * All fixed-point numbers are plain old data, so bit casting conversions from
+    the [*bytemuck* crate] can be used.
 
 ## What’s new
 
 ### Version 1.9.0 news (unreleased)
 
-  * The new [`bytemuck`][feat-1-9] optional feature was added to implement the
-    [`Zeroable`][bm-z-1-2], [`Pod`][bm-p-1-2] and
-    [`TransparentWrapper`][bm-tw-1-2] traits provided by the [*bytemuck* crate]
-    for all fixed-point numbers.
+  * The following traits from the [*bytemuck* crate] were implemented for all
+    fixed-point numbers, added as supertraits to the [`Fixed`][tf-1-9] trait,
+    and implemented for the [`Wrapping`][w-1-9] and [`Unwrapped`][u-1-9]
+    wrappers.
+      * [`Zeroable`][bm-z-1], [`Pod`][bm-p-1]
+      * [`TransparentWrapper`][bm-tw-1]
 
 #### Compatibility notes
 
@@ -99,23 +105,25 @@ The conversions supported cover the following cases.
     [`LeEqU64`][leu64-1-9] and [`LeEqU128`][leu128-1-9] traits now have a
     `'static` constraint. This should have no practical side effects, since
     these traits are a convenience feature and already have the
-    [`Unsigned`][u-1-9] marker trait as a supertrait, and the types that
-    implement [`Unsigned`][u-1-9] are `'static`.
+    [`Unsigned`][uns-1-9] marker trait as a supertrait, and the types that
+    implement [`Unsigned`][uns-1-9] are `'static`.
   * The [`FixedOptionalFeatures`][fof-1-9] trait was not sealed as an oversight.
     Now the glitch has been fixed and it is sealed. The documentation now
     explicitly states that the trait should not be used directly.
 
-[bm-p-1-2]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
-[bm-tw-1-2]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
-[bm-z-1-2]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
-[feat-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
+[bm-p-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
+[bm-tw-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
+[bm-z-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
 [fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
 [leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
 [leu16-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
 [leu32-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
 [leu64-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
 [leu8-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
-[u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
+[tf-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
+[uns-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
+[w-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 
 ### Version 1.8.0 news (2021-04-20)
 
@@ -264,14 +272,12 @@ The *fixed* crate requires rustc version 1.50.0 or later.
 
 The *fixed* crate has these optional feature:
 
- 1. `bytemuck`, disabled by default. This implements some traits from the
-    [*bytemuck* crate].
- 2. `serde`, disabled by default. This provides serialization support for the
+ 1. `serde`, disabled by default. This provides serialization support for the
     fixed-point types. This feature requires the [*serde* crate].
- 3. `std`, disabled by default. This is for features that are not possible under
+ 2. `std`, disabled by default. This is for features that are not possible under
     `no_std`: currently the implementation of the [`Error`] trait for
     [`ParseFixedError`].
- 4. `serde-str`, disabled by default. Fixed-point numbers are serialized as
+ 3. `serde-str`, disabled by default. Fixed-point numbers are serialized as
     strings showing the value when using human-readable formats. This feature
     requires the `serde` and the `std` optional features. **Warning:** numbers
     serialized when this feature is enabled cannot be deserialized when this

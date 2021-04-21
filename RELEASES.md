@@ -8,10 +8,12 @@ as-is, without any warranty. -->
 Version 1.9.0 (unreleased)
 ==========================
 
-  * The new [`bytemuck`][feat-1-9] optional feature was added to implement the
-    [`Zeroable`][bm-z-1-2], [`Pod`][bm-p-1-2] and
-    [`TransparentWrapper`][bm-tw-1-2] traits provided by the [*bytemuck* crate]
-    for all fixed-point numbers.
+  * The following traits from the [*bytemuck* crate] were implemented for all
+    fixed-point numbers, added as supertraits to the [`Fixed`][tf-1-9] trait,
+    and implemented for the [`Wrapping`][w-1-9] and [`Unwrapped`][u-1-9]
+    wrappers.
+      * [`Zeroable`][bm-z-1], [`Pod`][bm-p-1]
+      * [`TransparentWrapper`][bm-tw-1]
 
 Compatibility notes
 -------------------
@@ -20,23 +22,25 @@ Compatibility notes
     [`LeEqU64`][leu64-1-9] and [`LeEqU128`][leu128-1-9] traits now have a
     `'static` constraint. This should have no practical side effects, since
     these traits are a convenience feature and already have the
-    [`Unsigned`][u-1-9] marker trait as a supertrait, and the types that
-    implement [`Unsigned`][u-1-9] are `'static`.
+    [`Unsigned`][uns-1-9] marker trait as a supertrait, and the types that
+    implement [`Unsigned`][uns-1-9] are `'static`.
   * The [`FixedOptionalFeatures`][fof-1-9] trait was not sealed as an oversight.
     Now the glitch has been fixed and it is sealed. The documentation now
     explicitly states that the trait should not be used directly.
 
-[bm-p-1-2]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
-[bm-tw-1-2]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
-[bm-z-1-2]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
-[feat-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
+[bm-p-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
+[bm-tw-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
+[bm-z-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
 [fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
 [leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
 [leu16-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
 [leu32-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
 [leu64-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
 [leu8-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
-[u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
+[tf-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
+[uns-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
+[w-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 
 Version 1.8.0 (2021-04-20)
 ==========================

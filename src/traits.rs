@@ -23,7 +23,6 @@ use crate::{
     F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
     FixedU64, FixedU8, ParseFixedError,
 };
-#[cfg(feature = "bytemuck")]
 use bytemuck::{Pod, TransparentWrapper, Zeroable};
 use core::{
     fmt::{Binary, Debug, Display, LowerHex, Octal, UpperHex},
@@ -60,24 +59,16 @@ use serde::{de::Deserialize, ser::Serialize};
 
 macro_rules! comment_features {
     ($comment:expr) => {
-        #[cfg(all(
-            not(feature = "bytemuck"),
-            not(feature = "num-traits"),
-            not(feature = "serde")
-        ))]
+        #[cfg(all(not(feature = "num-traits"), not(feature = "serde")))]
         doc_comment! {
             $comment;
-            pub trait FixedOptionalFeatures<Bits>: Sealed {}
+            pub trait FixedOptionalFeatures: Sealed {}
         }
 
-        #[cfg(all(
-            not(feature = "bytemuck"),
-            not(feature = "num-traits"),
-            feature = "serde"
-        ))]
+        #[cfg(all(not(feature = "num-traits"), feature = "serde"))]
         doc_comment! {
             $comment;
-            pub trait FixedOptionalFeatures<Bits>: Sealed
+            pub trait FixedOptionalFeatures: Sealed
             where
                 Self: Serialize + for<'de> Deserialize<'de>
             {
@@ -85,14 +76,10 @@ macro_rules! comment_features {
         }
 
         // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(
-            not(feature = "bytemuck"),
-            feature = "num-traits",
-            not(feature = "serde")
-        ))]
+        #[cfg(all(feature = "num-traits", not(feature = "serde")))]
         doc_comment! {
             $comment;
-            pub trait FixedOptionalFeatures<Bits>: Sealed
+            pub trait FixedOptionalFeatures: Sealed
             where
                 Self: Zero + Bounded + Inv,
                 Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
@@ -107,79 +94,11 @@ macro_rules! comment_features {
         }
 
         // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(not(feature = "bytemuck"), feature = "num-traits", feature = "serde"))]
+        #[cfg(all(feature = "num-traits", feature = "serde"))]
         doc_comment! {
             $comment;
-            pub trait FixedOptionalFeatures<Bits>: Sealed
+            pub trait FixedOptionalFeatures: Sealed
             where
-                Self: Zero + Bounded + Inv,
-                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
-                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
-                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
-                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
-                Self: WrappingShl + WrappingShr,
-                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
-                Self: ToPrimitive + FromPrimitive + FloatConst,
-                Self: Serialize + for<'de> Deserialize<'de>,
-            {
-            }
-        }
-
-        #[cfg(all(
-            feature = "bytemuck",
-            not(feature = "num-traits"),
-            not(feature = "serde")
-        ))]
-        doc_comment! {
-            $comment;
-            pub trait FixedOptionalFeatures<Bits>: Sealed
-            where
-                Self: Zeroable + Pod,
-                Self: TransparentWrapper<Bits>,
-            {
-            }
-        }
-
-        #[cfg(all(feature = "bytemuck", not(feature = "num-traits"), feature = "serde"))]
-        doc_comment! {
-            $comment;
-            pub trait FixedOptionalFeatures<Bits>: Sealed
-            where
-                Self: Zeroable + Pod,
-                Self: TransparentWrapper<Bits>,
-                Self: Serialize + for<'de> Deserialize<'de>,
-            {
-            }
-        }
-
-        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(feature = "bytemuck", feature = "num-traits", not(feature = "serde")))]
-        doc_comment! {
-            $comment;
-            pub trait FixedOptionalFeatures<Bits>: Sealed
-            where
-                Self: Zeroable + Pod,
-                Self: TransparentWrapper<Bits>,
-                Self: Zero + Bounded + Inv,
-                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
-                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
-                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
-                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
-                Self: WrappingShl + WrappingShr,
-                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
-                Self: ToPrimitive + FromPrimitive + FloatConst,
-            {
-            }
-        }
-
-        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(feature = "bytemuck", feature = "num-traits", feature = "serde"))]
-        doc_comment! {
-            $comment;
-            pub trait FixedOptionalFeatures<Bits>: Sealed
-            where
-                Self: Zeroable + Pod,
-                Self: TransparentWrapper<Bits>,
                 Self: Zero + Bounded + Inv,
                 Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
                 Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
@@ -199,13 +118,7 @@ comment_features! {
     r#"This trait is used to provide supertraits to the [`Fixed`] trait
 depending on the crate’s [optional features], and should not be used directly.
 
- 1. If the `bytemuck` feature is enabled, the following are supertraits of
-    [`Fixed`]:
-
-      * [`Zeroable`], [`Pod`]
-      * [`TransparentWrapper`]
-
- 2. If the `num-traits` experimental feature is enabled, the following
+ 1. If the `num-traits` experimental feature is enabled, the following
     are supertraits of [`Fixed`]:
 
       * [`Zero`]
@@ -236,7 +149,7 @@ depending on the crate’s [optional features], and should not be used directly.
     [`FixedSigned`] and [`FixedUnsigned`] because they have [`Num`] as
     a supertrait.
 
- 3. If the `serde` feature is enabled, [`Serialize`] and
+ 2. If the `serde` feature is enabled, [`Serialize`] and
     [`Deserialize`] are supertraits of [`Fixed`].
 
 [`MulAddAssign`]: num_traits::ops::mul_add::MulAddAssign
@@ -378,7 +291,8 @@ where
     Self: PartialOrd<f16> + PartialOrd<bf16>,
     Self: PartialOrd<f32> + PartialOrd<f64>,
     Self: PartialOrd<F128Bits>,
-    Self: FixedOptionalFeatures<<Self as Fixed>::Bits>,
+    Self: Zeroable + Pod + TransparentWrapper<<Self as Fixed>::Bits>,
+    Self: FixedOptionalFeatures,
     Self: Sealed,
 {
     /// The primitive integer underlying type.
@@ -3169,7 +3083,7 @@ macro_rules! trait_delegate {
 
 macro_rules! impl_fixed {
     ($Fixed:ident, $UFixed:ident, $LeEqU:ident, $Bits:ident, $Signedness:tt) => {
-        impl<Frac: $LeEqU> FixedOptionalFeatures<$Bits> for $Fixed<Frac> {}
+        impl<Frac: $LeEqU> FixedOptionalFeatures for $Fixed<Frac> {}
 
         impl<Frac: $LeEqU> Fixed for $Fixed<Frac> {
             type Bits = $Bits;
