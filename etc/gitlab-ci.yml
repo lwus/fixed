@@ -135,9 +135,7 @@ pages:
   - rustup toolchain install --profile minimal nightly-$TARGET
   - rm -rf public
   - mkdir public
-# TODO: use this when bytemuck and typenum are released with html-root-url attribute set
-#   - cargo +nightly-$TARGET doc --no-deps --features "bytemuck num-traits serde std"
-  - cargo +nightly-$TARGET rustdoc --features "bytemuck num-traits serde std" -- -Z unstable-options --extern-html-root-url typenum=https://docs.rs/typenum/^1.10 --extern-html-root-url bytemuck=https://docs.rs/bytemuck/^1.2
+  - cargo +nightly-$TARGET doc --no-deps --features "bytemuck num-traits serde std" -Z rustdoc-map
   - mv target/doc public/dev
   - bash etc/gen-doc-index.sh
   artifacts:

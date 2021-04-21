@@ -243,11 +243,8 @@ depending on the crate’s [optional features], and should not be used directly.
 [`MulAdd`]: num_traits::ops::mul_add::MulAdd
 [`Num`]: num_traits::Num
 [`One`]: num_traits::identities::One
-[`Pod`]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.Pod.html
 [`Signed`]: num_traits::sign::Signed
-[`TransparentWrapper`]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.TransparentWrapper.html
 [`Unsigned`]: num_traits::sign::Unsigned
-[`Zeroable`]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.Zeroable.html
 [`mul_add`]: num_traits::ops::mul_add::MulAdd::mul_add
 [optional features]: crate#optional-features
 "#

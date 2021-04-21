@@ -26,9 +26,9 @@ Compatibility notes
     Now the glitch has been fixed and it is sealed. The documentation now
     explicitly states that the trait should not be used directly.
 
-[bm-p-1-2]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.Pod.html
-[bm-tw-1-2]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.TransparentWrapper.html
-[bm-z-1-2]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.Zeroable.html
+[bm-p-1-2]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
+[bm-tw-1-2]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
+[bm-z-1-2]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
 [feat-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
 [fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
 [leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
