@@ -29,10 +29,10 @@ x86_64-gnulinux:
     - cargo/
   script:
   - rustup toolchain install --profile minimal beta-$TARGET 1.50.0-$TARGET
-  - cargo +beta-$TARGET test --features "fail-on-warnings num-traits serde std"
-  - cargo +beta-$TARGET test --release --features "fail-on-warnings num-traits serde std"
-  - cargo +1.50.0-$TARGET test --lib --features "fail-on-warnings num-traits serde std"
-  - cargo +1.50.0-$TARGET test --release --lib --features "fail-on-warnings num-traits serde std"
+  - cargo +beta-$TARGET test --features "fail-on-warnings bytemuck num-traits serde std"
+  - cargo +beta-$TARGET test --release --features "fail-on-warnings bytemuck num-traits serde std"
+  - cargo +1.50.0-$TARGET test --lib --features "fail-on-warnings bytemuck num-traits serde std"
+  - cargo +1.50.0-$TARGET test --release --lib --features "fail-on-warnings bytemuck num-traits serde std"
 
 i686-gnulinux:
   image: i386/rust:1
@@ -44,10 +44,10 @@ i686-gnulinux:
     - cargo/
   script:
   - rustup toolchain install --profile minimal beta-$TARGET 1.50.0-$TARGET
-  - cargo +beta-$TARGET test --features "fail-on-warnings num-traits serde std"
-  - cargo +beta-$TARGET test --release --features "fail-on-warnings num-traits serde std"
-  - cargo +1.50.0-$TARGET test --lib --features "fail-on-warnings num-traits serde std"
-  - cargo +1.50.0-$TARGET test --release --lib --features "fail-on-warnings num-traits serde std"
+  - cargo +beta-$TARGET test --features "fail-on-warnings bytemuck num-traits serde std"
+  - cargo +beta-$TARGET test --release --features "fail-on-warnings bytemuck num-traits serde std"
+  - cargo +1.50.0-$TARGET test --lib --features "fail-on-warnings bytemuck num-traits serde std"
+  - cargo +1.50.0-$TARGET test --release --lib --features "fail-on-warnings bytemuck num-traits serde std"
 
 x86_64-gnulinux-tidy:
   image: amd64/rust:1
@@ -61,6 +61,14 @@ x86_64-gnulinux-tidy:
   - rustup toolchain install --profile minimal beta-$TARGET
   - rustup component add --toolchain beta-$TARGET rustfmt clippy
   - cargo +beta-$TARGET fmt -- --check
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde std"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits std"
@@ -82,6 +90,14 @@ i686-gnulinux-tidy:
   - rustup toolchain install --profile minimal beta-$TARGET
   - rustup component add --toolchain beta-$TARGET rustfmt clippy
   - cargo +beta-$TARGET fmt -- --check
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck num-traits serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck num-traits serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck num-traits std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck num-traits"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings bytemuck"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde std"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits std"
@@ -90,7 +106,6 @@ i686-gnulinux-tidy:
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings std"
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
-
 
 x86_64-gnulinux-tarpaulin:
   image: amd64/rust:1
@@ -104,7 +119,7 @@ x86_64-gnulinux-tarpaulin:
   script:
   - rustup toolchain install --profile minimal beta-$TARGET
   - cargo +beta-$TARGET install --version 0.16.0 --locked cargo-tarpaulin
-  - stdbuf -oL cargo +beta-$TARGET tarpaulin -v --ignore-tests --exclude-files build.rs --features "num-traits serde std" | tee tarpaulin.log
+  - stdbuf -oL cargo +beta-$TARGET tarpaulin -v --ignore-tests --exclude-files build.rs --features "bytemuck num-traits serde std" | tee tarpaulin.log
   - echo "Check that coverage not less than $REQ_COVERAGE%"
   - tail -1 tarpaulin.log | awk '{ if ($1 < '$REQ_COVERAGE') { exit 1 } }'
 
@@ -120,7 +135,7 @@ pages:
   - rustup toolchain install --profile minimal nightly-$TARGET
   - rm -rf public
   - mkdir public
-  - cargo +nightly-$TARGET doc --no-deps --features "num-traits serde std"
+  - cargo +nightly-$TARGET doc --no-deps --features "bytemuck num-traits serde std"
   - mv target/doc public/dev
   - bash etc/gen-doc-index.sh
   artifacts:

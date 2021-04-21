@@ -178,12 +178,14 @@ The *fixed* crate requires rustc version 1.50.0 or later.
 
 The *fixed* crate has these optional feature:
 
- 1. `serde`, disabled by default. This provides serialization support for the
+ 1. `bytemuck`, disabled by default. This implements some traits from the
+    [*bytemuck* crate].
+ 2. `serde`, disabled by default. This provides serialization support for the
     fixed-point types. This feature requires the [*serde* crate].
- 2. `std`, disabled by default. This is for features that are not possible under
+ 3. `std`, disabled by default. This is for features that are not possible under
     `no_std`: currently the implementation of the [`Error`] trait for
     [`ParseFixedError`].
- 3. `serde-str`, disabled by default. Fixed-point numbers are serialized as
+ 4. `serde-str`, disabled by default. Fixed-point numbers are serialized as
     strings showing the value when using human-readable formats. This feature
     requires the `serde` and the `std` optional features. **Warning:** numbers
     serialized when this feature is enabled cannot be deserialized when this
@@ -236,6 +238,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*az* crate]: https://crates.io/crates/az
+[*bytemuck* crate]: https://crates.io/crates/bytemuck
 [*cordic* crate]: https://crates.io/crates/cordic
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-macro* crate]: https://crates.io/crates/fixed-macro
@@ -296,6 +299,8 @@ mod display;
 mod float_helper;
 mod from_str;
 mod helpers;
+#[cfg(feature = "bytemuck")]
+mod impl_bytemuck;
 #[cfg(feature = "num-traits")]
 mod impl_num_traits;
 mod int_helper;

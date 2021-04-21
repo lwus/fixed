@@ -5,6 +5,39 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.9.0 (unreleased)
+==========================
+
+  * The new [`bytemuck`][feat-1-9] optional feature was added to implement the
+    [`Zeroable`][bm-z-1-2], [`Pod`][bm-p-1-2] and
+    [`TransparentWrapper`][bm-tw-1-2] traits provided by the [*bytemuck* crate]
+    for all fixed-point numbers.
+
+Compatibility notes
+-------------------
+
+  * The [`LeEqU8`][leu8-1-9], [`LeEqU16`][leu16-1-9], [`LeEqU32`][leu32-1-9],
+    [`LeEqU64`][leu64-1-9] and [`LeEqU128`][leu128-1-9] traits now have a
+    `'static` constraint. This should have no practical side effects, since
+    these traits are a convenience feature and already have the
+    [`Unsigned`][u-1-9] marker trait as a supertrait, and the types that
+    implement [`Unsigned`][u-1-9] are `'static`.
+  * The [`FixedOptionalFeatures`][fof-1-9] trait was not sealed as an oversight.
+    Now the glitch has been fixed and it is sealed. The documentation now
+    explicitly states that the trait should not be used directly.
+
+[bm-p-1-2]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.Pod.html
+[bm-tw-1-2]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.TransparentWrapper.html
+[bm-z-1-2]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.Zeroable.html
+[feat-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
+[fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
+[leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
+[leu16-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
+[leu32-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
+[leu64-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
+[leu8-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
+[u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
+
 Version 1.8.0 (2021-04-20)
 ==========================
 
@@ -147,8 +180,8 @@ Version 1.7.0 (2021-03-25)
 [f-tnb-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedI32.html#method.to_ne_bytes
 [f-wnpot-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.FixedU32.html#method.wrapping_next_power_of_two
 [f128-1-7]: https://docs.rs/fixed/~1.7/fixed/struct.F128Bits.html
-[feat-dep-1-7]: https://docs.rs/fixed/~1.7/fixed/#deprecated-optional-features
-[feat-exp-1-7]: https://docs.rs/fixed/~1.7/fixed/#experimental-optional-features
+[feat-dep-1-7]: https://docs.rs/fixed/~1.7/fixed/index.html#deprecated-optional-features
+[feat-exp-1-7]: https://docs.rs/fixed/~1.7/fixed/index.html#experimental-optional-features
 [nt-0-2-oa]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingAdd.html
 [nt-0-2-om]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingMul.html
 [nt-0-2-os]: https://docs.rs/num-traits/^0.2/num_traits/ops/overflowing/trait.OverflowingSub.html
@@ -209,8 +242,8 @@ Version 1.5.0 (2020-11-05)
 
 [i128-1-5]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI128.html
 [f-wm-1-5]: https://docs.rs/fixed/~1.5/fixed/struct.FixedI32.html#method.wide_mul
-[feat-1-5]: https://docs.rs/fixed/~1.5/fixed/#optional-features
-[feat-exp-1-5]: https://docs.rs/fixed/~1.5/fixed/#experimental-optional-features
+[feat-1-5]: https://docs.rs/fixed/~1.5/fixed/index.html#optional-features
+[feat-exp-1-5]: https://docs.rs/fixed/~1.5/fixed/index.html#experimental-optional-features
 [issue 25]: https://gitlab.com/tspiteri/fixed/-/issues/25
 [issue 26]: https://gitlab.com/tspiteri/fixed/-/issues/26
 [tfof-1-5]: https://docs.rs/fixed/~1.5/fixed/traits/trait.FixedOptionalFeatures.html
@@ -241,7 +274,7 @@ Version 1.4.0 (2020-10-22)
 [f-rec-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.FixedI32.html#method.recip
 [f-srec-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.FixedI32.html#method.saturating_recip
 [f-wrec-1-4]: https://docs.rs/fixed/~1.4/fixed/struct.FixedI32.html#method.wrapping_recip
-[feat-exp-1-4]: https://docs.rs/fixed/~1.4/fixed/#experimental-optional-features
+[feat-exp-1-4]: https://docs.rs/fixed/~1.4/fixed/index.html#experimental-optional-features
 [issue 23]: https://gitlab.com/tspiteri/fixed/-/issues/23
 [issue 24]: https://gitlab.com/tspiteri/fixed/-/issues/24
 [nt-0-2-fc]: https://docs.rs/num-traits/^0.2/num_traits/float/trait.FloatConst.html
@@ -277,7 +310,7 @@ Version 1.3.0 (2020-10-15)
 [f-oma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.overflowing_mul_add
 [f-sma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.saturating_mul_add
 [f-wma-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.FixedI32.html#method.wrapping_mul_add
-[feat-exp-1-3]: https://docs.rs/fixed/~1.3/fixed/#experimental-optional-features
+[feat-exp-1-3]: https://docs.rs/fixed/~1.3/fixed/index.html#experimental-optional-features
 [tf-1-3]: https://docs.rs/fixed/~1.3/fixed/traits/trait.Fixed.html
 [w-1-3]: https://docs.rs/fixed/~1.3/fixed/struct.Wrapping.html
 
@@ -298,7 +331,7 @@ Version 1.1.0 (2020-07-21)
     the [`FixedOptionalFeatures`][fof-1-1] trait ([issue 18]).
 
 [issue 18]: https://gitlab.com/tspiteri/fixed/-/issues/18
-[feat-nt-1-1]: https://docs.rs/fixed/~1.1/fixed/#experimental-optional-features
+[feat-nt-1-1]: https://docs.rs/fixed/~1.1/fixed/index.html#experimental-optional-features
 [fof-1-1]: https://docs.rs/fixed/~1.1/fixed/traits/trait.FixedOptionalFeatures.html
 
 Version 1.0.0 (2020-06-04)
@@ -645,6 +678,7 @@ Version 0.1.0 (2018-08-10)
     now also supported by the fixed-point numbers.
 
 [*az* crate]: https://crates.io/crates/az
+[*bytemuck* crate]: https://crates.io/crates/bytemuck
 [`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
 [`Product`]: https://doc.rust-lang.org/nightly/core/iter/trait.Product.html
 [`Sum`]: https://doc.rust-lang.org/nightly/core/iter/trait.Sum.html

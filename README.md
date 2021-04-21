@@ -86,6 +86,37 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.9.0 news (unreleased)
+
+  * The new [`bytemuck`][feat-1-9] optional feature was added to implement the
+    [`Zeroable`][bm-z-1-2], [`Pod`][bm-p-1-2] and
+    [`TransparentWrapper`][bm-tw-1-2] traits provided by the [*bytemuck* crate]
+    for all fixed-point numbers.
+
+#### Compatibility notes
+
+  * The [`LeEqU8`][leu8-1-9], [`LeEqU16`][leu16-1-9], [`LeEqU32`][leu32-1-9],
+    [`LeEqU64`][leu64-1-9] and [`LeEqU128`][leu128-1-9] traits now have a
+    `'static` constraint. This should have no practical side effects, since
+    these traits are a convenience feature and already have the
+    [`Unsigned`][u-1-9] marker trait as a supertrait, and the types that
+    implement [`Unsigned`][u-1-9] are `'static`.
+  * The [`FixedOptionalFeatures`][fof-1-9] trait was not sealed as an oversight.
+    Now the glitch has been fixed and it is sealed. The documentation now
+    explicitly states that the trait should not be used directly.
+
+[bm-p-1-2]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.Pod.html
+[bm-tw-1-2]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.TransparentWrapper.html
+[bm-z-1-2]: https://docs.rs/bytemuck/^1.2/bytemuck/trait.Zeroable.html
+[feat-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
+[fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
+[leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
+[leu16-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
+[leu32-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
+[leu64-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
+[leu8-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
+[u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
+
 ### Version 1.8.0 news (2021-04-20)
 
   * The following constants and method were added to all fixed-point numbers, to
@@ -233,12 +264,14 @@ The *fixed* crate requires rustc version 1.50.0 or later.
 
 The *fixed* crate has these optional feature:
 
- 1. `serde`, disabled by default. This provides serialization support for the
+ 1. `bytemuck`, disabled by default. This implements some traits from the
+    [*bytemuck* crate].
+ 2. `serde`, disabled by default. This provides serialization support for the
     fixed-point types. This feature requires the [*serde* crate].
- 2. `std`, disabled by default. This is for features that are not possible under
+ 3. `std`, disabled by default. This is for features that are not possible under
     `no_std`: currently the implementation of the [`Error`] trait for
     [`ParseFixedError`].
- 3. `serde-str`, disabled by default. Fixed-point numbers are serialized as
+ 4. `serde-str`, disabled by default. Fixed-point numbers are serialized as
     strings showing the value when using human-readable formats. This feature
     requires the `serde` and the `std` optional features. **Warning:** numbers
     serialized when this feature is enabled cannot be deserialized when this
@@ -291,6 +324,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*az* crate]: https://crates.io/crates/az
+[*bytemuck* crate]: https://crates.io/crates/bytemuck
 [*cordic* crate]: https://crates.io/crates/cordic
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-macro* crate]: https://crates.io/crates/fixed-macro
