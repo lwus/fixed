@@ -296,19 +296,107 @@ where
     Self: Sealed,
 {
     /// The primitive integer underlying type.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{traits::Fixed, types::I16F16};
+    /// // 32-bit DELTA is 0x0000_0001_i32
+    /// const DELTA_BITS: <I16F16 as Fixed>::Bits = I16F16::DELTA.to_bits();
+    /// assert_eq!(DELTA_BITS, 1i32);
+    /// ```
     type Bits;
 
     /// A byte array with the same size as the type.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{traits::Fixed, types::I16F16};
+    /// // 32-bit DELTA is 0x0000_0001_i32
+    /// const DELTA_LE_BYTES: <I16F16 as Fixed>::Bytes = I16F16::DELTA.to_le_bytes();
+    /// assert_eq!(DELTA_LE_BYTES, 1i32.to_le_bytes());
+    /// ```
     type Bytes;
 
-    /// The number of fractional bits.
+    /// The number of fractional bits as a compile-time [`Unsigned`] as provided
+    /// by the [*typenum* crate].
     ///
     /// <code>\<F as [Fixed]>::Frac::[U32]</code> is equivalent to
     /// <code>\<F as [Fixed]>::[FRAC\_NBITS]</code>.
     ///
+    /// `Frac` can be used as the generic parameter of fixed-point number types.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{traits::Fixed, types::extra::U16, FixedI32, FixedI64};
+    /// type Fix1 = FixedI32::<U16>;
+    /// assert_eq!(Fix1::FRAC_NBITS, 16);
+    /// assert_eq!(Fix1::INT_NBITS, 32 - 16);
+    /// type Fix2 = FixedI64::<<Fix1 as Fixed>::Frac>;
+    /// assert_eq!(Fix2::FRAC_NBITS, 16);
+    /// assert_eq!(Fix2::INT_NBITS, 64 - 16);
+    /// ```
+    ///
+    /// [*typenum* crate]: https://crates.io/crates/typenum
     /// [U32]: crate::types::extra::Unsigned::U32
     /// [FRAC\_NBITS]: Fixed::FRAC_NBITS
     type Frac: Unsigned;
+
+    /// An unsigned fixed-point number type with the same number of integer and
+    /// fractional bits as `Self`.
+    ///
+    /// If `Self` is signed, then `Self::Signed` is the same as `Self`.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     traits::Fixed,
+    ///     types::{I16F16, U16F16},
+    /// };
+    /// // I16F16::Signed is I16F16
+    /// assert_eq!(<I16F16 as Fixed>::Signed::FRAC_NBITS, I16F16::FRAC_NBITS);
+    /// assert_eq!(<I16F16 as Fixed>::Signed::INT_NBITS, I16F16::INT_NBITS);
+    /// assert_eq!(<I16F16 as Fixed>::Signed::IS_SIGNED, I16F16::IS_SIGNED);
+    /// // U16F16::Signed is I16F16
+    /// assert_eq!(<U16F16 as Fixed>::Signed::FRAC_NBITS, I16F16::FRAC_NBITS);
+    /// assert_eq!(<U16F16 as Fixed>::Signed::INT_NBITS, I16F16::INT_NBITS);
+    /// assert_eq!(<U16F16 as Fixed>::Signed::IS_SIGNED, I16F16::IS_SIGNED);
+    /// ```
+    ///
+    /// [I16F16]: crate::types::I16F16
+    /// [U16F16]: crate::types::U16F16
+    /// [types]: crate::types
+    type Signed: FixedSigned;
+
+    /// An unsigned fixed-point number type with the same number of integer and
+    /// fractional bits as `Self`.
+    ///
+    /// If `Self` is unsigned, then `Self::Unsigned` is the same as `Self`.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     traits::Fixed,
+    ///     types::{I16F16, U16F16},
+    /// };
+    /// // I16F16::Unsigned is U16F16
+    /// assert_eq!(<I16F16 as Fixed>::Unsigned::FRAC_NBITS, U16F16::FRAC_NBITS);
+    /// assert_eq!(<I16F16 as Fixed>::Unsigned::INT_NBITS, U16F16::INT_NBITS);
+    /// assert_eq!(<I16F16 as Fixed>::Unsigned::IS_SIGNED, U16F16::IS_SIGNED);
+    /// // U16F16::Unsigned is U16F16
+    /// assert_eq!(<U16F16 as Fixed>::Unsigned::FRAC_NBITS, U16F16::FRAC_NBITS);
+    /// assert_eq!(<U16F16 as Fixed>::Unsigned::INT_NBITS, U16F16::INT_NBITS);
+    /// assert_eq!(<U16F16 as Fixed>::Unsigned::IS_SIGNED, U16F16::IS_SIGNED);
+    /// ```
+    ///
+    /// [I16F16]: crate::types::I16F16
+    /// [U16F16]: crate::types::U16F16
+    /// [types]: crate::types
+    type Unsigned: FixedUnsigned;
 
     /// Zero.
     ///
@@ -2096,11 +2184,10 @@ where
 /// This trait is sealed and cannot be implemented for more types; it
 /// is implemented for [`FixedI8`], [`FixedI16`], [`FixedI32`],
 /// [`FixedI64`], and [`FixedI128`].
-pub trait FixedSigned: Fixed + Neg<Output = Self> {
-    /// An unsigned fixed-point number type with the same number of
-    /// integer and fractional bits as `Self`.
-    type Unsigned: FixedUnsigned;
-
+pub trait FixedSigned: Fixed
+where
+    Self: Neg<Output = Self>,
+{
     /// Returns the number of bits required to represent the value.
     ///
     /// See also <code>FixedI32::[signed\_bits][FixedI32::signed_bits]</code>.
@@ -3088,13 +3175,15 @@ macro_rules! trait_delegate {
 }
 
 macro_rules! impl_fixed {
-    ($Fixed:ident, $UFixed:ident, $LeEqU:ident, $Bits:ident, $Signedness:tt) => {
+    ($Fixed:ident, $IFixed:ident, $UFixed:ident, $LeEqU:ident, $Bits:ident, $Signedness:tt) => {
         impl<Frac: $LeEqU> FixedOptionalFeatures for $Fixed<Frac> {}
 
         impl<Frac: $LeEqU> Fixed for $Fixed<Frac> {
             type Bits = $Bits;
             type Bytes = [u8; mem::size_of::<$Bits>()];
             type Frac = Frac;
+            type Signed = $IFixed<Frac>;
+            type Unsigned = $UFixed<Frac>;
             const ZERO: Self = Self::ZERO;
             const DELTA: Self = Self::DELTA;
             const MIN: Self = Self::MIN;
@@ -3490,7 +3579,6 @@ macro_rules! impl_fixed {
         if_signed! {
             $Signedness;
             impl<Frac: $LeEqU> FixedSigned for $Fixed<Frac> {
-                type Unsigned = $UFixed<Frac>;
                 trait_delegate! { fn signed_bits(self) -> u32 }
                 trait_delegate! { fn abs(self) -> Self }
                 trait_delegate! { fn unsigned_abs(self) -> Self::Unsigned }
@@ -3525,13 +3613,13 @@ macro_rules! impl_fixed {
     };
 }
 
-impl_fixed! { FixedI8, FixedU8, LeEqU8, i8, Signed }
-impl_fixed! { FixedI16, FixedU16, LeEqU16, i16, Signed }
-impl_fixed! { FixedI32, FixedU32, LeEqU32, i32, Signed }
-impl_fixed! { FixedI64, FixedU64, LeEqU64, i64, Signed }
-impl_fixed! { FixedI128, FixedU128, LeEqU128, i128, Signed }
-impl_fixed! { FixedU8, FixedU8, LeEqU8, u8, Unsigned }
-impl_fixed! { FixedU16, FixedU16, LeEqU16, u16, Unsigned }
-impl_fixed! { FixedU32, FixedU32, LeEqU32, u32, Unsigned }
-impl_fixed! { FixedU64, FixedU64, LeEqU64, u64, Unsigned }
-impl_fixed! { FixedU128, FixedU128, LeEqU128, u128, Unsigned }
+impl_fixed! { FixedI8, FixedI8, FixedU8, LeEqU8, i8, Signed }
+impl_fixed! { FixedI16, FixedI16, FixedU16, LeEqU16, i16, Signed }
+impl_fixed! { FixedI32, FixedI32, FixedU32, LeEqU32, i32, Signed }
+impl_fixed! { FixedI64, FixedI64, FixedU64, LeEqU64, i64, Signed }
+impl_fixed! { FixedI128, FixedI128, FixedU128, LeEqU128, i128, Signed }
+impl_fixed! { FixedU8, FixedI8, FixedU8, LeEqU8, u8, Unsigned }
+impl_fixed! { FixedU16, FixedI16, FixedU16, LeEqU16, u16, Unsigned }
+impl_fixed! { FixedU32, FixedI32, FixedU32, LeEqU32, u32, Unsigned }
+impl_fixed! { FixedU64, FixedI64, FixedU64, LeEqU64, u64, Unsigned }
+impl_fixed! { FixedU128, FixedI128, FixedU128, LeEqU128, u128, Unsigned }

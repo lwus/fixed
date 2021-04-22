@@ -96,6 +96,8 @@ The conversions supported cover the following cases.
     [`Fixed`][tf-1-9] trait, and to the [`Wrapping`][w-1-9] and
     [`Unwrapped`][u-1-9] wrappers:
       * [`is_zero`][f-iz-1-9]
+  * The following associated types were added to the [`Fixed`][tf-1-9] trait:
+      * [`Signed`][tf-s-1-9], [`Unsigned`][tf-u-1-9]
   * The following traits from the [*bytemuck* crate] were implemented for all
     fixed-point numbers, added as supertraits to the [`Fixed`][tf-1-9] trait,
     and implemented for the [`Wrapping`][w-1-9] and [`Unwrapped`][u-1-9]
@@ -126,6 +128,8 @@ The conversions supported cover the following cases.
 [leu64-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
 [leu8-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
 [tf-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[tf-s-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#associatedtype.Signed
+[tf-u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#associatedtype.Unsigned
 [u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
 [uns-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
 [w-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
