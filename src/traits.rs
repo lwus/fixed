@@ -1105,6 +1105,12 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rotate_right(self, n: u32) -> Self;
 
+    /// Returns [`true`] if the number is zero.
+    ///
+    /// See also <code>FixedI32::[is\_zero][FixedI32::is_zero]</code> and
+    /// <code>FixedU32::[is\_zero][FixedU32::is_zero]</code>.
+    fn is_zero(self) -> bool;
+
     /// Returns the mean of `self` and `other`.
     ///
     /// See also <code>FixedI32::[mean][FixedI32::mean]</code> and
@@ -3200,6 +3206,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn reverse_bits(self) -> Self }
             trait_delegate! { fn rotate_left(self, n: u32) -> Self }
             trait_delegate! { fn rotate_right(self, n: u32) -> Self }
+            trait_delegate! { fn is_zero(self) -> bool }
             trait_delegate! { fn mean(self, other: Self) -> Self }
             trait_delegate! { fn recip(self) -> Self }
             trait_delegate! { fn mul_add(self, mul: Self, add: Self) -> Self }

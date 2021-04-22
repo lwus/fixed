@@ -926,6 +926,23 @@ impl<F: Fixed> Wrapping<F> {
         Wrapping(self.0.rotate_right(n))
     }
 
+    /// Returns [`true`] if the number is zero.
+    ///
+    /// See also <code>FixedI32::[is\_zero][FixedI32::is_zero]</code> and
+    /// <code>FixedU32::[is\_zero][FixedU32::is_zero]</code>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// assert!(Wrapping(I16F16::ZERO).is_zero());
+    /// assert!(!Wrapping(I16F16::from_num(4.3)).is_zero());
+    /// ```
+    #[inline]
+    pub fn is_zero(self) -> bool {
+        self.0.is_zero()
+    }
+
     /// Returns the mean of `self` and `other`.
     ///
     /// See also <code>FixedI32::[mean][FixedI32::mean]</code> and

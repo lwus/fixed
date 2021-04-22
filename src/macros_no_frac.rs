@@ -640,6 +640,24 @@ assert_eq!(Fix::from_bits(bits).rotate_right(3), Fix::from_bits(rot));
                 }
             }
 
+            comment! {
+                "Returns [`true`] if the number is zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert!(Fix::ZERO.is_zero());
+assert!(!Fix::from_num(5).is_zero());
+```
+";
+                #[inline]
+                pub const fn is_zero(self) -> bool {
+                    self.to_bits() == 0
+                }
+            }
+
             if_signed! {
                 $Signedness;
                 comment! {

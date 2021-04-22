@@ -8,6 +8,10 @@ as-is, without any warranty. -->
 Version 1.9.0 (unreleased)
 ==========================
 
+  * The following method was added to all fixed-point numbers, to the
+    [`Fixed`][tf-1-9] trait, and to the [`Wrapping`][w-1-9] and
+    [`Unwrapped`][u-1-9] wrappers:
+      * [`is_zero`][f-iz-1-9]
   * The following traits from the [*bytemuck* crate] were implemented for all
     fixed-point numbers, added as supertraits to the [`Fixed`][tf-1-9] trait,
     and implemented for the [`Wrapping`][w-1-9] and [`Unwrapped`][u-1-9]
@@ -31,6 +35,7 @@ Compatibility notes
 [bm-p-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
 [bm-tw-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
 [bm-z-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
+[f-iz-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.is_zero
 [fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
 [leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
 [leu16-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
