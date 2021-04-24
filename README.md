@@ -113,9 +113,9 @@ The conversions supported cover the following cases.
     these traits are a convenience feature and already have the
     [`Unsigned`][uns-1-9] marker trait as a supertrait, and the types that
     implement [`Unsigned`][uns-1-9] are `'static`.
-  * The [`FixedOptionalFeatures`][fof-1-9] trait was not sealed as an oversight.
-    Now the glitch has been fixed and it is sealed. The documentation now
-    explicitly states that the trait should not be used directly.
+  * The [`FixedOptionalFeatures`][fof-1-9] trait was not sealed, which was as an
+    oversight. Now it is sealed, and the documentation explicitly states that
+    the trait should not be used directly.
 
 [bm-p-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
 [bm-tw-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
