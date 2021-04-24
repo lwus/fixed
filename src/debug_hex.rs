@@ -13,6 +13,12 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
+use core::{
+    cell::Cell,
+    fmt::{Debug, Formatter, Result as FmtResult, Write},
+    sync::atomic::{AtomicU32, Ordering},
+};
+
 // This is an ugly hack to check whether a `Formatter` has `debug_lower_hex` or
 // `debug_upper_hex`.
 //
@@ -23,16 +29,10 @@
 // under test.
 //
 // If something fails, `u32::MAX` is stored in `DEBUG_LOWER_HEX` to avoid
-// repeating the hack dummy format.
+// repeating the dummy write.
 //
 // A similar process is used for `is_debug_upper_hex` with a format string
 // "{:X?}" used for the dummy write.
-
-use core::{
-    cell::Cell,
-    fmt::{Debug, Formatter, Result as FmtResult, Write},
-    sync::atomic::{AtomicU32, Ordering},
-};
 
 // Both `DEBUG_LOWER_HEX` and `DEBUG_UPPER_HEX` are:
 //   * 0 for not cached
