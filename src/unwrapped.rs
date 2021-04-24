@@ -21,7 +21,7 @@ use crate::{
     FixedU8,
 };
 use core::{
-    fmt::{Display, Formatter, Result as FmtResult},
+    fmt::{Debug, Display, Formatter, Result as FmtResult},
     iter::{Product, Sum},
     mem,
     ops::{
@@ -48,7 +48,7 @@ use core::{
 /// let _overflow = max + delta;
 /// ```
 #[repr(transparent)]
-#[derive(Clone, Copy, Default, Hash, Debug, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Copy, Default, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Unwrapped<F>(pub F);
 
 impl<F: Fixed> Unwrapped<F> {
@@ -1461,6 +1461,13 @@ impl<F: Fixed> Display for Unwrapped<F> {
     #[inline]
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         Display::fmt(&self.0, f)
+    }
+}
+
+impl<F: Fixed> Debug for Unwrapped<F> {
+    #[inline]
+    fn fmt(&self, f: &mut Formatter) -> FmtResult {
+        Debug::fmt(&self.0, f)
     }
 }
 

@@ -24,6 +24,9 @@ Version 1.9.0 (unreleased)
 Compatibility notes
 -------------------
 
+  * Now the [`Debug`] implementation for [`Wrapping`][w-1-9] outputs the value
+    only without `"Wrapping()"`, and the [`Debug`] implementation for
+    [`Unwrapped`][u-1-9] outputs the value only without `"Unwrapped()"`.
   * The [`LeEqU8`][leu8-1-9], [`LeEqU16`][leu16-1-9], [`LeEqU32`][leu32-1-9],
     [`LeEqU64`][leu64-1-9] and [`LeEqU128`][leu128-1-9] traits now have a
     `'static` constraint. This should have no practical side effects, since
@@ -693,5 +696,6 @@ Version 0.1.0 (2018-08-10)
 [*az* crate]: https://crates.io/crates/az
 [*bytemuck* crate]: https://crates.io/crates/bytemuck
 [`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
+[`Debug`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html
 [`Product`]: https://doc.rust-lang.org/nightly/core/iter/trait.Product.html
 [`Sum`]: https://doc.rust-lang.org/nightly/core/iter/trait.Sum.html

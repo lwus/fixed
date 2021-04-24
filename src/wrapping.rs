@@ -21,7 +21,7 @@ use crate::{
     FixedU8,
 };
 use core::{
-    fmt::{Display, Formatter, Result as FmtResult},
+    fmt::{Debug, Display, Formatter, Result as FmtResult},
     iter::{Product, Sum},
     mem,
     ops::{
@@ -45,7 +45,7 @@ use core::{
 /// assert_eq!(I16F16::MIN, (max + delta).0);
 /// ```
 #[repr(transparent)]
-#[derive(Clone, Copy, Default, Hash, Debug, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Copy, Default, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Wrapping<F>(pub F);
 
 impl<F: Fixed> Wrapping<F> {
@@ -1345,6 +1345,13 @@ impl<F: Fixed> Display for Wrapping<F> {
     #[inline]
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         Display::fmt(&self.0, f)
+    }
+}
+
+impl<F: Fixed> Debug for Wrapping<F> {
+    #[inline]
+    fn fmt(&self, f: &mut Formatter) -> FmtResult {
+        Debug::fmt(&self.0, f)
     }
 }
 

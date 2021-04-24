@@ -107,6 +107,9 @@ The conversions supported cover the following cases.
 
 #### Compatibility notes
 
+  * Now the [`Debug`] implementation for [`Wrapping`][w-1-9] outputs the value
+    only without `"Wrapping()"`, and the [`Debug`] implementation for
+    [`Unwrapped`][u-1-9] outputs the value only without `"Unwrapped()"`.
   * The [`LeEqU8`][leu8-1-9], [`LeEqU16`][leu16-1-9], [`LeEqU32`][leu32-1-9],
     [`LeEqU64`][leu64-1-9] and [`LeEqU128`][leu128-1-9] traits now have a
     `'static` constraint. This should have no practical side effects, since
@@ -117,6 +120,7 @@ The conversions supported cover the following cases.
     oversight. Now it is sealed, and the documentation explicitly states that
     the trait should not be used directly.
 
+[`Debug`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html
 [bm-p-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
 [bm-tw-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
 [bm-z-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
