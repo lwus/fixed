@@ -8,6 +8,9 @@ as-is, without any warranty. -->
 Version 1.9.0 (unreleased)
 ==========================
 
+  * Fixed-point numbers can now be formatted as hexadecimal with [`Debug`]
+    similarly to primitive integers, for example with format strings `"{:x?}"`
+    and `"{:X?}"` for lower-case and upper-case hexadecimal.
   * The following method was added to all fixed-point numbers, to the
     [`Fixed`][tf-1-9] trait, and to the [`Wrapping`][w-1-9] and
     [`Unwrapped`][u-1-9] wrappers:
