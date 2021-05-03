@@ -23,7 +23,7 @@ use crate::{
     F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
     FixedU64, FixedU8, ParseFixedError,
 };
-use bytemuck::{Pod, TransparentWrapper, Zeroable};
+use bytemuck::{Pod, TransparentWrapper};
 use core::{
     fmt::{Binary, Debug, Display, LowerHex, Octal, UpperHex},
     hash::Hash,
@@ -265,7 +265,8 @@ depending on the crate’s [optional features], and should not be used directly.
 /// [`TryFrom`]: core::convert::TryFrom
 pub trait Fixed
 where
-    Self: Copy + Default + Hash + Ord,
+    Self: Default + Hash + Ord,
+    Self: Pod + TransparentWrapper<<Self as Fixed>::Bits>,
     Self: Debug + Display + Binary + Octal + LowerHex + UpperHex,
     Self: FromStr<Err = ParseFixedError>,
     Self: FromFixed + ToFixed,
@@ -291,7 +292,6 @@ where
     Self: PartialOrd<f16> + PartialOrd<bf16>,
     Self: PartialOrd<f32> + PartialOrd<f64>,
     Self: PartialOrd<F128Bits>,
-    Self: Zeroable + Pod + TransparentWrapper<<Self as Fixed>::Bits>,
     Self: FixedOptionalFeatures,
     Self: Sealed,
 {
