@@ -21,7 +21,7 @@ Version 1.9.0 (unreleased)
       * [`checked_distance`][f-cd-1-9], [`saturating_distance`][f-sd-1-9],
         [`wrapping_distance`][f-wd-1-9], [`unwrapped_distance`][f-ud-1-9],
         [`overflowing_distance`][f-od-1-9]
-  * The [`unsigned_distance`][f-ud-1-9] method was added to all signed
+  * The [`unsigned_distance`][f-unsd-1-9] method was added to all signed
     fixed-point types and to the [`FixedSigned`][tfs-1-9] trait.
   * The following associated types were added to the [`Fixed`][tf-1-9] trait:
       * [`Signed`][tf-s-1-9], [`Unsigned`][tf-u-1-9]
