@@ -437,8 +437,10 @@ impl<F: Fixed> Unwrapped<F> {
     ///     implemented, in which case this method returns
     ///     <code>[Unwrapped]\(src.[unwrapped\_to\_fixed][ToFixed::unwrapped_to_fixed]\())</code>.
     ///
-    /// See also <code>FixedI32::[from\_num][FixedI32::from_num]</code> and
-    /// <code>FixedU32::[from\_num][FixedU32::from_num]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_from\_num][FixedI32::unwrapped_from_num]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_from\_num][FixedU32::unwrapped_from_num]</code>.
     ///
     /// # Panics
     ///
@@ -497,8 +499,10 @@ impl<F: Fixed> Unwrapped<F> {
     ///     implemented, in which case this method returns
     ///     <code>Dst::[unwrapped\_from\_fixed][FromFixed::unwrapped_from_fixed]\(self.0)</code>.
     ///
-    /// See also <code>FixedI32::[to\_num][FixedI32::to_num]</code> and
-    /// <code>FixedU32::[to\_num][FixedU32::to_num]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_to\_num][FixedI32::unwrapped_to_num]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_to\_num][FixedU32::unwrapped_to_num]</code>.
     ///
     /// # Examples
     ///
@@ -665,8 +669,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Unwrapped ceil. Rounds to the next integer towards +∞, panicking
     /// on overflow.
     ///
-    /// See also <code>FixedI32::[ceil][FixedI32::ceil]</code> and
-    /// <code>FixedU32::[ceil][FixedU32::ceil]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_ceil][FixedI32::unwrapped_ceil]</code> and
+    /// <code>FixedU32::[unwrapped\_ceil][FixedU32::unwrapped_ceil]</code>.
     ///
     /// # Panics
     ///
@@ -698,8 +703,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Overflow can only occur for signed numbers with zero integer
     /// bits.
     ///
-    /// See also <code>FixedI32::[floor][FixedI32::floor]</code> and
-    /// <code>FixedU32::[floor][FixedU32::floor]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_floor][FixedI32::unwrapped_floor]</code> and
+    /// <code>FixedU32::[unwrapped\_floor][FixedU32::unwrapped_floor]</code>.
     ///
     /// # Panics
     ///
@@ -728,8 +734,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Unwrapped round. Rounds to the next integer to the nearest,
     /// with ties rounded away from zero, and panics on overflow.
     ///
-    /// See also <code>FixedI32::[round][FixedI32::round]</code> and
-    /// <code>FixedU32::[round][FixedU32::round]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_round][FixedI32::unwrapped_round]</code> and
+    /// <code>FixedU32::[unwrapped\_round][FixedU32::unwrapped_round]</code>.
     ///
     /// # Panics
     ///
@@ -760,9 +767,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// with ties rounded to even, and panics on overflow.
     ///
     /// See also
-    /// <code>FixedI32::[round\_ties\_to\_even][FixedI32::round_ties_to_even]</code>
+    /// <code>FixedI32::[unwrapped\_round\_ties\_to\_even][FixedI32::unwrapped_round_ties_to_even]</code>
     /// and
-    /// <code>FixedU32::[round\_ties\_to\_even][FixedU32::round_ties_to_even]</code>.
+    /// <code>FixedU32::[unwrapped\_round\_ties\_to\_even][FixedU32::unwrapped_round_ties_to_even]</code>.
     ///
     /// # Panics
     ///
@@ -997,8 +1004,10 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Returns the distance from `self` to `other`.
     ///
-    /// See also <code>FixedI32::[distance][FixedI32::distance]</code> and
-    /// <code>FixedU32::[distance][FixedU32::distance]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_distance][FixedI32::unwrapped_distance]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_distance][FixedU32::unwrapped_distance]</code>.
     ///
     /// # Panics
     ///
@@ -1047,8 +1056,9 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Returns the reciprocal (inverse), 1/`self`.
     ///
-    /// See also <code>FixedI32::[recip][FixedI32::recip]</code> and
-    /// <code>FixedU32::[recip][FixedU32::recip]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_recip][FixedI32::unwrapped_recip]</code> and
+    /// <code>FixedU32::[unwrapped\_recip][FixedU32::unwrapped_recip]</code>.
     ///
     /// # Panics
     ///
@@ -1077,8 +1087,10 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Multiply and add. Returns `self` × `mul` + `add`.
     ///
-    /// See also <code>FixedI32::[mul\_add][FixedI32::mul_add]</code> and
-    /// <code>FixedU32::[mul\_add][FixedU32::mul_add]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_mul\_add][FixedI32::unwrapped_mul_add]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_mul\_add][FixedU32::unwrapped_mul_add]</code>.
     ///
     /// # Panics
     ///
@@ -1114,8 +1126,10 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Multiply and accumulate. Adds (`a` × `b`) to `self`.
     ///
-    /// See also <code>FixedI32::[mul\_acc][FixedI32::mul_acc]</code> and
-    /// <code>FixedU32::[mul\_acc][FixedU32::mul_acc]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_mul\_acc][FixedI32::unwrapped_mul_acc]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_mul\_acc][FixedU32::unwrapped_mul_acc]</code>.
     ///
     /// # Panics
     ///
@@ -1144,8 +1158,10 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Euclidean division.
     ///
-    /// See also <code>FixedI32::[div\_euclid][FixedI32::div_euclid]</code> and
-    /// <code>FixedU32::[div\_euclid][FixedU32::div_euclid]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_div\_euclid][FixedI32::unwrapped_div_euclid]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_div\_euclid][FixedU32::unwrapped_div_euclid]</code>.
     ///
     /// # Panics
     ///
@@ -1176,8 +1192,10 @@ impl<F: Fixed> Unwrapped<F> {
 
     /// Remainder for Euclidean division.
     ///
-    /// See also <code>FixedI32::[rem\_euclid][FixedI32::rem_euclid]</code> and
-    /// <code>FixedU32::[rem\_euclid][FixedU32::rem_euclid]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_rem\_euclid][FixedI32::unwrapped_rem_euclid]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_rem\_euclid][FixedU32::unwrapped_rem_euclid]</code>.
     ///
     /// # Panics
     ///
@@ -1202,8 +1220,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Euclidean division by an integer.
     ///
     /// See also
-    /// <code>FixedI32::[div\_euclid\_int][FixedI32::div_euclid_int]</code> and
-    /// <code>FixedU32::[div\_euclid\_int][FixedU32::div_euclid_int]</code>.
+    /// <code>FixedI32::[unwrapped\_div\_euclid\_int][FixedI32::unwrapped_div_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_div\_euclid\_int][FixedU32::unwrapped_div_euclid_int]</code>.
     ///
     /// # Panics
     ///
@@ -1234,8 +1253,9 @@ impl<F: Fixed> Unwrapped<F> {
     /// Remainder for Euclidean division.
     ///
     /// See also
-    /// <code>FixedI32::[rem\_euclid\_int][FixedI32::rem_euclid_int]</code> and
-    /// <code>FixedU32::[rem\_euclid\_int][FixedU32::rem_euclid_int]</code>.
+    /// <code>FixedI32::[unwrapped\_rem\_euclid\_int][FixedI32::unwrapped_rem_euclid_int]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_rem\_euclid\_int][FixedU32::unwrapped_rem_euclid_int]</code>.
     ///
     /// # Panics
     ///
@@ -1332,7 +1352,8 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// Overflow can only occur when trying to find the absolute value
     /// of the minimum value.
     ///
-    /// See also <code>FixedI32::[abs][FixedI32::abs]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_abs][FixedI32::unwrapped_abs]</code>.
     ///
     /// # Panics
     ///
@@ -1359,7 +1380,8 @@ impl<F: FixedSigned> Unwrapped<F> {
 
     /// Returns a number representing the sign of `self`.
     ///
-    /// See also <code>FixedI32::[signum][FixedI32::signum]</code>.
+    /// See also
+    /// <code>FixedI32::[unwrapped\_signum][FixedI32::unwrapped_signum]</code>.
     ///
     /// # Panics
     ///
@@ -1457,7 +1479,7 @@ impl<F: FixedUnsigned> Unwrapped<F> {
     /// Returns the smallest power of two that is ≥ `self`.
     ///
     /// See also
-    /// <code>FixedU32::[next\_power\_of\_two][FixedU32::next_power_of_two]</code>.
+    /// <code>FixedU32::[unwrapped\_next\_power\_of\_two][FixedU32::unwrapped_next_power_of_two]</code>.
     ///
     /// # Panics
     ///
