@@ -995,6 +995,36 @@ impl<F: Fixed> Unwrapped<F> {
         self.0.is_zero()
     }
 
+    /// Returns the distance from `self` to `other`.
+    ///
+    /// See also <code>FixedI32::[distance][FixedI32::distance]</code> and
+    /// <code>FixedU32::[distance][FixedU32::distance]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics on overflow.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// type Unwr = Unwrapped<I16F16>;
+    /// assert_eq!(Unwr::from_num(-1).distance(Unwr::from_num(4)), Unwr::from_num(5));
+    /// ```
+    ///
+    /// The following panics because of overflow.
+    ///
+    /// ```should_panic
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// type Unwr = Unwrapped<I16F16>;
+    /// let _overflow = Unwr::MIN.distance(Unwr::ZERO);
+    /// ```
+    #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    pub fn distance(self, other: Unwrapped<F>) -> Unwrapped<F> {
+        Unwrapped(self.0.unwrapped_distance(other.0))
+    }
+
     /// Returns the mean of `self` and `other`.
     ///
     /// See also <code>FixedI32::[mean][FixedI32::mean]</code> and

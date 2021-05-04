@@ -943,6 +943,25 @@ impl<F: Fixed> Wrapping<F> {
         self.0.is_zero()
     }
 
+    /// Returns the distance from `self` to `other`.
+    ///
+    /// See also <code>FixedI32::[distance][FixedI32::distance]</code> and
+    /// <code>FixedU32::[distance][FixedU32::distance]</code>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// type Wr = Wrapping<I16F16>;
+    /// assert_eq!(Wr::from_num(-1).distance(Wr::from_num(4)), Wr::from_num(5));
+    /// assert_eq!(Wr::MIN.distance(Wr::MAX), -Wr::DELTA);
+    /// ```
+    #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    pub fn distance(self, other: Wrapping<F>) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_distance(other.0))
+    }
+
     /// Returns the mean of `self` and `other`.
     ///
     /// See also <code>FixedI32::[mean][FixedI32::mean]</code> and

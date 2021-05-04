@@ -1199,6 +1199,13 @@ where
     /// <code>FixedU32::[is\_zero][FixedU32::is_zero]</code>.
     fn is_zero(self) -> bool;
 
+    /// Returns the distance from `self` to `other`.
+    ///
+    /// See also <code>FixedI32::[distance][FixedI32::distance]</code> and
+    /// <code>FixedU32::[distance][FixedU32::distance]</code>.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    fn distance(self, other: Self) -> Self;
+
     /// Returns the mean of `self` and `other`.
     ///
     /// See also <code>FixedI32::[mean][FixedI32::mean]</code> and
@@ -1449,6 +1456,16 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_shr(self, rhs: u32) -> Option<Self>;
 
+    /// Checked distance. Returns the distance from `self` to `other`, or
+    /// [`None`] on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_distance][FixedI32::checked_distance]</code>
+    /// and
+    /// <code>FixedU32::[checked\_distance][FixedU32::checked_distance]</code>.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    fn checked_distance(self, other: Self) -> Option<Self>;
+
     /// Saturated negation. Returns the negated value, saturating on overflow.
     ///
     /// See also
@@ -1570,6 +1587,16 @@ where
     /// Panics if the divisor is zero.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_rem_euclid_int(self, rhs: Self::Bits) -> Self;
+
+    /// Saturating distance. Returns the distance from `self` to `other`,
+    /// saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_distance][FixedI32::saturating_distance]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_distance][FixedU32::saturating_distance]</code>.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    fn saturating_distance(self, other: Self) -> Self;
 
     /// Wrapping negation. Returns the negated value, wrapping on overflow.
     ///
@@ -1719,6 +1746,16 @@ where
     /// and <code>FixedU32::[wrapping\_shr][FixedU32::wrapping_shr]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_shr(self, rhs: u32) -> Self;
+
+    /// Wrapping distance. Returns the distance from `self` to `other`, wrapping
+    /// on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_distance][FixedI32::wrapping_distance]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_distance][FixedU32::wrapping_distance]</code>.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    fn wrapping_distance(self, other: Self) -> Self;
 
     /// Unwrapped negation. Returns the negated value, panicking on overflow.
     ///
@@ -1968,6 +2005,20 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_shr(self, rhs: u32) -> Self;
 
+    /// Unwrapped distance. Returns the distance from `self` to `other`,
+    /// panicking on overflow.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_distance][FixedI32::unwrapped_distance]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_distance][FixedU32::unwrapped_distance]</code>.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    fn unwrapped_distance(self, other: Self) -> Self;
+
     /// Overflowing negation.
     ///
     /// Returns a [tuple] of the negated value and a [`bool`],
@@ -2174,6 +2225,19 @@ where
     /// <code>FixedU32::[overflowing\_shr][FixedU32::overflowing_shr]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_shr(self, rhs: u32) -> (Self, bool);
+
+    /// Overflowing distance.
+    ///
+    /// Returns a [tuple] of the distance from `self` to `other` and a [`bool`],
+    /// indicating whether an overflow has occurred. On overflow, the wrapped
+    /// value is returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_distance][FixedI32::overflowing_distance]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_distance][FixedU32::overflowing_distance]</code>.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    fn overflowing_distance(self, other: Self) -> (Self, bool);
 }
 
 /// This trait provides methods common to all signed fixed-point numbers.
@@ -2213,6 +2277,13 @@ where
     ///
     /// See also <code>FixedI32::[unsigned\_abs][FixedI32::unsigned_abs]</code>.
     fn unsigned_abs(self) -> Self::Unsigned;
+
+    /// Returns the distance from `self` to `other` using an unsigned type
+    /// without any wrapping or panicking.
+    ///
+    /// See also
+    /// <code>FixedI32::[unsigned\_distance][FixedI32::unsigned_distance]</code>.
+    fn unsigned_distance(self, other: Self) -> Self::Unsigned;
 
     /// Returns a number representing the sign of `self`.
     ///
@@ -3296,6 +3367,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn rotate_left(self, n: u32) -> Self }
             trait_delegate! { fn rotate_right(self, n: u32) -> Self }
             trait_delegate! { fn is_zero(self) -> bool }
+            trait_delegate! { fn distance(self, other: Self) -> Self }
             trait_delegate! { fn mean(self, other: Self) -> Self }
             trait_delegate! { fn recip(self) -> Self }
             trait_delegate! { fn mul_add(self, mul: Self, add: Self) -> Self }
@@ -3322,6 +3394,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn checked_rem_euclid_int(self, rhs: Self::Bits) -> Option<Self> }
             trait_delegate! { fn checked_shl(self, rhs: u32) -> Option<Self> }
             trait_delegate! { fn checked_shr(self, rhs: u32) -> Option<Self> }
+            trait_delegate! { fn checked_distance(self, other: Self) -> Option<Self> }
             trait_delegate! { fn saturating_neg(self) -> Self }
             trait_delegate! { fn saturating_add(self, rhs: Self) -> Self }
             trait_delegate! { fn saturating_sub(self, rhs: Self) -> Self }
@@ -3334,6 +3407,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn saturating_mul_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn saturating_div_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn saturating_rem_euclid_int(self, rhs: Self::Bits) -> Self }
+            trait_delegate! { fn saturating_distance(self, other: Self) -> Self }
             trait_delegate! { fn wrapping_neg(self) -> Self }
             trait_delegate! { fn wrapping_add(self, rhs: Self) -> Self }
             trait_delegate! { fn wrapping_sub(self, rhs: Self) -> Self }
@@ -3349,6 +3423,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn wrapping_rem_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn wrapping_shl(self, rhs: u32) -> Self }
             trait_delegate! { fn wrapping_shr(self, rhs: u32) -> Self }
+            trait_delegate! { fn wrapping_distance(self, other: Self) -> Self }
             trait_delegate! { fn unwrapped_neg(self) -> Self }
             trait_delegate! { fn unwrapped_add(self, rhs: Self) -> Self }
             trait_delegate! { fn unwrapped_sub(self, rhs: Self) -> Self }
@@ -3367,6 +3442,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn unwrapped_rem_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn unwrapped_shl(self, rhs: u32) -> Self }
             trait_delegate! { fn unwrapped_shr(self, rhs: u32) -> Self }
+            trait_delegate! { fn unwrapped_distance(self, other: Self) -> Self }
             trait_delegate! { fn overflowing_neg(self) -> (Self, bool) }
             trait_delegate! { fn overflowing_add(self, rhs: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_sub(self, rhs: Self) -> (Self, bool) }
@@ -3382,6 +3458,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn overflowing_rem_euclid_int(self, rhs: Self::Bits) -> (Self, bool) }
             trait_delegate! { fn overflowing_shl(self, rhs: u32) -> (Self, bool) }
             trait_delegate! { fn overflowing_shr(self, rhs: u32) -> (Self, bool) }
+            trait_delegate! { fn overflowing_distance(self, other: Self) -> (Self, bool) }
         }
 
         impl<Frac: $LeEqU> FromFixed for $Fixed<Frac> {
@@ -3582,6 +3659,7 @@ macro_rules! impl_fixed {
                 trait_delegate! { fn signed_bits(self) -> u32 }
                 trait_delegate! { fn abs(self) -> Self }
                 trait_delegate! { fn unsigned_abs(self) -> Self::Unsigned }
+                trait_delegate! { fn unsigned_distance(self, other: Self) -> Self::Unsigned }
                 trait_delegate! { fn signum(self) -> Self }
                 trait_delegate! { fn checked_abs(self) -> Option<Self> }
                 trait_delegate! { fn checked_signum(self) -> Option<Self> }

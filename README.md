@@ -95,10 +95,18 @@ The conversions supported cover the following cases.
   * Fixed-point numbers can now be formatted as hexadecimal with [`Debug`]
     similarly to primitive integers, for example formatting with `{:X?}` will
     produce upper-case hexadecimal fixed-point numbers.
-  * The following method was added to all fixed-point numbers, to the
+  * The following methods were added to all fixed-point numbers, to the
     [`Fixed`][tf-1-9] trait, and to the [`Wrapping`][w-1-9] and
     [`Unwrapped`][u-1-9] wrappers:
       * [`is_zero`][f-iz-1-9]
+      * [`distance`][f-d-1-9]
+  * The following methods were added to all fixed-point numbers and to the
+    [`Fixed`][tf-1-9] trait:
+      * [`checked_distance`][f-cd-1-9], [`saturating_distance`][f-sd-1-9],
+        [`wrapping_distance`][f-wd-1-9], [`unwrapped_distance`][f-ud-1-9],
+        [`overflowing_distance`][f-od-1-9]
+  * The [`unsigned_distance`][f-ud-1-9] method was added to all signed
+    fixed-point types and to the [`FixedSigned`][tfs-1-9] trait.
   * The following associated types were added to the [`Fixed`][tf-1-9] trait:
       * [`Signed`][tf-s-1-9], [`Unsigned`][tf-u-1-9]
   * The following traits from the [*bytemuck* crate] were implemented for all
@@ -127,7 +135,14 @@ The conversions supported cover the following cases.
 [bm-p-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
 [bm-tw-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
 [bm-z-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
+[f-cd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_distance
+[f-d-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.distance
 [f-iz-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.is_zero
+[f-od-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_distance
+[f-sd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_distance
+[f-ud-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_distance
+[f-unsd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unsigned_distance
+[f-wd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_distance
 [fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
 [leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
 [leu16-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
@@ -137,6 +152,7 @@ The conversions supported cover the following cases.
 [tf-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
 [tf-s-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#associatedtype.Signed
 [tf-u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#associatedtype.Unsigned
+[tfs-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
 [u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
 [uns-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
 [w-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
