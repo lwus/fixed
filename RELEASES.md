@@ -23,8 +23,11 @@ Version 1.9.0 (unreleased)
         [`overflowing_distance`][f-od-1-9]
   * The [`unsigned_distance`][f-unsd-1-9] method was added to all signed
     fixed-point types and to the [`FixedSigned`][tfs-1-9] trait.
-  * The following associated types were added to the [`Fixed`][tf-1-9] trait:
+  * The following associated types and provided methods were added to the
+    [`Fixed`][tf-1-9] trait:
       * [`Signed`][tf-s-1-9], [`Unsigned`][tf-u-1-9]
+      * [`get_signed`][tf-gs-1-9], [`get_unsigned`][tf-gu-1-9]
+      * [`get_signed_mut`][tf-gsm-1-9], [`get_unsigned_mut`][tf-gum-1-9]
   * The following traits from the [*bytemuck* crate] were implemented for all
     fixed-point numbers, added as supertraits to the [`Fixed`][tf-1-9] trait,
     and implemented for the [`Wrapping`][w-1-9] and [`Unwrapped`][u-1-9]
@@ -66,6 +69,10 @@ Compatibility notes
 [leu64-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
 [leu8-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
 [tf-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[tf-gs-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#method.get_signed
+[tf-gsm-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#method.get_signed_mut
+[tf-gu-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#method.get_unsigned
+[tf-gum-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#method.get_unsigned_mut
 [tf-s-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#associatedtype.Signed
 [tf-u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#associatedtype.Unsigned
 [tfs-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html

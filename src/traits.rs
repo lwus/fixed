@@ -23,7 +23,7 @@ use crate::{
     F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
     FixedU64, FixedU8, ParseFixedError,
 };
-use bytemuck::{Pod, TransparentWrapper};
+use bytemuck::{self, Pod, TransparentWrapper};
 use core::{
     fmt::{Binary, Debug, Display, LowerHex, Octal, UpperHex},
     hash::Hash,
@@ -397,6 +397,120 @@ where
     /// [U16F16]: crate::types::U16F16
     /// [types]: crate::types
     type Unsigned: FixedUnsigned;
+
+    /// Returns a reference to `self` if it is signed, or [`None`] if it is unsigned.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     traits::Fixed,
+    ///     types::{I16F16, U16F16},
+    /// };
+    ///
+    /// let i = I16F16::from_num(-3.5);
+    /// match i.get_signed() {
+    ///     Some(signed) => assert_eq!(signed.signum(), -1),
+    ///     None => unreachable!(),
+    /// }
+    ///
+    /// let u = U16F16::from_num(3.5);
+    /// assert!(u.get_signed().is_none());
+    /// ```
+    #[inline]
+    fn get_signed(&self) -> Option<&Self::Signed> {
+        if Self::IS_SIGNED {
+            Some(bytemuck::cast_ref(self))
+        } else {
+            None
+        }
+    }
+
+    /// Returns a reference to `self` if it is unsigned, or [`None`] if it is signed.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     traits::Fixed,
+    ///     types::{I16F16, U16F16},
+    /// };
+    ///
+    /// let u = U16F16::from_num(3.5);
+    /// match u.get_unsigned() {
+    ///     Some(unsigned) => assert_eq!(unsigned.next_power_of_two(), 4),
+    ///     None => unreachable!(),
+    /// }
+    ///
+    /// let i = I16F16::from_num(3.5);
+    /// assert!(i.get_unsigned().is_none());
+    /// ```
+    #[inline]
+    fn get_unsigned(&self) -> Option<&Self::Unsigned> {
+        if Self::IS_SIGNED {
+            None
+        } else {
+            Some(bytemuck::cast_ref(self))
+        }
+    }
+
+    /// Returns a mutable reference to `self` if it is signed, or [`None`] if it is unsigned.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     traits::Fixed,
+    ///     types::{I16F16, U16F16},
+    /// };
+    ///
+    /// let mut i = I16F16::from_num(-3.5);
+    /// match i.get_signed_mut() {
+    ///     Some(signed) => *signed = signed.signum(),
+    ///     None => unreachable!(),
+    /// }
+    /// assert_eq!(i, -1);
+    ///
+    /// let mut u = U16F16::from_num(3.5);
+    /// assert!(u.get_signed_mut().is_none());
+    /// ```
+    #[inline]
+    fn get_signed_mut(&mut self) -> Option<&mut Self::Signed> {
+        if Self::IS_SIGNED {
+            Some(bytemuck::cast_mut(self))
+        } else {
+            None
+        }
+    }
+
+    /// Returns a mutable reference to `self` if it is unsigned, or [`None`] if it is signed.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     traits::Fixed,
+    ///     types::{I16F16, U16F16},
+    /// };
+    ///
+    /// let mut u = U16F16::from_num(3.5);
+    /// match u.get_unsigned_mut() {
+    ///     Some(unsigned) => *unsigned = unsigned.next_power_of_two(),
+    ///     None => unreachable!(),
+    /// }
+    /// assert_eq!(u, 4);
+    ///
+    /// let mut i = I16F16::from_num(3.5);
+    /// assert!(i.get_unsigned_mut().is_none());
+    /// ```
+    #[inline]
+    fn get_unsigned_mut(&mut self) -> Option<&mut Self::Unsigned> {
+        if Self::IS_SIGNED {
+            None
+        } else {
+            Some(bytemuck::cast_mut(self))
+        }
+    }
 
     /// Zero.
     ///
