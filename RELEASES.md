@@ -15,13 +15,13 @@ Version 1.9.0 (unreleased)
     [`Fixed`][tf-1-9] trait, and to the [`Wrapping`][w-1-9] and
     [`Unwrapped`][u-1-9] wrappers:
       * [`is_zero`][f-iz-1-9]
-      * [`distance`][f-d-1-9]
+      * [`dist`][f-d-1-9]
   * The following methods were added to all fixed-point numbers and to the
     [`Fixed`][tf-1-9] trait:
-      * [`checked_distance`][f-cd-1-9], [`saturating_distance`][f-sd-1-9],
-        [`wrapping_distance`][f-wd-1-9], [`unwrapped_distance`][f-ud-1-9],
-        [`overflowing_distance`][f-od-1-9]
-  * The [`unsigned_distance`][f-unsd-1-9] method was added to all signed
+      * [`checked_dist`][f-cd-1-9], [`saturating_dist`][f-sd-1-9],
+        [`wrapping_dist`][f-wd-1-9], [`unwrapped_dist`][f-ud-1-9],
+        [`overflowing_dist`][f-od-1-9]
+  * The [`unsigned_dist`][f-unsd-1-9] method was added to all signed
     fixed-point types and to the [`FixedSigned`][tfs-1-9] trait.
   * The following associated types and provided methods were added to the
     [`Fixed`][tf-1-9] trait:
@@ -54,14 +54,14 @@ Compatibility notes
 [bm-p-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
 [bm-tw-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
 [bm-z-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
-[f-cd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_distance
-[f-d-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.distance
+[f-cd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_dist
+[f-d-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.dist
 [f-iz-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.is_zero
-[f-od-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_distance
-[f-sd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_distance
-[f-ud-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_distance
-[f-unsd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unsigned_distance
-[f-wd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_distance
+[f-od-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_dist
+[f-sd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_dist
+[f-ud-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_dist
+[f-unsd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unsigned_dist
+[f-wd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_dist
 [fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
 [leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
 [leu16-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html

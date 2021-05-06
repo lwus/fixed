@@ -935,7 +935,7 @@ The distance is the absolute value of the difference.
 When debug assertions are enabled, this method panics if the result overflows.
 When debug assertions are not enabled, the wrapped value can be returned, but it
 is not considered a breaking change if in the future it panics; if wrapping is
-required use [`wrapping_distance`] instead.
+required use [`wrapping_dist`] instead.
 ",
                 },
                 "# Examples
@@ -943,11 +943,11 @@ required use [`wrapping_distance`] instead.
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::ONE.distance(Fix::from_num(5)), Fix::from_num(4));
+assert_eq!(Fix::ONE.dist(Fix::from_num(5)), Fix::from_num(4));
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "assert_eq!(Fix::from_num(-1).distance(Fix::from_num(2)), Fix::from_num(3));
+                    "assert_eq!(Fix::from_num(-1).dist(Fix::from_num(2)), Fix::from_num(3));
 ",
                 },
                 "```
@@ -955,12 +955,12 @@ assert_eq!(Fix::ONE.distance(Fix::from_num(5)), Fix::from_num(4));
                 if_signed_else_empty_str! {
                     $Signedness;
                     "
-[`wrapping_distance`]: Self::wrapping_distance
+[`wrapping_dist`]: Self::wrapping_dist
 "
                 };
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn distance(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub const fn dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     let s = self.to_bits();
                     let o = other.to_bits();
                     let d = if s < o { o - s } else { s - o };
@@ -982,13 +982,13 @@ The distance is the absolute value of the difference.
 use fixed::{types::extra::U4, ", $s_fixed, ", ", $s_ufixed, "};
 type Fix = ", $s_fixed, "<U4>;
 type UFix = ", $s_ufixed, "<U4>;
-assert_eq!(Fix::from_num(-1).unsigned_distance(Fix::from_num(2)), UFix::from_num(3));
-assert_eq!(Fix::MIN.unsigned_distance(Fix::MAX), UFix::MAX);
+assert_eq!(Fix::from_num(-1).unsigned_dist(Fix::from_num(2)), UFix::from_num(3));
+assert_eq!(Fix::MIN.unsigned_dist(Fix::MAX), UFix::MAX);
 ```
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unsigned_distance(self, other: $Fixed<Frac>) -> $UFixed<Frac> {
+                pub const fn unsigned_dist(self, other: $Fixed<Frac>) -> $UFixed<Frac> {
                     let s = self.to_bits();
                     let o = other.to_bits();
                     let d = if s < o {
@@ -1590,19 +1590,19 @@ The distance is the absolute value of the difference.
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::ONE.checked_distance(Fix::from_num(5)), Some(Fix::from_num(4)));
+assert_eq!(Fix::ONE.checked_dist(Fix::from_num(5)), Some(Fix::from_num(4)));
 ",
                 if_signed_unsigned!(
                     $Signedness,
-                    "assert_eq!(Fix::MIN.checked_distance(Fix::ZERO), None);",
-                    "assert_eq!(Fix::ZERO.checked_distance(Fix::MAX), Some(Fix::MAX));",
+                    "assert_eq!(Fix::MIN.checked_dist(Fix::ZERO), None);",
+                    "assert_eq!(Fix::ZERO.checked_dist(Fix::MAX), Some(Fix::MAX));",
                 ),
                 "
 ```
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_distance(self, other: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
+                pub const fn checked_dist(self, other: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     if_signed! {
                         $Signedness;
                         if self.to_bits() < other.to_bits() {
@@ -1613,7 +1613,7 @@ assert_eq!(Fix::ONE.checked_distance(Fix::from_num(5)), Some(Fix::from_num(4)));
                     }
                     if_unsigned! {
                         $Signedness;
-                        Some(self.distance(other))
+                        Some(self.dist(other))
                     }
                 }
             }
@@ -1893,29 +1893,29 @@ The distance is the absolute value of the difference.
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::ONE.saturating_distance(Fix::from_num(5)), Fix::from_num(4));
+assert_eq!(Fix::ONE.saturating_dist(Fix::from_num(5)), Fix::from_num(4));
 ",
                 if_signed_unsigned!(
                     $Signedness,
-                    "assert_eq!(Fix::MIN.saturating_distance(Fix::MAX), Fix::MAX);",
-                    "assert_eq!(Fix::ZERO.saturating_distance(Fix::MAX), Fix::MAX);",
+                    "assert_eq!(Fix::MIN.saturating_dist(Fix::MAX), Fix::MAX);",
+                    "assert_eq!(Fix::ZERO.saturating_dist(Fix::MAX), Fix::MAX);",
                 ),
                 "
 ```
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn saturating_distance(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub const fn saturating_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     if_signed! {
                         $Signedness;
-                        match self.checked_distance(other) {
+                        match self.checked_dist(other) {
                             None => $Fixed::MAX,
                             Some(dist) => dist,
                         }
                     }
                     if_unsigned! {
                         $Signedness;
-                        self.distance(other)
+                        self.dist(other)
                     }
                 }
             }
@@ -2186,23 +2186,23 @@ The distance is the absolute value of the difference.
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::ONE.wrapping_distance(Fix::from_num(5)), Fix::from_num(4));
+assert_eq!(Fix::ONE.wrapping_dist(Fix::from_num(5)), Fix::from_num(4));
 ",
                 if_signed_unsigned!(
                     $Signedness,
-                    "assert_eq!(Fix::MIN.wrapping_distance(Fix::MAX), -Fix::DELTA);",
-                    "assert_eq!(Fix::ZERO.wrapping_distance(Fix::MAX), Fix::MAX);",
+                    "assert_eq!(Fix::MIN.wrapping_dist(Fix::MAX), -Fix::DELTA);",
+                    "assert_eq!(Fix::ZERO.wrapping_dist(Fix::MAX), Fix::MAX);",
                 ),
                 "
 ```
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn wrapping_distance(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub const fn wrapping_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     if_signed_unsigned!(
                         $Signedness,
-                        self.overflowing_distance(other).0,
-                        self.distance(other),
+                        self.overflowing_dist(other).0,
+                        self.dist(other),
                     )
                 }
             }
@@ -2697,11 +2697,11 @@ Panics if the result does not fit.",
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-assert_eq!(Fix::ONE.unwrapped_distance(Fix::from_num(5)), Fix::from_num(4));
+assert_eq!(Fix::ONE.unwrapped_dist(Fix::from_num(5)), Fix::from_num(4));
 ",
                 if_unsigned_else_empty_str! {
                     $Signedness;
-                    "assert_eq!(Fix::ZERO.unwrapped_distance(Fix::MAX), Fix::MAX);
+                    "assert_eq!(Fix::ZERO.unwrapped_dist(Fix::MAX), Fix::MAX);
 "
                 },
                 "```
@@ -2714,17 +2714,17 @@ The following panics because of overflow.
 ```should_panic
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
-let _overflow = Fix::MIN.unwrapped_distance(Fix::ZERO);
+let _overflow = Fix::MIN.unwrapped_dist(Fix::ZERO);
 ```
 "
                 };
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_distance(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     if_signed_unsigned!(
                         $Signedness,
-                        self.checked_distance(other).expect("overflow"),
-                        self.distance(other),
+                        self.checked_dist(other).expect("overflow"),
+                        self.dist(other),
                     )
                 }
             }
@@ -3097,18 +3097,18 @@ The distance is the absolute value of the difference.
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(
-    Fix::ONE.overflowing_distance(Fix::from_num(5)),
+    Fix::ONE.overflowing_dist(Fix::from_num(5)),
     (Fix::from_num(4), false)
 );
 ",
                 if_signed_unsigned!(
                     $Signedness,
                     "assert_eq!(
-    Fix::MIN.overflowing_distance(Fix::MAX),
+    Fix::MIN.overflowing_dist(Fix::MAX),
     (-Fix::DELTA, true)
 );",
                     "assert_eq!(
-    Fix::ZERO.overflowing_distance(Fix::MAX),
+    Fix::ZERO.overflowing_dist(Fix::MAX),
     (Fix::MAX, false)
 );",
                 ),
@@ -3117,10 +3117,7 @@ assert_eq!(
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn overflowing_distance(
-                    self,
-                    other: $Fixed<Frac>,
-                ) -> ($Fixed<Frac>, bool) {
+                pub const fn overflowing_dist(self, other: $Fixed<Frac>,) -> ($Fixed<Frac>, bool) {
                     if_signed! {
                         $Signedness;
                         if self.to_bits() < other.to_bits() {
@@ -3131,7 +3128,7 @@ assert_eq!(
                     }
                     if_unsigned! {
                         $Signedness;
-                        (self.distance(other), false)
+                        (self.dist(other), false)
                     }
                 }
             }
