@@ -97,7 +97,7 @@ macro_rules! impl_traits {
             }
             #[inline]
             fn is_zero(&self) -> bool {
-                self.to_bits() == 0
+                (*self).is_zero()
             }
         }
 
