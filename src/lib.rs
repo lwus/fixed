@@ -94,8 +94,8 @@ The conversions supported cover the following cases.
   * Fixed-point numbers can be converted to strings using [`Display`],
     [`Binary`], [`Octal`], [`LowerHex`] and [`UpperHex`]. The output is rounded
     to the nearest, with ties rounded to even.
-  * All fixed-point numbers are plain old data, so bit casting conversions from
-    the [*bytemuck* crate] can be used.
+  * All fixed-point numbers are plain old data, so [`bytemuck`] bit casting
+    conversions can be used.
 
 ## Quick examples
 
@@ -240,7 +240,6 @@ shall be dual licensed as above, without any additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*az* crate]: https://crates.io/crates/az
-[*bytemuck* crate]: https://crates.io/crates/bytemuck
 [*cordic* crate]: https://crates.io/crates/cordic
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-macro* crate]: https://crates.io/crates/fixed-macro

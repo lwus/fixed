@@ -85,8 +85,8 @@ The conversions supported cover the following cases.
   * Fixed-point numbers can be converted to strings using [`Display`],
     [`Binary`], [`Octal`], [`LowerHex`] and [`UpperHex`]. The output is rounded
     to the nearest, with ties rounded to even.
-  * All fixed-point numbers are plain old data, so bit casting conversions from
-    the [*bytemuck* crate] can be used.
+  * All fixed-point numbers are plain old data, so [`bytemuck`] bit casting
+    conversions can be used.
 
 ## What’s new
 
@@ -134,6 +134,7 @@ The conversions supported cover the following cases.
     oversight. Now it is sealed, and the documentation explicitly states that
     the trait should not be used directly.
 
+[*bytemuck* crate]: https://crates.io/crates/bytemuck
 [`Debug`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html
 [bm-p-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
 [bm-tw-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
@@ -369,7 +370,6 @@ shall be dual licensed as above, without any additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*az* crate]: https://crates.io/crates/az
-[*bytemuck* crate]: https://crates.io/crates/bytemuck
 [*cordic* crate]: https://crates.io/crates/cordic
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-macro* crate]: https://crates.io/crates/fixed-macro
@@ -418,6 +418,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 [`U20F12`]: https://docs.rs/fixed/~1.8/fixed/types/type.U20F12.html
 [`UpperHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html
 [`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
+[`bytemuck`]: https://docs.rs/bytemuck/^1/bytemuck/index.html
 [`checked_from_num`]: https://docs.rs/fixed/~1.8/fixed/struct.FixedI32.html#method.checked_from_num
 [`f16`]: https://docs.rs/half/^1/half/struct.f16.html
 [`from_num`]: https://docs.rs/fixed/~1.8/fixed/struct.FixedI32.html#method.from_num
