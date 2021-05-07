@@ -398,7 +398,8 @@ where
     /// [types]: crate::types
     type Unsigned: FixedUnsigned;
 
-    /// Returns a reference to `self` if it is signed, or [`None`] if it is unsigned.
+    /// Returns a reference to `self` as [`FixedSigned`] if the type is signed,
+    /// or [`None`] if it is unsigned.
     ///
     /// # Examples
     ///
@@ -426,7 +427,8 @@ where
         }
     }
 
-    /// Returns a reference to `self` if it is unsigned, or [`None`] if it is signed.
+    /// Returns a reference to `self` as [`FixedUnsigned`] if the type is
+    /// unsigned, or [`None`] if it is signed.
     ///
     /// # Examples
     ///
@@ -454,7 +456,8 @@ where
         }
     }
 
-    /// Returns a mutable reference to `self` if it is signed, or [`None`] if it is unsigned.
+    /// Returns a mutable reference to `self` as [`FixedSigned`] if the type is
+    /// signed, or [`None`] if it is unsigned.
     ///
     /// # Examples
     ///
@@ -483,7 +486,8 @@ where
         }
     }
 
-    /// Returns a mutable reference to `self` if it is unsigned, or [`None`] if it is signed.
+    /// Returns a mutable reference to `self` as [`FixedUnsigned`] if the type
+    /// is unsigned, or [`None`] if it is signed.
     ///
     /// # Examples
     ///
