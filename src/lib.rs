@@ -306,6 +306,7 @@ mod impl_bytemuck;
 mod impl_num_traits;
 mod int_helper;
 mod log10;
+mod prim_traits;
 #[cfg(feature = "serde")]
 mod serdeize;
 pub mod traits;
