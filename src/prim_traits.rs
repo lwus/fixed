@@ -15,9 +15,12 @@
 
 use crate::{
     helpers::{FloatHelper, FloatKind, FromFloatHelper, IntHelper},
-    traits::{Fixed, FromFixed, ToFixed},
-    F128Bits,
+    traits::{Fixed, FixedEquiv, FromFixed, ToFixed},
+    types::extra::U0,
+    F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
+    FixedU64, FixedU8,
 };
+use bytemuck::TransparentWrapper;
 use half::{bf16, f16};
 
 impl ToFixed for bool {
@@ -80,7 +83,7 @@ impl ToFixed for bool {
 }
 
 macro_rules! impl_int {
-    ($Int:ident) => {
+    ($Int:ident $(, $Equiv:ident)?) => {
         impl FromFixed for $Int {
             /// Converts a fixed-point number to an integer.
             ///
@@ -209,20 +212,56 @@ macro_rules! impl_int {
                 ToFixed::unwrapped_to_fixed(self.to_repr_fixed())
             }
         }
+
+        $(
+            impl FixedEquiv for $Int {
+                type Equiv = $Equiv<U0>;
+
+                #[inline]
+                fn to_fixed_equiv(self) -> $Equiv<U0> {
+                    $Equiv::from_bits(self)
+                }
+
+                #[inline]
+                fn as_fixed_equiv(&self) -> &$Equiv<U0> {
+                    $Equiv::wrap_ref(self)
+                }
+
+                #[inline]
+                fn as_fixed_equiv_mut(&mut self) -> &mut $Equiv<U0> {
+                    $Equiv::wrap_mut(self)
+                }
+
+                #[inline]
+                fn from_fixed_equiv(f: $Equiv<U0>) -> $Int {
+                    f.to_bits()
+                }
+
+                #[inline]
+                fn ref_from_fixed_equiv(f: &$Equiv<U0>) -> &$Int {
+                    &f.bits
+                }
+
+                #[inline]
+                fn mut_from_fixed_equiv(f: &mut $Equiv<U0>) -> &mut $Int {
+                    &mut f.bits
+                }
+            }
+        )*
     };
 }
 
-impl_int! { i8 }
-impl_int! { i16 }
-impl_int! { i32 }
-impl_int! { i64 }
-impl_int! { i128 }
+impl_int! { i8, FixedI8 }
+impl_int! { i16, FixedI16 }
+impl_int! { i32, FixedI32 }
+impl_int! { i64, FixedI64 }
+impl_int! { i128, FixedI128 }
 impl_int! { isize }
-impl_int! { u8 }
-impl_int! { u16 }
-impl_int! { u32 }
-impl_int! { u64 }
-impl_int! { u128 }
+impl_int! { u8, FixedU8 }
+impl_int! { u16, FixedU16 }
+impl_int! { u32, FixedU32 }
+impl_int! { u64, FixedU64 }
+impl_int! { u128, FixedU128 }
 impl_int! { usize }
 
 macro_rules! impl_float {

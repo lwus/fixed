@@ -2903,6 +2903,79 @@ pub trait ToFixed {
     }
 }
 
+/// This trait provides a way to convert a number to/from an equivalent
+/// fixed-point number.
+///
+/// Implementations are provided for the signed integer primitives [`i8`],
+/// [`i16`], [`i32`], [`i64`] and [`i128`], which have equivalent fixed-point
+/// types [`I8F0`], [`I16F0`], [`I32F0`], [`I64F0`] and [`I128F0`]. Similar
+/// implementations are provided for the unsigned integer primitives [`u8`],
+/// [`u16`], [`u32`], [`u64`] and [`u128`].
+///
+/// # Examples
+///
+/// An [`i32`] can be treated as an [`I32F0`].
+///
+/// ```rust
+/// use fixed::traits::{Fixed, FixedEquiv};
+///
+/// fn next_up<F: Fixed>(f: &mut F) {
+///     *f += F::DELTA;
+/// }
+///
+/// let mut i = 12i32;
+/// // next_up is called with &mut i converted to &mut I32F0
+/// next_up(i.as_fixed_equiv_mut());
+/// assert_eq!(i, 13);
+/// ```
+///
+/// Simlarly, an [`I32F0`] can be treated as an [`i32`].
+///
+/// ```rust
+/// use fixed::{traits::FixedEquiv, types::I32F0};
+///
+/// fn increase_by_5(i: &mut i32) {
+///     *i += 5;
+/// }
+///
+/// let mut f = I32F0::from_num(12);
+/// // increase_by_5 is called with &mut f converted to &mut i32
+/// increase_by_5(i32::mut_from_fixed_equiv(&mut f));
+/// assert_eq!(f, 17);
+/// ```
+///
+/// [`I8F0`]: crate::types::I8F0
+/// [`I16F0`]: crate::types::I16F0
+/// [`I32F0`]: crate::types::I32F0
+/// [`I64F0`]: crate::types::I64F0
+/// [`I128F0`]: crate::types::I128F0
+pub trait FixedEquiv {
+    /// The equivalent fixed-point type.
+    type Equiv: Fixed;
+
+    /// Converts an owned value to the equivalent fixed-point type.
+    fn to_fixed_equiv(self) -> Self::Equiv;
+
+    /// Converts a reference into a reference to the equivalent fixed-point
+    /// type.
+    fn as_fixed_equiv(&self) -> &Self::Equiv;
+
+    /// Converts a mutable reference into a mutable reference to the equivalent
+    /// fixed-point type.
+    fn as_fixed_equiv_mut(&mut self) -> &mut Self::Equiv;
+
+    /// Converts an owned equivalent fixed-point type to this type.
+    fn from_fixed_equiv(f: Self::Equiv) -> Self;
+
+    /// Converts a reference to the equivalent fixed-point type into a reference
+    /// to this type.
+    fn ref_from_fixed_equiv(f: &Self::Equiv) -> &Self;
+
+    /// Converts a mutable reference to the equivalent fixed-point type into a
+    /// mutable reference to this type.
+    fn mut_from_fixed_equiv(f: &mut Self::Equiv) -> &mut Self;
+}
+
 macro_rules! trait_delegate {
     (fn $method:ident($($param:ident: $Param:ty),*) -> $Ret:ty) => {
         #[inline]

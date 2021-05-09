@@ -28,6 +28,7 @@ Version 1.9.0 (unreleased)
       * [`Signed`][tf-s-1-9], [`Unsigned`][tf-u-1-9]
       * [`get_signed`][tf-gs-1-9], [`get_unsigned`][tf-gu-1-9]
       * [`get_signed_mut`][tf-gsm-1-9], [`get_unsigned_mut`][tf-gum-1-9]
+  * The new trait [`FixedEquiv`][fe-1-9] was added.
   * The following traits from the [*bytemuck* crate] were implemented for all
     fixed-point numbers, added as supertraits to the [`Fixed`][tf-1-9] trait,
     and implemented for the [`Wrapping`][w-1-9] and [`Unwrapped`][u-1-9]
@@ -62,6 +63,7 @@ Compatibility notes
 [f-ud-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_dist
 [f-unsd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unsigned_dist
 [f-wd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_dist
+[fe-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedEquiv.html
 [fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
 [leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
 [leu16-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
