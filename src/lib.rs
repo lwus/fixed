@@ -47,12 +47,17 @@ Rust compiler support for them is powerful enough.
 
 The main features are
 
-  * Representation of fixed-point numbers up to 128 bits wide.
+  * Representation of binary fixed-point numbers up to 128 bits wide.
   * Conversions between fixed-point numbers and numeric primitives.
   * Comparisons between fixed-point numbers and numeric primitives.
   * Parsing from strings in decimal, binary, octal and hexadecimal.
   * Display as decimal, binary, octal and hexadecimal.
   * Arithmetic and logic operations.
+
+This crate does *not* provide decimal fixed-point numbers. For example 0.001
+cannot be represented exactly, as it is 1/10<sup>3</sup>. It is binary fractions
+like 1/2<sup>4</sup> (0.0625) that can be represented exactly, provided there
+are enough fractional bits.
 
 This crate does *not* provide general analytic functions.
 
