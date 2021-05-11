@@ -17,7 +17,6 @@ keywords = ["fixed", "fixed-point", "mathematics", "numerics"]
 categories = ["algorithms", "embedded", "mathematics", "no-std"]
 license = "MIT/Apache-2.0"
 edition = "2018"
-autobenches = false
 
 [features]
 fail-on-warnings = []
@@ -51,15 +50,5 @@ version = "1.0.60"
 default-features = false
 optional = true
 
-[dev-dependencies]
-criterion = "0.3"
-num-traits = { version = "0.2", default-features = false }
-rand = { version = "0.8", default-features = false }
-rand_xoshiro = "0.6"
-
 [package.metadata.docs.rs]
 features = ["num-traits", "serde", "std"]
-
-[[bench]]
-name = "bench_main"
-harness = false
