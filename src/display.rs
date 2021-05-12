@@ -14,7 +14,7 @@
 // <https://opensource.org/licenses/MIT>.
 
 use crate::{
-    debug_hex,
+    debug_hex::{self, IsDebugHex},
     helpers::IntHelper,
     types::extra::{False, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
@@ -414,12 +414,14 @@ macro_rules! impl_fmt {
 
         impl<Frac: $LeEqU> Debug for $Fixed<Frac> {
             fn fmt(&self, f: &mut Formatter) -> FmtResult {
-                if debug_hex::is_debug_lower_hex(f) {
-                    fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::LowHex, f)
-                } else if debug_hex::is_debug_upper_hex(f) {
-                    fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::UpHex, f)
-                } else {
-                    fmt_dec(self.to_bits().neg_abs(), Self::FRAC_NBITS, f)
+                match debug_hex::is_debug_hex(f) {
+                    IsDebugHex::Lower => {
+                        fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::LowHex, f)
+                    }
+                    IsDebugHex::Upper => {
+                        fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::UpHex, f)
+                    }
+                    IsDebugHex::No => fmt_dec(self.to_bits().neg_abs(), Self::FRAC_NBITS, f),
                 }
             }
         }
