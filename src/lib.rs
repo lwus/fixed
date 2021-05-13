@@ -459,6 +459,9 @@ When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves like ",
 to have a major version 2 with [const generics] instead when the Rust compiler
 support for them is powerful enough.
 
+`", $s_fixed, "<Frac>` has the same size, alignment and ABI as [`", $s_inner, "`];
+it is `#[repr(transparent)]` with [`", $s_inner, "`] as the only non-zero-sized field.
+
 # Examples
 
 ```rust
