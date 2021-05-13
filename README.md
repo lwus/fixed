@@ -81,8 +81,8 @@ The conversions supported cover the following cases.
     provided using the [`FromFixed`] and [`ToFixed`] traits, or using the
     [`from_num`] and [`to_num`] methods and [their checked
     versions][`checked_from_num`].
-  * Additionally, checked casts from the [*az* crate] are implemented for
-    conversion between fixed-point nubmers and numeric primitives.
+  * Additionally, [`az`] casts are implemented for conversion between
+    fixed-point nubmers and numeric primitives.
   * Fixed-point numbers can be parsed from decimal strings using [`FromStr`],
     and from binary, octal and hexadecimal strings using the
     [`from_str_binary`], [`from_str_octal`] and [`from_str_hex`] methods. The
@@ -354,8 +354,8 @@ updated to an incompatible newer version.
 The following optional features are deprecated and may be removed in the next
 major version of the crate.
 
- 1. `az`, has no effect. Previously required for the cast traits from the [*az*
-    crate]. Now these cast traits are always provided.
+ 1. `az`, has no effect. Previously required for the [`az`] cast traits. Now
+    these cast traits are always provided.
  2. `f16`, has no effect. Previously required for conversion to/from [`f16`] and
     [`bf16`]. Now these conversions are always provided.
 
@@ -376,7 +376,6 @@ for inclusion in the work by you, as defined in the Apache License, Version 2.0,
 shall be dual licensed as above, without any additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
-[*az* crate]: https://crates.io/crates/az
 [*cordic* crate]: https://crates.io/crates/cordic
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-macro* crate]: https://crates.io/crates/fixed-macro
@@ -424,6 +423,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 [`ToFixed`]: https://docs.rs/fixed/~1.8/fixed/traits/trait.ToFixed.html
 [`U20F12`]: https://docs.rs/fixed/~1.8/fixed/types/type.U20F12.html
 [`UpperHex`]: https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html
+[`az`]: https://docs.rs/az/^1/az/index.html
 [`bf16`]: https://docs.rs/half/^1/half/struct.bf16.html
 [`bytemuck`]: https://docs.rs/bytemuck/^1/bytemuck/index.html
 [`checked_from_num`]: https://docs.rs/fixed/~1.8/fixed/struct.FixedI32.html#method.checked_from_num
