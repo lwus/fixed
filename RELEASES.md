@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.9.0 (unreleased)
+Version 1.9.0 (2021-05-13)
 ==========================
 
   * Fixed-point numbers can now be formatted as hexadecimal with [`Debug`]
@@ -55,32 +55,32 @@ Compatibility notes
 [bm-p-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Pod.html
 [bm-tw-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.TransparentWrapper.html
 [bm-z-1]: https://docs.rs/bytemuck/^1/bytemuck/trait.Zeroable.html
-[f-cd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_dist
-[f-d-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.dist
-[f-iz-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.is_zero
-[f-od-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_dist
-[f-sd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_dist
-[f-ud-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_dist
-[f-unsd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unsigned_dist
-[f-wd-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_dist
-[fe-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedEquiv.html
-[fof-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedOptionalFeatures.html
-[leu128-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
-[leu16-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
-[leu32-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
-[leu64-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
-[leu8-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
-[tf-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
-[tf-gs-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#method.get_signed
-[tf-gsm-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#method.get_signed_mut
-[tf-gu-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#method.get_unsigned
-[tf-gum-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#method.get_unsigned_mut
-[tf-s-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#associatedtype.Signed
-[tf-u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html#associatedtype.Unsigned
-[tfs-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.FixedSigned.html
-[u-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
-[uns-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
-[w-1-9]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+[f-cd-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.FixedI32.html#method.checked_dist
+[f-d-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.FixedI32.html#method.dist
+[f-iz-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.FixedI32.html#method.is_zero
+[f-od-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.FixedI32.html#method.overflowing_dist
+[f-sd-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.FixedI32.html#method.saturating_dist
+[f-ud-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.FixedI32.html#method.unwrapped_dist
+[f-unsd-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.FixedI32.html#method.unsigned_dist
+[f-wd-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.FixedI32.html#method.wrapping_dist
+[fe-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.FixedEquiv.html
+[fof-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.FixedOptionalFeatures.html
+[leu128-1-9]: https://docs.rs/fixed/~1.9/fixed/types/extra/trait.LeEqU128.html
+[leu16-1-9]: https://docs.rs/fixed/~1.9/fixed/types/extra/trait.LeEqU16.html
+[leu32-1-9]: https://docs.rs/fixed/~1.9/fixed/types/extra/trait.LeEqU32.html
+[leu64-1-9]: https://docs.rs/fixed/~1.9/fixed/types/extra/trait.LeEqU64.html
+[leu8-1-9]: https://docs.rs/fixed/~1.9/fixed/types/extra/trait.LeEqU8.html
+[tf-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.Fixed.html
+[tf-gs-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.Fixed.html#method.get_signed
+[tf-gsm-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.Fixed.html#method.get_signed_mut
+[tf-gu-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.Fixed.html#method.get_unsigned
+[tf-gum-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.Fixed.html#method.get_unsigned_mut
+[tf-s-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.Fixed.html#associatedtype.Signed
+[tf-u-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.Fixed.html#associatedtype.Unsigned
+[tfs-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.FixedSigned.html
+[u-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.Unwrapped.html
+[uns-1-9]: https://docs.rs/fixed/~1.9/fixed/types/extra/trait.Unsigned.html
+[w-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.Wrapping.html
 
 Version 1.8.0 (2021-04-20)
 ==========================
