@@ -440,7 +440,8 @@ in the range ",
             "</sup>/2<sup><i>f</i></sup>. The difference between successive
 numbers is constant throughout the range: <i>Δ</i> = 1/2<sup><i>f</i></sup>.
 
-When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves like ",
+For <code>", $s_fixed, "\\<[U0]></code>, <i>f</i> = 0 and <i>Δ</i> = 1, and the
+fixed-point number behaves like ",
             if_signed_unsigned!($Signedness, "an", "a"),
             " [`", $s_inner, "`] with the value lying in the range ",
             if_signed_unsigned!(
@@ -450,8 +451,9 @@ When <i>f</i> = 0, <i>Δ</i> = 1 and the fixed-point number behaves like ",
             ),
             " ≤ <i>x</i> < 2<sup>",
             if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
-            "</sup>. When <i>f</i> = ", $s_nbits, ",
-<i>Δ</i> = 1/2<sup>", $s_nbits, "</sup> and the value lies in the range ",
+            "</sup>. For <code>", $s_fixed, "\\<[U", $s_nbits, "]></code>,
+<i>f</i> = ", $s_nbits, " and <i>Δ</i> = 1/2<sup>", $s_nbits, "</sup>, and the
+value lies in the range ",
             if_signed_unsigned!($Signedness, "−1/2 ≤ <i>x</i> < 1/2", "0 ≤ <i>x</i> < 1"),
             ".
 
@@ -477,6 +479,8 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
 ```
 
 [*typenum* crate]: https://crates.io/crates/typenum
+[U0]: crate::types::extra::U0
+[U", $s_nbits, "]: crate::types::extra::U", $s_nbits, "
 [const generics]: https://github.com/rust-lang/rust/issues/44580
 ";
             #[repr(transparent)]
