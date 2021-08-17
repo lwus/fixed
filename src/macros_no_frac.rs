@@ -858,22 +858,7 @@ assert_eq!(Fix::from_num(7.5).rem_euclid(Fix::from_num(2)), Fix::from_num(1.5));
                             return Self::ZERO;
                         }
                     }
-                    // TODO: replace when rustc 1.52.0 is required
-                    // Self::from_bits(self.to_bits().rem_euclid(rhs_bits))
-                    let bits = self.to_bits() % rhs_bits;
-                    if_signed! {
-                        $Signedness;
-                        let bits = if bits < 0 {
-                            if rhs_bits < 0 {
-                                bits - rhs_bits
-                            } else {
-                                bits + rhs_bits
-                            }
-                        } else {
-                            bits
-                        };
-                    }
-                    Self::from_bits(bits)
+                    Self::from_bits(self.to_bits().rem_euclid(rhs_bits))
                 }
             }
 
@@ -917,7 +902,7 @@ assert_eq!(Fix::MIN.unsigned_abs(), min_as_unsigned);
 ";
                     #[inline]
                     pub const fn unsigned_abs(self) -> $UFixed<Frac> {
-                        $UFixed::from_bits(self.to_bits().wrapping_abs() as $UInner)
+                        $UFixed::from_bits(self.to_bits().unsigned_abs())
                     }
                 }
             }
@@ -1319,15 +1304,9 @@ assert_eq!(Fix::from_num(1.5).checked_rem(Fix::ZERO), None);
                             return Some(Self::ZERO);
                         }
                     }
-                    // TODO: replace when rustc 1.52.0 is required
-                    // match self.to_bits().checked_rem(rhs_bits) {
-                    //     None => None,
-                    //     Some(bits) => Some(Self::from_bits(bits)),
-                    // }
-                    if rhs_bits == 0 {
-                        None
-                    } else {
-                        Some(Self::from_bits(self.to_bits() % rhs_bits))
+                    match self.to_bits().checked_rem(rhs_bits) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
                     }
                 }
             }
@@ -1437,22 +1416,10 @@ assert_eq!(Fix::ONE.checked_div_int(0), None);
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn checked_div_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
-                    // TODO: replace when rustc 1.52.0 is required
-                    // match self.to_bits().checked_div(rhs) {
-                    //     None => None,
-                    //     Some(bits) => Some(Self::from_bits(bits)),
-                    // }
-                    if rhs == 0 {
-                        return None;
+                    match self.to_bits().checked_div(rhs) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
                     }
-                    let self_bits = self.to_bits();
-                    if_signed! {
-                        $Signedness;
-                        if self_bits == Self::MIN.to_bits() && rhs == -1 {
-                            return None;
-                        }
-                    }
-                    Some(Self::from_bits(self_bits / rhs))
                 }
             }
 
@@ -1486,15 +1453,9 @@ assert_eq!(num.checked_rem_euclid(Fix::ZERO), None);
                             return Some(Self::ZERO);
                         }
                     }
-                    // TODO: replace when rustc 1.52.0 is required
-                    // match self.to_bits().checked_rem_euclid(rhs_bits) {
-                    //     None => None,
-                    //     Some(bits) => Some(Self::from_bits(bits)),
-                    // }
-                    if rhs_bits == 0 {
-                        None
-                    } else {
-                        Some(self.rem_euclid(rhs))
+                    match self.to_bits().checked_rem_euclid(rhs_bits) {
+                        None => None,
+                        Some(bits) => Some(Self::from_bits(bits)),
                     }
                 }
             }
@@ -2098,9 +2059,7 @@ assert_eq!(Fix::from_num(3).wrapping_div_int(2), one_point_5);
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn wrapping_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
-                    // TODO: replace when rustc 1.52.0 is required
-                    // Self::from_bits(self.to_bits().wrapping_div(rhs))
-                    self.overflowing_div_int(rhs).0
+                    Self::from_bits(self.to_bits().wrapping_div(rhs))
                 }
             }
 
@@ -2987,17 +2946,8 @@ assert_eq!(Fix::from_num(3).overflowing_div_int(2), (one_point_5, false));
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub const fn overflowing_div_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
-                    // TODO: replace when rustc 1.52.0 is required
-                    // let (ans, o) = self.to_bits().overflowing_div(rhs);
-                    // (Self::from_bits(ans), o)
-                    let self_bits = self.to_bits();
-                    if_signed! {
-                        $Signedness;
-                        if self_bits == Self::MIN.to_bits() && rhs == -1 {
-                            return (self, true);
-                        }
-                    }
-                    (Self::from_bits(self_bits / rhs), false)
+                    let (ans, o) = self.to_bits().overflowing_div(rhs);
+                    (Self::from_bits(ans), o)
                 }
             }
 
