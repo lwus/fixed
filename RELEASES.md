@@ -11,10 +11,11 @@ Version 1.10.0 (unreleased)
   * The crate now requires rustc version 1.52.0 or later.
   * The new [`arbitrary`][feat-1-10] optional feature was added to implement the
     [`Arbitrary`][a-a-1] trait provided by the [*arbitrary* crate] for all
-    fixed-point numbers.
+    fixed-point numbers ([issue 37]).
 
 [a-a-1]: https://docs.rs/arbitrary/^1/arbitrary/trait.Arbitrary.html
 [feat-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
+[issue 37]: https://gitlab.com/tspiteri/fixed/-/issues/37
 
 Version 1.9.0 (2021-05-13)
 ==========================
@@ -43,7 +44,7 @@ Version 1.9.0 (2021-05-13)
   * The following traits from the [*bytemuck* crate] were implemented for all
     fixed-point numbers, added as supertraits to the [`Fixed`][tf-1-9] trait,
     and implemented for the [`Wrapping`][w-1-9] and [`Unwrapped`][u-1-9]
-    wrappers.
+    wrappers ([issue 31]).
       * [`Zeroable`][bm-z-1], [`Pod`][bm-p-1]
       * [`TransparentWrapper`][bm-tw-1]
 
@@ -76,6 +77,7 @@ Compatibility notes
 [f-wd-1-9]: https://docs.rs/fixed/~1.9/fixed/struct.FixedI32.html#method.wrapping_dist
 [fe-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.FixedEquiv.html
 [fof-1-9]: https://docs.rs/fixed/~1.9/fixed/traits/trait.FixedOptionalFeatures.html
+[issue 31]: https://gitlab.com/tspiteri/fixed/-/issues/31
 [leu128-1-9]: https://docs.rs/fixed/~1.9/fixed/types/extra/trait.LeEqU128.html
 [leu16-1-9]: https://docs.rs/fixed/~1.9/fixed/types/extra/trait.LeEqU16.html
 [leu32-1-9]: https://docs.rs/fixed/~1.9/fixed/types/extra/trait.LeEqU32.html
