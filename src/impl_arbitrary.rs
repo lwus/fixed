@@ -27,6 +27,11 @@ macro_rules! impl_trait {
             fn arbitrary(u: &mut Unstructured<'a>) -> ArbitraryResult<Self> {
                 $Inner::arbitrary(u).map(Self::from_bits)
             }
+
+            #[inline]
+            fn size_hint(depth: usize) -> (usize, Option<usize>) {
+                $Inner::size_hint(depth)
+            }
         }
 
         impl<'a, Frac: $LeEqU> Arbitrary<'a> for Wrapping<$Fixed<Frac>> {
@@ -34,12 +39,22 @@ macro_rules! impl_trait {
             fn arbitrary(u: &mut Unstructured<'a>) -> ArbitraryResult<Self> {
                 $Inner::arbitrary(u).map(Self::from_bits)
             }
+
+            #[inline]
+            fn size_hint(depth: usize) -> (usize, Option<usize>) {
+                $Inner::size_hint(depth)
+            }
         }
 
         impl<'a, Frac: $LeEqU> Arbitrary<'a> for Unwrapped<$Fixed<Frac>> {
             #[inline]
             fn arbitrary(u: &mut Unstructured<'a>) -> ArbitraryResult<Self> {
                 $Inner::arbitrary(u).map(Self::from_bits)
+            }
+
+            #[inline]
+            fn size_hint(depth: usize) -> (usize, Option<usize>) {
+                $Inner::size_hint(depth)
             }
         }
     };
