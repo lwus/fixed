@@ -95,6 +95,15 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.10.0 news (unreleased)
+
+  * The new [`arbitrary`][feat-1-10] optional feature was added to implement the
+    [`Arbitrary`][a-a-1] trait provided by the [*arbitrary* crate] for all
+    fixed-point numbers.
+
+[a-a-1]: https://docs.rs/arbitrary/^1/arbitrary/trait.Arbitrary.html
+[feat-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
+
 ### Version 1.9.0 news (2021-05-13)
 
   * Fixed-point numbers can now be formatted as hexadecimal with [`Debug`]
@@ -261,12 +270,15 @@ The *fixed* crate requires rustc version 1.50.0 or later.
 
 The *fixed* crate has these optional feature:
 
- 1. `serde`, disabled by default. This provides serialization support for the
+ 1. `arbitrary`, disabled by default. This provides the generation of arbitrary
+    fixed-point numbers from raw, unstructured data. This feature requires the
+    [*arbitrary* crate].
+ 2. `serde`, disabled by default. This provides serialization support for the
     fixed-point types. This feature requires the [*serde* crate].
- 2. `std`, disabled by default. This is for features that are not possible under
+ 3. `std`, disabled by default. This is for features that are not possible under
     `no_std`: currently the implementation of the [`Error`] trait for
     [`ParseFixedError`].
- 3. `serde-str`, disabled by default. Fixed-point numbers are serialized as
+ 4. `serde-str`, disabled by default. Fixed-point numbers are serialized as
     strings showing the value when using human-readable formats. This feature
     requires the `serde` and the `std` optional features. **Warning:** numbers
     serialized when this feature is enabled cannot be deserialized when this
@@ -318,6 +330,7 @@ for inclusion in the work by you, as defined in the Apache License, Version 2.0,
 shall be dual licensed as above, without any additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
+[*arbitrary* crate]: https://crates.io/crates/arbitrary
 [*cordic* crate]: https://crates.io/crates/cordic
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-macro* crate]: https://crates.io/crates/fixed-macro

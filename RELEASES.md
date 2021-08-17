@@ -5,6 +5,16 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.10.0 (unreleased)
+===========================
+
+  * The new [`arbitrary`][feat-1-10] optional feature was added to implement the
+    [`Arbitrary`][a-a-1] trait provided by the [*arbitrary* crate] for all
+    fixed-point numbers.
+
+[a-a-1]: https://docs.rs/arbitrary/^1/arbitrary/trait.Arbitrary.html
+[feat-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
+
 Version 1.9.0 (2021-05-13)
 ==========================
 
@@ -721,6 +731,7 @@ Version 0.1.0 (2018-08-10)
   * Many methods and trait implementations available for primitive integers are
     now also supported by the fixed-point numbers.
 
+[*arbitrary* crate]: https://crates.io/crates/arbitrary
 [*az* crate]: https://crates.io/crates/az
 [*bytemuck* crate]: https://crates.io/crates/bytemuck
 [`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html

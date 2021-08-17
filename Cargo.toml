@@ -39,6 +39,10 @@ bytemuck = "1.2"
 half = "1.6"
 typenum = "1.10"
 
+[dependencies.arbitrary]
+version = "1"
+optional = true
+
 [dependencies.num-traits]
 version = "0.2.13"
 default-features = false
@@ -51,4 +55,4 @@ default-features = false
 optional = true
 
 [package.metadata.docs.rs]
-features = ["num-traits", "serde", "std"]
+features = ["arbitrary", "num-traits", "serde", "std"]

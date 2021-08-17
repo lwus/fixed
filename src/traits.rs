@@ -23,6 +23,8 @@ use crate::{
     F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
     FixedU64, FixedU8, ParseFixedError,
 };
+#[cfg(feature = "arbitrary")]
+use arbitrary::Arbitrary;
 use bytemuck::{self, Pod, TransparentWrapper};
 use core::{
     fmt::{Binary, Debug, Display, LowerHex, Octal, UpperHex},
@@ -59,13 +61,21 @@ use serde::{de::Deserialize, ser::Serialize};
 
 macro_rules! comment_features {
     ($comment:expr) => {
-        #[cfg(all(not(feature = "num-traits"), not(feature = "serde")))]
+        #[cfg(all(
+            not(feature = "arbitrary"),
+            not(feature = "num-traits"),
+            not(feature = "serde")
+        ))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures: Sealed {}
         }
 
-        #[cfg(all(not(feature = "num-traits"), feature = "serde"))]
+        #[cfg(all(
+            not(feature = "arbitrary"),
+            not(feature = "num-traits"),
+            feature = "serde"
+        ))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures: Sealed
@@ -76,7 +86,11 @@ macro_rules! comment_features {
         }
 
         // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(feature = "num-traits", not(feature = "serde")))]
+        #[cfg(all(
+            not(feature = "arbitrary"),
+            feature = "num-traits",
+            not(feature = "serde")
+        ))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures: Sealed
@@ -94,11 +108,75 @@ macro_rules! comment_features {
         }
 
         // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
-        #[cfg(all(feature = "num-traits", feature = "serde"))]
+        #[cfg(all(not(feature = "arbitrary"), feature = "num-traits", feature = "serde"))]
         doc_comment! {
             $comment;
             pub trait FixedOptionalFeatures: Sealed
             where
+                Self: Zero + Bounded + Inv,
+                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
+                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
+                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
+                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
+                Self: WrappingShl + WrappingShr,
+                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
+                Self: ToPrimitive + FromPrimitive + FloatConst,
+                Self: Serialize + for<'de> Deserialize<'de>,
+            {
+            }
+        }
+
+        #[cfg(all(
+            feature = "arbitrary",
+            not(feature = "num-traits"),
+            not(feature = "serde")
+        ))]
+        doc_comment! {
+            $comment;
+            pub trait FixedOptionalFeatures: Sealed
+            where
+                Self: for<'a> Arbitrary<'a>,
+            {
+            }
+        }
+
+        #[cfg(all(feature = "arbitrary", not(feature = "num-traits"), feature = "serde"))]
+        doc_comment! {
+            $comment;
+            pub trait FixedOptionalFeatures: Sealed
+            where
+                Self: for<'a> Arbitrary<'a>,
+                Self: Serialize + for<'de> Deserialize<'de>
+            {
+            }
+        }
+
+        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
+        #[cfg(all(feature = "arbitrary", feature = "num-traits", not(feature = "serde")))]
+        doc_comment! {
+            $comment;
+            pub trait FixedOptionalFeatures: Sealed
+            where
+                Self: for<'a> Arbitrary<'a>,
+                Self: Zero + Bounded + Inv,
+                Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
+                Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
+                Self: SaturatingAdd + SaturatingSub + SaturatingMul,
+                Self: WrappingAdd + WrappingSub + WrappingNeg + WrappingMul,
+                Self: WrappingShl + WrappingShr,
+                Self: OverflowingAdd + OverflowingSub + OverflowingMul,
+                Self: ToPrimitive + FromPrimitive + FloatConst,
+            {
+            }
+        }
+
+        // Do *not* add MulAdd constaint, as it conflicts with Fixed::mul_add
+        #[cfg(all(feature = "arbitrary", feature = "num-traits", feature = "serde"))]
+        doc_comment! {
+            $comment;
+            pub trait FixedOptionalFeatures: Sealed
+            where
+                Self: for<'a> Arbitrary<'a>,
                 Self: Zero + Bounded + Inv,
                 Self: CheckedAdd + CheckedSub + CheckedNeg + CheckedMul,
                 Self: CheckedDiv + CheckedRem + CheckedShl + CheckedShr,
@@ -118,7 +196,10 @@ comment_features! {
     r#"This trait is used to provide supertraits to the [`Fixed`] trait
 depending on the crate’s [optional features], and should not be used directly.
 
- 1. If the `num-traits` experimental feature is enabled, the following
+ 1. If the `arbitrary` feature is enabled, [`Arbitrary`] is a supertrait of
+    [`Fixed`].
+
+ 2. If the `num-traits` experimental feature is enabled, the following
     are supertraits of [`Fixed`]:
 
       * [`Zero`]
@@ -149,7 +230,7 @@ depending on the crate’s [optional features], and should not be used directly.
     [`FixedSigned`] and [`FixedUnsigned`] because they have [`Num`] as
     a supertrait.
 
- 2. If the `serde` feature is enabled, [`Serialize`] and
+ 3. If the `serde` feature is enabled, [`Serialize`] and
     [`Deserialize`] are supertraits of [`Fixed`].
 
 [`MulAddAssign`]: num_traits::ops::mul_add::MulAddAssign
