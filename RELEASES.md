@@ -8,6 +8,7 @@ as-is, without any warranty. -->
 Version 1.10.0 (unreleased)
 ===========================
 
+  * The crate now requires rustc version 1.52.0 or later.
   * The new [`arbitrary`][feat-1-10] optional feature was added to implement the
     [`Arbitrary`][a-a-1] trait provided by the [*arbitrary* crate] for all
     fixed-point numbers.
