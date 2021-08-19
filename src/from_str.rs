@@ -34,7 +34,7 @@ fn bin_str_int_to_bin<I>(bytes: &[u8]) -> (I, bool)
 where
     I: IntHelper<IsSigned = False> + From<u8>,
 {
-    let max_len = I::NBITS as usize;
+    let max_len = I::BITS as usize;
     let (bytes, overflow) = if bytes.len() > max_len {
         (&bytes[(bytes.len() - max_len)..], true)
     } else {
@@ -53,7 +53,7 @@ where
     I: Shl<u32, Output = I> + Shr<u32, Output = I> + Add<Output = I>,
 {
     debug_assert!(!bytes.is_empty());
-    let dump_bits = I::NBITS - nbits;
+    let dump_bits = I::BITS - nbits;
     let mut rem_bits = nbits;
     let mut acc = I::ZERO;
     for (i, &byte) in bytes.iter().enumerate() {
@@ -81,7 +81,7 @@ fn oct_str_int_to_bin<I>(bytes: &[u8]) -> (I, bool)
 where
     I: IntHelper<IsSigned = False> + From<u8>,
 {
-    let max_len = (I::NBITS as usize + 2) / 3;
+    let max_len = (I::BITS as usize + 2) / 3;
     let (bytes, mut overflow) = if bytes.len() > max_len {
         (&bytes[(bytes.len() - max_len)..], true)
     } else {
@@ -89,7 +89,7 @@ where
     };
     let mut acc = I::from(bytes[0] - b'0');
     if bytes.len() == max_len {
-        let first_max_bits = I::NBITS - (max_len as u32 - 1) * 3;
+        let first_max_bits = I::BITS - (max_len as u32 - 1) * 3;
         let first_max = (I::from(1) << first_max_bits) - I::from(1);
         if acc > first_max {
             overflow = true;
@@ -107,7 +107,7 @@ where
     I: Shl<u32, Output = I> + Shr<u32, Output = I> + Add<Output = I>,
 {
     debug_assert!(!bytes.is_empty());
-    let dump_bits = I::NBITS - nbits;
+    let dump_bits = I::BITS - nbits;
     let mut rem_bits = nbits;
     let mut acc = I::ZERO;
     for (i, &byte) in bytes.iter().enumerate() {
@@ -145,7 +145,7 @@ fn hex_str_int_to_bin<I>(bytes: &[u8]) -> (I, bool)
 where
     I: IntHelper<IsSigned = False> + From<u8>,
 {
-    let max_len = (I::NBITS as usize + 3) / 4;
+    let max_len = (I::BITS as usize + 3) / 4;
     let (bytes, mut overflow) = if bytes.len() > max_len {
         (&bytes[(bytes.len() - max_len)..], true)
     } else {
@@ -153,7 +153,7 @@ where
     };
     let mut acc = I::from(unchecked_hex_digit(bytes[0]));
     if bytes.len() == max_len {
-        let first_max_bits = I::NBITS - (max_len as u32 - 1) * 4;
+        let first_max_bits = I::BITS - (max_len as u32 - 1) * 4;
         let first_max = (I::from(1) << first_max_bits) - I::from(1);
         if acc > first_max {
             overflow = true;
@@ -171,7 +171,7 @@ where
     I: Shl<u32, Output = I> + Shr<u32, Output = I> + Add<Output = I>,
 {
     debug_assert!(!bytes.is_empty());
-    let dump_bits = I::NBITS - nbits;
+    let dump_bits = I::BITS - nbits;
     let mut rem_bits = nbits;
     let mut acc = I::ZERO;
     for (i, &byte) in bytes.iter().enumerate() {
@@ -201,7 +201,7 @@ fn dec_str_int_to_bin<I>(bytes: &[u8]) -> (I, bool)
 where
     I: IntHelper<IsSigned = False> + From<u8>,
 {
-    let max_effective_len = I::NBITS as usize;
+    let max_effective_len = I::BITS as usize;
     let (bytes, mut overflow) = if bytes.len() > max_effective_len {
         (&bytes[(bytes.len() - max_effective_len)..], true)
     } else {
@@ -423,7 +423,7 @@ where
 {
     let (val, is_short) = I::parse_is_short(bytes);
     let one = I::from(1);
-    let dump_bits = I::NBITS - nbits;
+    let dump_bits = I::BITS - nbits;
     // if is_short, dec_to_bin can round and give correct answer immediately
     let round = if is_short {
         Round::Nearest
@@ -773,7 +773,7 @@ macro_rules! impl_from_str {
         }
 
         fn $get_int(int: &[u8], radix: u32, nbits: u32) -> ($BitsU, bool) {
-            const HALF: u32 = <$BitsU as IntHelper>::NBITS / 2;
+            const HALF: u32 = $BitsU::BITS / 2;
             if $attempt_int_half && nbits <= HALF {
                 let (half, overflow) = $get_int_half(int, radix, nbits);
                 return ($BitsU::from(half) << HALF, overflow);
@@ -789,7 +789,7 @@ macro_rules! impl_from_str {
                 10 => dec_str_int_to_bin(int),
                 _ => unreachable!(),
             };
-            let remove_bits = <$BitsU as IntHelper>::NBITS - nbits;
+            let remove_bits = $BitsU::BITS - nbits;
             if nbits == 0 {
                 overflow = true;
                 parsed_int = 0;
@@ -803,7 +803,7 @@ macro_rules! impl_from_str {
         }
 
         fn $get_frac(frac: &[u8], radix: u32, nbits: u32) -> Option<$BitsU> {
-            if $attempt_frac_half && nbits <= <$BitsU as IntHelper>::NBITS / 2 {
+            if $attempt_frac_half && nbits <= $BitsU::BITS / 2 {
                 return $get_frac_half(frac, radix, nbits).map($BitsU::from);
             }
             if frac.is_empty() {

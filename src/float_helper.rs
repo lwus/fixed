@@ -24,7 +24,7 @@ pub trait FloatHelper: Copy {
     type Bits: IntHelper;
 
     const PREC: u32;
-    const EXP_BIAS: i32 = (1 << (Self::Bits::NBITS - Self::PREC - 1)) - 1;
+    const EXP_BIAS: i32 = (1 << (Self::Bits::BITS - Self::PREC - 1)) - 1;
     const EXP_MIN: i32 = 1 - Self::EXP_BIAS;
     const EXP_MAX: i32 = Self::EXP_BIAS;
     const SIGN_MASK: Self::Bits = Self::Bits::MSB;

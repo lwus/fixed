@@ -16,7 +16,7 @@
 use crate::{
     helpers::{ToFixedHelper, Widest},
     traits::Fixed,
-    types::extra::{Bit, False, True, Unsigned, U0, U128, U16, U32, U64, U8},
+    types::extra::{Bit, False, True, U0},
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
@@ -33,12 +33,11 @@ where
     Self: Not<Output = Self> + BitAnd<Output = Self> + BitOr<Output = Self>,
     Self: Add<Output = Self> + Sub<Output = Self> + Div<Output = Self> + Rem<Output = Self>,
 {
-    type NBits: Unsigned;
     type IsSigned: Bit;
     type Unsigned: IntHelper;
     type ReprFixed: Fixed;
 
-    const NBITS: u32 = Self::NBits::U32;
+    const BITS: u32;
     const MSB: Self;
     const ZERO: Self;
 
@@ -65,14 +64,14 @@ where
 }
 
 macro_rules! sealed_int {
-    ($Int:ident($NBits:ident, $IsSigned:ident, $Unsigned:ty, $ReprFixed:ident); $($rest:tt)*) => {
+    ($Int:ident($IsSigned:ident, $Unsigned:ty, $ReprFixed:ident); $($rest:tt)*) => {
         impl IntHelper for $Int {
-            type NBits = $NBits;
             type IsSigned = $IsSigned;
             type Unsigned = $Unsigned;
             type ReprFixed = $ReprFixed<U0>;
 
-            const MSB: $Int = 1 << (Self::NBITS - 1);
+            const BITS: u32 = $Int::BITS;
+            const MSB: $Int = 1 << ($Int::BITS - 1);
             const ZERO: $Int = 0;
 
             #[inline]
@@ -113,9 +112,9 @@ macro_rules! sealed_int {
             $($rest)*
         }
     };
-    ($Unsigned:ident($NBits:ident, $ReprFixed:ident)) => {
+    ($Unsigned:ident($ReprFixed:ident)) => {
         sealed_int! {
-            $Unsigned($NBits, False, $Unsigned, $ReprFixed);
+            $Unsigned(False, $Unsigned, $ReprFixed);
 
             #[inline]
             fn is_negative(self) -> bool {
@@ -146,7 +145,7 @@ macro_rules! sealed_int {
                 dst_frac_bits: u32,
                 dst_int_bits: u32,
             ) -> ToFixedHelper {
-                let src_bits = Self::NBITS as i32;
+                let src_bits = Self::BITS as i32;
                 let dst_bits = (dst_frac_bits + dst_int_bits) as i32;
 
                 if self == 0 {
@@ -181,9 +180,9 @@ macro_rules! sealed_int {
             }
         }
     };
-    ($Signed:ident($NBits:ident, $Unsigned:ty, $ReprFixed:ident)) => {
+    ($Signed:ident($Unsigned:ty, $ReprFixed:ident)) => {
         sealed_int! {
-            $Signed($NBits, True, $Unsigned, $ReprFixed);
+            $Signed(True, $Unsigned, $ReprFixed);
 
             #[inline]
             fn is_negative(self) -> bool {
@@ -221,7 +220,7 @@ macro_rules! sealed_int {
                 dst_frac_bits: u32,
                 dst_int_bits: u32,
             ) -> ToFixedHelper {
-                let src_bits = Self::NBITS as i32;
+                let src_bits = Self::BITS as i32;
                 let dst_bits = (dst_frac_bits + dst_int_bits) as i32;
 
                 if self == 0 {
@@ -263,28 +262,28 @@ macro_rules! sealed_int {
     };
 }
 
-sealed_int! { i8(U8, u8, FixedI8) }
-sealed_int! { i16(U16, u16, FixedI16) }
-sealed_int! { i32(U32, u32, FixedI32) }
-sealed_int! { i64(U64, u64, FixedI64) }
-sealed_int! { i128(U128, u128, FixedI128) }
+sealed_int! { i8(u8, FixedI8) }
+sealed_int! { i16(u16, FixedI16) }
+sealed_int! { i32(u32, FixedI32) }
+sealed_int! { i64(u64, FixedI64) }
+sealed_int! { i128(u128, FixedI128) }
 #[cfg(target_pointer_width = "16")]
-sealed_int! { isize(U16, usize, FixedI16) }
+sealed_int! { isize(usize, FixedI16) }
 #[cfg(target_pointer_width = "32")]
-sealed_int! { isize(U32, usize, FixedI32) }
+sealed_int! { isize(usize, FixedI32) }
 #[cfg(target_pointer_width = "64")]
-sealed_int! { isize(U64, usize, FixedI64) }
-sealed_int! { u8(U8, FixedU8) }
-sealed_int! { u16(U16, FixedU16) }
-sealed_int! { u32(U32, FixedU32) }
-sealed_int! { u64(U64, FixedU64) }
-sealed_int! { u128(U128, FixedU128) }
+sealed_int! { isize(usize, FixedI64) }
+sealed_int! { u8(FixedU8) }
+sealed_int! { u16(FixedU16) }
+sealed_int! { u32(FixedU32) }
+sealed_int! { u64(FixedU64) }
+sealed_int! { u128(FixedU128) }
 #[cfg(target_pointer_width = "16")]
-sealed_int! { usize(U16, FixedU16) }
+sealed_int! { usize(FixedU16) }
 #[cfg(target_pointer_width = "32")]
-sealed_int! { usize(U32, FixedU32) }
+sealed_int! { usize(FixedU32) }
 #[cfg(target_pointer_width = "64")]
-sealed_int! { usize(U64, FixedU64) }
+sealed_int! { usize(FixedU64) }
 
 trait IntRepr: Copy {
     type Int;

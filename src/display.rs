@@ -262,7 +262,7 @@ macro_rules! impl_radix_helper {
     ($U:ident, $H:ident, $attempt_half:expr) => {
         impl FmtHelper for $U {
             fn write_int(mut self, radix: Radix, nbits: u32, buf: &mut Buffer) {
-                if $attempt_half && nbits < $U::NBITS / 2 {
+                if $attempt_half && nbits < $U::BITS / 2 {
                     return (self as $H).write_int(radix, nbits, buf);
                 }
                 let digit_bits = radix.digit_bits();
@@ -275,11 +275,11 @@ macro_rules! impl_radix_helper {
                 debug_assert!(self == 0);
             }
             fn write_frac(mut self, radix: Radix, nbits: u32, buf: &mut Buffer) -> Ordering {
-                if $attempt_half && nbits < $U::NBITS / 2 {
-                    return ((self >> ($U::NBITS / 2)) as $H).write_frac(radix, nbits, buf);
+                if $attempt_half && nbits < $U::BITS / 2 {
+                    return ((self >> ($U::BITS / 2)) as $H).write_frac(radix, nbits, buf);
                 }
                 let digit_bits = radix.digit_bits();
-                let compl_digit_bits = $U::NBITS - digit_bits;
+                let compl_digit_bits = $U::BITS - digit_bits;
                 for b in buf.frac().iter_mut() {
                     debug_assert!(self != 0);
                     *b = (self >> compl_digit_bits).wrapping_as::<u8>();
@@ -288,7 +288,7 @@ macro_rules! impl_radix_helper {
                 self.cmp(&$U::MSB)
             }
             fn write_int_dec(mut self, nbits: u32, buf: &mut Buffer) {
-                if $attempt_half && nbits < $U::NBITS / 2 {
+                if $attempt_half && nbits < $U::BITS / 2 {
                     return (self as $H).write_int_dec(nbits, buf);
                 }
                 for b in buf.int().iter_mut().rev() {
@@ -298,12 +298,12 @@ macro_rules! impl_radix_helper {
                 debug_assert!(self == 0);
             }
             fn write_frac_dec(mut self, nbits: u32, auto_prec: bool, buf: &mut Buffer) -> Ordering {
-                if $attempt_half && nbits < $U::NBITS / 2 {
-                    return ((self >> ($U::NBITS / 2)) as $H).write_frac_dec(nbits, auto_prec, buf);
+                if $attempt_half && nbits < $U::BITS / 2 {
+                    return ((self >> ($U::BITS / 2)) as $H).write_frac_dec(nbits, auto_prec, buf);
                 }
 
                 // add_5 is to add rounding when all bits are used
-                let (mut tie, mut add_5) = if nbits == $U::NBITS {
+                let (mut tie, mut add_5) = if nbits == $U::BITS {
                     (0, true)
                 } else {
                     ($U::MSB >> nbits, false)
@@ -351,14 +351,14 @@ impl_radix_helper! { u128, u64, true }
 fn fmt_dec<U: FmtHelper>((neg, abs): (bool, U), frac_nbits: u32, fmt: &mut Formatter) -> FmtResult {
     let (int, frac) = if frac_nbits == 0 {
         (abs, U::ZERO)
-    } else if frac_nbits == U::NBITS {
+    } else if frac_nbits == U::BITS {
         (U::ZERO, abs)
     } else {
-        (abs >> frac_nbits, abs << (U::NBITS - frac_nbits))
+        (abs >> frac_nbits, abs << (U::BITS - frac_nbits))
     };
-    let int_used_nbits = U::NBITS - int.leading_zeros();
+    let int_used_nbits = U::BITS - int.leading_zeros();
     let int_digits = ceil_log10_2_times(int_used_nbits);
-    let frac_used_nbits = U::NBITS - frac.trailing_zeros();
+    let frac_used_nbits = U::BITS - frac.trailing_zeros();
     let (frac_digits, auto_prec) = if let Some(precision) = fmt.precision() {
         // frac_used_nbits fits in usize, but precision might wrap to 0 in u32
         (cmp::min(frac_used_nbits as usize, precision) as u32, false)
@@ -381,15 +381,15 @@ fn fmt_radix2<U: FmtHelper>(
 ) -> FmtResult {
     let (int, frac) = if frac_nbits == 0 {
         (abs, U::ZERO)
-    } else if frac_nbits == U::NBITS {
+    } else if frac_nbits == U::BITS {
         (U::ZERO, abs)
     } else {
-        (abs >> frac_nbits, abs << (U::NBITS - frac_nbits))
+        (abs >> frac_nbits, abs << (U::BITS - frac_nbits))
     };
     let digit_bits = radix.digit_bits();
-    let int_used_nbits = U::NBITS - int.leading_zeros();
+    let int_used_nbits = U::BITS - int.leading_zeros();
     let int_digits = (int_used_nbits + digit_bits - 1) / digit_bits;
-    let frac_used_nbits = U::NBITS - frac.trailing_zeros();
+    let frac_used_nbits = U::BITS - frac.trailing_zeros();
     let mut frac_digits = (frac_used_nbits + digit_bits - 1) / digit_bits;
     if let Some(precision) = fmt.precision() {
         // frac_digits fits in usize, but precision might wrap to 0 in u32

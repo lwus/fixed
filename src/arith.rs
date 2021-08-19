@@ -542,7 +542,7 @@ macro_rules! mul_div_widen {
         impl MulDivOverflow for $Single {
             #[inline]
             fn mul_overflow(self, rhs: $Single, frac_nbits: u32) -> ($Single, bool) {
-                const NBITS: u32 = <$Single>::NBITS;
+                const NBITS: u32 = <$Single>::BITS;
                 let int_nbits: u32 = NBITS - frac_nbits;
                 let lhs2 = <$Double>::from(self);
                 let rhs2 = <$Double>::from(rhs) << int_nbits;
@@ -558,7 +558,7 @@ macro_rules! mul_div_widen {
                 mut frac_nbits: i32,
             ) -> ($Single, bool) {
                 type Unsigned = <$Single as IntHelper>::Unsigned;
-                const NBITS: i32 = <$Single>::NBITS as i32;
+                const NBITS: i32 = <$Single>::BITS as i32;
                 let self2 = <$Double>::from(self);
                 let mul2 = <$Double>::from(mul);
                 let prod2 = self2 * mul2;
@@ -596,7 +596,7 @@ macro_rules! mul_div_widen {
 
             #[inline]
             fn div_overflow(self, rhs: $Single, frac_nbits: u32) -> ($Single, bool) {
-                const NBITS: u32 = <$Single>::NBITS;
+                const NBITS: u32 = <$Single>::BITS;
                 let lhs2 = <$Double>::from(self) << frac_nbits;
                 let rhs2 = <$Double>::from(rhs);
                 let quot2 = lhs2 / rhs2;
@@ -785,7 +785,7 @@ macro_rules! mul_div_fallback {
                 add: $Single,
                 mut frac_nbits: i32,
             ) -> ($Single, bool) {
-                const NBITS: i32 = <$Single>::NBITS as i32;
+                const NBITS: i32 = <$Single>::BITS as i32;
 
                 // l * r + a
                 let (lh, ll) = self.hi_lo();
@@ -833,7 +833,7 @@ macro_rules! mul_div_fallback {
                 if frac_nbits == 0 {
                     self.overflowing_div(rhs)
                 } else {
-                    const NBITS: u32 = <$Single>::NBITS;
+                    const NBITS: u32 = <$Single>::BITS;
                     let lhs2 = (self >> (NBITS - frac_nbits), (self << frac_nbits) as $Uns);
                     let (quot2, _) = rhs.div_rem_from(lhs2);
                     let quot = quot2.1 as $Single;
