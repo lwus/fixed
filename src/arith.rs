@@ -24,6 +24,7 @@ use crate::{
 use az_crate::WrappingAs;
 use core::{
     iter::{Product, Sum},
+    num::{NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8},
     ops::{
         Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
         DivAssign, Mul, MulAssign, Neg, Not, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
@@ -217,7 +218,10 @@ macro_rules! shift_all {
 }
 
 macro_rules! fixed_arith {
-    ($Fixed:ident($Inner:ty, $LeEqU:ident, $bits_count:expr), $Signedness:tt) => {
+    (
+        $Fixed:ident($Inner:ty, $LeEqU:ident, $bits_count:expr $(, $NonZeroInner:ident)?),
+        $Signedness:tt
+    ) => {
         if_signed! {
             $Signedness;
             pass_one! { impl Neg for $Fixed { neg } }
@@ -452,14 +456,74 @@ macro_rules! fixed_arith {
                 }
             }
         }
+
+        $(
+            if_unsigned! {
+                $Signedness;
+
+                impl<Frac> Div<$NonZeroInner> for $Fixed<Frac> {
+                    type Output = $Fixed<Frac>;
+                    #[inline]
+                    fn div(self, rhs: $NonZeroInner) -> $Fixed<Frac> {
+                        Self::from_bits(self.to_bits() / rhs)
+                    }
+                }
+
+                refs! { impl Div<$NonZeroInner> for $Fixed { div } }
+
+                impl <Frac> DivAssign<$NonZeroInner> for $Fixed<Frac> {
+                    #[inline]
+                    fn div_assign(&mut self, rhs: $NonZeroInner) {
+                        *self = (*self).div(rhs)
+                    }
+                }
+
+                refs_assign! { impl DivAssign<$NonZeroInner> for $Fixed { div_assign } }
+
+                impl<Frac: $LeEqU> Rem<$NonZeroInner> for $Fixed<Frac> {
+                    type Output = $Fixed<Frac>;
+                    #[inline]
+                    fn rem(self, rhs: $NonZeroInner) -> $Fixed<Frac> {
+                        // Hack to silence overflow operation error if we shift
+                        // by Self::FRAC_NBITS directly.
+                        let frac_nbits = Self::FRAC_NBITS;
+                        if frac_nbits == <$Inner>::BITS {
+                            // rhs > self, so the remainder is self
+                            return self;
+                        }
+                        let rhs = rhs.get();
+                        let rhs_fixed_bits = rhs << frac_nbits;
+                        if (rhs_fixed_bits >> frac_nbits) != rhs {
+                            // rhs > self, so the remainder is self
+                            return self;
+                        }
+                        // SAFETY: rhs_fixed_bits must have some significant bits since
+                        // rhs_fixed_bits >> frac_nbits is equal to a non-zero value.
+                        let n = unsafe { $NonZeroInner::new_unchecked(rhs_fixed_bits) };
+                        Self::from_bits(self.to_bits() % n)
+                    }
+                }
+
+                refs! { impl Rem<$NonZeroInner> for $Fixed($LeEqU) { rem } }
+
+                impl <Frac: $LeEqU> RemAssign<$NonZeroInner> for $Fixed<Frac> {
+                    #[inline]
+                    fn rem_assign(&mut self, rhs: $NonZeroInner) {
+                        *self = (*self).rem(rhs)
+                    }
+                }
+
+                refs_assign! { impl RemAssign<$NonZeroInner> for $Fixed($LeEqU) { rem_assign } }
+            }
+        )*
     };
 }
 
-fixed_arith! { FixedU8(u8, LeEqU8, 8), Unsigned }
-fixed_arith! { FixedU16(u16, LeEqU16, 16), Unsigned }
-fixed_arith! { FixedU32(u32, LeEqU32, 32), Unsigned }
-fixed_arith! { FixedU64(u64, LeEqU64, 64), Unsigned }
-fixed_arith! { FixedU128(u128, LeEqU128, 128), Unsigned }
+fixed_arith! { FixedU8(u8, LeEqU8, 8, NonZeroU8), Unsigned }
+fixed_arith! { FixedU16(u16, LeEqU16, 16, NonZeroU16), Unsigned }
+fixed_arith! { FixedU32(u32, LeEqU32, 32, NonZeroU32), Unsigned }
+fixed_arith! { FixedU64(u64, LeEqU64, 64, NonZeroU64), Unsigned }
+fixed_arith! { FixedU128(u128, LeEqU128, 128, NonZeroU128), Unsigned }
 fixed_arith! { FixedI8(i8, LeEqU8, 8), Signed }
 fixed_arith! { FixedI16(i16, LeEqU16, 16), Signed }
 fixed_arith! { FixedI32(i32, LeEqU32, 32), Signed }
@@ -1077,6 +1141,41 @@ mod tests {
 
         assert_eq!(i0(0.25) % 1, i0(0.25));
         assert_eq!(i0(0.25).rem_euclid_int(1), i0(0.25));
+    }
+
+    #[test]
+    fn div_rem_nonzero() {
+        use crate::types::{U0F32, U16F16, U32F0};
+        use core::num::NonZeroU32;
+        let half_bits = u32::from(u16::MAX);
+        let vals = &[
+            0,
+            1,
+            100,
+            5555,
+            half_bits - 1,
+            half_bits,
+            half_bits + 1,
+            u32::MAX - 1,
+            u32::MAX,
+        ];
+        for &a in vals {
+            for &b in vals {
+                let all_frac = U0F32::from_bits(a);
+                let some_frac = U16F16::from_bits(a);
+                let no_frac = U32F0::from_bits(a);
+                let nz = match NonZeroU32::new(b) {
+                    Some(s) => s,
+                    None => continue,
+                };
+                assert_eq!(all_frac / b, all_frac / nz);
+                assert_eq!(all_frac % b, all_frac % nz);
+                assert_eq!(some_frac / b, some_frac / nz);
+                assert_eq!(some_frac % b, some_frac % nz);
+                assert_eq!(no_frac / b, no_frac / nz);
+                assert_eq!(no_frac % b, no_frac % nz);
+            }
+        }
     }
 
     macro_rules! check_mul_add {

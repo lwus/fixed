@@ -9,12 +9,16 @@ Version 1.10.0 (unreleased)
 ===========================
 
   * The crate now requires rustc version 1.52.0 or later.
+  * <code>{[`Div`],[`DivAssign`],[`Rem`],[`RemAssign`]}\<[`NonZeroU32`]></code>
+    are now implemented for [`FixedU32`][fu-1-10], and similar for all other
+    unsigned fixed-point numbers.
   * The new [`arbitrary`][feat-1-10] optional feature was added to implement the
     [`Arbitrary`][a-a-1] trait provided by the [*arbitrary* crate] for all
     fixed-point numbers ([issue 37]).
 
 [a-a-1]: https://docs.rs/arbitrary/^1/arbitrary/trait.Arbitrary.html
 [feat-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
+[fu-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html
 [issue 37]: https://gitlab.com/tspiteri/fixed/-/issues/37
 
 Version 1.9.0 (2021-05-13)
@@ -737,7 +741,12 @@ Version 0.1.0 (2018-08-10)
 [*arbitrary* crate]: https://crates.io/crates/arbitrary
 [*az* crate]: https://crates.io/crates/az
 [*bytemuck* crate]: https://crates.io/crates/bytemuck
-[`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
 [`Debug`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html
+[`DivAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.DivAssign.html
+[`Div`]: https://doc.rust-lang.org/nightly/core/ops/trait.Div.html
+[`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
+[`NonZeroU32`]: https://doc.rust-lang.org/nightly/core/num/struct.NonZeroU32.html
 [`Product`]: https://doc.rust-lang.org/nightly/core/iter/trait.Product.html
+[`RemAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.RemAssign.html
+[`Rem`]: https://doc.rust-lang.org/nightly/core/ops/trait.Rem.html
 [`Sum`]: https://doc.rust-lang.org/nightly/core/iter/trait.Sum.html

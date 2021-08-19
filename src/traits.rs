@@ -31,6 +31,7 @@ use core::{
     hash::Hash,
     iter::{Product, Sum},
     mem,
+    num::{NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8},
     ops::{
         Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
         DivAssign, Mul, MulAssign, Neg, Not, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
@@ -2625,7 +2626,24 @@ where
 /// This trait is sealed and cannot be implemented for more types; it
 /// is implemented for [`FixedU8`], [`FixedU16`], [`FixedU32`],
 /// [`FixedU64`], and [`FixedU128`].
-pub trait FixedUnsigned: Fixed {
+pub trait FixedUnsigned: Fixed
+where
+    Self: Div<<Self as FixedUnsigned>::NonZeroBits, Output = Self>,
+    Self: DivAssign<<Self as FixedUnsigned>::NonZeroBits>,
+    Self: Rem<<Self as FixedUnsigned>::NonZeroBits, Output = Self>,
+    Self: RemAssign<<Self as FixedUnsigned>::NonZeroBits>,
+{
+    /// The non-zero wrapped version of [`Bits`].
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{traits::FixedUnsigned, types::U16F16};
+    /// let non_zero_5 = <U16F16 as FixedUnsigned>::NonZeroBits::new(5).unwrap();
+    /// assert_eq!(U16F16::from_num(31) / non_zero_5, U16F16::from_num(31) / 5);
+    /// ```
+    type NonZeroBits;
+
     /// Returns the number of bits required to represent the value.
     ///
     /// See also
@@ -3091,7 +3109,10 @@ macro_rules! trait_delegate {
 }
 
 macro_rules! impl_fixed {
-    ($Fixed:ident, $IFixed:ident, $UFixed:ident, $LeEqU:ident, $Bits:ident, $Signedness:tt) => {
+    (
+        $Fixed:ident, $IFixed:ident, $UFixed:ident, $LeEqU:ident, $Bits:ident,
+        $Signedness:tt $(, $NonZeroBits:ident)?
+    ) => {
         impl<Frac: $LeEqU> FixedOptionalFeatures for $Fixed<Frac> {}
 
         impl<Frac: $LeEqU> Fixed for $Fixed<Frac> {
@@ -3524,6 +3545,7 @@ macro_rules! impl_fixed {
         if_unsigned! {
             $Signedness;
             impl<Frac: $LeEqU> FixedUnsigned for $Fixed<Frac> {
+                $( type NonZeroBits = $NonZeroBits; )*
                 trait_delegate! { fn significant_bits(self) -> u32 }
                 trait_delegate! { fn is_power_of_two(self) -> bool }
                 trait_delegate! { fn highest_one(self) -> Self }
@@ -3541,8 +3563,8 @@ impl_fixed! { FixedI16, FixedI16, FixedU16, LeEqU16, i16, Signed }
 impl_fixed! { FixedI32, FixedI32, FixedU32, LeEqU32, i32, Signed }
 impl_fixed! { FixedI64, FixedI64, FixedU64, LeEqU64, i64, Signed }
 impl_fixed! { FixedI128, FixedI128, FixedU128, LeEqU128, i128, Signed }
-impl_fixed! { FixedU8, FixedI8, FixedU8, LeEqU8, u8, Unsigned }
-impl_fixed! { FixedU16, FixedI16, FixedU16, LeEqU16, u16, Unsigned }
-impl_fixed! { FixedU32, FixedI32, FixedU32, LeEqU32, u32, Unsigned }
-impl_fixed! { FixedU64, FixedI64, FixedU64, LeEqU64, u64, Unsigned }
-impl_fixed! { FixedU128, FixedI128, FixedU128, LeEqU128, u128, Unsigned }
+impl_fixed! { FixedU8, FixedI8, FixedU8, LeEqU8, u8, Unsigned, NonZeroU8 }
+impl_fixed! { FixedU16, FixedI16, FixedU16, LeEqU16, u16, Unsigned, NonZeroU16 }
+impl_fixed! { FixedU32, FixedI32, FixedU32, LeEqU32, u32, Unsigned, NonZeroU32 }
+impl_fixed! { FixedU64, FixedI64, FixedU64, LeEqU64, u64, Unsigned, NonZeroU64 }
+impl_fixed! { FixedU128, FixedI128, FixedU128, LeEqU128, u128, Unsigned, NonZeroU128 }
