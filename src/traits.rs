@@ -2639,9 +2639,12 @@ where
     ///
     /// ```rust
     /// use fixed::{traits::FixedUnsigned, types::U16F16};
+    /// let val = U16F16::from_num(31);
     /// let non_zero_5 = <U16F16 as FixedUnsigned>::NonZeroBits::new(5).unwrap();
-    /// assert_eq!(U16F16::from_num(31) / non_zero_5, U16F16::from_num(31) / 5);
+    /// assert_eq!(val / non_zero_5, val / 5);
     /// ```
+    ///
+    /// [`Bits`]: Fixed::Bits
     type NonZeroBits;
 
     /// Returns the number of bits required to represent the value.
