@@ -97,7 +97,7 @@ The conversions supported cover the following cases.
 
 ### Version 1.10.0 news (unreleased)
 
-  * The crate now requires rustc version 1.52.0 or later.
+  * The crate now requires rustc version 1.53.0 or later.
   * <code>{[`Div`],[`DivAssign`],[`Rem`],[`RemAssign`]}\<[`NonZeroU32`]></code>
     are now implemented for [`FixedU32`][fu-1-10], and similar for all other
     unsigned fixed-point numbers.
@@ -276,7 +276,7 @@ crate, add it as a dependency inside [*Cargo.toml*]:
 fixed = "1.9"
 ```
 
-The *fixed* crate requires rustc version 1.52.0 or later.
+The *fixed* crate requires rustc version 1.53.0 or later.
 
 ## Optional features
 
