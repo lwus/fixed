@@ -307,7 +307,7 @@ macro_rules! fixed_arith {
         pass! { impl BitXor for $Fixed { bitxor } }
         pass_assign! { impl BitXorAssign for $Fixed { bitxor_assign } }
 
-        impl<Frac: $LeEqU> Mul<$Inner> for $Fixed<Frac> {
+        impl<Frac> Mul<$Inner> for $Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn mul(self, rhs: $Inner) -> $Fixed<Frac> {
@@ -358,7 +358,7 @@ macro_rules! fixed_arith {
             }
         }
 
-        impl<Frac: $LeEqU> Div<$Inner> for $Fixed<Frac> {
+        impl<Frac> Div<$Inner> for $Fixed<Frac> {
             type Output = $Fixed<Frac>;
             #[inline]
             fn div(self, rhs: $Inner) -> $Fixed<Frac> {
