@@ -9,7 +9,7 @@ Version 1.10.0 (unreleased)
 ===========================
 
   * The crate now requires rustc version 1.53.0 or later.
-  * <code>{[`Div`],[`DivAssign`],[`Rem`],[`RemAssign`]}\<[`NonZeroU32`]></code>
+  * <code>{[Div][`Div`],[DivAssign][`DivAssign`],[Rem][`Rem`],[RemAssign][`RemAssign`]}\<[NonZeroU32][`NonZeroU32`]></code>
     are now implemented for [`FixedU32`][fu-1-10], and similar for all other
     unsigned fixed-point numbers.
   * The new [`arbitrary`][feat-1-10] optional feature was added to implement the
