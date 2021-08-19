@@ -401,7 +401,7 @@ where
     /// ```rust
     /// use fixed::{traits::Fixed, types::I16F16};
     /// let val = I16F16::from_num(31);
-    /// let non_zero_5 = <I16F16 as FixedUnsigned>::NonZeroBits::new(5).unwrap();
+    /// let non_zero_5 = <I16F16 as Fixed>::NonZeroBits::new(5).unwrap();
     /// assert_eq!(val % non_zero_5, val % 5);
     /// ```
     ///
