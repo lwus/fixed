@@ -31,7 +31,10 @@ use core::{
     hash::Hash,
     iter::{Product, Sum},
     mem,
-    num::{NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8},
+    num::{
+        NonZeroI128, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI8, NonZeroU128, NonZeroU16,
+        NonZeroU32, NonZeroU64, NonZeroU8,
+    },
     ops::{
         Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
         DivAssign, Mul, MulAssign, Neg, Not, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
@@ -360,6 +363,8 @@ where
     Self: Mul<<Self as Fixed>::Bits, Output = Self> + MulAssign<<Self as Fixed>::Bits>,
     Self: Div<<Self as Fixed>::Bits, Output = Self> + DivAssign<<Self as Fixed>::Bits>,
     Self: Rem<<Self as Fixed>::Bits, Output = Self> + RemAssign<<Self as Fixed>::Bits>,
+    Self: Rem<<Self as Fixed>::NonZeroBits, Output = Self>,
+    Self: RemAssign<<Self as Fixed>::NonZeroBits>,
     Self: Not<Output = Self>,
     Self: BitAnd<Output = Self> + BitAndAssign,
     Self: BitOr<Output = Self> + BitOrAssign,
@@ -388,6 +393,20 @@ where
     /// assert_eq!(DELTA_BITS, 1i32);
     /// ```
     type Bits;
+
+    /// The non-zero wrapped version of [`Bits`].
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{traits::Fixed, types::I16F16};
+    /// let val = I16F16::from_num(31);
+    /// let non_zero_5 = <I16F16 as FixedUnsigned>::NonZeroBits::new(5).unwrap();
+    /// assert_eq!(val % non_zero_5, val % 5);
+    /// ```
+    ///
+    /// [`Bits`]: Fixed::Bits
+    type NonZeroBits;
 
     /// A byte array with the same size as the type.
     ///
@@ -2628,25 +2647,9 @@ where
 /// [`FixedU64`], and [`FixedU128`].
 pub trait FixedUnsigned: Fixed
 where
-    Self: Div<<Self as FixedUnsigned>::NonZeroBits, Output = Self>,
-    Self: DivAssign<<Self as FixedUnsigned>::NonZeroBits>,
-    Self: Rem<<Self as FixedUnsigned>::NonZeroBits, Output = Self>,
-    Self: RemAssign<<Self as FixedUnsigned>::NonZeroBits>,
+    Self: Div<<Self as Fixed>::NonZeroBits, Output = Self>,
+    Self: DivAssign<<Self as Fixed>::NonZeroBits>,
 {
-    /// The non-zero wrapped version of [`Bits`].
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use fixed::{traits::FixedUnsigned, types::U16F16};
-    /// let val = U16F16::from_num(31);
-    /// let non_zero_5 = <U16F16 as FixedUnsigned>::NonZeroBits::new(5).unwrap();
-    /// assert_eq!(val / non_zero_5, val / 5);
-    /// ```
-    ///
-    /// [`Bits`]: Fixed::Bits
-    type NonZeroBits;
-
     /// Returns the number of bits required to represent the value.
     ///
     /// See also
@@ -3113,13 +3116,14 @@ macro_rules! trait_delegate {
 
 macro_rules! impl_fixed {
     (
-        $Fixed:ident, $IFixed:ident, $UFixed:ident, $LeEqU:ident, $Bits:ident,
-        $Signedness:tt $(, $NonZeroBits:ident)?
+        $Fixed:ident, $IFixed:ident, $UFixed:ident, $LeEqU:ident, $Bits:ident, $NonZeroBits:ident,
+        $Signedness:tt
     ) => {
         impl<Frac: $LeEqU> FixedOptionalFeatures for $Fixed<Frac> {}
 
         impl<Frac: $LeEqU> Fixed for $Fixed<Frac> {
             type Bits = $Bits;
+            type NonZeroBits = $NonZeroBits;
             type Bytes = [u8; mem::size_of::<$Bits>()];
             type Frac = Frac;
             type Signed = $IFixed<Frac>;
@@ -3548,7 +3552,6 @@ macro_rules! impl_fixed {
         if_unsigned! {
             $Signedness;
             impl<Frac: $LeEqU> FixedUnsigned for $Fixed<Frac> {
-                $( type NonZeroBits = $NonZeroBits; )*
                 trait_delegate! { fn significant_bits(self) -> u32 }
                 trait_delegate! { fn is_power_of_two(self) -> bool }
                 trait_delegate! { fn highest_one(self) -> Self }
@@ -3561,13 +3564,13 @@ macro_rules! impl_fixed {
     };
 }
 
-impl_fixed! { FixedI8, FixedI8, FixedU8, LeEqU8, i8, Signed }
-impl_fixed! { FixedI16, FixedI16, FixedU16, LeEqU16, i16, Signed }
-impl_fixed! { FixedI32, FixedI32, FixedU32, LeEqU32, i32, Signed }
-impl_fixed! { FixedI64, FixedI64, FixedU64, LeEqU64, i64, Signed }
-impl_fixed! { FixedI128, FixedI128, FixedU128, LeEqU128, i128, Signed }
-impl_fixed! { FixedU8, FixedI8, FixedU8, LeEqU8, u8, Unsigned, NonZeroU8 }
-impl_fixed! { FixedU16, FixedI16, FixedU16, LeEqU16, u16, Unsigned, NonZeroU16 }
-impl_fixed! { FixedU32, FixedI32, FixedU32, LeEqU32, u32, Unsigned, NonZeroU32 }
-impl_fixed! { FixedU64, FixedI64, FixedU64, LeEqU64, u64, Unsigned, NonZeroU64 }
-impl_fixed! { FixedU128, FixedI128, FixedU128, LeEqU128, u128, Unsigned, NonZeroU128 }
+impl_fixed! { FixedI8, FixedI8, FixedU8, LeEqU8, i8, NonZeroI8, Signed }
+impl_fixed! { FixedI16, FixedI16, FixedU16, LeEqU16, i16, NonZeroI16, Signed }
+impl_fixed! { FixedI32, FixedI32, FixedU32, LeEqU32, i32, NonZeroI32, Signed }
+impl_fixed! { FixedI64, FixedI64, FixedU64, LeEqU64, i64, NonZeroI64, Signed }
+impl_fixed! { FixedI128, FixedI128, FixedU128, LeEqU128, i128, NonZeroI128, Signed }
+impl_fixed! { FixedU8, FixedI8, FixedU8, LeEqU8, u8, NonZeroU8, Unsigned }
+impl_fixed! { FixedU16, FixedI16, FixedU16, LeEqU16, u16, NonZeroU16, Unsigned }
+impl_fixed! { FixedU32, FixedI32, FixedU32, LeEqU32, u32, NonZeroU32, Unsigned }
+impl_fixed! { FixedU64, FixedI64, FixedU64, LeEqU64, u64, NonZeroU64, Unsigned }
+impl_fixed! { FixedU128, FixedI128, FixedU128, LeEqU128, u128, NonZeroU128, Unsigned }

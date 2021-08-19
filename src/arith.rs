@@ -22,9 +22,14 @@ use crate::{
     FixedU8,
 };
 use az_crate::WrappingAs;
+#[cfg(not(debug_assertions))]
+use core::hint;
 use core::{
     iter::{Product, Sum},
-    num::{NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8},
+    num::{
+        NonZeroI128, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI8, NonZeroU128, NonZeroU16,
+        NonZeroU32, NonZeroU64, NonZeroU8,
+    },
     ops::{
         Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
         DivAssign, Mul, MulAssign, Neg, Not, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
@@ -219,7 +224,7 @@ macro_rules! shift_all {
 
 macro_rules! fixed_arith {
     (
-        $Fixed:ident($Inner:ty, $LeEqU:ident, $bits_count:expr $(, $NonZeroInner:ident)?),
+        $Fixed:ident($Inner:ty, $LeEqU:ident, $bits_count:expr, $NonZeroInner:ident),
         $Signedness:tt
     ) => {
         if_signed! {
@@ -457,65 +462,118 @@ macro_rules! fixed_arith {
             }
         }
 
-        $(
-            if_unsigned! {
-                $Signedness;
+        if_unsigned! {
+            $Signedness;
 
-                impl<Frac> Div<$NonZeroInner> for $Fixed<Frac> {
-                    type Output = $Fixed<Frac>;
-                    #[inline]
-                    fn div(self, rhs: $NonZeroInner) -> $Fixed<Frac> {
-                        Self::from_bits(self.to_bits() / rhs)
-                    }
+            impl<Frac> Div<$NonZeroInner> for $Fixed<Frac> {
+                type Output = $Fixed<Frac>;
+                #[inline]
+                fn div(self, rhs: $NonZeroInner) -> $Fixed<Frac> {
+                    Self::from_bits(self.to_bits() / rhs)
                 }
-
-                refs! { impl Div<$NonZeroInner> for $Fixed { div } }
-
-                impl <Frac> DivAssign<$NonZeroInner> for $Fixed<Frac> {
-                    #[inline]
-                    fn div_assign(&mut self, rhs: $NonZeroInner) {
-                        *self = (*self).div(rhs)
-                    }
-                }
-
-                refs_assign! { impl DivAssign<$NonZeroInner> for $Fixed { div_assign } }
-
-                impl<Frac: $LeEqU> Rem<$NonZeroInner> for $Fixed<Frac> {
-                    type Output = $Fixed<Frac>;
-                    #[inline]
-                    fn rem(self, rhs: $NonZeroInner) -> $Fixed<Frac> {
-                        // Hack to silence overflow operation error if we shift
-                        // by Self::FRAC_NBITS directly.
-                        let frac_nbits = Self::FRAC_NBITS;
-                        if frac_nbits == <$Inner>::BITS {
-                            // rhs > self, so the remainder is self
-                            return self;
-                        }
-                        let rhs = rhs.get();
-                        let rhs_fixed_bits = rhs << frac_nbits;
-                        if (rhs_fixed_bits >> frac_nbits) != rhs {
-                            // rhs > self, so the remainder is self
-                            return self;
-                        }
-                        // SAFETY: rhs_fixed_bits must have some significant bits since
-                        // rhs_fixed_bits >> frac_nbits is equal to a non-zero value.
-                        let n = unsafe { $NonZeroInner::new_unchecked(rhs_fixed_bits) };
-                        Self::from_bits(self.to_bits() % n)
-                    }
-                }
-
-                refs! { impl Rem<$NonZeroInner> for $Fixed($LeEqU) { rem } }
-
-                impl <Frac: $LeEqU> RemAssign<$NonZeroInner> for $Fixed<Frac> {
-                    #[inline]
-                    fn rem_assign(&mut self, rhs: $NonZeroInner) {
-                        *self = (*self).rem(rhs)
-                    }
-                }
-
-                refs_assign! { impl RemAssign<$NonZeroInner> for $Fixed($LeEqU) { rem_assign } }
             }
-        )*
+
+            refs! { impl Div<$NonZeroInner> for $Fixed { div } }
+
+            impl <Frac> DivAssign<$NonZeroInner> for $Fixed<Frac> {
+                #[inline]
+                fn div_assign(&mut self, rhs: $NonZeroInner) {
+                    *self = (*self).div(rhs)
+                }
+            }
+
+            refs_assign! { impl DivAssign<$NonZeroInner> for $Fixed { div_assign } }
+
+            impl<Frac: $LeEqU> Rem<$NonZeroInner> for $Fixed<Frac> {
+                type Output = $Fixed<Frac>;
+                #[inline]
+                fn rem(self, rhs: $NonZeroInner) -> $Fixed<Frac> {
+                    // Hack to silence overflow operation error if we shift
+                    // by Self::FRAC_NBITS directly.
+                    let frac_nbits = Self::FRAC_NBITS;
+                    let rhs = rhs.get();
+                    if frac_nbits == <$Inner>::BITS {
+                        // rhs > self, so the remainder is self
+                        return self;
+                    }
+                    let rhs_fixed_bits = rhs << frac_nbits;
+                    if (rhs_fixed_bits >> frac_nbits) != rhs {
+                        // rhs > self, so the remainder is self
+                        return self;
+                    }
+                    // SAFETY: rhs_fixed_bits must have some significant bits since
+                    // rhs_fixed_bits >> frac_nbits is equal to a non-zero value.
+                    debug_assert_ne!(rhs_fixed_bits, 0);
+                    let n = unsafe { $NonZeroInner::new_unchecked(rhs_fixed_bits) };
+                    Self::from_bits(self.to_bits() % n)
+                }
+            }
+        }
+
+        if_signed! {
+            $Signedness;
+
+            impl<Frac: $LeEqU> Rem<$NonZeroInner> for $Fixed<Frac> {
+                type Output = $Fixed<Frac>;
+                #[inline]
+                fn rem(self, rhs: $NonZeroInner) -> $Fixed<Frac> {
+                    // Hack to silence overflow operation error if we shift
+                    // by Self::FRAC_NBITS directly.
+                    let frac_nbits = Self::FRAC_NBITS;
+                    let rhs = rhs.get();
+                    let mut overflow = false;
+                    let rhs_fixed_bits = if frac_nbits == <$Inner>::BITS {
+                        overflow = true;
+                        0
+                    } else {
+                        rhs << frac_nbits
+                    };
+                    if overflow || (rhs_fixed_bits >> frac_nbits) != rhs {
+                        // Either
+                        //   * |rhs| > |self|, and so remainder is self, or
+                        //   * self is signed min with at least one integer bit,
+                        //     and the value of rhs is -self, so remainder is 0.
+                        return if self == Self::MIN
+                            && (Self::INT_NBITS > 0 && rhs == 1 << (Self::INT_NBITS - 1))
+                        {
+                            Self::ZERO
+                        } else {
+                            self
+                        };
+                    }
+                    if rhs_fixed_bits == -1 {
+                        return Self::ZERO;
+                    }
+                    // SAFETY: rhs_fixed_bits cannot be -1, and cannot be zero because
+                    // rhs_fixed_bits >> frac_nbits is equal to a non-zero value,
+                    // so the remainder operation cannot fail.
+                    match self.to_bits().checked_rem(rhs_fixed_bits) {
+                        Some(rem) => Self::from_bits(rem),
+                        None => {
+                            #[cfg(debug_assertions)]
+                            {
+                                unreachable!();
+                            }
+                            #[cfg(not(debug_assertions))]
+                            unsafe {
+                                hint::unreachable_unchecked();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        refs! { impl Rem<$NonZeroInner> for $Fixed($LeEqU) { rem } }
+
+        impl<Frac: $LeEqU> RemAssign<$NonZeroInner> for $Fixed<Frac> {
+            #[inline]
+            fn rem_assign(&mut self, rhs: $NonZeroInner) {
+                *self = (*self).rem(rhs)
+            }
+        }
+
+        refs_assign! { impl RemAssign<$NonZeroInner> for $Fixed($LeEqU) { rem_assign } }
     };
 }
 
@@ -524,11 +582,11 @@ fixed_arith! { FixedU16(u16, LeEqU16, 16, NonZeroU16), Unsigned }
 fixed_arith! { FixedU32(u32, LeEqU32, 32, NonZeroU32), Unsigned }
 fixed_arith! { FixedU64(u64, LeEqU64, 64, NonZeroU64), Unsigned }
 fixed_arith! { FixedU128(u128, LeEqU128, 128, NonZeroU128), Unsigned }
-fixed_arith! { FixedI8(i8, LeEqU8, 8), Signed }
-fixed_arith! { FixedI16(i16, LeEqU16, 16), Signed }
-fixed_arith! { FixedI32(i32, LeEqU32, 32), Signed }
-fixed_arith! { FixedI64(i64, LeEqU64, 64), Signed }
-fixed_arith! { FixedI128(i128, LeEqU128, 128), Signed }
+fixed_arith! { FixedI8(i8, LeEqU8, 8, NonZeroI8), Signed }
+fixed_arith! { FixedI16(i16, LeEqU16, 16, NonZeroI16), Signed }
+fixed_arith! { FixedI32(i32, LeEqU32, 32, NonZeroI32), Signed }
+fixed_arith! { FixedI64(i64, LeEqU64, 64, NonZeroI64), Signed }
+fixed_arith! { FixedI128(i128, LeEqU128, 128, NonZeroI128), Signed }
 
 pub(crate) trait MulDivOverflow: Sized {
     fn mul_overflow(self, rhs: Self, frac_nbits: u32) -> (Self, bool);
@@ -1144,8 +1202,8 @@ mod tests {
     }
 
     #[test]
-    fn div_rem_nonzero() {
-        use crate::types::{U0F32, U16F16, U32F0};
+    fn div_rem_nonzerou() {
+        use crate::types::{U0F32, U16F16, U1F31, U31F1, U32F0};
         use core::num::NonZeroU32;
         let half_bits = u32::from(u16::MAX);
         let vals = &[
@@ -1161,19 +1219,62 @@ mod tests {
         ];
         for &a in vals {
             for &b in vals {
-                let all_frac = U0F32::from_bits(a);
-                let some_frac = U16F16::from_bits(a);
-                let no_frac = U32F0::from_bits(a);
+                let a0 = U0F32::from_bits(a);
+                let a1 = U1F31::from_bits(a);
+                let a16 = U16F16::from_bits(a);
+                let a31 = U31F1::from_bits(a);
+                let a32 = U32F0::from_bits(a);
                 let nz = match NonZeroU32::new(b) {
                     Some(s) => s,
                     None => continue,
                 };
-                assert_eq!(all_frac / b, all_frac / nz);
-                assert_eq!(all_frac % b, all_frac % nz);
-                assert_eq!(some_frac / b, some_frac / nz);
-                assert_eq!(some_frac % b, some_frac % nz);
-                assert_eq!(no_frac / b, no_frac / nz);
-                assert_eq!(no_frac % b, no_frac % nz);
+                assert_eq!(a0 / nz, a0 / b);
+                assert_eq!(a0 % nz, a0 % b);
+                assert_eq!(a1 / nz, a1 / b);
+                assert_eq!(a1 % nz, a1 % b);
+                assert_eq!(a16 / nz, a16 / b);
+                assert_eq!(a16 % nz, a16 % b);
+                assert_eq!(a31 / nz, a31 / b);
+                assert_eq!(a31 % nz, a31 % b);
+                assert_eq!(a32 / nz, a32 / b);
+                assert_eq!(a32 % nz, a32 % b);
+            }
+        }
+    }
+
+    #[test]
+    fn rem_nonzeroi() {
+        use crate::types::{I0F32, I16F16, I1F31, I31F1, I32F0};
+        use core::num::NonZeroI32;
+        let vals = &[
+            i32::MIN,
+            i32::MIN + 1,
+            -5555,
+            -80,
+            -1,
+            0,
+            1,
+            100,
+            5555,
+            i32::MAX - 1,
+            i32::MAX,
+        ];
+        for &a in vals {
+            for &b in vals {
+                let a0 = I0F32::from_bits(a);
+                let a1 = I1F31::from_bits(a);
+                let a16 = I16F16::from_bits(a);
+                let a31 = I31F1::from_bits(a);
+                let a32 = I32F0::from_bits(a);
+                let nz = match NonZeroI32::new(b) {
+                    Some(s) => s,
+                    None => continue,
+                };
+                assert_eq!(a0 % nz, a0 % b);
+                assert_eq!(a1 % nz, a1 % b);
+                assert_eq!(a16 % nz, a16 % b);
+                assert_eq!(a31 % nz, a31 % b);
+                assert_eq!(a32 % nz, a32 % b);
             }
         }
     }

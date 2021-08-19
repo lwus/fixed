@@ -101,17 +101,22 @@ The conversions supported cover the following cases.
   * <code>{[Div][`Div`],[DivAssign][`DivAssign`],[Rem][`Rem`],[RemAssign][`RemAssign`]}\<[NonZeroU32][`NonZeroU32`]></code>
     are now implemented for [`FixedU32`][fu-1-10], and similar for all other
     unsigned fixed-point numbers.
+  * <code>{[Rem][`Rem`],[RemAssign][`RemAssign`]}\<[NonZeroI32][`NonZeroI32`]></code>
+    are now implemented for [`FixedI32`][fi-1-10], and similar for all other
+    signed fixed-point numbers.
   * The new [`arbitrary`][feat-1-10] optional feature was added to implement the
     [`Arbitrary`][a-a-1] trait provided by the [*arbitrary* crate] for all
     fixed-point numbers ([issue 37]).
 
 [`DivAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.DivAssign.html
 [`Div`]: https://doc.rust-lang.org/nightly/core/ops/trait.Div.html
+[`NonZeroI32`]: https://doc.rust-lang.org/nightly/core/num/struct.NonZeroI32.html
 [`NonZeroU32`]: https://doc.rust-lang.org/nightly/core/num/struct.NonZeroU32.html
 [`RemAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.RemAssign.html
 [`Rem`]: https://doc.rust-lang.org/nightly/core/ops/trait.Rem.html
 [a-a-1]: https://docs.rs/arbitrary/^1/arbitrary/trait.Arbitrary.html
 [feat-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
+[fi-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html
 [fu-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html
 [issue 37]: https://gitlab.com/tspiteri/fixed/-/issues/37
 
