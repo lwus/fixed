@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.10.0 (unreleased)
+Version 1.10.0 (2021-08-23)
 ===========================
 
   * The crate now requires rustc version 1.53.0 or later.
@@ -20,9 +20,9 @@ Version 1.10.0 (unreleased)
     fixed-point numbers ([issue 37]).
 
 [a-a-1]: https://docs.rs/arbitrary/^1/arbitrary/trait.Arbitrary.html
-[feat-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/index.html#optional-features
-[fi-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html
-[fu-1-10]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html
+[feat-1-10]: https://docs.rs/fixed/~1.10/fixed/index.html#optional-features
+[fi-1-10]: https://docs.rs/fixed/~1.10/fixed/struct.FixedI32.html
+[fu-1-10]: https://docs.rs/fixed/~1.10/fixed/struct.FixedU32.html
 [issue 37]: https://gitlab.com/tspiteri/fixed/-/issues/37
 
 Version 1.9.0 (2021-05-13)
@@ -60,8 +60,8 @@ Compatibility notes
 -------------------
 
   * Now the [`Debug`] implementation for [`Wrapping`][w-1-9] outputs the value
-    only without `"Wrapping()"`, and the [`Debug`] implementation for
-    [`Unwrapped`][u-1-9] outputs the value only without `"Unwrapped()"`.
+    only without “`Wrapping()`”, and the [`Debug`] implementation for
+    [`Unwrapped`][u-1-9] outputs the value only without “`Unwrapped()`”.
   * The [`LeEqU8`][leu8-1-9], [`LeEqU16`][leu16-1-9], [`LeEqU32`][leu32-1-9],
     [`LeEqU64`][leu64-1-9] and [`LeEqU128`][leu128-1-9] traits now have a
     `'static` constraint. This should have no practical side effects, since
