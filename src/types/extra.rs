@@ -34,17 +34,17 @@ pub use typenum::{
 };
 
 /// Implemented for all [`Unsigned`] integers ≤ 8.
-pub trait LeEqU8: 'static + Unsigned + IsLessOrEqual<U8, Output = True> {}
-impl<T: 'static + Unsigned + IsLessOrEqual<U8, Output = True>> LeEqU8 for T {}
+pub trait LeEqU8: Unsigned + IsLessOrEqual<U8, Output = True> {}
+impl<T: Unsigned + IsLessOrEqual<U8, Output = True>> LeEqU8 for T {}
 /// Implemented for all [`Unsigned`] integers ≤ 16.
-pub trait LeEqU16: 'static + Unsigned + IsLessOrEqual<U16, Output = True> {}
-impl<T: 'static + Unsigned + IsLessOrEqual<U16, Output = True>> LeEqU16 for T {}
+pub trait LeEqU16: Unsigned + IsLessOrEqual<U16, Output = True> {}
+impl<T: Unsigned + IsLessOrEqual<U16, Output = True>> LeEqU16 for T {}
 /// Implemented for all [`Unsigned`] integers ≤ 32.
-pub trait LeEqU32: 'static + Unsigned + IsLessOrEqual<U32, Output = True> {}
-impl<T: 'static + Unsigned + IsLessOrEqual<U32, Output = True>> LeEqU32 for T {}
+pub trait LeEqU32: Unsigned + IsLessOrEqual<U32, Output = True> {}
+impl<T: Unsigned + IsLessOrEqual<U32, Output = True>> LeEqU32 for T {}
 /// Implemented for all [`Unsigned`] integers ≤ 64.
-pub trait LeEqU64: 'static + Unsigned + IsLessOrEqual<U64, Output = True> {}
-impl<T: 'static + Unsigned + IsLessOrEqual<U64, Output = True>> LeEqU64 for T {}
+pub trait LeEqU64: Unsigned + IsLessOrEqual<U64, Output = True> {}
+impl<T: Unsigned + IsLessOrEqual<U64, Output = True>> LeEqU64 for T {}
 /// Implemented for all [`Unsigned`] integers ≤ 128.
-pub trait LeEqU128: 'static + Unsigned + IsLessOrEqual<U128, Output = True> {}
-impl<T: 'static + Unsigned + IsLessOrEqual<U128, Output = True>> LeEqU128 for T {}
+pub trait LeEqU128: Unsigned + IsLessOrEqual<U128, Output = True> {}
+impl<T: Unsigned + IsLessOrEqual<U128, Output = True>> LeEqU128 for T {}

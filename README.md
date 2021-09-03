@@ -95,6 +95,24 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.11.0 news (unreleased)
+
+  * The [*typenum* crate] dependency was updated to [version
+    1.14][typenum-1-14].
+  * The [`LeEqU8`][leu8-1-11], [`LeEqU16`][leu16-1-11], [`LeEqU32`][leu32-1-11],
+    [`LeEqU64`][leu64-1-11] and [`LeEqU128`][leu128-1-11] traits no longer have
+    a direct `'static` constraint, as it is a constraint of their supertrait
+    [`Unsigned`][uns-1-11] since typenum [version 1.14][typenum-1-14]. This
+    fixes a potential compatibility issue introduced in version 1.9.0.
+
+[leu128-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
+[leu16-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
+[leu32-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
+[leu64-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
+[leu8-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
+[typenum-1-14]: https://docs.rs/typenum/~1.14/typenum/index.html
+[uns-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
+
 ### Version 1.10.0 news (2021-08-23)
 
   * The crate now requires rustc version 1.53.0 or later.
