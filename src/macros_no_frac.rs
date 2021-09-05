@@ -817,7 +817,8 @@ assert_eq!(Fix::MAX.mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> $Fixed<Frac> {
-                    let (ans, overflow) = self.to_bits().mul_add_overflow(
+                    let (ans, overflow) = MulDivOverflow::mul_add_overflow(
+                        self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),
                         MulFrac::I32,
@@ -1354,7 +1355,8 @@ assert_eq!(Fix::MAX.checked_mul_add(Fix::from_num(1.5), -Fix::MAX), Some(Fix::MA
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> Option<$Fixed<Frac>> {
-                    match self.to_bits().mul_add_overflow(
+                    match MulDivOverflow::mul_add_overflow(
+                        self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),
                         MulFrac::I32,
@@ -1757,7 +1759,8 @@ assert_eq!(Fix::MAX.saturating_mul_add(Fix::from_num(1.5), -Fix::MAX), half_max)
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> $Fixed<Frac> {
-                    match self.to_bits().mul_add_overflow(
+                    match MulDivOverflow::mul_add_overflow(
+                        self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),
                         MulFrac::I32,
@@ -1994,7 +1997,8 @@ assert_eq!(Fix::MAX.wrapping_mul_add(Fix::from_num(3), Fix::MAX), wrapped);
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> $Fixed<Frac> {
-                    let (ans, _) = self.to_bits().mul_add_overflow(
+                    let (ans, _) = MulDivOverflow::mul_add_overflow(
+                        self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),
                         MulFrac::I32,
@@ -2877,7 +2881,8 @@ assert_eq!(
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> ($Fixed<Frac>, bool) {
-                    let (ans, overflow) = self.to_bits().mul_add_overflow(
+                    let (ans, overflow) = MulDivOverflow::mul_add_overflow(
+                        self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),
                         MulFrac::I32,
