@@ -289,6 +289,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 */
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(missing_docs)]
+#![warn(unsafe_op_in_unsafe_fn)]
 #![doc(html_root_url = "https://docs.rs/fixed/~1.10")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
