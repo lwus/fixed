@@ -718,15 +718,7 @@ impl FallbackHelper for u128 {
 
     #[inline]
     fn combine_lo_then_shl_add(self, lo: u128, shift: u32, add: u128) -> (u128, bool) {
-        let (combine, overflow1) = if shift == 128 {
-            (self, false)
-        } else if shift == 0 {
-            (lo, self != 0)
-        } else {
-            let lo = lo >> shift;
-            let hi = self << (128 - shift);
-            (lo | hi, self >> shift != 0)
-        };
+        let (combine, overflow1) = FallbackHelper::combine_lo_then_shl(self, lo, shift);
         let (ans, overflow2) = combine.overflowing_add(add);
         (ans, overflow1 || overflow2)
     }
@@ -814,28 +806,34 @@ impl FallbackHelper for i128 {
 }
 
 macro_rules! mul_div_fallback {
-    ($Single:ty, $Uns:ty, $Signedness:tt) => {
+    ($Single:ty, $Uns:ty, $Signedness:tt, $mul:ident) => {
+        #[inline]
+        fn $mul(lhs: $Single, rhs: $Single) -> ($Uns, $Single) {
+            let (lh, ll) = FallbackHelper::hi_lo(lhs);
+            let (rh, rl) = FallbackHelper::hi_lo(rhs);
+            let ll_rl = ll.wrapping_mul(rl);
+            let lh_rl = lh.wrapping_mul(rl);
+            let ll_rh = ll.wrapping_mul(rh);
+            let lh_rh = lh.wrapping_mul(rh);
+
+            let col01 = ll_rl as <$Single as FallbackHelper>::Unsigned;
+            let (col01_hi, col01_lo) = FallbackHelper::hi_lo(col01);
+            let partial_col12 = lh_rl + col01_hi as $Single;
+            let (col12, carry_col3) = FallbackHelper::carrying_add(partial_col12, ll_rh);
+            let (col12_hi, col12_lo) = FallbackHelper::hi_lo(col12);
+            let (_, carry_col3_lo) = FallbackHelper::hi_lo(carry_col3);
+            let ans01 = FallbackHelper::shift_lo_up_unsigned(col12_lo) + col01_lo;
+            let ans23 = lh_rh + col12_hi + FallbackHelper::shift_lo_up(carry_col3_lo);
+            (ans01, ans23)
+        }
+
         impl MulDivOverflow for $Single {
             #[inline]
             fn mul_overflow(self, rhs: $Single, frac_nbits: u32) -> ($Single, bool) {
                 if frac_nbits == 0 {
                     self.overflowing_mul(rhs)
                 } else {
-                    let (lh, ll) = FallbackHelper::hi_lo(self);
-                    let (rh, rl) = FallbackHelper::hi_lo(rhs);
-                    let ll_rl = ll.wrapping_mul(rl);
-                    let lh_rl = lh.wrapping_mul(rl);
-                    let ll_rh = ll.wrapping_mul(rh);
-                    let lh_rh = lh.wrapping_mul(rh);
-
-                    let col01 = ll_rl as <$Single as FallbackHelper>::Unsigned;
-                    let (col01_hi, col01_lo) = FallbackHelper::hi_lo(col01);
-                    let partial_col12 = lh_rl + col01_hi as $Single;
-                    let (col12, carry_col3) = FallbackHelper::carrying_add(partial_col12, ll_rh);
-                    let (col12_hi, col12_lo) = FallbackHelper::hi_lo(col12);
-                    let (_, carry_col3_lo) = FallbackHelper::hi_lo(carry_col3);
-                    let ans01 = FallbackHelper::shift_lo_up_unsigned(col12_lo) + col01_lo;
-                    let ans23 = lh_rh + col12_hi + FallbackHelper::shift_lo_up(carry_col3_lo);
+                    let (ans01, ans23) = $mul(self, rhs);
                     FallbackHelper::combine_lo_then_shl(ans23, ans01, frac_nbits)
                 }
             }
@@ -850,21 +848,7 @@ macro_rules! mul_div_fallback {
                 const NBITS: i32 = <$Single>::BITS as i32;
 
                 // l * r + a
-                let (lh, ll) = FallbackHelper::hi_lo(self);
-                let (rh, rl) = FallbackHelper::hi_lo(mul);
-                let ll_rl = ll.wrapping_mul(rl);
-                let lh_rl = lh.wrapping_mul(rl);
-                let ll_rh = ll.wrapping_mul(rh);
-                let lh_rh = lh.wrapping_mul(rh);
-
-                let col01 = ll_rl as <$Single as FallbackHelper>::Unsigned;
-                let (col01_hi, col01_lo) = FallbackHelper::hi_lo(col01);
-                let partial_col12 = lh_rl + col01_hi as $Single;
-                let (col12, carry_col3) = FallbackHelper::carrying_add(partial_col12, ll_rh);
-                let (col12_hi, col12_lo) = FallbackHelper::hi_lo(col12);
-                let (_, carry_col3_lo) = FallbackHelper::hi_lo(carry_col3);
-                let mut ans01 = FallbackHelper::shift_lo_up_unsigned(col12_lo) + col01_lo;
-                let mut ans23 = lh_rh + col12_hi + FallbackHelper::shift_lo_up(carry_col3_lo);
+                let (mut ans01, mut ans23) = $mul(self, mul);
 
                 let mut overflow2 = false;
                 if frac_nbits < 0 {
@@ -916,12 +900,12 @@ mul_div_widen! { u8, u16, Unsigned }
 mul_div_widen! { u16, u32, Unsigned }
 mul_div_widen! { u32, u64, Unsigned }
 mul_div_widen! { u64, u128, Unsigned }
-mul_div_fallback! { u128, u128, Unsigned }
+mul_div_fallback! { u128, u128, Unsigned, mul_u128 }
 mul_div_widen! { i8, i16, Signed }
 mul_div_widen! { i16, i32, Signed }
 mul_div_widen! { i32, i64, Signed }
 mul_div_widen! { i64, i128, Signed }
-mul_div_fallback! { i128, u128, Signed }
+mul_div_fallback! { i128, u128, Signed, mul_i128 }
 
 #[cfg(test)]
 mod tests {
