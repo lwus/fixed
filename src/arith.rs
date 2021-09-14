@@ -589,9 +589,11 @@ fixed_arith! { FixedI64(i64, LeEqU64, 64, NonZeroI64), Signed }
 fixed_arith! { FixedI128(i128, LeEqU128, 128, NonZeroI128), Signed }
 
 pub(crate) trait OverflowingMulDiv: Sized {
+    // 0 <= frac_nbits <= NBITS
     fn overflowing_mul(self, rhs: Self, frac_nbits: u32) -> (Self, bool);
     // -NBITS <= frac_nbits <= 2 * NBITS
     fn overflowing_mul_add(self, mul: Self, add: Self, frac_nbits: i32) -> (Self, bool);
+    // 0 <= frac_nbits <= NBITS
     fn overflowing_div(self, rhs: Self, frac_nbits: u32) -> (Self, bool);
 }
 
