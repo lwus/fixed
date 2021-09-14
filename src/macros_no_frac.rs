@@ -817,7 +817,7 @@ assert_eq!(Fix::MAX.mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> $Fixed<Frac> {
-                    let (ans, overflow) = MulDivOverflow::mul_add_overflow(
+                    let (ans, overflow) = arith::overflowing_mul_add(
                         self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),
@@ -1355,7 +1355,7 @@ assert_eq!(Fix::MAX.checked_mul_add(Fix::from_num(1.5), -Fix::MAX), Some(Fix::MA
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> Option<$Fixed<Frac>> {
-                    match MulDivOverflow::mul_add_overflow(
+                    match arith::overflowing_mul_add(
                         self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),
@@ -1759,7 +1759,7 @@ assert_eq!(Fix::MAX.saturating_mul_add(Fix::from_num(1.5), -Fix::MAX), half_max)
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> $Fixed<Frac> {
-                    match MulDivOverflow::mul_add_overflow(
+                    match arith::overflowing_mul_add(
                         self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),
@@ -1997,7 +1997,7 @@ assert_eq!(Fix::MAX.wrapping_mul_add(Fix::from_num(3), Fix::MAX), wrapped);
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> $Fixed<Frac> {
-                    let (ans, _) = MulDivOverflow::mul_add_overflow(
+                    let (ans, _) = arith::overflowing_mul_add(
                         self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),
@@ -2881,7 +2881,7 @@ assert_eq!(
                     mul: $Fixed<MulFrac>,
                     add: $Fixed<Frac>,
                 ) -> ($Fixed<Frac>, bool) {
-                    let (ans, overflow) = MulDivOverflow::mul_add_overflow(
+                    let (ans, overflow) = arith::overflowing_mul_add(
                         self.to_bits(),
                         mul.to_bits(),
                         add.to_bits(),

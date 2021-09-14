@@ -330,7 +330,6 @@ mod wrapping;
 #[cfg(feature = "num-traits")]
 pub use crate::impl_num_traits::RadixParseFixedError;
 use crate::{
-    arith::MulDivOverflow,
     from_str::FromStrRadix,
     log10::IntFracLog10,
     traits::{FromFixed, ToFixed},
