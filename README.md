@@ -97,6 +97,15 @@ The conversions supported cover the following cases.
 
 ### Version 1.11.0 news (unreleased)
 
+  * The following methods were added to all fixed-point numbers, to the
+    [`Fixed`][tf-1-11] trait, and to the [`Wrapping`][w-1-11] and
+    [`Unwrapped`][u-1-11] wrappers:
+      * [`lerp`][f-l-1-11]
+  * The following methods were added to all fixed-point numbers and to the
+    [`Fixed`][tf-1-11] trait:
+      * [`checked_lerp`][f-cl-1-11], [`saturating_lerp`][f-sl-1-11],
+        [`wrapping_lerp`][f-wl-1-11], [`unwrapped_lerp`][f-ul-1-11],
+        [`overflowing_lerp`][f-ol-1-11]
   * The [*typenum* crate] dependency was updated to [version
     1.14][typenum-1-14].
   * The [`LeEqU8`][leu8-1-11], [`LeEqU16`][leu16-1-11], [`LeEqU32`][leu32-1-11],
@@ -105,13 +114,22 @@ The conversions supported cover the following cases.
     [`Unsigned`][uns-1-11] since typenum [version 1.14][typenum-1-14]. This
     fixes a potential compatibility issue introduced in version 1.9.0.
 
+[f-cl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_lerp
+[f-l-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.lerp
+[f-ol-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_lerp
+[f-sl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_lerp
+[f-ul-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_lerp
+[f-wl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_lerp
 [leu128-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
 [leu16-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
 [leu32-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
 [leu64-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
 [leu8-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
+[tf-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
 [typenum-1-14]: https://docs.rs/typenum/~1.14/typenum/index.html
+[u-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
 [uns-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
+[w-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
 
 ### Version 1.10.0 news (2021-08-23)
 
