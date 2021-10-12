@@ -231,7 +231,7 @@ When debug assertions are enabled, this method also panics if the
 reciprocal overflows. When debug assertions are not enabled, the
 wrapped value can be returned, but it is not considered a breaking
 change if in the future it panics; if wrapping is required use
-[`wrapping_recip`] instead. 
+[`wrapping_recip`] instead.
 
 # Examples
 
@@ -245,7 +245,8 @@ assert_eq!(Fix::from_num(2).recip(), Fix::from_num(0.5));
 ";
                 #[inline] pub fn recip(self) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_recip();
-                    debug_assert!(!overflow, "overflow"); ans
+                    debug_assert!(!overflow, "overflow");
+                    ans
                 }
             }
 
@@ -2096,7 +2097,7 @@ assert_eq!(Fix::MAX.overflowing_div(quarter), (wrapped, true));
             }
 
             comment! {
-                "Overflowing reciprocal. 
+                "Overflowing reciprocal.
 
 Returns a [tuple] of the reciprocal and a [`bool`] indicating whether
 an overflow has occurred. On overflow, the wrapped value is returned.
@@ -2155,7 +2156,7 @@ assert_eq!(Small::from_num(0.25).overflowing_recip(), (Small::ZERO, true));
             }
 
             comment! {
-                "Overflowing Euclidean division. 
+                "Overflowing Euclidean division.
 
 Returns a [tuple] of the quotient and a [`bool`] indicating whether an
 overflow has occurred. On overflow, the wrapped value is returned.
