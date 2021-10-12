@@ -826,7 +826,7 @@ impl FallbackHelper for i128 {
 macro_rules! mul_div_fallback {
     ($Single:ty, $Uns:ty, $Signedness:tt, $mul:ident) => {
         #[inline]
-        fn $mul(lhs: $Single, rhs: $Single) -> ($Uns, $Single) {
+        pub(crate) fn $mul(lhs: $Single, rhs: $Single) -> ($Uns, $Single) {
             let (lh, ll) = FallbackHelper::hi_lo(lhs);
             let (rh, rl) = FallbackHelper::hi_lo(rhs);
             let ll_rl = ll.wrapping_mul(rl);

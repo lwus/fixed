@@ -317,6 +317,7 @@ mod impl_bytemuck;
 #[cfg(feature = "num-traits")]
 mod impl_num_traits;
 mod int_helper;
+mod lerp;
 mod log10;
 mod prim_traits;
 #[cfg(feature = "serde")]
@@ -397,7 +398,7 @@ macro_rules! fixed {
     (
         $description:expr,
         $Fixed:ident(
-            $Inner:ty, $LeEqU:tt, $s_nbits:expr,
+            $Inner:ident, $LeEqU:tt, $s_nbits:expr,
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
@@ -420,7 +421,7 @@ macro_rules! fixed {
     (
         $description:expr,
         $Fixed:ident[$s_fixed:expr](
-            $Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr,
+            $Inner:ident[$s_inner:expr], $LeEqU:tt, $s_nbits:expr,
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,

@@ -16,7 +16,8 @@
 macro_rules! fixed_frac {
     (
         $Fixed:ident[$s_fixed:expr](
-            $Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr, $s_nbits_m1:expr, $s_nbits_m4:expr
+            $Inner:ident[$s_inner:expr], $LeEqU:tt, $s_nbits:expr,
+            $s_nbits_m1:expr, $s_nbits_m4:expr
         ),
         $UFixed:ident, $UInner:ty, $Signedness:tt
     ) => {
@@ -439,6 +440,59 @@ assert_eq!(Fix::from_num(7.5).rem_euclid_int(2), Fix::from_num(1.5));
                 }
             }
 
+            comment! {
+                "Linear interpolation between `start` and `end`.
+
+Returns `start` + `self` × (`end` − `start`). This is `start` when `self` = 0,
+`end` when `self` = 1, and linear interpolation for all other values of `self`.
+Linear extrapolation is performed if `self` is not in the range
+0 ≤ <i>x</i> ≤ 1.
+
+# Panics
+
+When debug assertions are enabled, this method panics if the result overflows.
+When debug assertions are not enabled, the wrapped value can be returned, but it
+is not considered a breaking change if in the future it panics; if wrapping is
+required use [`wrapping_lerp`] instead.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let start = Fix::from_num(2);
+let end = Fix::from_num(3.5);
+",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    "assert_eq!(Fix::from_num(-1.0).lerp(start, end), 0.5);
+",
+                },
+                "assert_eq!(Fix::from_num(0.0).lerp(start, end), 2);
+assert_eq!(Fix::from_num(0.5).lerp(start, end), 2.75);
+assert_eq!(Fix::from_num(1.0).lerp(start, end), 3.5);
+assert_eq!(Fix::from_num(2.0).lerp(start, end), 5);
+```
+
+[`wrapping_lerp`]: Self::wrapping_lerp
+";
+                #[inline]
+                pub fn lerp<RangeFrac>(
+                    self,
+                    start: $Fixed<RangeFrac>,
+                    end: $Fixed<RangeFrac>,
+                ) -> $Fixed<RangeFrac> {
+                    let (ans, overflow) = lerp::$Inner(
+                        self.to_bits(),
+                        start.to_bits(),
+                        end.to_bits(),
+                        Frac::U32,
+                    );
+                    debug_assert!(!overflow, "overflow");
+                    $Fixed::from_bits(ans)
+                }
+            }
+
             if_signed! {
                 $Signedness;
                 comment! {
@@ -810,6 +864,37 @@ assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(20), None);
                 }
             }
 
+            comment! {
+                "Checked linear interpolation between `start` and `end`. Returns
+[`None`] on overflow.
+
+The interpolted value is `start` + `self` × (`end` − `start`). This is `start`
+when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
+values of `self`. Linear extrapolation is performed if `self` is not in the
+range 0 ≤ <i>x</i> ≤ 1.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(0.5).checked_lerp(Fix::ZERO, Fix::MAX), Some(Fix::MAX / 2));
+assert_eq!(Fix::from_num(1.5).checked_lerp(Fix::ZERO, Fix::MAX), None);
+```
+";
+                #[inline]
+                pub fn checked_lerp<RangeFrac>(
+                    self,
+                    start: $Fixed<RangeFrac>,
+                    end: $Fixed<RangeFrac>,
+                ) -> Option<$Fixed<RangeFrac>> {
+                    match lerp::$Inner(self.to_bits(), start.to_bits(), end.to_bits(), Frac::U32) {
+                        (bits, false) => Some($Fixed::from_bits(bits)),
+                        (_, true) => None,
+                    }
+                }
+            }
+
             if_signed! {
                 $Signedness;
                 comment! {
@@ -1143,6 +1228,58 @@ assert_eq!(Fix::from_num(-7.5).saturating_rem_euclid_int(20), Fix::MAX);
                 }
             }
 
+            comment! {
+                "Linear interpolation between `start` and `end`, saturating on
+overflow.
+
+The interpolated value is `start` + `self` × (`end` − `start`). This is `start`
+when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
+values of `self`. Linear extrapolation is performed if `self` is not in the
+range 0 ≤ <i>x</i> ≤ 1.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(0.5).saturating_lerp(Fix::ZERO, Fix::MAX), Fix::MAX / 2);
+assert_eq!(Fix::from_num(1.5).saturating_lerp(Fix::ZERO, Fix::MAX), Fix::MAX);
+",
+                if_signed_unsigned! (
+                    $Signedness,
+                    "assert_eq!(Fix::from_num(-2.0).saturating_lerp(Fix::ZERO, Fix::MAX), Fix::MIN);
+assert_eq!(Fix::from_num(3.0).saturating_lerp(Fix::MAX, Fix::ZERO), Fix::MIN);
+",
+                    "assert_eq!(Fix::from_num(3.0).saturating_lerp(Fix::MAX, Fix::ZERO), Fix::ZERO);
+",
+                ),
+                "```
+";
+                #[inline]
+                pub fn saturating_lerp<RangeFrac>(
+                    self,
+                    start: $Fixed<RangeFrac>,
+                    end: $Fixed<RangeFrac>,
+                ) -> $Fixed<RangeFrac> {
+                    match lerp::$Inner(self.to_bits(), start.to_bits(), end.to_bits(), Frac::U32) {
+                        (bits, false) => $Fixed::from_bits(bits),
+                        (_, true) => if_signed_unsigned!(
+                            $Signedness,
+                            if (self < 0) == (end.to_bits() < start.to_bits()) {
+                                $Fixed::MAX
+                            } else {
+                                $Fixed::MIN
+                            },
+                            if end.to_bits() < start.to_bits() {
+                                $Fixed::MIN
+                            } else {
+                                $Fixed::MAX
+                            },
+                        ),
+                    }
+                }
+            }
+
             if_signed! {
                 $Signedness;
                 comment! {
@@ -1398,6 +1535,39 @@ assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(20), Fix::from_num(-3.5))
                 #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn wrapping_rem_euclid_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     self.overflowing_rem_euclid_int(rhs).0
+                }
+            }
+
+            comment! {
+                "Linear interpolation between `start` and `end`, wrapping on
+overflow.
+
+The interpolated value is `start` + `self` × (`end` − `start`). This is `start`
+when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
+values of `self`. Linear extrapolation is performed if `self` is not in the
+range 0 ≤ <i>x</i> ≤ 1.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(0.5).wrapping_lerp(Fix::ZERO, Fix::MAX), Fix::MAX / 2);
+assert_eq!(
+    Fix::from_num(1.5).wrapping_lerp(Fix::ZERO, Fix::MAX),
+    Fix::MAX.wrapping_add(Fix::MAX / 2)
+);
+```
+";
+                #[inline]
+                pub fn wrapping_lerp<RangeFrac>(
+                    self,
+                    start: $Fixed<RangeFrac>,
+                    end: $Fixed<RangeFrac>,
+                ) -> $Fixed<RangeFrac> {
+                    $Fixed::from_bits(
+                        lerp::$Inner(self.to_bits(), start.to_bits(), end.to_bits(), Frac::U32).0,
+                    )
                 }
             }
 
@@ -1779,6 +1949,48 @@ let _overflow = Fix::from_num(-7.5).unwrapped_rem_euclid_int(20);
                     match self.overflowing_rem_euclid_int(rhs) {
                         (_, true) => panic!("overflow"),
                         (ans, false) => ans,
+                    }
+                }
+            }
+
+            comment! {
+                "Linear interpolation between `start` and `end`, panicking on
+overflow.
+
+The interpolated value is `start` + `self` × (`end` − `start`). This is `start`
+when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
+values of `self`. Linear extrapolation is performed if `self` is not in the
+range 0 ≤ <i>x</i> ≤ 1.
+
+# Panics
+
+Panics if the result overflows.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::from_num(0.5).unwrapped_lerp(Fix::ZERO, Fix::MAX), Fix::MAX / 2);
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::from_num(1.5).unwrapped_lerp(Fix::ZERO, Fix::MAX);
+```
+";
+                #[inline]
+                pub fn unwrapped_lerp<RangeFrac>(
+                    self,
+                    start: $Fixed<RangeFrac>,
+                    end: $Fixed<RangeFrac>,
+                ) -> $Fixed<RangeFrac> {
+                    match lerp::$Inner(self.to_bits(), start.to_bits(), end.to_bits(), Frac::U32) {
+                        (bits, false) => $Fixed::from_bits(bits),
+                        (_, true) => panic!("overflow"),
                     }
                 }
             }
@@ -2174,6 +2386,44 @@ assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3
                     if_unsigned! {
                         $Signedness;
                         (self % rhs, false)
+                    }
+                }
+            }
+
+            comment! {
+                "Overflowing linear interpolation between `start` and `end`.
+
+Returns a [tuple] of the result and a [`bool`] indicationg whether an overflow
+has occurred. On overflow, the wrapped value is returned.
+
+The interpolated value is `start` + `self` × (`end` − `start`). This is `start`
+when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
+values of `self`. Linear extrapolation is performed if `self` is not in the
+range 0 ≤ <i>x</i> ≤ 1.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(
+    Fix::from_num(0.5).overflowing_lerp(Fix::ZERO, Fix::MAX), 
+    (Fix::MAX / 2, false)
+);
+assert_eq!(
+    Fix::from_num(1.5).overflowing_lerp(Fix::ZERO, Fix::MAX),
+    (Fix::MAX.wrapping_add(Fix::MAX / 2), true)
+);
+```
+";
+                #[inline]
+                pub fn overflowing_lerp<RangeFrac>(
+                    self,
+                    start: $Fixed<RangeFrac>,
+                    end: $Fixed<RangeFrac>,
+                ) -> ($Fixed<RangeFrac>, bool) {
+                    match lerp::$Inner(self.to_bits(), start.to_bits(), end.to_bits(), Frac::U32) {
+                        (bits, overflow) => ($Fixed::from_bits(bits), overflow),
                     }
                 }
             }
