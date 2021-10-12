@@ -200,3 +200,74 @@ pub fn u128(r: u128, start: u128, end: u128, frac_bits: u32) -> (u128, bool) {
     let overflow2 = wide_ret_hi != 0;
     (ret, overflow1 | overflow2)
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::lerp;
+
+    #[test]
+    fn lerp_i8() {
+        assert_eq!(lerp::i8(0, -128, 127, 0), (-128, false));
+        assert_eq!(lerp::i8(0, 127, -128, 8), (127, false));
+        assert_eq!(lerp::i8(1, -128, 127, 1), (-1, false));
+        assert_eq!(lerp::i8(-64, -100, -110, 6), (-90, false));
+
+        assert_eq!(lerp::i8(2 << 2, 0, 50, 2), (100, false));
+        assert_eq!(lerp::i8(2 << 2, 0, 100, 2), (-56, true));
+        assert_eq!(lerp::i8((-1) << 2, 50, 0, 2), (100, false));
+        assert_eq!(lerp::i8((-1) << 2, 100, 0, 2), (-56, true));
+    }
+
+    #[test]
+    fn lerp_u8() {
+        assert_eq!(lerp::u8(0, 0, 255, 0), (0, false));
+        assert_eq!(lerp::u8(0, 255, 0, 8), (255, false));
+        assert_eq!(lerp::u8(1, 0, 255, 0), (255, false));
+        assert_eq!(lerp::u8(128, 255, 0, 7), (0, false));
+
+        assert_eq!(lerp::u8(2 << 2, 0, 100, 2), (200, false));
+        assert_eq!(lerp::u8(2 << 2, 0, 200, 2), (200 - 56, true));
+    }
+
+    #[test]
+    fn lerp_i128() {
+        assert_eq!(lerp::i128(0, -128, 127, 0), (-128, false));
+        assert_eq!(lerp::i128(0, 127, -128, 128), (127, false));
+        assert_eq!(lerp::i128(1, -128, 127, 1), (-1, false));
+        assert_eq!(lerp::i128((-64) << 120, -100, -110, 126), (-90, false));
+
+        assert_eq!(
+            lerp::i128(2 << 2, 0, i128::MAX / 2, 2),
+            (i128::MAX / 2 * 2, false)
+        );
+        assert_eq!(
+            lerp::i128(2 << 2, 0, i128::MAX, 2),
+            (i128::MAX.wrapping_mul(2), true)
+        );
+        assert_eq!(
+            lerp::i128((-1) << 2, i128::MAX / 2, 0, 2),
+            (i128::MAX / 2 * 2, false)
+        );
+        assert_eq!(
+            lerp::i128((-1) << 2, i128::MAX, 0, 2),
+            (i128::MAX.wrapping_mul(2), true)
+        );
+    }
+
+    #[test]
+    fn lerp_u128() {
+        assert_eq!(lerp::u128(0, 0, 255, 0), (0, false));
+        assert_eq!(lerp::u128(0, 255, 0, 128), (255, false));
+        assert_eq!(lerp::u128(1, 0, 255, 0), (255, false));
+        assert_eq!(lerp::u128(128 << 120, 255, 0, 127), (0, false));
+
+        assert_eq!(
+            lerp::u128(2 << 2, 0, u128::MAX / 2, 2),
+            (u128::MAX / 2 * 2, false)
+        );
+        assert_eq!(
+            lerp::u128(2 << 2, 0, u128::MAX, 2),
+            (u128::MAX.wrapping_mul(2), true)
+        );
+    }
+}
