@@ -1283,6 +1283,37 @@ impl<F: Fixed> Unwrapped<F> {
     pub fn rem_euclid_int(self, divisor: F::Bits) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_rem_euclid_int(divisor))
     }
+
+    /// Linear interpolation between `start` and `end`.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_lerp][FixedI32::wrapping_lerp]</code> and
+    /// <code>FixedU32::[wrapping\_lerp][FixedU32::wrapping_lerp]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics on overflow.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// type Unwr = Unwrapped<I16F16>;
+    /// assert_eq!(Unwr::from_num(0.5).lerp(Unwr::ZERO, Unwr::MAX), Unwr::MAX / 2);
+    /// ```
+    ///
+    /// The following panics because of overflow.
+    ///
+    /// ```should_panic
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// type Unwr = Unwrapped<I16F16>;
+    /// let _overflow = Unwr::from_num(1.5).lerp(Unwr::ZERO, Unwr::MAX);
+    /// ```
+    #[inline]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    pub fn lerp(self, start: Unwrapped<F>, end: Unwrapped<F>) -> Unwrapped<F> {
+        Unwrapped(self.0.unwrapped_lerp(start.0, end.0))
+    }
 }
 
 impl<F: FixedSigned> Unwrapped<F> {

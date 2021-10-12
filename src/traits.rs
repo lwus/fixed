@@ -1514,6 +1514,12 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
+    /// Linear interpolation between `start` and `end`.
+    ///
+    /// See also <code>FixedI32::[lerp][FixedI32::lerp]</code> and
+    /// <code>FixedU32::[lerp][FixedU32::lerp]</code>.
+    fn lerp(self, start: Self, end: Self) -> Self;
+
     /// Checked negation. Returns the negated value, or [`None`] on overflow.
     ///
     /// See also <code>FixedI32::[checked\_neg][FixedI32::checked_neg]</code>
@@ -1683,6 +1689,13 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_dist(self, other: Self) -> Option<Self>;
 
+    /// Checked linear interpolation between `start` and `end`. Returns [`None`]
+    /// on overflow.
+    ///
+    /// See also <code>FixedI32::[checked\_lerp][FixedI32::checked_lerp]</code>
+    /// and <code>FixedU32::[checked\_lerp][FixedU32::checked_lerp]</code>.
+    fn checked_lerp(self, start: Self, end: Self) -> Option<Self>;
+
     /// Saturated negation. Returns the negated value, saturating on overflow.
     ///
     /// See also
@@ -1813,6 +1826,13 @@ where
     /// <code>FixedU32::[saturating\_dist][FixedU32::saturating_dist]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_dist(self, other: Self) -> Self;
+
+    /// Linear interpolation between `start` and `end`, saturating on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_lerp][FixedI32::saturating_lerp]</code> and
+    /// <code>FixedU32::[saturating\_lerp][FixedU32::saturating_lerp]</code>.
+    fn saturating_lerp(self, start: Self, end: Self) -> Self;
 
     /// Wrapping negation. Returns the negated value, wrapping on overflow.
     ///
@@ -1971,6 +1991,13 @@ where
     /// <code>FixedU32::[wrapping\_dist][FixedU32::wrapping_dist]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_dist(self, other: Self) -> Self;
+
+    /// Linear interpolation between `start` and `end`, wrapping on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_lerp][FixedI32::wrapping_lerp]</code> and
+    /// <code>FixedU32::[wrapping\_lerp][FixedU32::wrapping_lerp]</code>.
+    fn wrapping_lerp(self, start: Self, end: Self) -> Self;
 
     /// Unwrapped negation. Returns the negated value, panicking on overflow.
     ///
@@ -2233,6 +2260,17 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_dist(self, other: Self) -> Self;
 
+    /// Linear interpolation between `start` and `end`, panicking on overflow.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the result does not fit.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_lerp][FixedI32::unwrapped_lerp]</code> and
+    /// <code>FixedU32::[unwrapped\_lerp][FixedU32::unwrapped_lerp]</code>.
+    fn unwrapped_lerp(self, start: Self, end: Self) -> Self;
+
     /// Overflowing negation.
     ///
     /// Returns a [tuple] of the negated value and a [`bool`],
@@ -2452,6 +2490,18 @@ where
     /// <code>FixedU32::[overflowing\_dist][FixedU32::overflowing_dist]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_dist(self, other: Self) -> (Self, bool);
+
+    /// Overflowing linear interpolation between `start` and `end`.
+    ///
+    /// Returns a [tuple] of the interpolated value and a [`bool`], indicating
+    /// whether an overflow has occurred. On overflow, the wrapped value is
+    /// returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_lerp][FixedI32::overflowing_lerp]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_lerp][FixedU32::overflowing_lerp]</code>.
+    fn overflowing_lerp(self, start: Self, end: Self) -> (Self, bool);
 }
 
 /// This trait provides methods common to all signed fixed-point numbers.
@@ -3249,6 +3299,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn rem_euclid(self, rhs: Self) -> Self }
             trait_delegate! { fn div_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn rem_euclid_int(self, rhs: Self::Bits) -> Self }
+            trait_delegate! { fn lerp(self, start: Self, end: Self) -> Self }
             trait_delegate! { fn checked_neg(self) -> Option<Self> }
             trait_delegate! { fn checked_add(self, rhs: Self) -> Option<Self> }
             trait_delegate! { fn checked_sub(self, rhs: Self) -> Option<Self> }
@@ -3268,6 +3319,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn checked_shl(self, rhs: u32) -> Option<Self> }
             trait_delegate! { fn checked_shr(self, rhs: u32) -> Option<Self> }
             trait_delegate! { fn checked_dist(self, other: Self) -> Option<Self> }
+            trait_delegate! { fn checked_lerp(self, start: Self, end: Self) -> Option<Self> }
             trait_delegate! { fn saturating_neg(self) -> Self }
             trait_delegate! { fn saturating_add(self, rhs: Self) -> Self }
             trait_delegate! { fn saturating_sub(self, rhs: Self) -> Self }
@@ -3281,6 +3333,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn saturating_div_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn saturating_rem_euclid_int(self, rhs: Self::Bits) -> Self }
             trait_delegate! { fn saturating_dist(self, other: Self) -> Self }
+            trait_delegate! { fn saturating_lerp(self, start: Self, end: Self) -> Self }
             trait_delegate! { fn wrapping_neg(self) -> Self }
             trait_delegate! { fn wrapping_add(self, rhs: Self) -> Self }
             trait_delegate! { fn wrapping_sub(self, rhs: Self) -> Self }
@@ -3297,6 +3350,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn wrapping_shl(self, rhs: u32) -> Self }
             trait_delegate! { fn wrapping_shr(self, rhs: u32) -> Self }
             trait_delegate! { fn wrapping_dist(self, other: Self) -> Self }
+            trait_delegate! { fn wrapping_lerp(self, start: Self, end: Self) -> Self }
             trait_delegate! { fn unwrapped_neg(self) -> Self }
             trait_delegate! { fn unwrapped_add(self, rhs: Self) -> Self }
             trait_delegate! { fn unwrapped_sub(self, rhs: Self) -> Self }
@@ -3316,6 +3370,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn unwrapped_shl(self, rhs: u32) -> Self }
             trait_delegate! { fn unwrapped_shr(self, rhs: u32) -> Self }
             trait_delegate! { fn unwrapped_dist(self, other: Self) -> Self }
+            trait_delegate! { fn unwrapped_lerp(self, start: Self, end: Self) -> Self }
             trait_delegate! { fn overflowing_neg(self) -> (Self, bool) }
             trait_delegate! { fn overflowing_add(self, rhs: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_sub(self, rhs: Self) -> (Self, bool) }
@@ -3332,6 +3387,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn overflowing_shl(self, rhs: u32) -> (Self, bool) }
             trait_delegate! { fn overflowing_shr(self, rhs: u32) -> (Self, bool) }
             trait_delegate! { fn overflowing_dist(self, other: Self) -> (Self, bool) }
+            trait_delegate! { fn overflowing_lerp(self, start: Self, end: Self) -> (Self, bool) }
         }
 
         impl<Frac: $LeEqU> FromFixed for $Fixed<Frac> {

@@ -1165,6 +1165,25 @@ impl<F: Fixed> Wrapping<F> {
     pub fn rem_euclid_int(self, divisor: F::Bits) -> Wrapping<F> {
         Wrapping(self.0.wrapping_rem_euclid_int(divisor))
     }
+
+    /// Linear interpolation between `start` and `end`.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_lerp][FixedI32::wrapping_lerp]</code> and
+    /// <code>FixedU32::[wrapping\_lerp][FixedU32::wrapping_lerp]</code>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// type Wr = Wrapping<I16F16>;
+    /// assert_eq!(Wr::from_num(0.5).lerp(Wr::ZERO, Wr::MAX), Wr::MAX / 2);
+    /// assert_eq!(Wr::from_num(1.5).lerp(Wr::ZERO, Wr::MAX), Wr::MAX + Wr::MAX / 2);
+    /// ```
+    #[inline]
+    pub fn lerp(self, start: Wrapping<F>, end: Wrapping<F>) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_lerp(start.0, end.0))
+    }
 }
 
 impl<F: FixedSigned> Wrapping<F> {
