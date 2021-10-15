@@ -183,6 +183,7 @@ mod tests {
         assert_eq!(lerp::i128(0, -128, 127, 0), (-128, false));
         assert_eq!(lerp::i128(0, 127, -128, 128), (127, false));
         assert_eq!(lerp::i128(1, -128, 127, 1), (-1, false));
+        assert_eq!(lerp::i128(1 << 98, 127, -128, 100), (63, false));
         assert_eq!(lerp::i128((-64) << 120, -100, -110, 126), (-90, false));
 
         assert_eq!(

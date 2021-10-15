@@ -220,3 +220,79 @@ pub fn u128(v: u128, start: u128, end: u128, frac_bits: u32) -> (u128, bool) {
         (ret, overflow)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::inv_lerp;
+
+    #[test]
+    fn inv_lerp_i8() {
+        assert_eq!(inv_lerp::i8(-128, -128, 127, 0), (0, false));
+        assert_eq!(inv_lerp::i8(127, 127, -128, 8), (0, false));
+        assert_eq!(inv_lerp::i8(-1, -128, 127, 6), (31, false));
+        assert_eq!(inv_lerp::i8(-90, -100, -110, 6), (-64, false));
+
+        assert_eq!(inv_lerp::i8(50, 0, 2, 2), (100, false));
+        assert_eq!(inv_lerp::i8(100, 0, 2, 2), (-56, true));
+        assert_eq!(inv_lerp::i8(-26, -1, 0, 2), (-100, false));
+        assert_eq!(inv_lerp::i8(50, 0, -1, 2), (56, true));
+    }
+
+    #[test]
+    fn inv_lerp_u8() {
+        assert_eq!(inv_lerp::u8(0, 0, 255, 0), (0, false));
+        assert_eq!(inv_lerp::u8(255, 255, 0, 8), (0, false));
+        assert_eq!(inv_lerp::u8(255, 0, 255, 0), (1, false));
+        assert_eq!(inv_lerp::u8(128, 255, 0, 7), (63, false));
+        assert_eq!(inv_lerp::u8(51, 52, 53, 6), (192, true));
+
+        assert_eq!(inv_lerp::u8(100, 0, 2, 2), (200, false));
+        assert_eq!(inv_lerp::u8(200, 0, 2, 2), (200 - 56, true));
+    }
+
+    #[test]
+    fn inv_lerp_i128() {
+        assert_eq!(inv_lerp::i128(-128, -128, 127, 0), (0, false));
+        assert_eq!(inv_lerp::i128(127, 127, -128, 128), (0, false));
+        assert_eq!(inv_lerp::i128(-1, -128, 127, 6), (31, false));
+        assert_eq!(inv_lerp::i128(-90, -100, -110, 126), ((-64) << 120, false));
+
+        assert_eq!(
+            inv_lerp::i128(i128::MAX / 2, 0, 2, 2),
+            (i128::MAX / 2 * 2, false)
+        );
+        assert_eq!(
+            inv_lerp::i128(i128::MAX, 0, 2, 2),
+            (i128::MAX.wrapping_mul(2), true)
+        );
+        assert_eq!(
+            inv_lerp::i128(i128::MIN / 4 - 1, -1, 0, 2),
+            (i128::MIN, false)
+        );
+        assert_eq!(
+            inv_lerp::i128(i128::MAX, 0, -1, 2),
+            (i128::MAX.wrapping_mul(-4), true)
+        );
+    }
+
+    #[test]
+    fn inv_lerp_u128() {
+        assert_eq!(inv_lerp::u128(0, 0, 255, 0), (0, false));
+        assert_eq!(inv_lerp::u128(255, 255, 0, 128), (0, false));
+        assert_eq!(inv_lerp::u128(255, 0, 255, 0), (1, false));
+        assert_eq!(
+            inv_lerp::u128(1 << 127, u128::MAX, 0, 127),
+            ((1 << 126) - 1, false)
+        );
+        assert_eq!(inv_lerp::u128(51, 52, 53, 126), (192 << 120, true));
+
+        assert_eq!(
+            inv_lerp::u128(u128::MAX / 2, 0, 2, 2),
+            (u128::MAX / 2 * 2, false)
+        );
+        assert_eq!(
+            inv_lerp::u128(u128::MAX, 0, 2, 2),
+            (u128::MAX.wrapping_mul(2), true)
+        );
+    }
+}
