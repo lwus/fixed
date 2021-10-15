@@ -13,7 +13,7 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
-use crate::arith;
+use crate::{arith, wide_div::WideDivRem};
 use az_crate::WrappingAs;
 
 pub struct U256 {
@@ -91,4 +91,10 @@ pub fn shl_u256_max_128(a: U256, sh: u32) -> U256 {
             hi: a.hi >> sh,
         }
     }
+}
+
+#[inline]
+pub fn div_rem_u256_u128(n: U256, d: u128) -> (U256, u128) {
+    let ((hi, lo), rem) = WideDivRem::div_rem_from(d, (n.hi, n.lo));
+    (U256 { lo, hi }, rem)
 }

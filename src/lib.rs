@@ -318,6 +318,7 @@ mod impl_bytemuck;
 mod impl_num_traits;
 mod int256;
 mod int_helper;
+mod inv_lerp;
 mod lerp;
 mod log10;
 mod prim_traits;
