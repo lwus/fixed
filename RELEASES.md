@@ -12,11 +12,15 @@ Version 1.11.0 (unreleased)
     [`Fixed`][tf-1-11] trait, and to the [`Wrapping`][w-1-11] and
     [`Unwrapped`][u-1-11] wrappers:
       * [`lerp`][f-l-1-11]
+      * [`inv_lerp`][f-il-1-11]
   * The following methods were added to all fixed-point numbers and to the
     [`Fixed`][tf-1-11] trait:
       * [`checked_lerp`][f-cl-1-11], [`saturating_lerp`][f-sl-1-11],
         [`wrapping_lerp`][f-wl-1-11], [`unwrapped_lerp`][f-ul-1-11],
         [`overflowing_lerp`][f-ol-1-11]
+      * [`checked_inv_lerp`][f-cil-1-11], [`saturating_inv_lerp`][f-sil-1-11],
+        [`wrapping_inv_lerp`][f-wil-1-11], [`unwrapped_inv_lerp`][f-uil-1-11],
+        [`overflowing_inv_lerp`][f-oil-1-11]
   * The [*typenum* crate] dependency was updated to [version
     1.14][typenum-1-14].
   * The [`LeEqU8`][leu8-1-11], [`LeEqU16`][leu16-1-11], [`LeEqU32`][leu32-1-11],
@@ -25,11 +29,17 @@ Version 1.11.0 (unreleased)
     [`Unsigned`][uns-1-11] since typenum [version 1.14][typenum-1-14]. This
     fixes a potential compatibility issue introduced in version 1.9.0.
 
+[f-cil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_inv_lerp
 [f-cl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_lerp
+[f-il-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.inv_lerp
 [f-l-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.lerp
+[f-oil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_inv_lerp
 [f-ol-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_lerp
+[f-sil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_inv_lerp
 [f-sl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_lerp
+[f-uil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_inv_lerp
 [f-ul-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_lerp
+[f-wil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_inv_lerp
 [f-wl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_lerp
 [leu128-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
 [leu16-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
