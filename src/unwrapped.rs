@@ -1287,8 +1287,8 @@ impl<F: Fixed> Unwrapped<F> {
     /// Linear interpolation between `start` and `end`.
     ///
     /// See also
-    /// <code>FixedI32::[wrapping\_lerp][FixedI32::wrapping_lerp]</code> and
-    /// <code>FixedU32::[wrapping\_lerp][FixedU32::wrapping_lerp]</code>.
+    /// <code>FixedI32::[unwrapped\_lerp][FixedI32::unwrapped_lerp]</code> and
+    /// <code>FixedU32::[unwrapped\_lerp][FixedU32::unwrapped_lerp]</code>.
     ///
     /// # Panics
     ///
@@ -1313,6 +1313,48 @@ impl<F: Fixed> Unwrapped<F> {
     #[must_use = "this returns the result of the operation, without modifying the original"]
     pub fn lerp(self, start: Unwrapped<F>, end: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_lerp(start.0, end.0))
+    }
+
+    /// Inverse linear interpolation between `start` and `end`.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_inv\_lerp][FixedI32::unwrapped_inv_lerp]</code> and
+    /// <code>FixedU32::[unwrapped\_inv\_lerp][FixedU32::unwrapped_inv_lerp]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics when `start` = `end` or when the results overflows.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// type Unwr = Unwrapped<I16F16>;
+    /// assert_eq!(
+    ///     Unwr::from_num(25).inv_lerp(Unwr::from_num(20), Unwr::from_num(40)),
+    ///     Unwr::from_num(0.25)
+    /// );
+    /// ```
+    ///
+    /// The following panics because `start` = `end`.
+    ///
+    /// ```should_panic
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// type Unwr = Unwrapped<I16F16>;
+    /// let two = Unwr::from_num(2);
+    /// let _zero_range = two.inv_lerp(two, two);
+    /// ```
+    ///
+    /// The following panics because of overflow.
+    ///
+    /// ```should_panic
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// type Unwr = Unwrapped<I16F16>;
+    /// let _overflow = Unwr::MAX.inv_lerp(Unwr::ZERO, Unwr::from_num(0.5));
+    /// ```
+    #[inline]
+    pub fn inv_lerp(self, start: Unwrapped<F>, end: Unwrapped<F>) -> Unwrapped<F> {
+        Unwrapped(self.0.unwrapped_inv_lerp(start.0, end.0))
     }
 }
 

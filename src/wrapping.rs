@@ -1184,6 +1184,27 @@ impl<F: Fixed> Wrapping<F> {
     pub fn lerp(self, start: Wrapping<F>, end: Wrapping<F>) -> Wrapping<F> {
         Wrapping(self.0.wrapping_lerp(start.0, end.0))
     }
+
+    /// Inverse linear interpolation between `start` and `end`.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_inv\_lerp][FixedI32::wrapping_inv_lerp]</code> and
+    /// <code>FixedU32::[wrapping\_inv\_lerp][FixedU32::wrapping_inv_lerp]</code>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// type Wr = Wrapping<I16F16>;
+    /// assert_eq!(
+    ///     Wr::from_num(25).inv_lerp(Wr::from_num(20), Wr::from_num(40)),
+    ///     Wr::from_num(0.25)
+    /// );
+    /// ```
+    #[inline]
+    pub fn inv_lerp(self, start: Wrapping<F>, end: Wrapping<F>) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_inv_lerp(start.0, end.0))
+    }
 }
 
 impl<F: FixedSigned> Wrapping<F> {
