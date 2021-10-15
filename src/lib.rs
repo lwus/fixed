@@ -316,6 +316,7 @@ mod impl_arbitrary;
 mod impl_bytemuck;
 #[cfg(feature = "num-traits")]
 mod impl_num_traits;
+mod int256;
 mod int_helper;
 mod lerp;
 mod log10;
