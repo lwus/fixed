@@ -16,7 +16,7 @@
 macro_rules! fixed_no_frac {
     (
         $Fixed:ident[$s_fixed:expr](
-            $Inner:ty[$s_inner:expr], $LeEqU:tt, $s_nbits:expr, $s_nbits_m1:expr
+            $Inner:ident[$s_inner:expr], $LeEqU:tt, $s_nbits:expr, $s_nbits_m1:expr
         ),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
@@ -1013,6 +1013,62 @@ assert_eq!(Fix::from_num(3).mean(Fix::from_num(4)), Fix::from_num(3.5));
                     // (a + b) / 2 = (a & b) + (a ^ b) / 2
                     let (a, b) = (self.to_bits(), other.to_bits());
                     $Fixed::from_bits((a & b) + ((a ^ b) >> 1))
+                }
+            }
+
+            comment! {
+                "Inverse linear interpolation between `start` and `end`.
+
+The computed value can have a fixed-point type like `self` but with a different
+number of fractional bits.
+
+Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
+and 1 when `self` = `end`.
+
+# Panics
+
+Panics when `start` = `end`.
+
+When debug assertions are enabled, this method also panics if the result
+overflows. When debug assertions are not enabled, the wrapped value can be
+returned, but it is not considered a breaking change if in the future it panics;
+if wrapping is required use [`wrapping_inv_lerp`] instead.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let start = Fix::from_num(2);
+let end = Fix::from_num(3.5);
+",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    "assert_eq!(Fix::from_num(0.5).inv_lerp::<U4>(start, end), -1);
+",
+                },
+                "assert_eq!(Fix::from_num(2).inv_lerp::<U4>(start, end), 0);
+assert_eq!(Fix::from_num(2.75).inv_lerp::<U4>(start, end), 0.5);
+assert_eq!(Fix::from_num(3.5).inv_lerp::<U4>(start, end), 1);
+assert_eq!(Fix::from_num(5).inv_lerp::<U4>(start, end), 2);
+```
+
+[`wrapping_inv_lerp`]: Self::wrapping_inv_lerp
+";
+                #[inline]
+                pub fn inv_lerp<RetFrac: $LeEqU>(
+                    self,
+                    start: $Fixed<Frac>,
+                    end: $Fixed<Frac>,
+                ) -> $Fixed<RetFrac> {
+                    let (ans, overflow) = inv_lerp::$Inner(
+                        self.to_bits(),
+                        start.to_bits(),
+                        end.to_bits(),
+                        RetFrac::U32,
+                    );
+                    debug_assert!(!overflow, "overflow");
+                    $Fixed::from_bits(ans)
                 }
             }
 

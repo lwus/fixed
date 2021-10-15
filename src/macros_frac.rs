@@ -494,59 +494,6 @@ assert_eq!(Fix::from_num(2.0).lerp(start, end), 5);
                 }
             }
 
-            comment! {
-                "Inverse linear interpolation between `start` and `end`.
-
-Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
-and 1 when `self` = `end`.
-
-# Panics
-
-Panics when `start` = `end`.
-
-When debug assertions are enabled, this method also panics if the result
-overflows. When debug assertions are not enabled, the wrapped value can be
-returned, but it is not considered a breaking change if in the future it panics;
-if wrapping is required use [`wrapping_inv_lerp`] instead.
-
-# Examples
-
-```rust
-use fixed::{types::extra::U4, ", $s_fixed, "};
-type Fix = ", $s_fixed, "<U4>;
-let start = Fix::from_num(2);
-let end = Fix::from_num(3.5);
-",
-                if_signed_else_empty_str! {
-                    $Signedness;
-                    "assert_eq!(Fix::from_num(0.5).inv_lerp(start, end), -1);
-",
-                },
-                "assert_eq!(Fix::from_num(2).inv_lerp(start, end), 0);
-assert_eq!(Fix::from_num(2.75).inv_lerp(start, end), 0.5);
-assert_eq!(Fix::from_num(3.5).inv_lerp(start, end), 1);
-assert_eq!(Fix::from_num(5).inv_lerp(start, end), 2);
-```
-
-[`wrapping_inv_lerp`]: Self::wrapping_inv_lerp
-";
-                #[inline]
-                pub fn inv_lerp<RangeFrac>(
-                    self,
-                    start: $Fixed<RangeFrac>,
-                    end: $Fixed<RangeFrac>,
-                ) -> $Fixed<RangeFrac> {
-                    let (ans, overflow) = inv_lerp::$Inner(
-                        self.to_bits(),
-                        start.to_bits(),
-                        end.to_bits(),
-                        Frac::U32,
-                    );
-                    debug_assert!(!overflow, "overflow");
-                    $Fixed::from_bits(ans)
-                }
-            }
-
             if_signed! {
                 $Signedness;
                 comment! {
