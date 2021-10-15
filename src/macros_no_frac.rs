@@ -1637,6 +1637,46 @@ assert_eq!(Fix::ONE.checked_dist(Fix::from_num(5)), Some(Fix::from_num(4)));
                 }
             }
 
+            comment! {
+                "Checked inverse linear interpolation between `start` and `end`.
+Returns [`None`] on overflow or when `start` = `end`.
+
+The computed value can have a fixed-point type like `self` but with a different
+number of fractional bits.
+
+Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
+and 1 when `self` = `end`.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let two = Fix::from_num(2);
+let four = Fix::from_num(4);
+assert_eq!(Fix::from_num(3).checked_inv_lerp::<U4>(two, four), Some(Fix::from_num(0.5)));
+assert_eq!(Fix::from_num(2).checked_inv_lerp::<U4>(two, two), None);
+assert_eq!(Fix::MAX.checked_inv_lerp::<U4>(Fix::ZERO, Fix::from_num(0.5)), None);
+```
+";
+                #[inline]
+                pub fn checked_inv_lerp<RetFrac: $LeEqU>(
+                    self,
+                    start: $Fixed<Frac>,
+                    end: $Fixed<Frac>,
+                ) -> Option<$Fixed<RetFrac>> {
+                    let start = start.to_bits();
+                    let end = end.to_bits();
+                    if start == end {
+                        return None;
+                    }
+                    match inv_lerp::$Inner(self.to_bits(), start, end, RetFrac::U32) {
+                        (bits, false) => Some($Fixed::from_bits(bits)),
+                        (_, true) => None,
+                    }
+                }
+            }
+
             if_unsigned! {
                 $Signedness;
                 comment! {
@@ -1941,6 +1981,61 @@ assert_eq!(Fix::ONE.saturating_dist(Fix::from_num(5)), Fix::from_num(4));
             }
 
             comment! {
+                "Inverse linear interpolation between `start` and `end`,
+saturating on overflow.
+
+The computed value can have a fixed-point type like `self` but with a different
+number of fractional bits.
+
+Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
+and 1 when `self` = `end`.
+
+# Panics
+
+Panics when `start` = `end`.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let two = Fix::from_num(2);
+let four = Fix::from_num(4);
+assert_eq!(Fix::from_num(3).saturating_inv_lerp::<U4>(two, four), 0.5);
+assert_eq!(Fix::MAX.saturating_inv_lerp::<U4>(Fix::ZERO, Fix::from_num(0.5)), Fix::MAX);
+assert_eq!(Fix::MAX.saturating_inv_lerp::<U4>(Fix::from_num(0.5), Fix::ZERO), Fix::MIN);
+```
+";
+                #[inline]
+                pub fn saturating_inv_lerp<RetFrac: $LeEqU>(
+                    self,
+                    start: $Fixed<Frac>,
+                    end: $Fixed<Frac>,
+                ) -> $Fixed<RetFrac> {
+                    let self_bits = self.to_bits();
+                    let start = start.to_bits();
+                    let end = end.to_bits();
+                    match inv_lerp::$Inner(self_bits, start, end, RetFrac::U32) {
+                        (bits, false) => $Fixed::from_bits(bits),
+                        (_, true) => if_signed_unsigned!(
+                            $Signedness,
+                            if (self_bits < start) == (end < start) {
+                                $Fixed::MAX
+                            } else {
+                                $Fixed::MIN
+                            },
+                            if end < start {
+                                $Fixed::MIN
+                            } else {
+                                $Fixed::MAX
+                            },
+                        ),
+                    }
+
+                }
+            }
+
+            comment! {
                 "Wrapping negation. Returns the negated value, wrapping on overflow.
 
 ",
@@ -2223,6 +2318,50 @@ assert_eq!(Fix::ONE.wrapping_dist(Fix::from_num(5)), Fix::from_num(4));
                         self.overflowing_dist(other).0,
                         self.dist(other),
                     )
+                }
+            }
+
+            comment! {
+                "Inverse linear interpolation between `start` and `end`,
+wrapping on overflow.
+
+The computed value can have a fixed-point type like `self` but with a different
+number of fractional bits.
+
+Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
+and 1 when `self` = `end`.
+
+# Panics
+
+Panics when `start` = `end`.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let two = Fix::from_num(2);
+let four = Fix::from_num(4);
+assert_eq!(Fix::from_num(3).wrapping_inv_lerp::<U4>(two, four), 0.5);
+assert_eq!(
+    Fix::MAX.wrapping_inv_lerp::<U4>(Fix::ZERO, Fix::from_num(0.5)),
+    Fix::MAX.wrapping_mul_int(2)
+);
+```
+";
+                #[inline]
+                pub fn wrapping_inv_lerp<RetFrac: $LeEqU>(
+                    self,
+                    start: $Fixed<Frac>,
+                    end: $Fixed<Frac>,
+                ) -> $Fixed<RetFrac> {
+                    let (bits, _) = inv_lerp::$Inner(
+                        self.to_bits(),
+                        start.to_bits(),
+                        end.to_bits(),
+                        RetFrac::U32,
+                    );
+                    $Fixed::from_bits(bits)
                 }
             }
 
@@ -2748,6 +2887,66 @@ let _overflow = Fix::MIN.unwrapped_dist(Fix::ZERO);
                 }
             }
 
+            comment! {
+                "Inverse linear interpolation between `start` and `end`,
+panicking on overflow.
+
+The computed value can have a fixed-point type like `self` but with a different
+number of fractional bits.
+
+Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
+and 1 when `self` = `end`.
+
+# Panics
+
+Panics when `start` = `end` or when the results overflows.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let two = Fix::from_num(2);
+let four = Fix::from_num(4);
+assert_eq!(Fix::from_num(3).unwrapped_inv_lerp::<U4>(two, four), 0.5);
+```
+
+The following panics because `start` = `end`.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let two = Fix::from_num(2);
+let _zero_range = two.unwrapped_inv_lerp::<U4>(two, two);
+```
+
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_inv_lerp::<U4>(Fix::ZERO, Fix::from_num(0.5));
+```
+";
+                #[inline]
+                pub fn unwrapped_inv_lerp<RetFrac: $LeEqU>(
+                    self,
+                    start: $Fixed<Frac>,
+                    end: $Fixed<Frac>,
+                ) -> $Fixed<RetFrac> {
+                    let (bits, overflow) = inv_lerp::$Inner(
+                        self.to_bits(),
+                        start.to_bits(),
+                        end.to_bits(),
+                        RetFrac::U32,
+                    );
+                    if overflow {
+                        panic!("overflow");
+                    }
+                    $Fixed::from_bits(bits)
+                }
+            }
+
             if_unsigned! {
                 $Signedness;
                 comment! {
@@ -3141,6 +3340,55 @@ assert_eq!(
                         $Signedness;
                         (self.dist(other), false)
                     }
+                }
+            }
+
+            comment! {
+                "Overflowing inverse linear interpolation between `start` and `end`.
+
+Returns a [tuple] of the result and a [`bool`] indicationg whether an overflow
+has occurred. On overflow, the wrapped value is returned.
+
+The computed value can have a fixed-point type like `self` but with a different
+number of fractional bits.
+
+Computes (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
+and 1 when `self` = `end`.
+
+# Panics
+
+Panics when `start` = `end`.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let two = Fix::from_num(2);
+let four = Fix::from_num(4);
+assert_eq!(
+    Fix::from_num(3).overflowing_inv_lerp::<U4>(two, four),
+    (Fix::from_num(0.5), false)
+);
+assert_eq!(
+    Fix::MAX.overflowing_inv_lerp::<U4>(Fix::ZERO, Fix::from_num(0.5)),
+    (Fix::MAX.wrapping_mul_int(2), true)
+);
+```
+";
+                #[inline]
+                pub fn overflowing_inv_lerp<RetFrac: $LeEqU>(
+                    self,
+                    start: $Fixed<Frac>,
+                    end: $Fixed<Frac>,
+                ) -> ($Fixed<RetFrac>, bool) {
+                    let (bits, overflow) = inv_lerp::$Inner(
+                        self.to_bits(),
+                        start.to_bits(),
+                        end.to_bits(),
+                        RetFrac::U32,
+                    );
+                    ($Fixed::from_bits(bits), overflow)
                 }
             }
         }
