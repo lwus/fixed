@@ -1566,9 +1566,9 @@ assert_eq!(
                     start: $Fixed<RangeFrac>,
                     end: $Fixed<RangeFrac>,
                 ) -> $Fixed<RangeFrac> {
-                    $Fixed::from_bits(
-                        lerp::$Inner(self.to_bits(), start.to_bits(), end.to_bits(), Frac::U32).0,
-                    )
+                    let (bits, _) =
+                        lerp::$Inner(self.to_bits(), start.to_bits(), end.to_bits(), Frac::U32);
+                    $Fixed::from_bits(bits)
                 }
             }
 

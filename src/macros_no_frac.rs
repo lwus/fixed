@@ -972,20 +972,20 @@ assert_eq!(Fix::from_num(-1).unsigned_dist(Fix::from_num(2)), UFix::from_num(3))
 assert_eq!(Fix::MIN.unsigned_dist(Fix::MAX), UFix::MAX);
 ```
 ";
-                #[inline]
-                #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unsigned_dist(self, other: $Fixed<Frac>) -> $UFixed<Frac> {
-                    let s = self.to_bits();
-                    let o = other.to_bits();
-                    let d = if s < o {
-                        o.wrapping_sub(s)
-                    } else {
-                        s.wrapping_sub(o)
-                    };
-                    $UFixed::from_bits(d as $UInner)
+                    #[inline]
+                    #[must_use = "this returns the result of the operation, without modifying the original"]
+                    pub const fn unsigned_dist(self, other: $Fixed<Frac>) -> $UFixed<Frac> {
+                        let s = self.to_bits();
+                        let o = other.to_bits();
+                        let d = if s < o {
+                            o.wrapping_sub(s)
+                        } else {
+                            s.wrapping_sub(o)
+                        };
+                        $UFixed::from_bits(d as $UInner)
+                    }
                 }
             }
-        }
 
             comment! {
                 "Returns the mean of `self` and `other`.
