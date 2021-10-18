@@ -15,13 +15,13 @@
 
 use crate::{
     helpers::IntHelper,
+    int256::{self, I256, U256},
     traits::ToFixed,
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     wide_div::WideDivRem,
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
-use az_crate::WrappingAs;
 #[cfg(not(debug_assertions))]
 use core::hint;
 use core::{
@@ -692,238 +692,126 @@ macro_rules! mul_div_widen {
     };
 }
 
-trait FallbackHelper: Sized {
-    type Unsigned;
-    fn hi_lo(self) -> (Self, Self);
-    fn shift_lo_up(self) -> Self;
-    fn shift_lo_up_unsigned(self) -> Self::Unsigned;
-    fn combine_lo_then_shl(self, lo: Self::Unsigned, shift: u32) -> (Self, bool);
-    fn combine_lo_then_shl_add(self, lo: Self::Unsigned, shift: u32, add: Self) -> (Self, bool);
-    fn carrying_add(self, other: Self) -> (Self, Self);
-}
+mul_div_widen! { u8, u16, Unsigned }
+mul_div_widen! { u16, u32, Unsigned }
+mul_div_widen! { u32, u64, Unsigned }
+mul_div_widen! { u64, u128, Unsigned }
+mul_div_widen! { i8, i16, Signed }
+mul_div_widen! { i16, i32, Signed }
+mul_div_widen! { i32, i64, Signed }
+mul_div_widen! { i64, i128, Signed }
 
-impl FallbackHelper for u128 {
-    type Unsigned = u128;
+impl OverflowingMulDiv for u128 {
     #[inline]
-    fn hi_lo(self) -> (u128, u128) {
-        (self >> 64, self & !(!0 << 64))
-    }
-
-    #[inline]
-    fn shift_lo_up(self) -> u128 {
-        debug_assert!(self >> 64 == 0);
-        self << 64
-    }
-
-    #[inline]
-    fn shift_lo_up_unsigned(self) -> u128 {
-        debug_assert!(self >> 64 == 0);
-        self << 64
-    }
-
-    #[inline]
-    fn combine_lo_then_shl(self, lo: u128, shift: u32) -> (u128, bool) {
-        if shift == 128 {
-            (self, false)
-        } else if shift == 0 {
-            (lo, self != 0)
+    fn overflowing_mul(self, rhs: u128, frac_nbits: u32) -> (u128, bool) {
+        if frac_nbits == 0 {
+            self.overflowing_mul(rhs)
         } else {
-            let lo = lo >> shift;
-            let hi = self << (128 - shift);
-            (lo | hi, self >> shift != 0)
+            let prod = int256::wide_mul_u128(self, rhs);
+            int256::overflowing_shl_u256_into_u128(prod, frac_nbits)
         }
     }
 
     #[inline]
-    fn combine_lo_then_shl_add(self, lo: u128, shift: u32, add: u128) -> (u128, bool) {
-        let (combine, overflow1) = FallbackHelper::combine_lo_then_shl(self, lo, shift);
-        let (ans, overflow2) = combine.overflowing_add(add);
-        (ans, overflow1 || overflow2)
+    fn overflowing_mul_add(self, mul: u128, add: u128, mut frac_nbits: i32) -> (u128, bool) {
+        // l * r + a
+        let mut prod = int256::wide_mul_u128(self, mul);
+
+        let mut overflow1 = false;
+        if frac_nbits < 0 {
+            frac_nbits += 128;
+            debug_assert!(frac_nbits >= 0);
+            overflow1 = prod.hi != 0;
+            prod.hi = prod.lo;
+            prod.lo = 0;
+        } else if frac_nbits > 128 {
+            frac_nbits -= 128;
+            debug_assert!(frac_nbits <= 128);
+            prod.lo = prod.hi;
+            prod.hi = 0;
+        }
+
+        let (shifted, overflow2) = int256::overflowing_shl_u256_into_u128(prod, frac_nbits as u32);
+        let (ans, overflow3) = shifted.overflowing_add(add);
+        (ans, overflow1 | overflow2 | overflow3)
     }
 
     #[inline]
-    fn carrying_add(self, rhs: u128) -> (u128, u128) {
-        let (sum, overflow) = self.overflowing_add(rhs);
-        let carry = if overflow { 1 } else { 0 };
-        (sum, carry)
+    fn overflowing_div(self, rhs: u128, frac_nbits: u32) -> (u128, bool) {
+        if frac_nbits == 0 {
+            self.overflowing_div(rhs)
+        } else {
+            let lhs2 = U256 {
+                lo: self << frac_nbits,
+                hi: self >> (128 - frac_nbits),
+            };
+            let ((quot2_hi, quot2_lo), _) = rhs.div_rem_from((lhs2.hi, lhs2.lo));
+            let quot = quot2_lo;
+            let overflow = quot2_hi != 0;
+            (quot, overflow)
+        }
     }
 }
 
-impl FallbackHelper for i128 {
-    type Unsigned = u128;
+impl OverflowingMulDiv for i128 {
     #[inline]
-    fn hi_lo(self) -> (i128, i128) {
-        (self >> 64, self & !(!0 << 64))
-    }
-
-    #[inline]
-    fn shift_lo_up(self) -> i128 {
-        debug_assert!(self >> 64 == 0);
-        self << 64
-    }
-
-    #[inline]
-    fn shift_lo_up_unsigned(self) -> u128 {
-        debug_assert!(self >> 64 == 0);
-        (self << 64) as u128
-    }
-
-    #[inline]
-    fn combine_lo_then_shl(self, lo: u128, shift: u32) -> (i128, bool) {
-        if shift == 128 {
-            (self, false)
-        } else if shift == 0 {
-            let ans = lo as i128;
-            (ans, self != if ans < 0 { -1 } else { 0 })
+    fn overflowing_mul(self, rhs: i128, frac_nbits: u32) -> (i128, bool) {
+        if frac_nbits == 0 {
+            self.overflowing_mul(rhs)
         } else {
-            let lo = (lo >> shift) as i128;
-            let hi = self << (128 - shift);
-            let ans = lo | hi;
-            (ans, self >> shift != if ans < 0 { -1 } else { 0 })
+            let prod = int256::wide_mul_i128(self, rhs);
+            int256::overflowing_shl_i256_into_i128(prod, frac_nbits)
         }
     }
 
     #[inline]
-    fn combine_lo_then_shl_add(self, lo: u128, shift: u32, add: i128) -> (i128, bool) {
-        let (combine_lo, combine_hi) = if shift == 128 {
-            (self as u128, if self < 0 { -1 } else { 0 })
-        } else if shift == 0 {
-            (lo, self)
-        } else {
-            (
-                (lo >> shift) | (self << (128 - shift)) as u128,
-                self >> shift,
-            )
-        };
-        let (uns, carry) = combine_lo.overflowing_add(add as u128);
+    fn overflowing_mul_add(self, mul: i128, add: i128, mut frac_nbits: i32) -> (i128, bool) {
+        // l * r + a
+        let mut prod = int256::wide_mul_i128(self, mul);
+
+        let mut overflow1 = false;
+        if frac_nbits < 0 {
+            frac_nbits += 128;
+            debug_assert!(frac_nbits >= 0);
+            overflow1 = prod.hi != (prod.lo as i128) >> 127;
+            prod.hi = prod.lo as i128;
+            prod.lo = 0;
+        } else if frac_nbits > 128 {
+            frac_nbits -= 128;
+            debug_assert!(frac_nbits <= 128);
+            prod.lo = prod.hi as u128;
+            prod.hi >>= 127;
+        }
+
+        let shifted = int256::shl_i256_max_128(prod, frac_nbits as u32);
+        let (uns, carry) = shifted.lo.overflowing_add(add as u128);
         let ans = uns as i128;
-        let mut expected_hi = if ans < 0 { -1 } else { 0 };
+        let mut expected_hi = ans >> 127;
         if add < 0 {
             expected_hi += 1;
         }
         if carry {
             expected_hi -= 1;
         }
-        (ans, combine_hi != expected_hi)
+        (ans, overflow1 | (shifted.hi != expected_hi))
     }
 
     #[inline]
-    fn carrying_add(self, rhs: i128) -> (i128, i128) {
-        let (sum, overflow) = self.overflowing_add(rhs);
-        let carry = if overflow {
-            if sum < 0 {
-                1
-            } else {
-                -1
-            }
+    fn overflowing_div(self, rhs: i128, frac_nbits: u32) -> (i128, bool) {
+        if frac_nbits == 0 {
+            self.overflowing_div(rhs)
         } else {
-            0
-        };
-        (sum, carry)
+            let lhs2 = I256 {
+                lo: (self << frac_nbits) as u128,
+                hi: self >> (128 - frac_nbits),
+            };
+            let ((quot2_hi, quot2_lo), _) = rhs.div_rem_from((lhs2.hi, lhs2.lo));
+            let quot = quot2_lo as i128;
+            let overflow = quot2_hi != quot >> 127;
+            (quot, overflow)
+        }
     }
 }
-
-macro_rules! mul_div_fallback {
-    ($Single:ty, $Uns:ty, $Signedness:tt, $mul:ident) => {
-        #[inline]
-        pub(crate) fn $mul(lhs: $Single, rhs: $Single) -> ($Uns, $Single) {
-            let (lh, ll) = FallbackHelper::hi_lo(lhs);
-            let (rh, rl) = FallbackHelper::hi_lo(rhs);
-            let ll_rl = ll.wrapping_mul(rl);
-            let lh_rl = lh.wrapping_mul(rl);
-            let ll_rh = ll.wrapping_mul(rh);
-            let lh_rh = lh.wrapping_mul(rh);
-
-            let col01 = ll_rl as <$Single as FallbackHelper>::Unsigned;
-            let (col01_hi, col01_lo) = FallbackHelper::hi_lo(col01);
-            let partial_col12 = lh_rl + col01_hi as $Single;
-            let (col12, carry_col3) = FallbackHelper::carrying_add(partial_col12, ll_rh);
-            let (col12_hi, col12_lo) = FallbackHelper::hi_lo(col12);
-            let (_, carry_col3_lo) = FallbackHelper::hi_lo(carry_col3);
-            let ans01 = FallbackHelper::shift_lo_up_unsigned(col12_lo) + col01_lo;
-            let ans23 = lh_rh + col12_hi + FallbackHelper::shift_lo_up(carry_col3_lo);
-            (ans01, ans23)
-        }
-
-        impl OverflowingMulDiv for $Single {
-            #[inline]
-            fn overflowing_mul(self, rhs: $Single, frac_nbits: u32) -> ($Single, bool) {
-                if frac_nbits == 0 {
-                    self.overflowing_mul(rhs)
-                } else {
-                    let (ans01, ans23) = $mul(self, rhs);
-                    FallbackHelper::combine_lo_then_shl(ans23, ans01, frac_nbits)
-                }
-            }
-
-            #[inline]
-            fn overflowing_mul_add(
-                self,
-                mul: $Single,
-                add: $Single,
-                mut frac_nbits: i32,
-            ) -> ($Single, bool) {
-                const NBITS: i32 = <$Single>::BITS as i32;
-
-                // l * r + a
-                let (mut ans01, mut ans23) = $mul(self, mul);
-
-                let mut overflow2 = false;
-                if frac_nbits < 0 {
-                    frac_nbits += NBITS;
-                    debug_assert!(frac_nbits >= 0);
-                    let expected_ans23 = if_signed_unsigned!(
-                        $Signedness,
-                        ans01.wrapping_as::<$Single>() >> (NBITS - 1),
-                        0,
-                    );
-                    overflow2 = ans23 != expected_ans23;
-                    ans23 = ans01.wrapping_as::<$Single>();
-                    ans01 = 0;
-                } else if frac_nbits > NBITS {
-                    frac_nbits -= NBITS;
-                    debug_assert!(frac_nbits <= NBITS);
-                    let sign_extension = if_signed_unsigned!($Signedness, ans23 >> (NBITS - 1), 0);
-                    ans01 = ans23.wrapping_as::<$Uns>();
-                    ans23 = sign_extension;
-                }
-
-                let (ans, overflow) =
-                    FallbackHelper::combine_lo_then_shl_add(ans23, ans01, frac_nbits as u32, add);
-                (ans, overflow2 || overflow)
-            }
-
-            #[inline]
-            fn overflowing_div(self, rhs: $Single, frac_nbits: u32) -> ($Single, bool) {
-                if frac_nbits == 0 {
-                    self.overflowing_div(rhs)
-                } else {
-                    const NBITS: u32 = <$Single>::BITS;
-                    let lhs2 = (self >> (NBITS - frac_nbits), (self << frac_nbits) as $Uns);
-                    let (quot2, _) = rhs.div_rem_from(lhs2);
-                    let quot = quot2.1 as $Single;
-                    let overflow = if_signed_unsigned!(
-                        $Signedness,
-                        quot2.0 != if quot < 0 { -1 } else { 0 },
-                        quot2.0 != 0
-                    );
-                    (quot, overflow)
-                }
-            }
-        }
-    };
-}
-
-mul_div_widen! { u8, u16, Unsigned }
-mul_div_widen! { u16, u32, Unsigned }
-mul_div_widen! { u32, u64, Unsigned }
-mul_div_widen! { u64, u128, Unsigned }
-mul_div_fallback! { u128, u128, Unsigned, mul_u128 }
-mul_div_widen! { i8, i16, Signed }
-mul_div_widen! { i16, i32, Signed }
-mul_div_widen! { i32, i64, Signed }
-mul_div_widen! { i64, i128, Signed }
-mul_div_fallback! { i128, u128, Signed, mul_i128 }
 
 #[cfg(test)]
 mod tests {
