@@ -15,7 +15,7 @@
 
 use crate::{
     debug_hex::{self, IsDebugHex},
-    helpers::IntHelper,
+    int_helper::{self, IntHelper},
     types::extra::{False, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
@@ -405,63 +405,65 @@ fn fmt_radix2<U: FmtHelper>(
 }
 
 macro_rules! impl_fmt {
-    ($Fixed:ident($LeEqU:ident)) => {
+    ($Fixed:ident($LeEqU:ident, $Inner:ident)) => {
         impl<Frac: $LeEqU> Display for $Fixed<Frac> {
             fn fmt(&self, f: &mut Formatter) -> FmtResult {
-                fmt_dec(self.to_bits().neg_abs(), Self::FRAC_NBITS, f)
+                let neg_abs = int_helper::$Inner::neg_abs(self.to_bits());
+                fmt_dec(neg_abs, Self::FRAC_NBITS, f)
             }
         }
 
         impl<Frac: $LeEqU> Debug for $Fixed<Frac> {
             fn fmt(&self, f: &mut Formatter) -> FmtResult {
+                let neg_abs = int_helper::$Inner::neg_abs(self.to_bits());
                 match debug_hex::is_debug_hex(f) {
-                    IsDebugHex::Lower => {
-                        fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::LowHex, f)
-                    }
-                    IsDebugHex::Upper => {
-                        fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::UpHex, f)
-                    }
-                    IsDebugHex::No => fmt_dec(self.to_bits().neg_abs(), Self::FRAC_NBITS, f),
+                    IsDebugHex::Lower => fmt_radix2(neg_abs, Self::FRAC_NBITS, Radix::LowHex, f),
+                    IsDebugHex::Upper => fmt_radix2(neg_abs, Self::FRAC_NBITS, Radix::UpHex, f),
+                    IsDebugHex::No => fmt_dec(neg_abs, Self::FRAC_NBITS, f),
                 }
             }
         }
 
         impl<Frac: $LeEqU> Binary for $Fixed<Frac> {
             fn fmt(&self, f: &mut Formatter) -> FmtResult {
-                fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::Bin, f)
+                let neg_abs = int_helper::$Inner::neg_abs(self.to_bits());
+                fmt_radix2(neg_abs, Self::FRAC_NBITS, Radix::Bin, f)
             }
         }
 
         impl<Frac: $LeEqU> Octal for $Fixed<Frac> {
             fn fmt(&self, f: &mut Formatter) -> FmtResult {
-                fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::Oct, f)
+                let neg_abs = int_helper::$Inner::neg_abs(self.to_bits());
+                fmt_radix2(neg_abs, Self::FRAC_NBITS, Radix::Oct, f)
             }
         }
 
         impl<Frac: $LeEqU> LowerHex for $Fixed<Frac> {
             fn fmt(&self, f: &mut Formatter) -> FmtResult {
-                fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::LowHex, f)
+                let neg_abs = int_helper::$Inner::neg_abs(self.to_bits());
+                fmt_radix2(neg_abs, Self::FRAC_NBITS, Radix::LowHex, f)
             }
         }
 
         impl<Frac: $LeEqU> UpperHex for $Fixed<Frac> {
             fn fmt(&self, f: &mut Formatter) -> FmtResult {
-                fmt_radix2(self.to_bits().neg_abs(), Self::FRAC_NBITS, Radix::UpHex, f)
+                let neg_abs = int_helper::$Inner::neg_abs(self.to_bits());
+                fmt_radix2(neg_abs, Self::FRAC_NBITS, Radix::UpHex, f)
             }
         }
     };
 }
 
-impl_fmt! { FixedU8(LeEqU8) }
-impl_fmt! { FixedU16(LeEqU16) }
-impl_fmt! { FixedU32(LeEqU32) }
-impl_fmt! { FixedU64(LeEqU64) }
-impl_fmt! { FixedU128(LeEqU128) }
-impl_fmt! { FixedI8(LeEqU8) }
-impl_fmt! { FixedI16(LeEqU16) }
-impl_fmt! { FixedI32(LeEqU32) }
-impl_fmt! { FixedI64(LeEqU64) }
-impl_fmt! { FixedI128(LeEqU128) }
+impl_fmt! { FixedU8(LeEqU8, u8) }
+impl_fmt! { FixedU16(LeEqU16, u16) }
+impl_fmt! { FixedU32(LeEqU32, u32) }
+impl_fmt! { FixedU64(LeEqU64, u64) }
+impl_fmt! { FixedU128(LeEqU128, u128) }
+impl_fmt! { FixedI8(LeEqU8, i8) }
+impl_fmt! { FixedI16(LeEqU16, i16) }
+impl_fmt! { FixedI32(LeEqU32, i32) }
+impl_fmt! { FixedI64(LeEqU64, i64) }
+impl_fmt! { FixedI128(LeEqU128, i128) }
 
 // ceil(i × log_10 2), works for input < 112_816
 fn ceil_log10_2_times(int_bits: u32) -> u32 {

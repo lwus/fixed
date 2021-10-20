@@ -2123,8 +2123,7 @@ assert_eq!(Small::from_num(0.25).overflowing_recip(), (Small::ZERO, true));
                     }
                     if_signed! {
                         $Signedness;
-                        use crate::int_helper::IntHelper;
-                        let (neg, abs) = self.to_bits().neg_abs();
+                        let (neg, abs) = int_helper::$Inner::neg_abs(self.to_bits());
                         let uns_abs = $UFixed::<Frac>::from_bits(abs);
                         let (uns_wrapped, overflow1) = uns_abs.overflowing_recip();
                         let (wrapped, overflow2) =

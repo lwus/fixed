@@ -14,7 +14,8 @@
 // <https://opensource.org/licenses/MIT>.
 
 use crate::{
-    helpers::{FloatHelper, FloatKind, FromFloatHelper, IntHelper},
+    helpers::{FloatHelper, FloatKind, FromFloatHelper},
+    int_helper::IntHelper,
     traits::{Fixed, FixedEquiv, FromFixed, ToFixed},
     types::extra::U0,
     F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,

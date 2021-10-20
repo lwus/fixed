@@ -13,8 +13,9 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
-pub use crate::{float_helper::FloatHelper, int_helper::IntHelper};
+pub use crate::float_helper::FloatHelper;
 use crate::{
+    int_helper,
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
@@ -55,7 +56,7 @@ pub trait Sealed: Copy {
     fn private_overflowing_from_float_helper(src: FromFloatHelper) -> (Self, bool);
 }
 macro_rules! impl_sealed {
-    ($Fixed:ident($LeEqU:ident, $Signedness:tt)) => {
+    ($Fixed:ident($LeEqU:ident, $Signedness:tt, $Inner:ident)) => {
         impl<Frac: $LeEqU> Sealed for $Fixed<Frac> {
             #[inline]
             fn private_to_fixed_helper(
@@ -63,7 +64,8 @@ macro_rules! impl_sealed {
                 dst_frac_nbits: u32,
                 dst_int_nbits: u32,
             ) -> ToFixedHelper {
-                self.to_bits().to_fixed_helper(
+                int_helper::$Inner::to_fixed_helper(
+                    self.to_bits(),
                     Self::FRAC_NBITS as i32,
                     dst_frac_nbits,
                     dst_int_nbits,
@@ -71,7 +73,7 @@ macro_rules! impl_sealed {
             }
             #[inline]
             fn private_to_float_helper(self) -> ToFloatHelper {
-                let (neg, abs) = self.to_bits().neg_abs();
+                let (neg, abs) = int_helper::$Inner::neg_abs(self.to_bits());
                 let abs = abs.into();
                 ToFloatHelper { neg, abs }
             }
@@ -144,13 +146,13 @@ macro_rules! impl_sealed {
     };
 }
 
-impl_sealed! { FixedI8(LeEqU8, Signed) }
-impl_sealed! { FixedI16(LeEqU16, Signed) }
-impl_sealed! { FixedI32(LeEqU32, Signed) }
-impl_sealed! { FixedI64(LeEqU64, Signed) }
-impl_sealed! { FixedI128(LeEqU128, Signed) }
-impl_sealed! { FixedU8(LeEqU8, Unsigned) }
-impl_sealed! { FixedU16(LeEqU16, Unsigned) }
-impl_sealed! { FixedU32(LeEqU32, Unsigned) }
-impl_sealed! { FixedU64(LeEqU64, Unsigned) }
-impl_sealed! { FixedU128(LeEqU128, Unsigned) }
+impl_sealed! { FixedI8(LeEqU8, Signed, i8) }
+impl_sealed! { FixedI16(LeEqU16, Signed, i16) }
+impl_sealed! { FixedI32(LeEqU32, Signed, i32) }
+impl_sealed! { FixedI64(LeEqU64, Signed, i64) }
+impl_sealed! { FixedI128(LeEqU128, Signed, i128) }
+impl_sealed! { FixedU8(LeEqU8, Unsigned, u8) }
+impl_sealed! { FixedU16(LeEqU16, Unsigned, u16) }
+impl_sealed! { FixedU32(LeEqU32, Unsigned, u32) }
+impl_sealed! { FixedU64(LeEqU64, Unsigned, u64) }
+impl_sealed! { FixedU128(LeEqU128, Unsigned, u128) }

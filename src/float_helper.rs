@@ -14,7 +14,8 @@
 // <https://opensource.org/licenses/MIT>.
 
 use crate::{
-    helpers::{FloatKind, IntHelper, ToFixedHelper, ToFloatHelper, Widest},
+    helpers::{FloatKind, ToFixedHelper, ToFloatHelper, Widest},
+    int_helper::{self, IntHelper},
     F128Bits,
 };
 use core::cmp::Ordering;
@@ -40,7 +41,7 @@ pub trait FloatHelper: Copy {
 }
 
 macro_rules! sealed_float {
-    ($Float:ident($Bits:ty, $IBits:ty, $prec:expr)) => {
+    ($Float:ident($Bits:ty, $IBits:ident, $prec:expr)) => {
         impl FloatHelper for $Float {
             type Bits = $Bits;
 
@@ -184,7 +185,12 @@ macro_rules! sealed_float {
                     mantissa = -mantissa;
                     dir = dir.reverse();
                 }
-                let mut conv = mantissa.to_fixed_helper(src_frac_bits, dst_frac_bits, dst_int_bits);
+                let mut conv = int_helper::$IBits::to_fixed_helper(
+                    mantissa,
+                    src_frac_bits,
+                    dst_frac_bits,
+                    dst_int_bits,
+                );
                 conv.dir = dir;
                 FloatKind::Finite { neg, conv }
             }
