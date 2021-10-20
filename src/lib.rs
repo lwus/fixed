@@ -327,7 +327,6 @@ mod serdeize;
 pub mod traits;
 pub mod types;
 mod unwrapped;
-mod wide_div;
 mod wrapping;
 
 #[cfg(feature = "num-traits")]

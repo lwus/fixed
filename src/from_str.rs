@@ -16,8 +16,8 @@
 use crate::{
     display::Mul10,
     helpers::IntHelper,
+    int256::{self, U256},
     types::extra::{False, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
-    wide_div::WideDivRem,
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
@@ -498,8 +498,12 @@ fn mul_hi_lo(lhs: u128, rhs: u128) -> (u128, u128) {
     (ans23, ans01)
 }
 fn div_tie(dividend_hi: u128, dividend_lo: u128, divisor: u128) -> (u128, bool) {
-    let ((_, lo), rem) = divisor.div_rem_from((dividend_hi, dividend_lo));
-    (lo, rem == 0)
+    let dividend = U256 {
+        lo: dividend_lo,
+        hi: dividend_hi,
+    };
+    let (quot, rem) = int256::div_rem_u256_u128(dividend, divisor);
+    (quot.lo, rem == 0)
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

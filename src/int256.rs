@@ -13,14 +13,15 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
-use crate::wide_div::WideDivRem;
 use az_crate::WrappingAs;
 
+#[derive(Clone, Copy, Debug)]
 pub struct U256 {
     pub lo: u128,
     pub hi: u128,
 }
 
+#[derive(Clone, Copy, Debug)]
 pub struct I256 {
     pub lo: u128,
     pub hi: i128,
@@ -170,7 +171,10 @@ pub fn shl_i256_max_128(a: I256, sh: u32) -> I256 {
     if sh == 0 {
         a
     } else if sh == 128 {
-        I256 { lo: a.hi as u128, hi: a.hi >> 127 }
+        I256 {
+            lo: a.hi as u128,
+            hi: a.hi >> 127,
+        }
     } else {
         I256 {
             lo: (a.lo >> sh) | (a.hi << (128 - sh)) as u128,
@@ -180,9 +184,95 @@ pub fn shl_i256_max_128(a: I256, sh: u32) -> I256 {
 }
 
 #[inline]
-pub fn div_rem_u256_u128(n: U256, d: u128) -> (U256, u128) {
-    let ((hi, lo), rem) = WideDivRem::div_rem_from(d, (n.hi, n.lo));
-    (U256 { lo, hi }, rem)
+pub fn div_half_u128(r: &mut u128, d: u128, next_half: u128) -> u128 {
+    let (dl, dh) = u128_lo_hi(d);
+    let (mut q, rr) = (*r / dh, *r % dh);
+    let m = q * dl;
+    *r = u128_from_lo_hi(next_half, rr);
+    if *r < m {
+        q -= 1;
+        let (new_r, overflow) = r.overflowing_add(d);
+        *r = if !overflow && new_r < m {
+            q -= 1;
+            new_r.wrapping_add(d)
+        } else {
+            new_r
+        };
+    }
+    *r = r.wrapping_sub(m);
+    q
+}
+
+#[inline]
+pub fn div_rem_u256_u128(mut n: U256, mut d: u128) -> (U256, u128) {
+    assert!(d != 0, "division by zero");
+    let zeros = d.leading_zeros();
+    let mut r = if zeros == 0 {
+        0
+    } else {
+        d <<= zeros;
+        let n2 = n.hi >> (128 - zeros);
+        n.hi = n.hi << zeros | n.lo >> (128 - zeros);
+        n.lo <<= zeros;
+        n2
+    };
+
+    let (nhl, nhh) = u128_lo_hi(n.hi);
+    let qhh = div_half_u128(&mut r, d, nhh);
+    let qhl = div_half_u128(&mut r, d, nhl);
+    let (nll, nlh) = u128_lo_hi(n.lo);
+    let qlh = div_half_u128(&mut r, d, nlh);
+    let qll = div_half_u128(&mut r, d, nll);
+    let q = U256 {
+        lo: u128_from_lo_hi(qll, qlh),
+        hi: u128_from_lo_hi(qhl, qhh),
+    };
+    r >>= zeros;
+    (q, r)
+}
+
+#[inline]
+pub fn div_rem_i256_i128(n: I256, d: i128) -> (I256, i128) {
+    let (n_neg, n_abs) = if n.hi < 0 {
+        let (nl, overflow) = n.lo.overflowing_neg();
+        let nh = if overflow {
+            !n.hi as u128
+        } else {
+            n.hi.wrapping_neg() as u128
+        };
+        (true, U256 { lo: nl, hi: nh })
+    } else {
+        let nl = n.lo;
+        let nh = n.hi as u128;
+        (false, U256 { lo: nl, hi: nh })
+    };
+    let (d_neg, d_abs) = if d < 0 {
+        (true, d.wrapping_neg() as u128)
+    } else {
+        (false, d as u128)
+    };
+
+    let (q_abs, r_abs) = div_rem_u256_u128(n_abs, d_abs);
+
+    let q = if n_neg != d_neg {
+        let (ql, overflow) = q_abs.lo.overflowing_neg();
+        let qh = if overflow {
+            !q_abs.hi as i128
+        } else {
+            q_abs.hi.wrapping_neg() as i128
+        };
+        I256 { lo: ql, hi: qh }
+    } else {
+        let ql = q_abs.lo;
+        let qh = q_abs.hi as i128;
+        I256 { lo: ql, hi: qh }
+    };
+    let r = if n_neg {
+        r_abs.wrapping_neg() as i128
+    } else {
+        r_abs as i128
+    };
+    (q, r)
 }
 
 #[inline]
@@ -210,5 +300,72 @@ pub fn overflowing_shl_i256_into_i128(a: I256, sh: u32) -> (i128, bool) {
         let hi = a.hi << (128 - sh);
         let ans = lo | hi;
         (ans, a.hi >> sh != ans >> 127)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn check_udiv_rem(num: U256, den: u128) {
+        let (quot, rem) = div_rem_u256_u128(num, den);
+        assert!(rem <= den);
+
+        let ql_d = wide_mul_u128(quot.lo, den);
+        let qh_d = wide_mul_u128(quot.hi, den);
+        assert!(qh_d.hi == 0);
+        let prod_lo = ql_d.lo;
+        let prod_hi = ql_d.hi.checked_add(qh_d.lo).unwrap();
+        let (sum_lo, carry) = prod_lo.overflowing_add(rem);
+        let sum_hi = prod_hi.checked_add(u128::from(carry)).unwrap();
+        assert!(sum_lo == num.lo && sum_hi == num.hi);
+    }
+
+    fn check_idiv_rem_signs(num: I256, den: i128) {
+        let (quot, rem) = div_rem_i256_i128(num, den);
+        assert!(rem.unsigned_abs() <= den.unsigned_abs());
+
+        if num.hi < 0 {
+            assert!(rem <= 0);
+        } else {
+            assert!(rem >= 0);
+        }
+
+        if (num.hi < 0) != (den < 0) {
+            assert!(quot.hi <= 0);
+        } else {
+            assert!(quot.hi >= 0);
+        }
+    }
+
+    #[test]
+    fn test_udiv_rem() {
+        for d in 1u8..=255 {
+            for n1 in (0u8..=255).step_by(15) {
+                for n0 in (0u8..=255).step_by(15) {
+                    let d = u128::from(d) << 120 | 1;
+                    let n1 = u128::from(n1) << 120 | 1;
+                    let n0 = u128::from(n0) << 120 | 1;
+                    check_udiv_rem(U256 { lo: n0, hi: n1 }, d);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_idiv_rem_signs() {
+        for d in -128..=127 {
+            if d == 0 {
+                continue;
+            }
+            for n1 in (-120..=120).step_by(15) {
+                for n0 in (0u8..=255).step_by(15) {
+                    let d = i128::from(d) << 120 | 1;
+                    let n1 = i128::from(n1) << 120 | 1;
+                    let n0 = u128::from(n0) << 120 | 1;
+                    check_idiv_rem_signs(I256 { lo: n0, hi: n1 }, d);
+                }
+            }
+        }
     }
 }

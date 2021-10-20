@@ -18,7 +18,6 @@ use crate::{
     int256::{self, I256, U256},
     traits::ToFixed,
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
-    wide_div::WideDivRem,
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
@@ -745,9 +744,9 @@ impl OverflowingMulDiv for u128 {
                 lo: self << frac_nbits,
                 hi: self >> (128 - frac_nbits),
             };
-            let ((quot2_hi, quot2_lo), _) = rhs.div_rem_from((lhs2.hi, lhs2.lo));
-            let quot = quot2_lo;
-            let overflow = quot2_hi != 0;
+            let (quot2, _) = int256::div_rem_u256_u128(lhs2, rhs);
+            let quot = quot2.lo;
+            let overflow = quot2.hi != 0;
             (quot, overflow)
         }
     }
@@ -805,9 +804,9 @@ impl OverflowingMulDiv for i128 {
                 lo: (self << frac_nbits) as u128,
                 hi: self >> (128 - frac_nbits),
             };
-            let ((quot2_hi, quot2_lo), _) = rhs.div_rem_from((lhs2.hi, lhs2.lo));
-            let quot = quot2_lo as i128;
-            let overflow = quot2_hi != quot >> 127;
+            let (quot2, _) = int256::div_rem_i256_i128(lhs2, rhs);
+            let quot = quot2.lo as i128;
+            let overflow = quot2.hi != quot >> 127;
             (quot, overflow)
         }
     }
