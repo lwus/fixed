@@ -1064,9 +1064,7 @@ assert_eq!(Fix::MIN.saturating_div_euclid(Fix::from_num(0.25)), Fix::MIN);
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
                 pub fn saturating_div_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
-                    if rhs.to_bits() == 0 {
-                        panic!("division by zero");
-                    }
+                    assert!(rhs.to_bits() != 0, "division by zero");
                     self.checked_div_euclid(rhs).unwrap_or_else(|| {
                         if (self.to_bits() > 0) == (rhs.to_bits() > 0) {
                             Self::MAX
@@ -1803,9 +1801,7 @@ acc.unwrapped_mul_acc(Fix::MAX, Fix::ONE);
                         self.to_bits(),
                         AFrac::I32 + BFrac::I32 - Frac::I32,
                     );
-                    if overflow {
-                        panic!("overflow");
-                    }
+                    assert!(!overflow, "overflow");
                     *self = Self::from_bits(ans);
                 }
             }

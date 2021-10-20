@@ -2940,9 +2940,7 @@ let _overflow = Fix::MAX.unwrapped_inv_lerp::<U4>(Fix::ZERO, Fix::from_num(0.5))
                         end.to_bits(),
                         RetFrac::U32,
                     );
-                    if overflow {
-                        panic!("overflow");
-                    }
+                    assert!(!overflow, "overflow");
                     $Fixed::from_bits(bits)
                 }
             }

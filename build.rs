@@ -89,9 +89,11 @@ impl Environment {
             }
         }
         remove_dir_or_panic(&try_dir);
-        if !found && !optional.0 {
-            panic!("essential feature not supported by compiler: {}", name);
-        }
+        assert!(
+            found || optional.0,
+            "essential feature not supported by compiler: {}",
+            name
+        );
     }
 }
 
