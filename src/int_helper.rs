@@ -14,13 +14,8 @@
 // <https://opensource.org/licenses/MIT>.
 
 use crate::{
-    types::extra::{Bit, False, True, U0},
-    FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
-    FixedU8,
-};
-use core::{
-    fmt::{Debug, Display},
-    ops::{Add, BitAnd, BitOr, Div, Not, Rem, Shl, Shr, Sub},
+    types::extra::U0, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16,
+    FixedU32, FixedU64, FixedU8,
 };
 
 macro_rules! make_helper_common {
@@ -224,108 +219,3 @@ make_int_fixed! { usize as u16 -> FixedU16 }
 make_int_fixed! { usize as u32 -> FixedU32 }
 #[cfg(target_pointer_width = "64")]
 make_int_fixed! { usize as u64 -> FixedU64 }
-
-pub trait IntHelper
-where
-    Self: Copy + Ord + Debug + Display,
-    Self: Shl<u32, Output = Self> + Shr<u32, Output = Self>,
-    Self: Not<Output = Self> + BitAnd<Output = Self> + BitOr<Output = Self>,
-    Self: Add<Output = Self> + Sub<Output = Self> + Div<Output = Self> + Rem<Output = Self>,
-{
-    type IsSigned: Bit;
-    type Unsigned: IntHelper;
-
-    const BITS: u32;
-    const MSB: Self;
-    const ZERO: Self;
-
-    fn is_odd(self) -> bool;
-    fn checked_inc(self) -> Option<Self>;
-    fn overflowing_add(self, val: Self) -> (Self, bool);
-    fn overflowing_mul(self, val: Self) -> (Self, bool);
-    fn leading_zeros(self) -> u32;
-    fn trailing_zeros(self) -> u32;
-}
-
-macro_rules! sealed_int {
-    ($Int:ident($IsSigned:ident, $Unsigned:ty); $($rest:tt)*) => {
-        impl IntHelper for $Int {
-            type IsSigned = $IsSigned;
-            type Unsigned = $Unsigned;
-
-            const BITS: u32 = $Int::BITS;
-            const MSB: $Int = 1 << ($Int::BITS - 1);
-            const ZERO: $Int = 0;
-
-            #[inline]
-            fn checked_inc(self) -> Option<$Int> {
-                self.checked_add(1)
-            }
-
-            #[inline]
-            fn overflowing_add(self, val: $Int) -> ($Int, bool) {
-                self.overflowing_add(val)
-            }
-
-            #[inline]
-            fn overflowing_mul(self, val: $Int) -> ($Int, bool) {
-                self.overflowing_mul(val)
-            }
-
-            #[inline]
-            fn leading_zeros(self) -> u32 {
-                self.leading_zeros()
-            }
-
-            #[inline]
-            fn trailing_zeros(self) -> u32 {
-                self.trailing_zeros()
-            }
-
-            $($rest)*
-        }
-    };
-    ($Unsigned:ident) => {
-        sealed_int! {
-            $Unsigned(False, $Unsigned);
-
-            #[inline]
-            fn is_odd(self) -> bool {
-                self & 1 != 0
-            }
-        }
-    };
-    ($Signed:ident($Unsigned:ty)) => {
-        sealed_int! {
-            $Signed(True, $Unsigned);
-
-            #[inline]
-            fn is_odd(self) -> bool {
-                self & 1 != 0
-            }
-        }
-    };
-}
-
-sealed_int! { i8(u8) }
-sealed_int! { i16(u16) }
-sealed_int! { i32(u32) }
-sealed_int! { i64(u64) }
-sealed_int! { i128(u128) }
-#[cfg(target_pointer_width = "16")]
-sealed_int! { isize(usize) }
-#[cfg(target_pointer_width = "32")]
-sealed_int! { isize(usize) }
-#[cfg(target_pointer_width = "64")]
-sealed_int! { isize(usize) }
-sealed_int! { u8 }
-sealed_int! { u16 }
-sealed_int! { u32 }
-sealed_int! { u64 }
-sealed_int! { u128 }
-#[cfg(target_pointer_width = "16")]
-sealed_int! { usize }
-#[cfg(target_pointer_width = "32")]
-sealed_int! { usize }
-#[cfg(target_pointer_width = "64")]
-sealed_int! { usize }

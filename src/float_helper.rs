@@ -15,20 +15,19 @@
 
 use crate::{
     helpers::{FloatKind, ToFixedHelper, ToFloatHelper, Widest},
-    int_helper::{self, IntHelper},
-    F128Bits,
+    int_helper, F128Bits,
 };
 use core::cmp::Ordering;
 use half::{bf16, f16};
 
 pub trait FloatHelper: Copy {
-    type Bits: IntHelper;
+    type Bits;
 
     const PREC: u32;
-    const EXP_BIAS: i32 = (1 << (Self::Bits::BITS - Self::PREC - 1)) - 1;
-    const EXP_MIN: i32 = 1 - Self::EXP_BIAS;
-    const EXP_MAX: i32 = Self::EXP_BIAS;
-    const SIGN_MASK: Self::Bits = Self::Bits::MSB;
+    const EXP_BIAS: i32;
+    const EXP_MIN: i32;
+    const EXP_MAX: i32;
+    const SIGN_MASK: Self::Bits;
     const EXP_MASK: Self::Bits;
     const MANT_MASK: Self::Bits;
 
@@ -46,8 +45,12 @@ macro_rules! sealed_float {
             type Bits = $Bits;
 
             const PREC: u32 = $prec;
-            const EXP_MASK: Self::Bits = !(Self::SIGN_MASK | Self::MANT_MASK);
-            const MANT_MASK: Self::Bits = (1 << (Self::PREC - 1)) - 1;
+            const EXP_BIAS: i32 = (1 << (<$Bits>::BITS - Self::PREC - 1)) - 1;
+            const EXP_MIN: i32 = 1 - Self::EXP_BIAS;
+            const EXP_MAX: i32 = Self::EXP_BIAS;
+            const SIGN_MASK: $Bits = 1 << (<$Bits>::BITS - 1);
+            const EXP_MASK: $Bits = !(Self::SIGN_MASK | Self::MANT_MASK);
+            const MANT_MASK: $Bits = (1 << (Self::PREC - 1)) - 1;
 
             #[inline]
             fn is_nan(self) -> bool {
@@ -93,7 +96,7 @@ macro_rules! sealed_float {
                     }
                     0
                 } else {
-                    (exponent + Self::EXP_MAX) as Self::Bits
+                    (exponent + Self::EXP_MAX) as $Bits
                 };
                 // check for rounding
                 let round_up = (fix_bits >= Self::PREC) && {
@@ -111,9 +114,9 @@ macro_rules! sealed_float {
                 };
                 let bits_exp = biased_exponent << (Self::PREC - 1);
                 let bits_mantissa = (if fix_bits >= Self::PREC - 1 {
-                    (mantissa >> (fix_bits - (Self::PREC - 1))) as Self::Bits
+                    (mantissa >> (fix_bits - (Self::PREC - 1))) as $Bits
                 } else {
-                    (mantissa as Self::Bits) << (Self::PREC - 1 - fix_bits)
+                    (mantissa as $Bits) << (Self::PREC - 1 - fix_bits)
                 }) & !(!0 << (Self::PREC - 1));
                 let mut bits_exp_mantissa = bits_exp | bits_mantissa;
                 if round_up {

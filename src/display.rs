@@ -15,8 +15,8 @@
 
 use crate::{
     debug_hex::{self, IsDebugHex},
-    int_helper::{self, IntHelper},
-    types::extra::{False, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
+    int_helper,
+    types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
@@ -27,7 +27,8 @@ use core::{
         Alignment, Binary, Debug, Display, Formatter, LowerHex, Octal, Result as FmtResult,
         UpperHex,
     },
-    mem, str,
+    ops::{Shl, Shr},
+    str,
 };
 
 // We need 130 bytes: 128 digits, one radix point, one leading zero.
@@ -99,7 +100,7 @@ impl Buffer {
         };
 
         let round_up = frac_rem_cmp_msb == Ordering::Greater
-            || frac_rem_cmp_msb == Ordering::Equal && self.data[len - 1].is_odd();
+            || frac_rem_cmp_msb == Ordering::Equal && (self.data[len - 1] & 1 != 0);
         if round_up {
             for b in self.data[0..len].iter_mut().rev() {
                 if *b < max {
@@ -251,55 +252,87 @@ impl Radix {
     }
 }
 
-trait FmtHelper: IntHelper<IsSigned = False> {
-    fn write_int(self, radix: Radix, nbits: u32, buf: &mut Buffer);
-    fn write_frac(self, radix: Radix, nbits: u32, buf: &mut Buffer) -> Ordering;
-    fn write_int_dec(self, nbits: u32, buf: &mut Buffer);
-    fn write_frac_dec(self, nbits: u32, auto_prec: bool, buf: &mut Buffer) -> Ordering;
+trait FmtHelper
+where
+    Self: Copy + Shl<u32, Output = Self> + Shr<u32, Output = Self>,
+{
+    const ZERO: Self;
+    const MSB: Self;
+    const BITS: u32;
+
+    fn write_int(int: Self, radix: Radix, nbits: u32, buf: &mut Buffer);
+    fn write_frac(frac: Self, radix: Radix, nbits: u32, buf: &mut Buffer) -> Ordering;
+    fn write_int_dec(int: Self, nbits: u32, buf: &mut Buffer);
+    fn write_frac_dec(frac: Self, nbits: u32, auto_prec: bool, buf: &mut Buffer) -> Ordering;
+
+    fn int_used_nbits(int: Self) -> u32;
+    fn frac_used_nbits(frac: Self) -> u32;
 }
 
 macro_rules! impl_radix_helper {
     ($U:ident, $H:ident, $attempt_half:expr) => {
         impl FmtHelper for $U {
-            fn write_int(mut self, radix: Radix, nbits: u32, buf: &mut Buffer) {
+            const ZERO: $U = 0;
+            const MSB: $U = 1 << ($U::BITS - 1);
+            const BITS: u32 = $U::BITS;
+
+            fn write_int(mut int: $U, radix: Radix, nbits: u32, buf: &mut Buffer) {
                 if $attempt_half && nbits < $U::BITS / 2 {
-                    return (self as $H).write_int(radix, nbits, buf);
+                    return FmtHelper::write_int(int as $H, radix, nbits, buf);
                 }
                 let digit_bits = radix.digit_bits();
                 let mask = radix.max();
                 for b in buf.int().iter_mut().rev() {
-                    debug_assert!(self != 0);
-                    *b = self.wrapping_as::<u8>() & mask;
-                    self >>= digit_bits;
+                    debug_assert!(int != 0);
+                    *b = int.wrapping_as::<u8>() & mask;
+                    int >>= digit_bits;
                 }
-                debug_assert!(self == 0);
+                debug_assert!(int == 0);
             }
-            fn write_frac(mut self, radix: Radix, nbits: u32, buf: &mut Buffer) -> Ordering {
+
+            fn write_frac(mut frac: $U, radix: Radix, nbits: u32, buf: &mut Buffer) -> Ordering {
                 if $attempt_half && nbits < $U::BITS / 2 {
-                    return ((self >> ($U::BITS / 2)) as $H).write_frac(radix, nbits, buf);
+                    return FmtHelper::write_frac(
+                        (frac >> ($U::BITS / 2)) as $H,
+                        radix,
+                        nbits,
+                        buf,
+                    );
                 }
                 let digit_bits = radix.digit_bits();
                 let compl_digit_bits = $U::BITS - digit_bits;
                 for b in buf.frac().iter_mut() {
-                    debug_assert!(self != 0);
-                    *b = (self >> compl_digit_bits).wrapping_as::<u8>();
-                    self <<= digit_bits;
+                    debug_assert!(frac != 0);
+                    *b = (frac >> compl_digit_bits).wrapping_as::<u8>();
+                    frac <<= digit_bits;
                 }
-                self.cmp(&$U::MSB)
+                frac.cmp(&$U::MSB)
             }
-            fn write_int_dec(mut self, nbits: u32, buf: &mut Buffer) {
+
+            fn write_int_dec(mut int: $U, nbits: u32, buf: &mut Buffer) {
                 if $attempt_half && nbits < $U::BITS / 2 {
-                    return (self as $H).write_int_dec(nbits, buf);
+                    return FmtHelper::write_int_dec(int as $H, nbits, buf);
                 }
                 for b in buf.int().iter_mut().rev() {
-                    *b = (self % 10).wrapping_as::<u8>();
-                    self /= 10;
+                    *b = (int % 10).wrapping_as::<u8>();
+                    int /= 10;
                 }
-                debug_assert!(self == 0);
+                debug_assert!(int == 0);
             }
-            fn write_frac_dec(mut self, nbits: u32, auto_prec: bool, buf: &mut Buffer) -> Ordering {
+
+            fn write_frac_dec(
+                mut frac: $U,
+                nbits: u32,
+                auto_prec: bool,
+                buf: &mut Buffer,
+            ) -> Ordering {
                 if $attempt_half && nbits < $U::BITS / 2 {
-                    return ((self >> ($U::BITS / 2)) as $H).write_frac_dec(nbits, auto_prec, buf);
+                    return FmtHelper::write_frac_dec(
+                        (frac >> ($U::BITS / 2)) as $H,
+                        nbits,
+                        auto_prec,
+                        buf,
+                    );
                 }
 
                 // add_5 is to add rounding when all bits are used
@@ -310,11 +343,11 @@ macro_rules! impl_radix_helper {
                 };
                 let mut trim_to = None;
                 for (i, b) in buf.frac().iter_mut().enumerate() {
-                    *b = self.mul10_assign();
+                    *b = Mul10::mul10_assign(&mut frac);
 
                     // Check if very close to zero, to avoid things like 0.19999999 and 0.20000001.
                     // This takes place even if we have a precision.
-                    if self < 10 || self.wrapping_neg() < 10 {
+                    if frac < 10 || frac.wrapping_neg() < 10 {
                         trim_to = Some(i + 1);
                         break;
                     }
@@ -322,12 +355,12 @@ macro_rules! impl_radix_helper {
                     if auto_prec {
                         // tie might overflow in last iteration when i = frac_digits - 1,
                         // but it has no effect as all it can do is set trim_to = Some(i + 1)
-                        tie.mul10_assign();
+                        Mul10::mul10_assign(&mut tie);
                         if add_5 {
                             tie += 5;
                             add_5 = false;
                         }
-                        if self < tie || self.wrapping_neg() < tie {
+                        if frac < tie || frac.wrapping_neg() < tie {
                             trim_to = Some(i + 1);
                             break;
                         }
@@ -336,7 +369,15 @@ macro_rules! impl_radix_helper {
                 if let Some(trim_to) = trim_to {
                     buf.frac_digits = trim_to;
                 }
-                self.cmp(&$U::MSB)
+                frac.cmp(&$U::MSB)
+            }
+
+            fn int_used_nbits(int: $U) -> u32 {
+                $U::BITS - int.leading_zeros()
+            }
+
+            fn frac_used_nbits(frac: $U) -> u32 {
+                $U::BITS - frac.trailing_zeros()
             }
         }
     };
@@ -356,9 +397,9 @@ fn fmt_dec<U: FmtHelper>((neg, abs): (bool, U), frac_nbits: u32, fmt: &mut Forma
     } else {
         (abs >> frac_nbits, abs << (U::BITS - frac_nbits))
     };
-    let int_used_nbits = U::BITS - int.leading_zeros();
+    let int_used_nbits = FmtHelper::int_used_nbits(int);
     let int_digits = ceil_log10_2_times(int_used_nbits);
-    let frac_used_nbits = U::BITS - frac.trailing_zeros();
+    let frac_used_nbits = FmtHelper::frac_used_nbits(frac);
     let (frac_digits, auto_prec) = if let Some(precision) = fmt.precision() {
         // frac_used_nbits fits in usize, but precision might wrap to 0 in u32
         (cmp::min(frac_used_nbits as usize, precision) as u32, false)
@@ -368,8 +409,8 @@ fn fmt_dec<U: FmtHelper>((neg, abs): (bool, U), frac_nbits: u32, fmt: &mut Forma
 
     let mut buf = Buffer::new();
     buf.set_len(int_digits, frac_digits);
-    int.write_int_dec(int_used_nbits, &mut buf);
-    let frac_rem_cmp_msb = frac.write_frac_dec(frac_nbits, auto_prec, &mut buf);
+    FmtHelper::write_int_dec(int, int_used_nbits, &mut buf);
+    let frac_rem_cmp_msb = FmtHelper::write_frac_dec(frac, frac_nbits, auto_prec, &mut buf);
     buf.finish(Radix::Dec, neg, frac_rem_cmp_msb, fmt)
 }
 
@@ -387,9 +428,9 @@ fn fmt_radix2<U: FmtHelper>(
         (abs >> frac_nbits, abs << (U::BITS - frac_nbits))
     };
     let digit_bits = radix.digit_bits();
-    let int_used_nbits = U::BITS - int.leading_zeros();
+    let int_used_nbits = FmtHelper::int_used_nbits(int);
     let int_digits = (int_used_nbits + digit_bits - 1) / digit_bits;
-    let frac_used_nbits = U::BITS - frac.trailing_zeros();
+    let frac_used_nbits = FmtHelper::frac_used_nbits(frac);
     let mut frac_digits = (frac_used_nbits + digit_bits - 1) / digit_bits;
     if let Some(precision) = fmt.precision() {
         // frac_digits fits in usize, but precision might wrap to 0 in u32
@@ -398,9 +439,9 @@ fn fmt_radix2<U: FmtHelper>(
 
     let mut buf = Buffer::new();
     buf.set_len(int_digits, frac_digits);
-    int.write_int(radix, int_used_nbits, &mut buf);
+    FmtHelper::write_int(int, radix, int_used_nbits, &mut buf);
     // for bin, oct, hex, we can simply pass frac_used_bits to write_frac
-    let frac_rem_cmp_msb = frac.write_frac(radix, frac_used_nbits, &mut buf);
+    let frac_rem_cmp_msb = FmtHelper::write_frac(frac, radix, frac_used_nbits, &mut buf);
     buf.finish(radix, neg, frac_rem_cmp_msb, fmt)
 }
 
@@ -472,17 +513,16 @@ fn ceil_log10_2_times(int_bits: u32) -> u32 {
 }
 
 pub(crate) trait Mul10: Sized {
-    fn mul10_assign(&mut self) -> u8;
+    fn mul10_assign(slf: &mut Self) -> u8;
 }
 macro_rules! mul10_widen {
     ($Single:ty, $Double:ty) => {
         impl Mul10 for $Single {
             #[inline]
-            fn mul10_assign(&mut self) -> u8 {
-                const NBITS: usize = 8 * mem::size_of::<$Single>();
-                let prod = <$Double>::from(*self) * 10;
-                *self = prod as $Single;
-                (prod >> NBITS) as u8
+            fn mul10_assign(x: &mut $Single) -> u8 {
+                let prod = <$Double>::from(*x) * 10;
+                *x = prod as $Single;
+                (prod >> <$Single>::BITS) as u8
             }
         }
     };
@@ -493,17 +533,17 @@ mul10_widen! { u32, u64 }
 mul10_widen! { u64, u128 }
 impl Mul10 for u128 {
     #[inline]
-    fn mul10_assign(&mut self) -> u8 {
+    fn mul10_assign(x: &mut u128) -> u8 {
         const LO_MASK: u128 = !(!0 << 64);
-        let hi = (*self >> 64) * 10;
-        let lo = (*self & LO_MASK) * 10;
+        let hi = (*x >> 64) * 10;
+        let lo = (*x & LO_MASK) * 10;
         // Workaround for https://github.com/rust-lang/rust/issues/63384
         // let (wrapped, overflow) = (hi << 64).overflowing_add(lo);
         // ((hi >> 64) as u8 + u8::from(overflow), wrapped)
         let (hi_lo, hi_hi) = (hi as u64, (hi >> 64) as u64);
         let (lo_lo, lo_hi) = (lo as u64, (lo >> 64) as u64);
         let (wrapped, overflow) = hi_lo.overflowing_add(lo_hi);
-        *self = (u128::from(wrapped) << 64) | u128::from(lo_lo);
+        *x = (u128::from(wrapped) << 64) | u128::from(lo_lo);
         hi_hi as u8 + u8::from(overflow)
     }
 }

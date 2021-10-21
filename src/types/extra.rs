@@ -21,7 +21,6 @@ These types are mostly reexports from the [*typenum* crate].
 [*typenum* crate]: https://crates.io/crates/typenum
 */
 
-pub(crate) use typenum::{Bit, False};
 pub use typenum::{
     Diff, IsLessOrEqual, Sum, True, Unsigned, U0, U1, U10, U100, U101, U102, U103, U104, U105,
     U106, U107, U108, U109, U11, U110, U111, U112, U113, U114, U115, U116, U117, U118, U119, U12,

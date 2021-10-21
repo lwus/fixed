@@ -15,7 +15,6 @@
 
 use crate::{
     int256::{self, I256, U256},
-    int_helper::IntHelper,
     traits::ToFixed,
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
@@ -617,7 +616,7 @@ pub(crate) fn overflowing_div<O: OverflowingMulDiv>(lhs: O, rhs: O, frac_nbits: 
 }
 
 macro_rules! mul_div_widen {
-    ($Single:ty, $Double:ty, $Signedness:tt) => {
+    ($Single:ty, $Double:ty, $Signedness:tt, $Unsigned:ty) => {
         impl OverflowingMulDiv for $Single {
             #[inline]
             fn overflowing_mul(self, rhs: $Single, frac_nbits: u32) -> ($Single, bool) {
@@ -636,7 +635,6 @@ macro_rules! mul_div_widen {
                 add: $Single,
                 mut frac_nbits: i32,
             ) -> ($Single, bool) {
-                type Unsigned = <$Single as IntHelper>::Unsigned;
                 const NBITS: i32 = <$Single>::BITS as i32;
                 let self2 = <$Double>::from(self);
                 let mul2 = <$Double>::from(mul);
@@ -644,7 +642,7 @@ macro_rules! mul_div_widen {
                 let (prod2, overflow2) = if frac_nbits < 0 {
                     frac_nbits += NBITS;
                     debug_assert!(frac_nbits >= 0);
-                    prod2.overflowing_mul(<$Double>::from(Unsigned::MAX) + 1)
+                    prod2.overflowing_mul(<$Double>::from(<$Unsigned>::MAX) + 1)
                 } else if frac_nbits > NBITS {
                     frac_nbits -= NBITS;
                     debug_assert!(frac_nbits <= NBITS);
@@ -652,12 +650,12 @@ macro_rules! mul_div_widen {
                 } else {
                     (prod2, false)
                 };
-                let lo = (prod2 >> frac_nbits) as Unsigned;
+                let lo = (prod2 >> frac_nbits) as $Unsigned;
                 let hi = (prod2 >> frac_nbits >> NBITS) as $Single;
                 if_signed_unsigned!(
                     $Signedness,
                     {
-                        let (uns, carry) = lo.overflowing_add(add as Unsigned);
+                        let (uns, carry) = lo.overflowing_add(add as $Unsigned);
                         let ans = uns as $Single;
                         let expected_hi = if (ans.is_negative() != add.is_negative()) == carry {
                             0
@@ -691,14 +689,14 @@ macro_rules! mul_div_widen {
     };
 }
 
-mul_div_widen! { u8, u16, Unsigned }
-mul_div_widen! { u16, u32, Unsigned }
-mul_div_widen! { u32, u64, Unsigned }
-mul_div_widen! { u64, u128, Unsigned }
-mul_div_widen! { i8, i16, Signed }
-mul_div_widen! { i16, i32, Signed }
-mul_div_widen! { i32, i64, Signed }
-mul_div_widen! { i64, i128, Signed }
+mul_div_widen! { u8, u16, Unsigned, u8 }
+mul_div_widen! { u16, u32, Unsigned, u16 }
+mul_div_widen! { u32, u64, Unsigned, u32 }
+mul_div_widen! { u64, u128, Unsigned, u64 }
+mul_div_widen! { i8, i16, Signed, u8 }
+mul_div_widen! { i16, i32, Signed, u16 }
+mul_div_widen! { i32, i64, Signed, u32 }
+mul_div_widen! { i64, i128, Signed, u64 }
 
 impl OverflowingMulDiv for u128 {
     #[inline]

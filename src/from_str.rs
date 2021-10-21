@@ -16,121 +16,245 @@
 use crate::{
     display::Mul10,
     int256::{self, U256},
-    int_helper::IntHelper,
-    types::extra::{False, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
+    types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32, FixedU64,
     FixedU8,
 };
 use core::{
     cmp::Ordering,
     fmt::{Display, Formatter, Result as FmtResult},
-    ops::{Add, Mul, Shl, Shr},
+    ops::{Add, Mul, Shl, Shr, Sub},
     str::FromStr,
 };
 #[cfg(feature = "std")]
 use std::error::Error;
 
-fn bin_str_int_to_bin<I>(bytes: &[u8]) -> (I, bool)
+trait ParseHelper
 where
-    I: IntHelper<IsSigned = False> + From<u8>,
+    Self: Copy + Eq + Ord + From<u8>,
+    Self: Shl<u32, Output = Self> + Shr<u32, Output = Self>,
+    Self: Add<Output = Self> + Sub<Output = Self> + Mul<Output = Self>,
+    Self: Mul10 + DecToBin,
 {
-    let max_len = I::BITS as usize;
-    let (bytes, overflow) = if bytes.len() > max_len {
-        (&bytes[(bytes.len() - max_len)..], true)
-    } else {
-        (bytes, false)
-    };
-    let mut acc = I::from(0);
-    for &byte in bytes {
-        acc = (acc << 1) + I::from(byte - b'0');
-    }
-    (acc, overflow)
-}
+    const BITS: u32;
 
-fn bin_str_frac_to_bin<I>(bytes: &[u8], nbits: u32) -> Option<I>
-where
-    I: IntHelper<IsSigned = False> + From<u8>,
-    I: Shl<u32, Output = I> + Shr<u32, Output = I> + Add<Output = I>,
-{
-    debug_assert!(!bytes.is_empty());
-    let dump_bits = I::BITS - nbits;
-    let mut rem_bits = nbits;
-    let mut acc = I::ZERO;
-    for (i, &byte) in bytes.iter().enumerate() {
-        let val = byte - b'0';
-        if rem_bits < 1 {
-            if val != 0 {
-                // half bit is true, round up if we have more
-                // significant bits or currently acc is odd
-                if bytes.len() > i + 1 || acc.is_odd() {
-                    acc = acc.checked_inc()?;
+    fn is_odd(val: Self) -> bool;
+    fn checked_inc(val: Self) -> Option<Self>;
+    fn overflowing_add(lhs: Self, rhs: Self) -> (Self, bool);
+
+    fn bin_str_int_to_bin(bytes: &[u8]) -> (Self, bool) {
+        let max_len = Self::BITS as usize;
+        let (bytes, overflow) = if bytes.len() > max_len {
+            (&bytes[(bytes.len() - max_len)..], true)
+        } else {
+            (bytes, false)
+        };
+        let mut acc = Self::from(0);
+        for &byte in bytes {
+            acc = (acc << 1) + Self::from(byte - b'0');
+        }
+        (acc, overflow)
+    }
+
+    fn bin_str_frac_to_bin(bytes: &[u8], nbits: u32) -> Option<Self> {
+        debug_assert!(!bytes.is_empty());
+        let dump_bits = Self::BITS - nbits;
+        let mut rem_bits = nbits;
+        let mut acc = Self::from(0);
+        for (i, &byte) in bytes.iter().enumerate() {
+            let val = byte - b'0';
+            if rem_bits < 1 {
+                if val != 0 {
+                    // half bit is true, round up if we have more
+                    // significant bits or currently acc is odd
+                    if bytes.len() > i + 1 || Self::is_odd(acc) {
+                        acc = Self::checked_inc(acc)?;
+                    }
                 }
-            }
-            if dump_bits != 0 && acc >> nbits != I::ZERO {
-                return None;
-            }
-            return Some(acc);
-        }
-        acc = (acc << 1) + I::from(val);
-        rem_bits -= 1;
-    }
-    Some(acc << rem_bits)
-}
-
-fn oct_str_int_to_bin<I>(bytes: &[u8]) -> (I, bool)
-where
-    I: IntHelper<IsSigned = False> + From<u8>,
-{
-    let max_len = (I::BITS as usize + 2) / 3;
-    let (bytes, mut overflow) = if bytes.len() > max_len {
-        (&bytes[(bytes.len() - max_len)..], true)
-    } else {
-        (bytes, false)
-    };
-    let mut acc = I::from(bytes[0] - b'0');
-    if bytes.len() == max_len {
-        let first_max_bits = I::BITS - (max_len as u32 - 1) * 3;
-        let first_max = (I::from(1) << first_max_bits) - I::from(1);
-        if acc > first_max {
-            overflow = true;
-        }
-    }
-    for &byte in &bytes[1..] {
-        acc = (acc << 3) + I::from(byte - b'0');
-    }
-    (acc, overflow)
-}
-
-fn oct_str_frac_to_bin<I>(bytes: &[u8], nbits: u32) -> Option<I>
-where
-    I: IntHelper<IsSigned = False> + From<u8>,
-    I: Shl<u32, Output = I> + Shr<u32, Output = I> + Add<Output = I>,
-{
-    debug_assert!(!bytes.is_empty());
-    let dump_bits = I::BITS - nbits;
-    let mut rem_bits = nbits;
-    let mut acc = I::ZERO;
-    for (i, &byte) in bytes.iter().enumerate() {
-        let val = byte - b'0';
-        if rem_bits < 3 {
-            acc = (acc << rem_bits) + I::from(val >> (3 - rem_bits));
-            let half = 1 << (2 - rem_bits);
-            if val & half != 0 {
-                // half bit is true, round up if we have more
-                // significant bits or currently acc is odd
-                if val & (half - 1) != 0 || bytes.len() > i + 1 || acc.is_odd() {
-                    acc = acc.checked_inc()?;
+                if dump_bits != 0 && acc >> nbits != Self::from(0) {
+                    return None;
                 }
+                return Some(acc);
             }
-            if dump_bits != 0 && acc >> nbits != I::ZERO {
-                return None;
-            }
-            return Some(acc);
+            acc = (acc << 1) + Self::from(val);
+            rem_bits -= 1;
         }
-        acc = (acc << 3) + I::from(val);
-        rem_bits -= 3;
+        Some(acc << rem_bits)
     }
-    Some(acc << rem_bits)
+
+    fn oct_str_int_to_bin(bytes: &[u8]) -> (Self, bool) {
+        let max_len = (Self::BITS as usize + 2) / 3;
+        let (bytes, mut overflow) = if bytes.len() > max_len {
+            (&bytes[(bytes.len() - max_len)..], true)
+        } else {
+            (bytes, false)
+        };
+        let mut acc = Self::from(bytes[0] - b'0');
+        if bytes.len() == max_len {
+            let first_max_bits = Self::BITS - (max_len as u32 - 1) * 3;
+            let first_max = (Self::from(1) << first_max_bits) - Self::from(1);
+            if acc > first_max {
+                overflow = true;
+            }
+        }
+        for &byte in &bytes[1..] {
+            acc = (acc << 3) + Self::from(byte - b'0');
+        }
+        (acc, overflow)
+    }
+
+    fn oct_str_frac_to_bin(bytes: &[u8], nbits: u32) -> Option<Self> {
+        debug_assert!(!bytes.is_empty());
+        let dump_bits = Self::BITS - nbits;
+        let mut rem_bits = nbits;
+        let mut acc = Self::from(0);
+        for (i, &byte) in bytes.iter().enumerate() {
+            let val = byte - b'0';
+            if rem_bits < 3 {
+                acc = (acc << rem_bits) + Self::from(val >> (3 - rem_bits));
+                let half = 1 << (2 - rem_bits);
+                if val & half != 0 {
+                    // half bit is true, round up if we have more
+                    // significant bits or currently acc is odd
+                    if val & (half - 1) != 0 || bytes.len() > i + 1 || Self::is_odd(acc) {
+                        acc = Self::checked_inc(acc)?;
+                    }
+                }
+                if dump_bits != 0 && acc >> nbits != Self::from(0) {
+                    return None;
+                }
+                return Some(acc);
+            }
+            acc = (acc << 3) + Self::from(val);
+            rem_bits -= 3;
+        }
+        Some(acc << rem_bits)
+    }
+
+    fn hex_str_int_to_bin(bytes: &[u8]) -> (Self, bool) {
+        let max_len = (Self::BITS as usize + 3) / 4;
+        let (bytes, mut overflow) = if bytes.len() > max_len {
+            (&bytes[(bytes.len() - max_len)..], true)
+        } else {
+            (bytes, false)
+        };
+        let mut acc = Self::from(unchecked_hex_digit(bytes[0]));
+        if bytes.len() == max_len {
+            let first_max_bits = Self::BITS - (max_len as u32 - 1) * 4;
+            let first_max = (Self::from(1) << first_max_bits) - Self::from(1);
+            if acc > first_max {
+                overflow = true;
+            }
+        }
+        for &byte in &bytes[1..] {
+            acc = (acc << 4) + Self::from(unchecked_hex_digit(byte));
+        }
+        (acc, overflow)
+    }
+
+    fn hex_str_frac_to_bin(bytes: &[u8], nbits: u32) -> Option<Self> {
+        debug_assert!(!bytes.is_empty());
+        let dump_bits = Self::BITS - nbits;
+        let mut rem_bits = nbits;
+        let mut acc = Self::from(0);
+        for (i, &byte) in bytes.iter().enumerate() {
+            let val = unchecked_hex_digit(byte);
+            if rem_bits < 4 {
+                acc = (acc << rem_bits) + Self::from(val >> (4 - rem_bits));
+                let half = 1 << (3 - rem_bits);
+                if val & half != 0 {
+                    // half bit is true, round up if we have more
+                    // significant bits or currently acc is odd
+                    if val & (half - 1) != 0 || bytes.len() > i + 1 || Self::is_odd(acc) {
+                        acc = Self::checked_inc(acc)?;
+                    }
+                }
+                if dump_bits != 0 && acc >> nbits != Self::from(0) {
+                    return None;
+                }
+                return Some(acc);
+            }
+            acc = (acc << 4) + Self::from(val);
+            rem_bits -= 4;
+        }
+        Some(acc << rem_bits)
+    }
+
+    fn dec_str_int_to_bin(bytes: &[u8]) -> (Self, bool) {
+        let max_effective_len = Self::BITS as usize;
+        let (bytes, mut overflow) = if bytes.len() > max_effective_len {
+            (&bytes[(bytes.len() - max_effective_len)..], true)
+        } else {
+            (bytes, false)
+        };
+        let mut acc = Self::from(0);
+        for &byte in bytes {
+            let mul_overflow = Mul10::mul10_assign(&mut acc) != 0;
+            let (add, add_overflow) = Self::overflowing_add(acc, Self::from(byte - b'0'));
+            acc = add;
+            overflow = overflow || mul_overflow || add_overflow;
+        }
+        (acc, overflow)
+    }
+
+    fn dec_str_frac_to_bin(bytes: &[u8], nbits: u32) -> Option<Self> {
+        let (val, is_short) = Self::parse_is_short(bytes);
+        let one = Self::from(1);
+        let dump_bits = Self::BITS - nbits;
+        // if is_short, dec_to_bin can round and give correct answer immediately
+        let round = if is_short {
+            Round::Nearest
+        } else {
+            Round::Floor
+        };
+        let floor = Self::dec_to_bin(val, nbits, round)?;
+        if is_short {
+            return Some(floor);
+        }
+        // since !is_short, we have a floor and we have to check whether we need to increment
+
+        // add_5 is to add rounding when all bits are used
+        let (mut boundary, mut add_5) = if nbits == 0 {
+            (Self::from(1) << (Self::BITS - 1), false)
+        } else if dump_bits == 0 {
+            (floor, true)
+        } else {
+            ((floor << dump_bits) + (one << (dump_bits - 1)), false)
+        };
+        let mut tie = true;
+        for &byte in bytes {
+            if !add_5 && boundary == Self::from(0) {
+                // since zeros are trimmed in bytes, there must be some byte > 0 eventually
+                tie = false;
+                break;
+            }
+            let mut boundary_digit = Mul10::mul10_assign(&mut boundary);
+            if add_5 {
+                let (wrapped, overflow) = Self::overflowing_add(boundary, Self::from(5));
+                boundary = wrapped;
+                if overflow {
+                    boundary_digit += 1;
+                }
+                add_5 = false;
+            }
+            if byte - b'0' < boundary_digit {
+                return Some(floor);
+            }
+            if byte - b'0' > boundary_digit {
+                tie = false;
+                break;
+            }
+        }
+        if tie && !Self::is_odd(floor) {
+            return Some(floor);
+        }
+        let next_up = Self::checked_inc(floor)?;
+        if dump_bits != 0 && next_up >> nbits != Self::from(0) {
+            None
+        } else {
+            Some(next_up)
+        }
+    }
 }
 
 fn unchecked_hex_digit(byte: u8) -> u8 {
@@ -139,82 +263,6 @@ fn unchecked_hex_digit(byte: u8) -> u8 {
     //   * b'A'..=b'F' (0x41..=0x46) => byte & 0x0f + 9
     //   * b'a'..=b'f' (0x61..=0x66) => byte & 0x0f + 9
     (byte & 0x0f) + if byte >= 0x40 { 9 } else { 0 }
-}
-
-fn hex_str_int_to_bin<I>(bytes: &[u8]) -> (I, bool)
-where
-    I: IntHelper<IsSigned = False> + From<u8>,
-{
-    let max_len = (I::BITS as usize + 3) / 4;
-    let (bytes, mut overflow) = if bytes.len() > max_len {
-        (&bytes[(bytes.len() - max_len)..], true)
-    } else {
-        (bytes, false)
-    };
-    let mut acc = I::from(unchecked_hex_digit(bytes[0]));
-    if bytes.len() == max_len {
-        let first_max_bits = I::BITS - (max_len as u32 - 1) * 4;
-        let first_max = (I::from(1) << first_max_bits) - I::from(1);
-        if acc > first_max {
-            overflow = true;
-        }
-    }
-    for &byte in &bytes[1..] {
-        acc = (acc << 4) + I::from(unchecked_hex_digit(byte));
-    }
-    (acc, overflow)
-}
-
-fn hex_str_frac_to_bin<I>(bytes: &[u8], nbits: u32) -> Option<I>
-where
-    I: IntHelper<IsSigned = False> + From<u8>,
-    I: Shl<u32, Output = I> + Shr<u32, Output = I> + Add<Output = I>,
-{
-    debug_assert!(!bytes.is_empty());
-    let dump_bits = I::BITS - nbits;
-    let mut rem_bits = nbits;
-    let mut acc = I::ZERO;
-    for (i, &byte) in bytes.iter().enumerate() {
-        let val = unchecked_hex_digit(byte);
-        if rem_bits < 4 {
-            acc = (acc << rem_bits) + I::from(val >> (4 - rem_bits));
-            let half = 1 << (3 - rem_bits);
-            if val & half != 0 {
-                // half bit is true, round up if we have more
-                // significant bits or currently acc is odd
-                if val & (half - 1) != 0 || bytes.len() > i + 1 || acc.is_odd() {
-                    acc = acc.checked_inc()?;
-                }
-            }
-            if dump_bits != 0 && acc >> nbits != I::ZERO {
-                return None;
-            }
-            return Some(acc);
-        }
-        acc = (acc << 4) + I::from(val);
-        rem_bits -= 4;
-    }
-    Some(acc << rem_bits)
-}
-
-fn dec_str_int_to_bin<I>(bytes: &[u8]) -> (I, bool)
-where
-    I: IntHelper<IsSigned = False> + From<u8>,
-{
-    let max_effective_len = I::BITS as usize;
-    let (bytes, mut overflow) = if bytes.len() > max_effective_len {
-        (&bytes[(bytes.len() - max_effective_len)..], true)
-    } else {
-        (bytes, false)
-    };
-    let mut acc = I::from(0);
-    for &byte in bytes {
-        let (mul, mul_overflow) = acc.overflowing_mul(I::from(10));
-        let (add, add_overflow) = mul.overflowing_add(I::from(byte - b'0'));
-        acc = add;
-        overflow = overflow || mul_overflow || add_overflow;
-    }
-    (acc, overflow)
 }
 
 enum Round {
@@ -310,7 +358,7 @@ macro_rules! impl_dec_to_bin {
                     Round::Floor => {}
                 }
                 let (mut div, tie) = (numer / denom, numer % denom == 0);
-                if tie && div.is_odd() {
+                if tie && ParseHelper::is_odd(div) {
                     div -= 1;
                 }
                 Some(div as $Single)
@@ -323,7 +371,7 @@ macro_rules! impl_dec_to_bin {
                     } else {
                         (false, &bytes[..$dec], 1)
                     };
-                let val = dec_str_int_to_bin::<$Double>(slice).0 * pad;
+                let val = <$Double as ParseHelper>::dec_str_int_to_bin(slice).0 * pad;
                 (val, is_short)
             }
         }
@@ -392,7 +440,7 @@ impl DecToBin for u128 {
             Round::Floor => {}
         }
         let (mut div, tie) = div_tie(numer_hi, numer_lo, denom);
-        if tie && div.is_odd() {
+        if tie && ParseHelper::is_odd(div) {
             div -= 1;
         }
         Some(div)
@@ -400,82 +448,19 @@ impl DecToBin for u128 {
 
     fn parse_is_short(bytes: &[u8]) -> ((u128, u128), bool) {
         if let Some(rem) = 27usize.checked_sub(bytes.len()) {
-            let hi = dec_str_int_to_bin::<u128>(bytes).0 * 10u128.pow(rem as u32);
+            let hi = <u128 as ParseHelper>::dec_str_int_to_bin(bytes).0 * 10u128.pow(rem as u32);
             ((hi, 0), true)
         } else {
-            let hi = dec_str_int_to_bin::<u128>(&bytes[..27]).0;
+            let hi = <u128 as ParseHelper>::dec_str_int_to_bin(&bytes[..27]).0;
 
             let (is_short, slice, pad) = if let Some(rem) = 54usize.checked_sub(bytes.len()) {
                 (true, &bytes[27..], 10u128.pow(rem as u32))
             } else {
                 (false, &bytes[27..54], 1)
             };
-            let lo = dec_str_int_to_bin::<u128>(slice).0 * pad;
+            let lo = <u128 as ParseHelper>::dec_str_int_to_bin(slice).0 * pad;
             ((hi, lo), is_short)
         }
-    }
-}
-
-fn dec_str_frac_to_bin<I>(bytes: &[u8], nbits: u32) -> Option<I>
-where
-    I: IntHelper<IsSigned = False> + FromStr + From<u8> + DecToBin,
-    I: Mul10 + Shl<u32, Output = I> + Shr<u32, Output = I> + Add<Output = I> + Mul<Output = I>,
-{
-    let (val, is_short) = I::parse_is_short(bytes);
-    let one = I::from(1);
-    let dump_bits = I::BITS - nbits;
-    // if is_short, dec_to_bin can round and give correct answer immediately
-    let round = if is_short {
-        Round::Nearest
-    } else {
-        Round::Floor
-    };
-    let floor = I::dec_to_bin(val, nbits, round)?;
-    if is_short {
-        return Some(floor);
-    }
-    // since !is_short, we have a floor and we have to check whether we need to increment
-
-    // add_5 is to add rounding when all bits are used
-    let (mut boundary, mut add_5) = if nbits == 0 {
-        (I::MSB, false)
-    } else if dump_bits == 0 {
-        (floor, true)
-    } else {
-        ((floor << dump_bits) + (one << (dump_bits - 1)), false)
-    };
-    let mut tie = true;
-    for &byte in bytes {
-        if !add_5 && boundary == I::ZERO {
-            // since zeros are trimmed in bytes, there must be some byte > 0 eventually
-            tie = false;
-            break;
-        }
-        let mut boundary_digit = boundary.mul10_assign();
-        if add_5 {
-            let (wrapped, overflow) = boundary.overflowing_add(I::from(5));
-            boundary = wrapped;
-            if overflow {
-                boundary_digit += 1;
-            }
-            add_5 = false;
-        }
-        if byte - b'0' < boundary_digit {
-            return Some(floor);
-        }
-        if byte - b'0' > boundary_digit {
-            tie = false;
-            break;
-        }
-    }
-    if tie && !floor.is_odd() {
-        return Some(floor);
-    }
-    let next_up = floor.checked_inc()?;
-    if dump_bits != 0 && next_up >> nbits != I::ZERO {
-        None
-    } else {
-        Some(next_up)
     }
 }
 
@@ -714,6 +699,22 @@ macro_rules! impl_from_str {
         impl_from_str_traits! { $FixedI($BitsI), $LeEqU; fn $from_i }
         impl_from_str_traits! { $FixedU($BitsU), $LeEqU; fn $from_u }
 
+        impl ParseHelper for $BitsU {
+            const BITS: u32 = $BitsU::BITS;
+
+            fn is_odd(val: $BitsU) -> bool {
+                val & 1 != 0
+            }
+
+            fn checked_inc(val: $BitsU) -> Option<$BitsU> {
+                val.checked_add(1)
+            }
+
+            fn overflowing_add(lhs: $BitsU, rhs: $BitsU) -> ($BitsU, bool) {
+                lhs.overflowing_add(rhs)
+            }
+        }
+
         fn $from_i(
             bytes: &[u8],
             radix: u32,
@@ -721,8 +722,8 @@ macro_rules! impl_from_str {
             frac_nbits: u32,
         ) -> Result<($BitsI, bool), ParseFixedError> {
             let (neg, abs, mut overflow) = $get_int_frac(bytes, radix, int_nbits, frac_nbits)?;
-            let max_abs = $BitsU::MSB - if !neg { 1 } else { 0 };
-            if abs > max_abs {
+            let bound = if !neg { $BitsI::MAX } else { $BitsI::MIN };
+            if abs > bound.unsigned_abs() {
                 overflow = true;
             }
             let abs = if neg { abs.wrapping_neg() } else { abs } as $BitsI;
@@ -762,7 +763,9 @@ macro_rules! impl_from_str {
             //  3. frac_bytes is exactly half, e.g. "5" for decimal
             // In this case, get_frac returns 0.5 rounded to even 0.0,
             // as it does not have a way to know that int is odd.
-            if frac_overflow || (int_val.is_odd() && frac_nbits == 0 && frac_is_half(frac, radix)) {
+            if frac_overflow
+                || (ParseHelper::is_odd(int_val) && frac_nbits == 0 && frac_is_half(frac, radix))
+            {
                 let (new_val, new_overflow) = if int_nbits == 0 {
                     (val, true)
                 } else {
@@ -787,10 +790,10 @@ macro_rules! impl_from_str {
                 return (0, false);
             }
             let (mut parsed_int, mut overflow): ($BitsU, bool) = match radix {
-                2 => bin_str_int_to_bin(int),
-                8 => oct_str_int_to_bin(int),
-                16 => hex_str_int_to_bin(int),
-                10 => dec_str_int_to_bin(int),
+                2 => ParseHelper::bin_str_int_to_bin(int),
+                8 => ParseHelper::oct_str_int_to_bin(int),
+                16 => ParseHelper::hex_str_int_to_bin(int),
+                10 => ParseHelper::dec_str_int_to_bin(int),
                 _ => unreachable!(),
             };
             let remove_bits = $BitsU::BITS - nbits;
@@ -814,10 +817,10 @@ macro_rules! impl_from_str {
                 return Some(0);
             }
             match radix {
-                2 => bin_str_frac_to_bin(frac, nbits),
-                8 => oct_str_frac_to_bin(frac, nbits),
-                16 => hex_str_frac_to_bin(frac, nbits),
-                10 => dec_str_frac_to_bin(frac, nbits),
+                2 => ParseHelper::bin_str_frac_to_bin(frac, nbits),
+                8 => ParseHelper::oct_str_frac_to_bin(frac, nbits),
+                16 => ParseHelper::hex_str_frac_to_bin(frac, nbits),
+                10 => ParseHelper::dec_str_frac_to_bin(frac, nbits),
                 _ => unreachable!(),
             }
         }
