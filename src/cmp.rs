@@ -15,7 +15,7 @@
 
 use crate::{
     helpers::{FloatHelper, FloatKind, Widest},
-    int_helper::{self, IntHelper},
+    int_helper::{self, IntFixed},
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
     FixedU64, FixedU8,
@@ -127,26 +127,26 @@ macro_rules! fixed_cmp_int {
         impl<Frac: $LeEqU> PartialEq<$Int> for $Fix<Frac> {
             #[inline]
             fn eq(&self, rhs: &$Int) -> bool {
-                self.eq(&rhs.to_repr_fixed())
+                self.eq(&IntFixed(*rhs).fixed())
             }
         }
 
         impl<Frac: $LeEqU> PartialEq<$Fix<Frac>> for $Int {
             #[inline]
             fn eq(&self, rhs: &$Fix<Frac>) -> bool {
-                self.to_repr_fixed().eq(rhs)
+                IntFixed(*self).fixed().eq(rhs)
             }
         }
 
         impl<Frac: $LeEqU> PartialOrd<$Int> for $Fix<Frac> {
             #[inline]
             fn partial_cmp(&self, rhs: &$Int) -> Option<Ordering> {
-                self.partial_cmp(&rhs.to_repr_fixed())
+                self.partial_cmp(&IntFixed(*rhs).fixed())
             }
 
             #[inline]
             fn lt(&self, rhs: &$Int) -> bool {
-                self.lt(&rhs.to_repr_fixed())
+                self.lt(&IntFixed(*rhs).fixed())
             }
 
             #[inline]
@@ -168,12 +168,12 @@ macro_rules! fixed_cmp_int {
         impl<Frac: $LeEqU> PartialOrd<$Fix<Frac>> for $Int {
             #[inline]
             fn partial_cmp(&self, rhs: &$Fix<Frac>) -> Option<Ordering> {
-                self.to_repr_fixed().partial_cmp(rhs)
+                IntFixed(*self).fixed().partial_cmp(rhs)
             }
 
             #[inline]
             fn lt(&self, rhs: &$Fix<Frac>) -> bool {
-                self.to_repr_fixed().lt(rhs)
+                IntFixed(*self).fixed().lt(rhs)
             }
 
             #[inline]

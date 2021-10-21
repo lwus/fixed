@@ -14,7 +14,7 @@
 // <https://opensource.org/licenses/MIT>.
 
 use crate::{
-    int_helper::IntHelper,
+    int_helper::IntFixed,
     traits::{FromFixed, LosslessTryFrom, LossyFrom, ToFixed},
     types::extra::{
         Diff, IsLessOrEqual, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8, True, U0, U1, U127, U128,
@@ -794,7 +794,7 @@ macro_rules! int_to_float_lossy_lossless {
                 /// nearest, with ties rounded to even.
                 #[inline]
                 fn lossy_from(src: $Int) -> $Lossy {
-                    Self::from_fixed(src.to_repr_fixed())
+                    Self::from_fixed(IntFixed(src).fixed())
                 }
             }
         )*
@@ -806,7 +806,7 @@ macro_rules! int_to_float_lossy_lossless {
                 /// and does not lose precision (lossless).
                 #[inline]
                 fn lossless_try_from(src: $Int) -> Option<$Lossless> {
-                    Some(Self::from_fixed(src.to_repr_fixed()))
+                    Some(Self::from_fixed(IntFixed(src).fixed()))
                 }
             }
 
@@ -817,7 +817,7 @@ macro_rules! int_to_float_lossy_lossless {
                 /// actually does not lose precision (lossless).
                 #[inline]
                 fn lossy_from(src: $Int) -> $Lossless {
-                    Self::from_fixed(src.to_repr_fixed())
+                    Self::from_fixed(IntFixed(src).fixed())
                 }
             }
         )*

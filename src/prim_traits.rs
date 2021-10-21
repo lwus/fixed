@@ -15,7 +15,7 @@
 
 use crate::{
     helpers::{FloatHelper, FloatKind, FromFloatHelper},
-    int_helper::IntHelper,
+    int_helper::IntFixed,
     traits::{Fixed, FixedEquiv, FromFixed, ToFixed},
     types::extra::U0,
     F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
@@ -102,7 +102,7 @@ macro_rules! impl_int {
             /// [`wrapping_from_fixed`]: FromFixed::wrapping_from_fixed
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
-                $Int::from_repr_fixed(FromFixed::from_fixed(src))
+                IntFixed::<$Int>::int(FromFixed::from_fixed(src))
             }
 
             /// Converts a fixed-point number to an integer if it fits, otherwise returns [`None`].
@@ -110,7 +110,7 @@ macro_rules! impl_int {
             /// Any fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn checked_from_fixed<F: Fixed>(src: F) -> Option<Self> {
-                FromFixed::checked_from_fixed(src).map($Int::from_repr_fixed)
+                FromFixed::checked_from_fixed(src).map(IntFixed::<$Int>::int)
             }
 
             /// Converts a fixed-point number to an integer, saturating if it does not fit.
@@ -118,7 +118,7 @@ macro_rules! impl_int {
             /// Any fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn saturating_from_fixed<F: Fixed>(src: F) -> Self {
-                $Int::from_repr_fixed(FromFixed::saturating_from_fixed(src))
+                IntFixed::<$Int>::int(FromFixed::saturating_from_fixed(src))
             }
 
             /// Converts a fixed-point number to an integer, wrapping if it does not fit.
@@ -126,7 +126,7 @@ macro_rules! impl_int {
             /// Any fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn wrapping_from_fixed<F: Fixed>(src: F) -> Self {
-                $Int::from_repr_fixed(FromFixed::wrapping_from_fixed(src))
+                IntFixed::<$Int>::int(FromFixed::wrapping_from_fixed(src))
             }
 
             /// Converts a fixed-point number to an integer.
@@ -138,8 +138,8 @@ macro_rules! impl_int {
             /// Any fractional bits are discarded, which rounds towards −∞.
             #[inline]
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
-                let (repr_fixed, overflow) = FromFixed::overflowing_from_fixed(src);
-                ($Int::from_repr_fixed(repr_fixed), overflow)
+                let (fixed, overflow) = FromFixed::overflowing_from_fixed(src);
+                (IntFixed::<$Int>::int(fixed), overflow)
             }
 
             /// Converts a fixed-point number to an integer, panicking if it does not fit.
@@ -152,7 +152,7 @@ macro_rules! impl_int {
             /// does not fit, even when debug assertions are not enabled.
             #[inline]
             fn unwrapped_from_fixed<F: Fixed>(src: F) -> Self {
-                $Int::from_repr_fixed(FromFixed::unwrapped_from_fixed(src))
+                IntFixed::<$Int>::int(FromFixed::unwrapped_from_fixed(src))
             }
         }
 
@@ -171,25 +171,25 @@ macro_rules! impl_int {
             /// [`wrapping_to_fixed`]: ToFixed::wrapping_to_fixed
             #[inline]
             fn to_fixed<F: Fixed>(self) -> F {
-                ToFixed::to_fixed(self.to_repr_fixed())
+                ToFixed::to_fixed(IntFixed(self).fixed())
             }
 
             /// Converts an integer to a fixed-point number if it fits, otherwise returns [`None`].
             #[inline]
             fn checked_to_fixed<F: Fixed>(self) -> Option<F> {
-                ToFixed::checked_to_fixed(self.to_repr_fixed())
+                ToFixed::checked_to_fixed(IntFixed(self).fixed())
             }
 
             /// Converts an integer to a fixed-point number, saturating if it does not fit.
             #[inline]
             fn saturating_to_fixed<F: Fixed>(self) -> F {
-                ToFixed::saturating_to_fixed(self.to_repr_fixed())
+                ToFixed::saturating_to_fixed(IntFixed(self).fixed())
             }
 
             /// Converts an integer to a fixed-point number, wrapping if it does not fit.
             #[inline]
             fn wrapping_to_fixed<F: Fixed>(self) -> F {
-                ToFixed::wrapping_to_fixed(self.to_repr_fixed())
+                ToFixed::wrapping_to_fixed(IntFixed(self).fixed())
             }
 
             /// Converts an integer to a fixed-point number.
@@ -199,7 +199,7 @@ macro_rules! impl_int {
             /// wrapped value is returned.
             #[inline]
             fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
-                ToFixed::overflowing_to_fixed(self.to_repr_fixed())
+                ToFixed::overflowing_to_fixed(IntFixed(self).fixed())
             }
 
             /// Converts an integer to a fixed-point number, panicking if it does not fit.
@@ -210,7 +210,7 @@ macro_rules! impl_int {
             /// assertions are not enabled.
             #[inline]
             fn unwrapped_to_fixed<F: Fixed>(self) -> F {
-                ToFixed::unwrapped_to_fixed(self.to_repr_fixed())
+                ToFixed::unwrapped_to_fixed(IntFixed(self).fixed())
             }
         }
 
