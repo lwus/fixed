@@ -271,7 +271,7 @@ where
     fn wrapping_neg(val: Self) -> Self;
 
     fn write_int(mut int: Self, radix: Radix, nbits: u32, buf: &mut Buffer) {
-        if Self::Half::BITS == Self::BITS / 2 && nbits < Self::Half::BITS {
+        if Self::Half::BITS == Self::BITS / 2 && nbits <= Self::Half::BITS {
             return FmtHelper::write_int(Self::as_half(int), radix, nbits, buf);
         }
         let digit_bits = radix.digit_bits();
@@ -285,7 +285,7 @@ where
     }
 
     fn write_frac(mut frac: Self, radix: Radix, nbits: u32, buf: &mut Buffer) -> Ordering {
-        if Self::Half::BITS == Self::BITS / 2 && nbits < Self::Half::BITS {
+        if Self::Half::BITS == Self::BITS / 2 && nbits <= Self::Half::BITS {
             return FmtHelper::write_frac(
                 Self::as_half(frac >> Self::Half::BITS),
                 radix,
@@ -304,7 +304,7 @@ where
     }
 
     fn write_int_dec(mut int: Self, nbits: u32, buf: &mut Buffer) {
-        if Self::Half::BITS == Self::BITS / 2 && nbits < Self::Half::BITS {
+        if Self::Half::BITS == Self::BITS / 2 && nbits <= Self::Half::BITS {
             return FmtHelper::write_int_dec(Self::as_half(int), nbits, buf);
         }
         for b in buf.int().iter_mut().rev() {
@@ -316,7 +316,7 @@ where
     }
 
     fn write_frac_dec(mut frac: Self, nbits: u32, auto_prec: bool, buf: &mut Buffer) -> Ordering {
-        if Self::Half::BITS == Self::BITS / 2 && nbits < Self::Half::BITS {
+        if Self::Half::BITS == Self::BITS / 2 && nbits <= Self::Half::BITS {
             return FmtHelper::write_frac_dec(
                 Self::as_half(frac >> Self::Half::BITS),
                 nbits,
