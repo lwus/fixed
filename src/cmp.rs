@@ -14,7 +14,8 @@
 // <https://opensource.org/licenses/MIT>.
 
 use crate::{
-    helpers::{FloatHelper, FloatKind, Widest},
+    float_helper,
+    helpers::{FloatKind, Widest},
     int_helper::{self, IntFixed},
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8},
     F128Bits, FixedI128, FixedI16, FixedI32, FixedI64, FixedI8, FixedU128, FixedU16, FixedU32,
@@ -199,7 +200,9 @@ macro_rules! fixed_cmp_float {
         impl<Frac: $LeEqU> PartialEq<$Float> for $Fix<Frac> {
             #[inline]
             fn eq(&self, rhs: &$Float) -> bool {
-                let conv = match rhs.to_float_kind(Self::FRAC_NBITS, Self::INT_NBITS) {
+                let kind =
+                    float_helper::$Float::to_float_kind(*rhs, Self::FRAC_NBITS, Self::INT_NBITS);
+                let conv = match kind {
                     FloatKind::Finite { conv, .. } => conv,
                     _ => return false,
                 };
@@ -225,8 +228,9 @@ macro_rules! fixed_cmp_float {
             #[inline]
             fn partial_cmp(&self, rhs: &$Float) -> Option<Ordering> {
                 let lhs_is_neg = int_helper::$Inner::is_negative(self.to_bits());
-                let (rhs_is_neg, conv) = match rhs.to_float_kind(Self::FRAC_NBITS, Self::INT_NBITS)
-                {
+                let kind =
+                    float_helper::$Float::to_float_kind(*rhs, Self::FRAC_NBITS, Self::INT_NBITS);
+                let (rhs_is_neg, conv) = match kind {
                     FloatKind::NaN => return None,
                     FloatKind::Infinite { neg } => {
                         return if neg {
@@ -259,8 +263,9 @@ macro_rules! fixed_cmp_float {
             #[inline]
             fn lt(&self, rhs: &$Float) -> bool {
                 let lhs_is_neg = int_helper::$Inner::is_negative(self.to_bits());
-                let (rhs_is_neg, conv) = match rhs.to_float_kind(Self::FRAC_NBITS, Self::INT_NBITS)
-                {
+                let kind =
+                    float_helper::$Float::to_float_kind(*rhs, Self::FRAC_NBITS, Self::INT_NBITS);
+                let (rhs_is_neg, conv) = match kind {
                     FloatKind::NaN => return false,
                     FloatKind::Infinite { neg } => return !neg,
                     FloatKind::Finite { neg, conv } => (neg, conv),
@@ -284,7 +289,7 @@ macro_rules! fixed_cmp_float {
 
             #[inline]
             fn le(&self, rhs: &$Float) -> bool {
-                !FloatHelper::is_nan(*rhs) && !rhs.lt(self)
+                !rhs.is_nan() && !rhs.lt(self)
             }
 
             #[inline]
@@ -294,7 +299,7 @@ macro_rules! fixed_cmp_float {
 
             #[inline]
             fn ge(&self, rhs: &$Float) -> bool {
-                !FloatHelper::is_nan(*rhs) && !self.lt(rhs)
+                !rhs.is_nan() && !self.lt(rhs)
             }
         }
 
@@ -306,12 +311,16 @@ macro_rules! fixed_cmp_float {
 
             #[inline]
             fn lt(&self, rhs: &$Fix<Frac>) -> bool {
-                let (lhs_is_neg, conv) =
-                    match self.to_float_kind(<$Fix<Frac>>::FRAC_NBITS, <$Fix<Frac>>::INT_NBITS) {
-                        FloatKind::NaN => return false,
-                        FloatKind::Infinite { neg } => return neg,
-                        FloatKind::Finite { neg, conv } => (neg, conv),
-                    };
+                let kind = float_helper::$Float::to_float_kind(
+                    *self,
+                    <$Fix<Frac>>::FRAC_NBITS,
+                    <$Fix<Frac>>::INT_NBITS,
+                );
+                let (lhs_is_neg, conv) = match kind {
+                    FloatKind::NaN => return false,
+                    FloatKind::Infinite { neg } => return neg,
+                    FloatKind::Finite { neg, conv } => (neg, conv),
+                };
                 let rhs_is_neg = int_helper::$Inner::is_negative(rhs.to_bits());
                 match (lhs_is_neg, rhs_is_neg) {
                     (false, true) => return false,
@@ -331,7 +340,7 @@ macro_rules! fixed_cmp_float {
 
             #[inline]
             fn le(&self, rhs: &$Fix<Frac>) -> bool {
-                !FloatHelper::is_nan(*self) && !rhs.lt(self)
+                !self.is_nan() && !rhs.lt(self)
             }
 
             #[inline]
@@ -341,7 +350,7 @@ macro_rules! fixed_cmp_float {
 
             #[inline]
             fn ge(&self, rhs: &$Fix<Frac>) -> bool {
-                !FloatHelper::is_nan(*self) && !self.lt(rhs)
+                !self.is_nan() && !self.lt(rhs)
             }
         }
     };

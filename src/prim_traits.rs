@@ -14,7 +14,8 @@
 // <https://opensource.org/licenses/MIT>.
 
 use crate::{
-    helpers::{FloatHelper, FloatKind, FromFloatHelper},
+    float_helper,
+    helpers::{FloatKind, FromFloatHelper},
     int_helper::IntFixed,
     traits::{Fixed, FixedEquiv, FromFixed, ToFixed},
     types::extra::U0,
@@ -266,7 +267,7 @@ impl_int! { u128, FixedU128 }
 impl_int! { usize }
 
 macro_rules! impl_float {
-    ($Float:ty, $link:expr, $overflows_fmt:expr, $overflows_filt:expr) => {
+    ($Float:ident, $link:expr, $overflows_fmt:expr, $overflows_filt:expr) => {
         impl FromFixed for $Float {
             /// Converts a fixed-point number to a floating-point number.
             ///
@@ -285,7 +286,7 @@ macro_rules! impl_float {
             #[inline]
             fn from_fixed<F: Fixed>(src: F) -> Self {
                 let helper = src.private_to_float_helper();
-                FloatHelper::from_to_float_helper(helper, F::FRAC_NBITS, F::INT_NBITS)
+                float_helper::$Float::from_to_float_helper(helper, F::FRAC_NBITS, F::INT_NBITS)
             }
 
             /// Converts a fixed-point number to a floating-point
@@ -375,7 +376,7 @@ it panics; if wrapping is required use [`wrapping_to_fixed`] instead.
             /// Rounding is to the nearest, with ties rounded to even.
             #[inline]
             fn checked_to_fixed<F: Fixed>(self) -> Option<F> {
-                let kind = self.to_float_kind(F::FRAC_NBITS, F::INT_NBITS);
+                let kind = float_helper::$Float::to_float_kind(self, F::FRAC_NBITS, F::INT_NBITS);
                 match kind {
                     FloatKind::Finite { .. } => {
                         let helper = FromFloatHelper { kind };
@@ -402,7 +403,8 @@ Panics if `self` is [NaN].
 ";
                 #[inline]
                 fn saturating_to_fixed<F: Fixed>(self) -> F {
-                    let kind = self.to_float_kind(F::FRAC_NBITS, F::INT_NBITS);
+                    let kind =
+                        float_helper::$Float::to_float_kind(self, F::FRAC_NBITS, F::INT_NBITS);
                     let helper = FromFloatHelper { kind };
                     F::private_saturating_from_float_helper(helper)
                 }
@@ -445,7 +447,8 @@ Panics if `self` is not [finite].
                 #[inline]
                 #[track_caller]
                 fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
-                    let kind = self.to_float_kind(F::FRAC_NBITS, F::INT_NBITS);
+                    let kind =
+                        float_helper::$Float::to_float_kind(self, F::FRAC_NBITS, F::INT_NBITS);
                     let helper = FromFloatHelper { kind };
                     F::private_overflowing_from_float_helper(helper)
                 }
