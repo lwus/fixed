@@ -28,6 +28,8 @@ Version 1.11.0 (unreleased)
     a direct `'static` constraint, as it is a constraint of their supertrait
     [`Unsigned`][uns-1-11] since typenum [version 1.14][typenum-1-14]. This
     fixes a potential compatibility issue introduced in version 1.9.0.
+  * An experimental feature was added to enable serialization using the [*borsh*
+    crate] ([merge request 9]).
 
 [f-cil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_inv_lerp
 [f-cl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_lerp
@@ -46,6 +48,7 @@ Version 1.11.0 (unreleased)
 [leu32-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
 [leu64-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
 [leu8-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
+[merge request 9]: https://gitlab.com/tspiteri/fixed/-/merge_requests/9
 [tf-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
 [typenum-1-14]: https://docs.rs/typenum/~1.14/typenum/index.html
 [u-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
@@ -791,6 +794,7 @@ Version 0.1.0 (2018-08-10)
 
 [*arbitrary* crate]: https://crates.io/crates/arbitrary
 [*az* crate]: https://crates.io/crates/az
+[*borsh* crate]: https://crates.io/crates/borsh
 [*bytemuck* crate]: https://crates.io/crates/bytemuck
 [*typenum* crate]: https://crates.io/crates/typenum
 [`Debug`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html

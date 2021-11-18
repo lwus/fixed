@@ -117,6 +117,8 @@ The conversions supported cover the following cases.
     a direct `'static` constraint, as it is a constraint of their supertrait
     [`Unsigned`][uns-1-11] since typenum [version 1.14][typenum-1-14]. This
     fixes a potential compatibility issue introduced in version 1.9.0.
+  * An experimental feature was added to enable serialization using the [*borsh*
+    crate] ([merge request 9]).
 
 [f-cil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_inv_lerp
 [f-cl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_lerp
@@ -135,6 +137,7 @@ The conversions supported cover the following cases.
 [leu32-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
 [leu64-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
 [leu8-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
+[merge request 9]: https://gitlab.com/tspiteri/fixed/-/merge_requests/9
 [tf-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
 [typenum-1-14]: https://docs.rs/typenum/~1.14/typenum/index.html
 [u-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
@@ -284,7 +287,10 @@ are removed. The removal of experimental features would however require a minor
 version bump. Similarly, on a minor version bump, optional dependencies can be
 updated to an incompatible newer version.
 
- 1. `num-traits`, disabled by default. This implements some traits from the
+ 1. `borsh`, disabled by default. This implements serialization and
+    deserialization using the [*borsh* crate]. (The plan is to promote this to
+    an optional feature once the [*borsh* crate] reaches version 1.0.0.)
+ 2. `num-traits`, disabled by default. This implements some traits from the
     [*num-traits* crate]. (The plan is to promote this to an optional feature
     once the [*num-traits* crate] reaches version 1.0.0.)
 
@@ -316,6 +322,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*arbitrary* crate]: https://crates.io/crates/arbitrary
+[*borsh* crate]: https://crates.io/crates/borsh
 [*cordic* crate]: https://crates.io/crates/cordic
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-macro* crate]: https://crates.io/crates/fixed-macro

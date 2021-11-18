@@ -216,7 +216,10 @@ are removed. The removal of experimental features would however require a minor
 version bump. Similarly, on a minor version bump, optional dependencies can be
 updated to an incompatible newer version.
 
- 1. `num-traits`, disabled by default. This implements some traits from the
+ 1. `borsh`, disabled by default. This implements serialization and
+    deserialization using the [*borsh* crate]. (The plan is to promote this to
+    an optional feature once the [*borsh* crate] reaches version 1.0.0.)
+ 2. `num-traits`, disabled by default. This implements some traits from the
     [*num-traits* crate]. (The plan is to promote this to an optional feature
     once the [*num-traits* crate] reaches version 1.0.0.)
 
@@ -248,6 +251,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 
 [*Cargo.toml*]: https://doc.rust-lang.org/cargo/guide/dependencies.html
 [*arbitrary* crate]: https://crates.io/crates/arbitrary
+[*borsh* crate]: https://crates.io/crates/borsh
 [*cordic* crate]: https://crates.io/crates/cordic
 [*fixed* crate]: https://crates.io/crates/fixed
 [*fixed-macro* crate]: https://crates.io/crates/fixed-macro
