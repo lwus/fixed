@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.11.0 (unreleased)
+Version 1.11.0 (2021-11-24)
 ===========================
 
   * The following methods were added to all fixed-point numbers, to the
@@ -31,29 +31,29 @@ Version 1.11.0 (unreleased)
   * An experimental feature was added to enable serialization using the [*borsh*
     crate] ([merge request 9]).
 
-[f-cil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_inv_lerp
-[f-cl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.checked_lerp
-[f-il-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.inv_lerp
-[f-l-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.lerp
-[f-oil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_inv_lerp
-[f-ol-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.overflowing_lerp
-[f-sil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_inv_lerp
-[f-sl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.saturating_lerp
-[f-uil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_inv_lerp
-[f-ul-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_lerp
-[f-wil-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_inv_lerp
-[f-wl-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wrapping_lerp
-[leu128-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU128.html
-[leu16-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU16.html
-[leu32-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU32.html
-[leu64-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU64.html
-[leu8-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.LeEqU8.html
+[f-cil-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.checked_inv_lerp
+[f-cl-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.checked_lerp
+[f-il-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.inv_lerp
+[f-l-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.lerp
+[f-oil-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.overflowing_inv_lerp
+[f-ol-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.overflowing_lerp
+[f-sil-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.saturating_inv_lerp
+[f-sl-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.saturating_lerp
+[f-uil-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.unwrapped_inv_lerp
+[f-ul-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.unwrapped_lerp
+[f-wil-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.wrapping_inv_lerp
+[f-wl-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.FixedI32.html#method.wrapping_lerp
+[leu128-1-11]: https://docs.rs/fixed/~1.11/fixed/types/extra/trait.LeEqU128.html
+[leu16-1-11]: https://docs.rs/fixed/~1.11/fixed/types/extra/trait.LeEqU16.html
+[leu32-1-11]: https://docs.rs/fixed/~1.11/fixed/types/extra/trait.LeEqU32.html
+[leu64-1-11]: https://docs.rs/fixed/~1.11/fixed/types/extra/trait.LeEqU64.html
+[leu8-1-11]: https://docs.rs/fixed/~1.11/fixed/types/extra/trait.LeEqU8.html
 [merge request 9]: https://gitlab.com/tspiteri/fixed/-/merge_requests/9
-[tf-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/traits/trait.Fixed.html
+[tf-1-11]: https://docs.rs/fixed/~1.11/fixed/traits/trait.Fixed.html
 [typenum-1-14]: https://docs.rs/typenum/~1.14/typenum/index.html
-[u-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
-[uns-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/types/extra/trait.Unsigned.html
-[w-1-11]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+[u-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.Unwrapped.html
+[uns-1-11]: https://docs.rs/fixed/~1.11/fixed/types/extra/trait.Unsigned.html
+[w-1-11]: https://docs.rs/fixed/~1.11/fixed/struct.Wrapping.html
 
 Version 1.10.0 (2021-08-23)
 ===========================
