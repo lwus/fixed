@@ -2445,8 +2445,11 @@ let _overflow = Fix::from_num(5).unwrapped_neg();",
 ";
                 #[inline]
                 #[track_caller]
-                pub fn unwrapped_neg(self) -> $Fixed<Frac> {
-                    self.checked_neg().expect("overflow")
+                pub const fn unwrapped_neg(self) -> $Fixed<Frac> {
+                    match self.checked_neg() {
+                        Some(s) => s,
+                        None => panic!("overflow"),
+                    }
                 }
             }
 
@@ -2476,8 +2479,11 @@ let _overflow = Fix::MAX.unwrapped_add(Fix::DELTA);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
-                    self.checked_add(rhs).expect("overflow")
+                pub const fn unwrapped_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    match self.checked_add(rhs) {
+                        Some(s) => s,
+                        None => panic!("overflow"),
+                    }
                 }
             }
 
@@ -2514,8 +2520,11 @@ let _overflow = Fix::MIN.unwrapped_sub(Fix::DELTA);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
-                    self.checked_sub(rhs).expect("overflow")
+                pub const fn unwrapped_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                    match self.checked_sub(rhs) {
+                        Some(s) => s,
+                        None => panic!("overflow"),
+                    }
                 }
             }
 
@@ -2641,8 +2650,11 @@ let _overflow = Fix::MAX.unwrapped_mul_int(4);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
-                    self.checked_mul_int(rhs).expect("overflow")
+                pub const fn unwrapped_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                    match self.checked_mul_int(rhs) {
+                        Some(s) => s,
+                        None => panic!("overflow"),
+                    }
                 }
             }
 
@@ -2762,8 +2774,11 @@ let _overflow = Fix::ONE.unwrapped_shl(", $s_nbits, ");
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_shl(self, rhs: u32) -> $Fixed<Frac> {
-                    self.checked_shl(rhs).expect("overflow")
+                pub const fn unwrapped_shl(self, rhs: u32) -> $Fixed<Frac> {
+                    match self.checked_shl(rhs) {
+                        Some(s) => s,
+                        None => panic!("overflow"),
+                    }
                 }
             }
 
@@ -2793,8 +2808,11 @@ let _overflow = Fix::ONE.unwrapped_shr(", $s_nbits, ");
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_shr(self, rhs: u32) -> $Fixed<Frac> {
-                    self.checked_shr(rhs).expect("overflow")
+                pub const fn unwrapped_shr(self, rhs: u32) -> $Fixed<Frac> {
+                    match self.checked_shr(rhs) {
+                        Some(s) => s,
+                        None => panic!("overflow"),
+                    }
                 }
             }
 
@@ -2827,8 +2845,11 @@ let _overflow = Fix::MIN.unwrapped_abs();
 ";
                     #[inline]
                     #[track_caller]
-                    pub fn unwrapped_abs(self) -> $Fixed<Frac> {
-                        self.checked_abs().expect("overflow")
+                    pub const fn unwrapped_abs(self) -> $Fixed<Frac> {
+                        match self.checked_abs() {
+                            Some(s) => s,
+                            None => panic!("overflow"),
+                        }
                     }
                 }
             }
@@ -2878,10 +2899,13 @@ let _overflow = Fix::MIN.unwrapped_dist(Fix::ZERO);
                 };
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub fn unwrapped_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub const fn unwrapped_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     if_signed_unsigned!(
                         $Signedness,
-                        self.checked_dist(other).expect("overflow"),
+                        match self.checked_dist(other) {
+                            Some(s) => s,
+                            None => panic!("overflow"),
+                        },
                         self.dist(other),
                     )
                 }
@@ -2977,8 +3001,11 @@ let _overflow = Fix::MAX.unwrapped_next_power_of_two();
 ";
                     #[inline]
                     #[track_caller]
-                    pub fn unwrapped_next_power_of_two(self) -> $Fixed<Frac> {
-                        self.checked_next_power_of_two().expect("overflow")
+                    pub const fn unwrapped_next_power_of_two(self) -> $Fixed<Frac> {
+                        match self.checked_next_power_of_two() {
+                            Some(s) => s,
+                            None => panic!("overflow"),
+                        }
                     }
                 }
             }

@@ -9,6 +9,23 @@ Version 1.12.0 (unreleased)
 ===========================
 
   * The crate now requires rustc version 1.57.0 or later.
+  * The following methods are now `const` functions:
+      * [`unwrapped_neg`][f-un-1-12], [`unwrapped_add`][f-ua-1-12],
+        [`unwrapped_sub`][f-us-1-12]
+      * [`unwrapped_mul_int`][f-umi-1-12]
+      * [`unwrapped_shl`][f-ushl-1-12], [`unwrapped_shr`][f-ushr-1-12]
+      * [`unwrapped_abs`][f-uabs-1-12], [`unwrapped_dist`][f-ud-1-12]
+      * [`unwrapped_next_power_of_two`][f-unpot-1-12]
+
+[f-ua-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_add
+[f-uabs-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_abs
+[f-ud-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_dist
+[f-umi-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_mul_int
+[f-un-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_neg
+[f-unpot-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedU32.html#method.unwrapped_next_power_of_two
+[f-us-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_sub
+[f-ushl-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_shl
+[f-ushr-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_shr
 
 Version 1.11.0 (2021-11-24)
 ===========================
