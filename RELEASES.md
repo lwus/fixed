@@ -5,6 +5,11 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.12.0 (unreleased)
+===========================
+
+  * The crate now requires rustc version 1.57.0 or later.
+
 Version 1.11.0 (2021-11-24)
 ===========================
 

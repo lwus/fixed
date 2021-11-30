@@ -526,7 +526,6 @@ depending on the crate’s [optional features], and should not be used directly.
 ///
 /// ```rust
 /// use fixed::{traits::Fixed, types::I12F4};
-/// use core::convert::TryInto;
 ///
 /// fn checked_add_times_500<F: Fixed>(lhs: F, rhs: F) -> Option<F>
 /// where

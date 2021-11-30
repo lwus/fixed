@@ -95,6 +95,10 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.12.0 news (unreleased)
+
+  * The crate now requires rustc version 1.57.0 or later.
+
 ### Version 1.11.0 news (2021-11-24)
 
   * The following methods were added to all fixed-point numbers, to the
@@ -227,7 +231,7 @@ crate, add it as a dependency inside [*Cargo.toml*]:
 fixed = "1.11"
 ```
 
-The *fixed* crate requires rustc version 1.53.0 or later.
+The *fixed* crate requires rustc version 1.57.0 or later.
 
 ## Optional features
 
