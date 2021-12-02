@@ -297,7 +297,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 #![doc(html_root_url = "https://docs.rs/fixed/~1.11")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
-#![allow(clippy::wrong_self_convention)]
+#![allow(clippy::question_mark)]
 
 #[cfg(all(not(feature = "std"), test))]
 extern crate std;
