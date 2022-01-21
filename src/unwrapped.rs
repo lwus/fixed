@@ -243,6 +243,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// }
     /// ```
     #[inline]
+    #[must_use]
     pub fn to_be(self) -> Self {
         Unwrapped(self.0.to_be())
     }
@@ -264,6 +265,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// }
     /// ```
     #[inline]
+    #[must_use]
     pub fn to_le(self) -> Self {
         Unwrapped(self.0.to_le())
     }
@@ -282,6 +284,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(w.swap_bytes(), swapped);
     /// ```
     #[inline]
+    #[must_use]
     pub fn swap_bytes(self) -> Self {
         Unwrapped(self.0.swap_bytes())
     }
@@ -617,6 +620,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// [I0F16]: crate::types::I0F16
     #[inline]
+    #[must_use]
     pub fn int(self) -> Unwrapped<F> {
         Unwrapped(self.0.int())
     }
@@ -643,6 +647,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// [I0F16]: crate::types::I0F16
     #[inline]
+    #[must_use]
     pub fn frac(self) -> Unwrapped<F> {
         Unwrapped(self.0.frac())
     }
@@ -662,6 +667,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(Unwrapped(I16F16::from_num(-3.9)).round_to_zero(), -three);
     /// ```
     #[inline]
+    #[must_use]
     pub fn round_to_zero(self) -> Unwrapped<F> {
         Unwrapped(self.0.round_to_zero())
     }
@@ -693,6 +699,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use]
     pub fn ceil(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_ceil())
     }
@@ -727,6 +734,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use]
     pub fn floor(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_floor())
     }
@@ -759,6 +767,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use]
     pub fn round(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_round())
     }
@@ -794,6 +803,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use]
     pub fn round_ties_to_even(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_round_ties_to_even())
     }
@@ -1080,6 +1090,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use]
     pub fn recip(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_recip())
     }
@@ -1353,6 +1364,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let _overflow = Unwr::MAX.inv_lerp(Unwr::ZERO, Unwr::from_num(0.5));
     /// ```
     #[inline]
+    #[must_use]
     pub fn inv_lerp(self, start: Unwrapped<F>, end: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_inv_lerp(start.0, end.0))
     }
@@ -1446,6 +1458,7 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use]
     pub fn abs(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_abs())
     }
@@ -1480,6 +1493,7 @@ impl<F: FixedSigned> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use]
     pub fn signum(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_signum())
     }
@@ -1544,6 +1558,7 @@ impl<F: FixedUnsigned> Unwrapped<F> {
     /// assert_eq!(T::ZERO.highest_one(), T::ZERO);
     /// ```
     #[inline]
+    #[must_use]
     pub fn highest_one(self) -> Unwrapped<F> {
         Unwrapped(self.0.highest_one())
     }
@@ -1576,6 +1591,7 @@ impl<F: FixedUnsigned> Unwrapped<F> {
     /// ```
     #[inline]
     #[track_caller]
+    #[must_use]
     pub fn next_power_of_two(self) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_next_power_of_two())
     }

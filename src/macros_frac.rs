@@ -210,6 +210,7 @@ assert_eq!(Fix::from_num(-5).signum(), -1);
 ```
 ";
                     #[inline]
+                    #[must_use]
                     pub fn signum(self) -> $Fixed<Frac> {
                         match self.to_bits().cmp(&0) {
                             Ordering::Equal => Self::ZERO,
@@ -243,7 +244,9 @@ assert_eq!(Fix::from_num(2).recip(), Fix::from_num(0.5));
 
 [`wrapping_recip`]: Self::wrapping_recip
 ";
-                #[inline] pub fn recip(self) -> $Fixed<Frac> {
+                #[inline]
+                #[must_use]
+                pub fn recip(self) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_recip();
                     debug_assert!(!overflow, "overflow");
                     ans
@@ -928,6 +931,7 @@ assert_eq!(ZeroIntBits::from_num(-0.5).saturating_signum(), ZeroIntBits::MIN);
 ```
 ";
                     #[inline]
+                    #[must_use]
                     pub fn saturating_signum(self) -> $Fixed<Frac> {
                         match self.to_bits().cmp(&0) {
                             Ordering::Equal => Self::ZERO,
@@ -1023,6 +1027,7 @@ assert_eq!(Fix::from_num(0.25).saturating_recip(), Fix::MAX);
                 "```
 ";
                 #[inline]
+                #[must_use]
                 pub fn saturating_recip(self) -> $Fixed<Frac> {
                     match self.overflowing_recip() {
                         (ans, false) => ans,
@@ -1311,6 +1316,7 @@ assert_eq!(ZeroIntBits::from_num(-0.5).wrapping_signum(), 0);
 ```
 ";
                     #[inline]
+                    #[must_use]
                     pub fn wrapping_signum(self) -> $Fixed<Frac> {
                         match self.to_bits().cmp(&0) {
                             Ordering::Equal => Self::ZERO,
@@ -1389,6 +1395,7 @@ assert_eq!(Fix::from_num(0.25).wrapping_recip(), Fix::ZERO);
 ```
 ";
                 #[inline]
+                #[must_use]
                 pub fn wrapping_recip(self) -> $Fixed<Frac> {
                     let (ans, _) = self.overflowing_recip();
                     ans
@@ -1606,6 +1613,7 @@ let _overflow = OneIntBit::from_num(0.5).unwrapped_signum();
 ";
                     #[inline]
                     #[track_caller]
+                    #[must_use]
                     pub fn unwrapped_signum(self) -> $Fixed<Frac> {
                         self.checked_signum().expect("overflow")
                     }
@@ -1697,6 +1705,7 @@ assert_eq!(Fix::from_num(0.25).unwrapped_recip(), Fix::from_num(4));
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use]
                 pub fn unwrapped_recip(self) -> $Fixed<Frac> {
                     match self.overflowing_recip() {
                         (_, true) => panic!("overflow"),

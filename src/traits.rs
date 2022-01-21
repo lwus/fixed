@@ -880,18 +880,21 @@ where
     ///
     /// See also <code>FixedI32::[to\_be][FixedI32::to_be]</code> and
     /// <code>FixedU32::[to\_be][FixedU32::to_be]</code>.
+    #[must_use]
     fn to_be(self) -> Self;
 
     /// Converts this fixed-point number to little endian from the target’s endianness.
     ///
     /// See also <code>FixedI32::[to\_le][FixedI32::to_le]</code> and
     /// <code>FixedU32::[to\_le][FixedU32::to_le]</code>.
+    #[must_use]
     fn to_le(self) -> Self;
 
     ///Reverses the byte order of the fixed-point number.
     ///
     /// See also <code>FixedI32::[swap\_bytes][FixedI32::swap_bytes]</code> and
     /// <code>FixedU32::[swap\_bytes][FixedU32::swap_bytes]</code>.
+    #[must_use]
     fn swap_bytes(self) -> Self;
 
     /// Creates a fixed-point number from its representation as a byte
@@ -1261,12 +1264,14 @@ where
     ///
     /// See also <code>FixedI32::[int][FixedI32::int]</code> and
     /// <code>FixedU32::[int][FixedU32::int]</code>.
+    #[must_use]
     fn int(self) -> Self;
 
     /// Returns the fractional part.
     ///
     /// See also <code>FixedI32::[frac][FixedI32::frac]</code> and
     /// <code>FixedU32::[frac][FixedU32::frac]</code>.
+    #[must_use]
     fn frac(self) -> Self;
 
     /// Rounds to the next integer towards 0.
@@ -1274,24 +1279,28 @@ where
     /// See also
     /// <code>FixedI32::[round\_to\_zero][FixedI32::round_to_zero]</code> and
     /// <code>FixedU32::[round\_to\_zero][FixedU32::round_to_zero]</code>.
+    #[must_use]
     fn round_to_zero(self) -> Self;
 
     /// Rounds to the next integer towards +∞.
     ///
     /// See also <code>FixedI32::[ceil][FixedI32::ceil]</code> and
     /// <code>FixedU32::[ceil][FixedU32::ceil]</code>.
+    #[must_use]
     fn ceil(self) -> Self;
 
     /// Rounds to the next integer towards −∞.
     ///
     /// See also <code>FixedI32::[floor][FixedI32::floor]</code> and
     /// <code>FixedU32::[floor][FixedU32::floor]</code>.
+    #[must_use]
     fn floor(self) -> Self;
 
     /// Rounds to the nearest integer, with ties rounded away from zero.
     ///
     /// See also <code>FixedI32::[round][FixedI32::round]</code> and
     /// <code>FixedU32::[round][FixedU32::round]</code>.
+    #[must_use]
     fn round(self) -> Self;
 
     /// Rounds to the nearest integer, with ties rounded to even.
@@ -1300,6 +1309,7 @@ where
     /// <code>FixedI32::[round\_ties\_to\_even][FixedI32::round_ties_to_even]</code>
     /// and
     /// <code>FixedU32::[round\_ties\_to\_even][FixedU32::round_ties_to_even]</code>.
+    #[must_use]
     fn round_ties_to_even(self) -> Self;
 
     /// Checked ceil. Rounds to the next integer towards +∞, returning
@@ -1340,6 +1350,7 @@ where
     /// See also
     /// <code>FixedI32::[saturating\_ceil][FixedI32::saturating_ceil]</code> and
     /// <code>FixedU32::[saturating\_ceil][FixedU32::saturating_ceil]</code>.
+    #[must_use]
     fn saturating_ceil(self) -> Self;
 
     /// Saturating floor. Rounds to the next integer towards −∞,
@@ -1349,6 +1360,7 @@ where
     /// <code>FixedI32::[saturating\_floor][FixedI32::saturating_floor]</code>
     /// and
     /// <code>FixedU32::[saturating\_floor][FixedU32::saturating_floor]</code>.
+    #[must_use]
     fn saturating_floor(self) -> Self;
 
     /// Saturating round. Rounds to the nearest integer, with ties
@@ -1358,6 +1370,7 @@ where
     /// <code>FixedI32::[saturating\_round][FixedI32::saturating_round]</code>
     /// and
     /// <code>FixedU32::[saturating\_round][FixedU32::saturating_round]</code>.
+    #[must_use]
     fn saturating_round(self) -> Self;
 
     /// Saturating round. Rounds to the nearest integer, with ties
@@ -1367,6 +1380,7 @@ where
     /// <code>FixedI32::[saturating\_round\_ties\_to\_even][FixedI32::saturating_round_ties_to_even]</code>
     /// and
     /// <code>FixedU32::[saturating\_round\_ties\_to\_even][FixedU32::saturating_round_ties_to_even]</code>.
+    #[must_use]
     fn saturating_round_ties_to_even(self) -> Self;
 
     /// Wrapping ceil. Rounds to the next integer towards +∞, wrapping
@@ -1375,6 +1389,7 @@ where
     /// See also
     /// <code>FixedI32::[wrapping\_ceil][FixedI32::wrapping_ceil]</code> and
     /// <code>FixedU32::[wrapping\_ceil][FixedU32::wrapping_ceil]</code>.
+    #[must_use]
     fn wrapping_ceil(self) -> Self;
 
     /// Wrapping floor. Rounds to the next integer towards −∞,
@@ -1383,6 +1398,7 @@ where
     /// See also
     /// <code>FixedI32::[wrapping\_floor][FixedI32::wrapping_floor]</code> and
     /// <code>FixedU32::[wrapping\_floor][FixedU32::wrapping_floor]</code>.
+    #[must_use]
     fn wrapping_floor(self) -> Self;
 
     /// Wrapping round. Rounds to the next integer to the nearest,
@@ -1391,6 +1407,7 @@ where
     /// See also
     /// <code>FixedI32::[wrapping\_round][FixedI32::wrapping_round]</code> and
     /// <code>FixedU32::[wrapping\_round][FixedU32::wrapping_round]</code>.
+    #[must_use]
     fn wrapping_round(self) -> Self;
 
     /// Wrapping round. Rounds to the next integer to the nearest,
@@ -1400,6 +1417,7 @@ where
     /// <code>FixedI32::[wrapping\_round\_ties\_to\_even][FixedI32::wrapping_round_ties_to_even]</code>
     /// and
     /// <code>FixedU32::[wrapping\_round\_ties\_to\_even][FixedU32::wrapping_round_ties_to_even]</code>.
+    #[must_use]
     fn wrapping_round_ties_to_even(self) -> Self;
 
     /// Unwrapped ceil. Rounds to the next integer towards +∞,
@@ -1413,6 +1431,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use]
     fn unwrapped_ceil(self) -> Self;
 
     /// Unwrapped floor. Rounds to the next integer towards −∞,
@@ -1426,6 +1445,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use]
     fn unwrapped_floor(self) -> Self;
 
     /// Unwrapped round. Rounds to the next integer to the nearest,
@@ -1439,6 +1459,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use]
     fn unwrapped_round(self) -> Self;
 
     /// Unwrapped round. Rounds to the next integer to the nearest,
@@ -1453,6 +1474,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use]
     fn unwrapped_round_ties_to_even(self) -> Self;
 
     /// Overflowing ceil. Rounds to the next integer towards +∞.
@@ -1631,6 +1653,7 @@ where
     /// # Panics
     ///
     /// Panics if `self` is zero.
+    #[must_use]
     fn recip(self) -> Self;
 
     /// Multiply and add. Returns `self` × `mul` + `add`.
@@ -1709,12 +1732,14 @@ where
     ///
     /// See also <code>FixedI32::[lerp][FixedI32::lerp]</code> and
     /// <code>FixedU32::[lerp][FixedU32::lerp]</code>.
+    #[must_use]
     fn lerp(self, start: Self, end: Self) -> Self;
 
     /// Inverse linear interpolation between `start` and `end`.
     ///
     /// See also <code>FixedI32::[inv\_lerp][FixedI32::inv_lerp]</code> and
     /// <code>FixedU32::[inv\_lerp][FixedU32::inv_lerp]</code>.
+    #[must_use]
     fn inv_lerp(self, start: Self, end: Self) -> Self;
 
     /// Checked negation. Returns the negated value, or [`None`] on overflow.
@@ -1907,6 +1932,7 @@ where
     /// See also
     /// <code>FixedI32::[saturating\_neg][FixedI32::saturating_neg]</code> and
     /// <code>FixedU32::[saturating\_neg][FixedU32::saturating_neg]</code>.
+    #[must_use]
     fn saturating_neg(self) -> Self;
 
     /// Saturating addition. Returns the sum, saturating on overflow.
@@ -1955,6 +1981,7 @@ where
     /// # Panics
     ///
     /// Panics if `self` is zero.
+    #[must_use]
     fn saturating_recip(self) -> Self;
 
     /// Saturating multiply and add. Returns `self` × `mul` + `add`, saturating on overflow.
@@ -2038,6 +2065,7 @@ where
     /// See also
     /// <code>FixedI32::[saturating\_lerp][FixedI32::saturating_lerp]</code> and
     /// <code>FixedU32::[saturating\_lerp][FixedU32::saturating_lerp]</code>.
+    #[must_use]
     fn saturating_lerp(self, start: Self, end: Self) -> Self;
 
     /// Inverse linear interpolation between `start` and `end`, saturating on overflow.
@@ -2046,12 +2074,14 @@ where
     /// <code>FixedI32::[saturating\_inv\_lerp][FixedI32::saturating_inv_lerp]</code>
     /// and
     /// <code>FixedU32::[saturating\_inv\_lerp][FixedU32::saturating_inv_lerp]</code>.
+    #[must_use]
     fn saturating_inv_lerp(self, start: Self, end: Self) -> Self;
 
     /// Wrapping negation. Returns the negated value, wrapping on overflow.
     ///
     /// See also <code>FixedI32::[wrapping\_neg][FixedI32::wrapping_neg]</code>
     /// and <code>FixedU32::[wrapping\_neg][FixedU32::wrapping_neg]</code>.
+    #[must_use]
     fn wrapping_neg(self) -> Self;
 
     /// Wrapping addition. Returns the sum, wrapping on overflow.
@@ -2095,6 +2125,7 @@ where
     /// # Panics
     ///
     /// Panics if `self` is zero.
+    #[must_use]
     fn wrapping_recip(self) -> Self;
 
     /// Wrapping multiply and add. Returns `self` × `mul` + `add`, wrapping on overflow.
@@ -2211,6 +2242,7 @@ where
     /// See also
     /// <code>FixedI32::[wrapping\_lerp][FixedI32::wrapping_lerp]</code> and
     /// <code>FixedU32::[wrapping\_lerp][FixedU32::wrapping_lerp]</code>.
+    #[must_use]
     fn wrapping_lerp(self, start: Self, end: Self) -> Self;
 
     /// Inverse linear interpolation between `start` and `end`, wrapping on
@@ -2220,6 +2252,7 @@ where
     /// <code>FixedI32::[wrapping\_inv\_lerp][FixedI32::wrapping_inv_lerp]</code>
     /// and
     /// <code>FixedU32::[wrapping\_inv\_lerp][FixedU32::wrapping_inv_lerp]</code>.
+    #[must_use]
     fn wrapping_inv_lerp(self, start: Self, end: Self) -> Self;
 
     /// Unwrapped negation. Returns the negated value, panicking on overflow.
@@ -2232,6 +2265,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use]
     fn unwrapped_neg(self) -> Self;
 
     /// Unwrapped addition. Returns the sum, panicking on overflow.
@@ -2309,6 +2343,7 @@ where
     ///
     /// Panics if `self` is zero or on overflow.
     #[track_caller]
+    #[must_use]
     fn unwrapped_recip(self) -> Self;
 
     /// Unwrapped multiply and add. Returns `self` × `mul` + `add`, panicking on overflow.
@@ -2492,6 +2527,7 @@ where
     /// See also
     /// <code>FixedI32::[unwrapped\_lerp][FixedI32::unwrapped_lerp]</code> and
     /// <code>FixedU32::[unwrapped\_lerp][FixedU32::unwrapped_lerp]</code>.
+    #[must_use]
     fn unwrapped_lerp(self, start: Self, end: Self) -> Self;
 
     /// Inverse linear interpolation between `start` and `end`, panicking on overflow.
@@ -2504,6 +2540,7 @@ where
     /// <code>FixedI32::[unwrapped\_inv\_lerp][FixedI32::unwrapped_inv_lerp]</code>
     /// and
     /// <code>FixedU32::[unwrapped\_inv\_lerp][FixedU32::unwrapped_inv_lerp]</code>.
+    #[must_use]
     fn unwrapped_inv_lerp(self, start: Self, end: Self) -> Self;
 
     /// Overflowing negation.
@@ -2781,6 +2818,7 @@ where
     /// Returns the absolute value.
     ///
     /// See also <code>FixedI32::[abs][FixedI32::abs]</code>.
+    #[must_use]
     fn abs(self) -> Self;
 
     /// Returns the absolute value using an unsigned type without any
@@ -2813,6 +2851,7 @@ where
     /// be returned in those cases, but it is not considered a
     /// breaking change if in the future it panics; using this method
     /// when 1 and −1 cannot be represented is almost certainly a bug.
+    #[must_use]
     fn signum(self) -> Self;
 
     /// Checked absolute value. Returns the absolute value, or [`None`] on overflow.
@@ -2841,6 +2880,7 @@ where
     ///
     /// See also
     /// <code>FixedI32::[saturating\_abs][FixedI32::saturating_abs]</code>.
+    #[must_use]
     fn saturating_abs(self) -> Self;
 
     /// Saturating signum. Returns a number representing the sign of
@@ -2854,6 +2894,7 @@ where
     ///
     /// See also
     /// <code>FixedI32::[saturating\_signum][FixedI32::saturating_signum]</code>.
+    #[must_use]
     fn saturating_signum(self) -> Self;
 
     /// Wrapping absolute value. Returns the absolute value, wrapping on overflow.
@@ -2861,6 +2902,7 @@ where
     /// Overflow can only occur when trying to find the absolute value of the minimum value.
     ///
     /// See also <code>FixedI32::[wrapping\_abs][FixedI32::wrapping_abs]</code>.
+    #[must_use]
     fn wrapping_abs(self) -> Self;
 
     /// Wrapping signum. Returns a number representing the sign of
@@ -2874,6 +2916,7 @@ where
     ///
     /// See also
     /// <code>FixedI32::[wrapping\_signum][FixedI32::wrapping_signum]</code>.
+    #[must_use]
     fn wrapping_signum(self) -> Self;
 
     /// Unwrapped absolute value. Returns the absolute value, panicking on overflow.
@@ -2887,6 +2930,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use]
     fn unwrapped_abs(self) -> Self;
 
     /// Unwrapped signum. Returns a number representing the sign of
@@ -2905,6 +2949,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use]
     fn unwrapped_signum(self) -> Self;
 
     /// Overflowing absolute value.
@@ -2964,12 +3009,14 @@ where
     /// if `self` is zero.
     ///
     /// See also <code>FixedU32::[highest\_one][FixedU32::highest_one]</code>.
+    #[must_use]
     fn highest_one(self) -> Self;
 
     /// Returns the smallest power of two that is ≥ `self`.
     ///
     /// See also
     /// <code>FixedU32::[next\_power\_of\_two][FixedU32::next_power_of_two]</code>.
+    #[must_use]
     fn next_power_of_two(self) -> Self;
 
     /// Returns the smallest power of two that is ≥ `self`, or [`None`] if the
@@ -2984,6 +3031,7 @@ where
     ///
     /// See also
     /// <code>FixedU32::[wrapping\_next\_power\_of\_two][FixedU32::wrapping_next_power_of_two]</code>.
+    #[must_use]
     fn wrapping_next_power_of_two(self) -> Self;
 
     /// Returns the smallest power of two that is ≥ `self`, panicking
@@ -2996,6 +3044,7 @@ where
     ///
     /// Panics if the result does not fit.
     #[track_caller]
+    #[must_use]
     fn unwrapped_next_power_of_two(self) -> Self;
 }
 

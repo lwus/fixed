@@ -222,6 +222,7 @@ if cfg!(target_endian = \"big\") {
 ```
 ";
                 #[inline]
+                #[must_use]
                 pub const fn to_be(self) -> $Fixed<Frac> {
                     $Fixed::from_bits(self.to_bits().to_be())
                 }
@@ -244,6 +245,7 @@ if cfg!(target_endian = \"little\") {
 ```
 ";
                 #[inline]
+                #[must_use]
                 pub const fn to_le(self) -> $Fixed<Frac> {
                     $Fixed::from_bits(self.to_bits().to_le())
                 }
@@ -263,6 +265,7 @@ assert_eq!(f.swap_bytes(), swapped);
 ```
 ";
                 #[inline]
+                #[must_use]
                 pub const fn swap_bytes(self) -> $Fixed<Frac> {
                     $Fixed::from_bits(self.to_bits().swap_bytes())
                 }
@@ -933,6 +936,7 @@ assert_eq!(minus_five.abs(), five);
 ```
 ";
                     #[inline]
+                    #[must_use]
                     pub const fn abs(self) -> $Fixed<Frac> {
                         Self::from_bits(self.to_bits().abs())
                     }
@@ -1147,6 +1151,7 @@ assert_eq!(Fix::ZERO.highest_one(), Fix::ZERO);
 ```
 ";
                     #[inline]
+                    #[must_use]
                     pub const fn highest_one(self) -> $Fixed<Frac> {
                         const ONE: $Inner = 1;
                         let bits = self.to_bits();
@@ -1183,6 +1188,7 @@ assert_eq!(Fix::from_num(6.5).next_power_of_two(), Fix::from_num(8));
 [`checked_next_power_of_two`]: Self::checked_next_power_of_two
 ";
                     #[inline]
+                    #[must_use]
                     pub const fn next_power_of_two(self) -> $Fixed<Frac> {
                         Self::from_bits(self.to_bits().next_power_of_two())
                     }
@@ -1213,6 +1219,7 @@ assert_eq!(NOT_A, !A);
 ```
 ";
                 #[inline]
+                #[must_use]
                 pub const fn const_not(self) -> $Fixed<Frac> {
                     Self::from_bits(!self.to_bits())
                 }
@@ -1787,6 +1794,7 @@ assert_eq!(Fix::from_num(5).saturating_neg(), Fix::ZERO);",
 ```
 ";
                 #[inline]
+                #[must_use]
                 pub const fn saturating_neg(self) -> $Fixed<Frac> {
                     if_signed_unsigned!(
                         $Signedness,
@@ -1978,6 +1986,7 @@ assert_eq!(Fix::MIN.saturating_abs(), Fix::MAX);
 ```
 ";
                     #[inline]
+                    #[must_use]
                     pub const fn saturating_abs(self) -> $Fixed<Frac> {
                         match self.overflowing_abs() {
                             (val, false) => val,
@@ -2118,6 +2127,7 @@ assert_eq!(Fix::from_num(5).wrapping_neg(), Fix::from_bits(neg_five_bits));",
 ```
 ";
                 #[inline]
+                #[must_use]
                 pub const fn wrapping_neg(self) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_neg())
                 }
@@ -2328,6 +2338,7 @@ assert_eq!(Fix::MIN.wrapping_abs(), Fix::MIN);
 ```
 ";
                     #[inline]
+                    #[must_use]
                     pub const fn wrapping_abs(self) -> $Fixed<Frac> {
                         Self::from_bits(self.to_bits().wrapping_abs())
                     }
@@ -2438,6 +2449,7 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
 ```
 ";
                     #[inline]
+                    #[must_use]
                     pub const fn wrapping_next_power_of_two(self) -> $Fixed<Frac> {
                         match self.checked_next_power_of_two() {
                             Some(x) => x,
@@ -2498,6 +2510,7 @@ let _overflow = Fix::from_num(5).unwrapped_neg();",
 ";
                 #[inline]
                 #[track_caller]
+                #[must_use]
                 pub const fn unwrapped_neg(self) -> $Fixed<Frac> {
                     match self.checked_neg() {
                         Some(s) => s,
@@ -2898,6 +2911,7 @@ let _overflow = Fix::MIN.unwrapped_abs();
 ";
                     #[inline]
                     #[track_caller]
+                    #[must_use]
                     pub const fn unwrapped_abs(self) -> $Fixed<Frac> {
                         match self.checked_abs() {
                             Some(s) => s,
@@ -3054,6 +3068,7 @@ let _overflow = Fix::MAX.unwrapped_next_power_of_two();
 ";
                     #[inline]
                     #[track_caller]
+                    #[must_use]
                     pub const fn unwrapped_next_power_of_two(self) -> $Fixed<Frac> {
                         match self.checked_next_power_of_two() {
                             Some(s) => s,
