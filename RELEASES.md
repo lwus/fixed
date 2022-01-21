@@ -9,6 +9,8 @@ Version 1.12.0 (unreleased)
 ===========================
 
   * The crate now requires rustc version 1.57.0 or later.
+  * The [`wide_div`][f-wd-1-12] method was added to all fixed-point numbers up to
+    64 bits wide ([issue 25]).
   * The following methods are now `const` functions:
       * [`unwrapped_neg`][f-un-1-12], [`unwrapped_add`][f-ua-1-12],
         [`unwrapped_sub`][f-us-1-12]
@@ -26,6 +28,7 @@ Version 1.12.0 (unreleased)
 [f-us-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_sub
 [f-ushl-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_shl
 [f-ushr-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.unwrapped_shr
+[f-wd-1-12]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.FixedI32.html#method.wide_div
 
 Version 1.11.0 (2021-11-24)
 ===========================

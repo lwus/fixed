@@ -16,11 +16,12 @@
 macro_rules! fixed_no_frac {
     (
         $Fixed:ident[$s_fixed:expr](
-            $Inner:ident[$s_inner:expr], $LeEqU:tt, $s_nbits:expr, $s_nbits_m1:expr
+            $Inner:ident[$s_inner:expr], $LeEqU:tt, $UNbits:ident,
+            $s_nbits:expr, $s_nbits_m1:expr, $s_nbits_m2:expr
         ),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
-        $Double:ident, $DoubleInner:ty, $s_nbits_2:expr, $HasDouble:tt
+        $HasDouble:tt, $Double:ident[$s_double:expr], $DoubleInner:ty, $s_nbits_2:expr
     ) => {
         /// The implementation of items in this block is independent
         /// of the number of fractional bits `Frac`.
@@ -763,6 +764,58 @@ assert_eq!(a.wide_mul(b), 1.328_125);
                         let self_bits = <$DoubleInner>::from(self.to_bits());
                         let rhs_bits = <$DoubleInner>::from(rhs.to_bits());
                         $Double::from_bits(self_bits * rhs_bits)
+                    }
+                }
+
+                comment! {
+                    "Divides two fixed-point numbers and returns a
+wider type to retain more precision.
+
+If `self` has <i>f</i> fractional bits and ", $s_nbits, " − <i>f</i> integer
+bits, and `rhs` has <i>g</i> fractional bits and ", $s_nbits, " − <i>g</i>
+integer bits, then the returned fixed-point number will have ", $s_nbits,
+" + <i>f</i> − <i>g</i> fractional bits and ", $s_nbits, " − <i>f</i> + <i>g</i>
+integer bits.
+
+# Panics
+
+Panics if the divisor is zero",
+                    if_signed_unsigned!(
+                        $Signedness,
+                        " or on overflow. Overflow can only occur when dividing
+[`MIN`][Self::MIN] by <code>-[DELTA][Self::DELTA]</code>.",
+                        ".",
+                    ),
+                    "
+
+# Examples
+
+```rust
+use fixed::{
+    types::extra::{U3, U5, U", $s_nbits_m2, "},
+    ", $s_fixed, ", ", $s_double, ",
+};
+// decimal: 4.625 / 0.03125 = 148
+// binary: 100.101 / 0.00001 == 10010100
+let a = ", $s_fixed, "::<U3>::from_num(4.625);
+let b = ", $s_fixed, "::<U5>::from_num(0.03125);
+let ans: ", $s_double, "<U", $s_nbits_m2, "> = a.wide_div(b);
+assert_eq!(ans, 148);
+```
+";
+                    #[inline]
+                    #[must_use = "this returns the result of the operation, without modifying the original"]
+                    pub fn wide_div<RhsFrac>(
+                        self,
+                        rhs: $Fixed<RhsFrac>,
+                    ) -> $Double<Diff<Sum<$UNbits, Frac>, RhsFrac>>
+                    where
+                        $UNbits: Add<Frac>,
+                        Sum<$UNbits, Frac>: Sub<RhsFrac>,
+                    {
+                        let self_bits = <$DoubleInner>::from(self.to_bits());
+                        let rhs_bits = <$DoubleInner>::from(rhs.to_bits());
+                        $Double::from_bits((self_bits << $UNbits::U32) / rhs_bits)
                     }
                 }
             }

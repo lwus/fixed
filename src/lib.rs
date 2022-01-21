@@ -342,9 +342,9 @@ use crate::{
     log10::IntFracLog10,
     traits::{FromFixed, ToFixed},
     types::extra::{
-        IsLessOrEqual, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8, Sum, True, Unsigned, U12, U124,
-        U125, U126, U127, U128, U13, U14, U15, U16, U28, U29, U30, U31, U32, U4, U5, U6, U60, U61,
-        U62, U63, U64, U7, U8,
+        Diff, IsLessOrEqual, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8, Sum, True, Unsigned, U12,
+        U124, U125, U126, U127, U128, U13, U14, U15, U16, U28, U29, U30, U31, U32, U4, U5, U6, U60,
+        U61, U62, U63, U64, U7, U8,
     },
 };
 pub use crate::{from_str::ParseFixedError, unwrapped::Unwrapped, wrapping::Wrapping};
@@ -353,7 +353,7 @@ use core::{
     hash::{Hash, Hasher},
     marker::PhantomData,
     mem,
-    ops::Add,
+    ops::{Add, Sub},
 };
 
 /// A prelude to import useful traits.
@@ -405,36 +405,36 @@ macro_rules! fixed {
     (
         $description:expr,
         $Fixed:ident(
-            $Inner:ident, $LeEqU:tt, $s_nbits:expr,
+            $Inner:ident, $LeEqU:tt, $UNbits:ident, $s_nbits:expr,
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UFixed:ident, $UInner:ty, $Signedness:tt,
         $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt,
-        $Double:ident, $DoubleInner:ty, $s_nbits_2:expr, $HasDouble:tt
+        $HasDouble:tt, $Double:ident, $DoubleInner:ty, $s_nbits_2:expr
     ) => {
         fixed! {
             $description,
             $Fixed[stringify!($Fixed)](
-                $Inner[stringify!($Inner)], $LeEqU, $s_nbits,
+                $Inner[stringify!($Inner)], $LeEqU, $UNbits, $s_nbits,
                 $s_nbits_m1, $s_nbits_m2, $s_nbits_m3, $s_nbits_m4
             ),
             $nbytes, $bytes_val, $rev_bytes_val, $be_bytes, $le_bytes,
             $UFixed[stringify!($UFixed)], $UInner, $Signedness,
             $LeEqU_C0, $LeEqU_C1, $LeEqU_C2, $LeEqU_C3,
-            $Double, $DoubleInner, $s_nbits_2, $HasDouble
+            $HasDouble, $Double[stringify!($Double)], $DoubleInner, $s_nbits_2
         }
     };
     (
         $description:expr,
         $Fixed:ident[$s_fixed:expr](
-            $Inner:ident[$s_inner:expr], $LeEqU:tt, $s_nbits:expr,
+            $Inner:ident[$s_inner:expr], $LeEqU:tt, $UNbits:ident, $s_nbits:expr,
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
         $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
         $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt,
-        $Double:ident, $DoubleInner:ty, $s_nbits_2:expr, $HasDouble:tt
+        $HasDouble:tt, $Double:ident[$s_double:expr], $DoubleInner:ty, $s_nbits_2:expr
     ) => {
         comment! {
             $description, "-bit ",
@@ -535,10 +535,10 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
 
         // inherent methods that do not require Frac bounds, some of which can thus be const
         fixed_no_frac! {
-            $Fixed[$s_fixed]($Inner[$s_inner], $LeEqU, $s_nbits, $s_nbits_m1),
+            $Fixed[$s_fixed]($Inner[$s_inner], $LeEqU, $UNbits, $s_nbits, $s_nbits_m1, $s_nbits_m2),
             $nbytes, $bytes_val, $rev_bytes_val, $be_bytes, $le_bytes,
             $UFixed[$s_ufixed], $UInner, $Signedness,
-            $Double, $DoubleInner, $s_nbits_2, $HasDouble
+            $HasDouble, $Double[$s_double], $DoubleInner, $s_nbits_2
         }
         // inherent methods that require Frac bounds, and cannot be const
         fixed_frac! {
@@ -555,41 +555,41 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
 
 fixed! {
     "An eight",
-    FixedU8(u8, LeEqU8, "8", "7", "6", "5", "4"),
+    FixedU8(u8, LeEqU8, U8, "8", "7", "6", "5", "4"),
     1, "0x12", "0x12", "[0x12]", "[0x12]",
     FixedU8, u8, Unsigned,
     U8, U7, U6, U5,
-    FixedU16, u16, "16", True
+    True, FixedU16, u16, "16"
 }
 fixed! {
     "A 16",
-    FixedU16(u16, LeEqU16, "16", "15", "14", "13", "12"),
+    FixedU16(u16, LeEqU16, U16, "16", "15", "14", "13", "12"),
     2, "0x1234", "0x3412", "[0x12, 0x34]", "[0x34, 0x12]",
     FixedU16, u16, Unsigned,
     U16, U15, U14, U13,
-    FixedU32, u32, "32", True
+    True, FixedU32, u32, "32"
 }
 fixed! {
     "A 32",
-    FixedU32(u32, LeEqU32, "32", "31", "30", "29", "28"),
+    FixedU32(u32, LeEqU32, U32, "32", "31", "30", "29", "28"),
     4, "0x1234_5678", "0x7856_3412", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
     FixedU32, u32, Unsigned,
     U32, U31, U30, U29,
-    FixedU64, u64, "64", True
+    True, FixedU64, u64, "64"
 }
 fixed! {
     "A 64",
-    FixedU64(u64, LeEqU64, "64", "63", "62", "61", "60"),
+    FixedU64(u64, LeEqU64, U64, "64", "63", "62", "61", "60"),
     8, "0x1234_5678_9ABC_DE0F", "0x0FDE_BC9A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0x0F]",
     "[0x0F, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
     FixedU64, u64, Unsigned,
     U64, U63, U62, U61,
-    FixedU128, u128, "128", True
+    True, FixedU128, u128, "128"
 }
 fixed! {
     "A 128",
-    FixedU128(u128, LeEqU128, "128", "127", "126", "125", "124"),
+    FixedU128(u128, LeEqU128, U128, "128", "127", "126", "125", "124"),
     16, "0x1234_5678_9ABC_DEF0_0102_0304_0506_0708",
     "0x0807_0605_0403_0201_F0DE_BC9A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0, \
@@ -598,45 +598,45 @@ fixed! {
      0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
     FixedU128, u128, Unsigned,
     U128, U127, U126, U125,
-    FixedU128, u128, "128", False
+    False, FixedU128, u128, "128"
 }
 fixed! {
     "An eight",
-    FixedI8(i8, LeEqU8, "8", "7", "6", "5", "4"),
+    FixedI8(i8, LeEqU8, U8, "8", "7", "6", "5", "4"),
     1, "0x12", "0x12", "[0x12]", "[0x12]",
     FixedU8, u8, Signed,
     U7, U6, U5, U4,
-    FixedI16, i16, "16", True
+    True, FixedI16, i16, "16"
 }
 fixed! {
     "A 16",
-    FixedI16(i16, LeEqU16, "16", "15", "14", "13", "12"),
+    FixedI16(i16, LeEqU16, U16,"16", "15", "14", "13", "12"),
     2, "0x1234", "0x3412", "[0x12, 0x34]", "[0x34, 0x12]",
     FixedU16, u16, Signed,
     U15, U14, U13, U12,
-    FixedI32, i32, "32", True
+    True, FixedI32, i32, "32"
 }
 fixed! {
     "A 32",
-    FixedI32(i32, LeEqU32, "32", "31", "30", "29", "28"),
+    FixedI32(i32, LeEqU32, U32, "32", "31", "30", "29", "28"),
     4, "0x1234_5678", "0x7856_3412", "[0x12, 0x34, 0x56, 0x78]", "[0x78, 0x56, 0x34, 0x12]",
     FixedU32, u32, Signed,
     U31, U30, U29, U28,
-    FixedI64, i64, "64", True
+    True, FixedI64, i64, "64"
 }
 fixed! {
     "A 64",
-    FixedI64(i64, LeEqU64, "64", "63", "62", "61", "60"),
+    FixedI64(i64, LeEqU64, U64, "64", "63", "62", "61", "60"),
     8, "0x1234_5678_9ABC_DE0F", "0x0FDE_BC9A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0x0F]",
     "[0x0F, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
     FixedU64, u64, Signed,
     U63, U62, U61, U60,
-    FixedI128, i128, "128", True
+    True, FixedI128, i128, "128"
 }
 fixed! {
     "A 128",
-    FixedI128(i128, LeEqU128, "128", "127", "126", "125", "124"),
+    FixedI128(i128, LeEqU128, U128, "128", "127", "126", "125", "124"),
     16, "0x1234_5678_9ABC_DEF0_0102_0304_0506_0708",
     "0x0807_0605_0403_0201_F0DE_BC9A_7856_3412",
     "[0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xF0, \
@@ -645,7 +645,7 @@ fixed! {
      0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12]",
     FixedU128, u128, Signed,
     U127, U126, U125, U124,
-    FixedI128, i128, "128", False
+    False, FixedI128, i128, "128"
 }
 
 /// The bit representation of a *binary128* floating-point number (`f128`).
