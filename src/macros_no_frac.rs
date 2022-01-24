@@ -779,7 +779,16 @@ bits, and `rhs` has <i>g</i> fractional bits and ", $s_nbits, " − <i>g</i>
 integer bits, then the returned fixed-point number will have ", $s_nbits,
 " + <i>f</i> − <i>g</i> fractional bits and ", $s_nbits, " − <i>f</i> + <i>g</i>
 integer bits.
-
+",
+                    if_signed_else_empty_str! {
+                        $Signedness;
+                        "
+**Warning:** While most cases of overflow are avoided using this method,
+dividing [`MIN`][Self::MIN] by <code>-[DELTA][Self::DELTA]</code> will still
+result in panic due to overflow.
+"
+                    },
+                    "
 # Panics
 
 Panics if the divisor is zero",
