@@ -153,7 +153,7 @@ macro_rules! impl_traits {
                     if *self < *other {
                         Self::ZERO
                     } else {
-                        *other - *self
+                        *self - *other
                     }
                 }
                 #[inline]
