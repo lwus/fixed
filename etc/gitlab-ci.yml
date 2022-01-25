@@ -137,9 +137,9 @@ pages:
   - rustup toolchain install --profile minimal nightly-$TARGET
   - rm -rf public
   - mkdir public
+  - cp etc/index.html public
   - cargo +nightly-$TARGET doc --no-deps --features "arbitrary borsh num-traits serde std" -Z rustdoc-map
   - mv target/doc public/dev
-  - bash etc/gen-doc-index.sh
   artifacts:
     paths:
     - public

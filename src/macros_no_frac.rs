@@ -814,7 +814,19 @@ let b = ", $s_fixed, "::<U5>::from_num(0.03125);
 let ans: ", $s_double, "<U", $s_nbits_m2, "> = a.wide_div(b);
 assert_eq!(ans, 148);
 ```
-";
+",
+                    if_signed_else_empty_str! {
+                        $Signedness;
+                        "
+The following panics because of overflow.
+
+```should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MIN.wide_div(-Fix::DELTA);
+```
+",
+                    };
                     #[inline]
                     #[must_use = "this returns the result of the operation, without modifying the original"]
                     pub fn wide_div<RhsFrac>(
