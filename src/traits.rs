@@ -1289,7 +1289,7 @@ where
     #[must_use]
     fn ceil(self) -> Self;
 
-    /// Rounds to the next integer towards −∞.
+    /// Rounds to the next integer towards &minus;∞.
     ///
     /// See also <code>FixedI32::[floor][FixedI32::floor]</code> and
     /// <code>FixedU32::[floor][FixedU32::floor]</code>.
@@ -1319,7 +1319,7 @@ where
     /// and <code>FixedU32::[checked\_ceil][FixedU32::checked_ceil]</code>.
     fn checked_ceil(self) -> Option<Self>;
 
-    /// Checked floor. Rounds to the next integer towards −∞, returning
+    /// Checked floor. Rounds to the next integer towards &minus;∞, returning
     /// [`None`] on overflow.
     ///
     /// See also
@@ -1353,7 +1353,7 @@ where
     #[must_use]
     fn saturating_ceil(self) -> Self;
 
-    /// Saturating floor. Rounds to the next integer towards −∞,
+    /// Saturating floor. Rounds to the next integer towards &minus;∞,
     /// saturating on overflow.
     ///
     /// See also
@@ -1392,7 +1392,7 @@ where
     #[must_use]
     fn wrapping_ceil(self) -> Self;
 
-    /// Wrapping floor. Rounds to the next integer towards −∞,
+    /// Wrapping floor. Rounds to the next integer towards &minus;∞,
     /// wrapping on overflow.
     ///
     /// See also
@@ -1434,7 +1434,7 @@ where
     #[must_use]
     fn unwrapped_ceil(self) -> Self;
 
-    /// Unwrapped floor. Rounds to the next integer towards −∞,
+    /// Unwrapped floor. Rounds to the next integer towards &minus;∞,
     /// panicking on overflow.
     ///
     /// See also
@@ -1489,7 +1489,7 @@ where
     /// <code>FixedU32::[overflowing\_ceil][FixedU32::overflowing_ceil]</code>.
     fn overflowing_ceil(self) -> (Self, bool);
 
-    /// Overflowing floor. Rounds to the next integer towards −∞.
+    /// Overflowing floor. Rounds to the next integer towards &minus;∞.
     ///
     /// Returns a [tuple] of the fixed-point number and a [`bool`],
     /// indicating whether an overflow has occurred. On overflow, the
@@ -1573,7 +1573,7 @@ where
     ///
     /// # Panics
     ///
-    /// Panics if the fixed-point number is ≤ 0.
+    /// Panics if the fixed-point number is ≤&nbsp;0.
     fn int_log2(self) -> i32;
 
     /// Integer base-10 logarithm, rounded down.
@@ -1583,11 +1583,11 @@ where
     ///
     /// # Panics
     ///
-    /// Panics if the fixed-point number is ≤ 0.
+    /// Panics if the fixed-point number is ≤&nbsp;0.
     fn int_log10(self) -> i32;
 
     /// Checked integer base-2 logarithm, rounded down. Returns the
-    /// logarithm or [`None`] if the fixed-point number is ≤ 0.
+    /// logarithm or [`None`] if the fixed-point number is ≤&nbsp;0.
     ///
     /// See also
     /// <code>FixedI32::[checked\_int\_log2][FixedI32::checked_int_log2]</code>
@@ -1596,7 +1596,7 @@ where
     fn checked_int_log2(self) -> Option<i32>;
 
     /// Checked integer base-10 logarithm, rounded down. Returns the
-    /// logarithm or [`None`] if the fixed-point number is ≤ 0.
+    /// logarithm or [`None`] if the fixed-point number is ≤&nbsp;0.
     ///
     /// See also
     /// <code>FixedI32::[checked\_int\_log10][FixedI32::checked_int_log10]</code>
@@ -1888,7 +1888,7 @@ where
     fn checked_rem_euclid_int(self, rhs: Self::Bits) -> Option<Self>;
 
     /// Checked shift left. Returns the shifted number, or [`None`] if
-    /// `rhs` ≥ the number of bits.
+    /// `rhs`&nbsp;≥ the number of bits.
     ///
     /// See also <code>FixedI32::[checked\_shl][FixedI32::checked_shl]</code>
     /// and <code>FixedU32::[checked\_shl][FixedU32::checked_shl]</code>.
@@ -1896,7 +1896,7 @@ where
     fn checked_shl(self, rhs: u32) -> Option<Self>;
 
     /// Checked shift right. Returns the shifted number, or [`None`]
-    /// if `rhs` ≥ the number of bits.
+    /// if `rhs`&nbsp;≥ the number of bits.
     ///
     /// See also <code>FixedI32::[checked\_shr][FixedI32::checked_shr]</code>
     /// and <code>FixedU32::[checked\_shr][FixedU32::checked_shr]</code>.
@@ -1919,7 +1919,7 @@ where
     fn checked_lerp(self, start: Self, end: Self) -> Option<Self>;
 
     /// Checked inverse linear interpolation between `start` and `end`. Returns
-    /// [`None`] when `start` = `end` or on overflow.
+    /// [`None`] when `start`&nbsp;=&nbsp;`end` or on overflow.
     ///
     /// See also
     /// <code>FixedI32::[checked\_inv\_lerp][FixedI32::checked_inv_lerp]</code>
@@ -2169,7 +2169,7 @@ where
 
     /// Wrapping division by an integer. Returns the quotient, wrapping on overflow.
     ///
-    /// Overflow can only occur when dividing the minimum value by −1.
+    /// Overflow can only occur when dividing the minimum value by &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[wrapping\_div\_int][FixedI32::wrapping_div_int]</code>
@@ -2185,7 +2185,7 @@ where
     /// Wrapping Euclidean division by an integer. Returns the
     /// quotient, wrapping on overflow.
     ///
-    /// Overflow can only occur when dividing the minimum value by −1.
+    /// Overflow can only occur when dividing the minimum value by &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[wrapping\_div\_euclid\_int][FixedI32::wrapping_div_euclid_int]</code>
@@ -2212,7 +2212,7 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
-    /// Wrapping shift left. Wraps `rhs` if `rhs` ≥ the number of
+    /// Wrapping shift left. Wraps `rhs` if `rhs`&nbsp;≥ the number of
     /// bits, then shifts and returns the number.
     ///
     /// See also <code>FixedI32::[wrapping\_shl][FixedI32::wrapping_shl]</code>
@@ -2220,7 +2220,7 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_shl(self, rhs: u32) -> Self;
 
-    /// Wrapping shift right. Wraps `rhs` if `rhs` ≥ the number of
+    /// Wrapping shift right. Wraps `rhs` if `rhs`&nbsp;≥ the number of
     /// bits, then shifts and returns the number.
     ///
     /// See also <code>FixedI32::[wrapping\_shr][FixedI32::wrapping_shr]</code>
@@ -2418,7 +2418,7 @@ where
 
     /// Unwrapped division by an integer. Returns the quotient, panicking on overflow.
     ///
-    /// Overflow can only occur when dividing the minimum value by −1.
+    /// Overflow can only occur when dividing the minimum value by &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[unwrapped\_div\_int][FixedI32::unwrapped_div_int]</code>
@@ -2450,7 +2450,7 @@ where
     /// Unwrapped Euclidean division by an integer. Returns the
     /// quotient, panicking on overflow.
     ///
-    /// Overflow can only occur when dividing the minimum value by −1.
+    /// Overflow can only occur when dividing the minimum value by &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[unwrapped\_div\_euclid\_int][FixedI32::unwrapped_div_euclid_int]</code>
@@ -2479,7 +2479,7 @@ where
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_rem_euclid_int(self, rhs: Self::Bits) -> Self;
 
-    /// Unwrapped shift left. Panics if `rhs` ≥ the number of bits.
+    /// Unwrapped shift left. Panics if `rhs`&nbsp;≥ the number of bits.
     ///
     /// See also
     /// <code>FixedI32::[unwrapped\_shl][FixedI32::unwrapped_shl]</code> and
@@ -2487,12 +2487,12 @@ where
     ///
     /// # Panics
     ///
-    /// Panics if `rhs` ≥ the number of bits.
+    /// Panics if `rhs`&nbsp;≥ the number of bits.
     #[track_caller]
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_shl(self, rhs: u32) -> Self;
 
-    /// Unwrapped shift right. Panics if `rhs` ≥ the number of bits.
+    /// Unwrapped shift right. Panics if `rhs`&nbsp;≥ the number of bits.
     ///
     /// See also
     /// <code>FixedI32::[unwrapped\_shr][FixedI32::unwrapped_shr]</code> and
@@ -2500,7 +2500,7 @@ where
     ///
     /// # Panics
     ///
-    /// Panics if `rhs` ≥ the number of bits.
+    /// Panics if `rhs`&nbsp;≥ the number of bits.
     #[track_caller]
     #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unwrapped_shr(self, rhs: u32) -> Self;
@@ -2534,7 +2534,7 @@ where
     ///
     /// # Panics
     ///
-    /// Panics when `start` = `end` or when the results overflows.
+    /// Panics when `start`&nbsp;=&nbsp;`end` or when the results overflows.
     ///
     /// See also
     /// <code>FixedI32::[unwrapped\_inv\_lerp][FixedI32::unwrapped_inv_lerp]</code>
@@ -2805,12 +2805,12 @@ where
     /// See also <code>FixedI32::[signed\_bits][FixedI32::signed_bits]</code>.
     fn signed_bits(self) -> u32;
 
-    /// Returns [`true`] if the number is > 0.
+    /// Returns [`true`] if the number is >&nbsp;0.
     ///
     /// See also <code>FixedI32::[is\_positive][FixedI32::is_positive]</code>.
     fn is_positive(self) -> bool;
 
-    /// Returns [`true`] if the number is < 0.
+    /// Returns [`true`] if the number is <&nbsp;0.
     ///
     /// See also <code>FixedI32::[is\_negative][FixedI32::is_negative]</code>.
     fn is_negative(self) -> bool;
@@ -2845,12 +2845,12 @@ where
     ///     zero or one integer bits such that it cannot hold the
     ///     value 1.
     ///   * if the value is negative and the fixed-point number has
-    ///     zero integer bits, such that it cannot hold the value −1.
+    ///     zero integer bits, such that it cannot hold the value &minus;1.
     ///
     /// When debug assertions are not enabled, the wrapped value can
     /// be returned in those cases, but it is not considered a
     /// breaking change if in the future it panics; using this method
-    /// when 1 and −1 cannot be represented is almost certainly a bug.
+    /// when 1 and &minus;1 cannot be represented is almost certainly a bug.
     #[must_use]
     fn signum(self) -> Self;
 
@@ -2868,7 +2868,7 @@ where
     ///   * if the value is positive and the fixed-point number has zero
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
-    ///         integer bits, such that it cannot hold the value −1.
+    ///         integer bits, such that it cannot hold the value &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[checked\_signum][FixedI32::checked_signum]</code>.
@@ -2890,7 +2890,7 @@ where
     ///   * if the value is positive and the fixed-point number has zero
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
-    ///         integer bits, such that it cannot hold the value −1.
+    ///         integer bits, such that it cannot hold the value &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[saturating\_signum][FixedI32::saturating_signum]</code>.
@@ -2912,7 +2912,7 @@ where
     ///   * if the value is positive and the fixed-point number has zero
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
-    ///         integer bits, such that it cannot hold the value −1.
+    ///         integer bits, such that it cannot hold the value &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[wrapping\_signum][FixedI32::wrapping_signum]</code>.
@@ -2940,7 +2940,7 @@ where
     ///   * if the value is positive and the fixed-point number has zero
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
-    ///         integer bits, such that it cannot hold the value −1.
+    ///         integer bits, such that it cannot hold the value &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[unwrapped\_signum][FixedI32::unwrapped_signum]</code>.
@@ -2972,7 +2972,7 @@ where
     ///   * if the value is positive and the fixed-point number has zero
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
-    ///         integer bits, such that it cannot hold the value −1.
+    ///         integer bits, such that it cannot hold the value &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[overflowing\_signum][FixedI32::overflowing_signum]</code>.
@@ -3012,21 +3012,21 @@ where
     #[must_use]
     fn highest_one(self) -> Self;
 
-    /// Returns the smallest power of two that is ≥ `self`.
+    /// Returns the smallest power of two that is ≥&nbsp;`self`.
     ///
     /// See also
     /// <code>FixedU32::[next\_power\_of\_two][FixedU32::next_power_of_two]</code>.
     #[must_use]
     fn next_power_of_two(self) -> Self;
 
-    /// Returns the smallest power of two that is ≥ `self`, or [`None`] if the
+    /// Returns the smallest power of two that is ≥&nbsp;`self`, or [`None`] if the
     /// next power of two is too large to represent.
     ///
     /// See also
     /// <code>FixedU32::[checked\_next\_power\_of\_two][FixedU32::checked_next_power_of_two]</code>.
     fn checked_next_power_of_two(self) -> Option<Self>;
 
-    /// Returns the smallest power of two that is ≥ `self`, wrapping
+    /// Returns the smallest power of two that is ≥&nbsp;`self`, wrapping
     /// to 0 if the next power of two is too large to represent.
     ///
     /// See also
@@ -3034,7 +3034,7 @@ where
     #[must_use]
     fn wrapping_next_power_of_two(self) -> Self;
 
-    /// Returns the smallest power of two that is ≥ `self`, panicking
+    /// Returns the smallest power of two that is ≥&nbsp;`self`, panicking
     /// if the next power of two is too large to represent.
     ///
     /// See also
@@ -3183,7 +3183,7 @@ where
 pub trait FromFixed {
     /// Converts from a fixed-point number.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     ///
     /// # Panics
     ///
@@ -3198,19 +3198,19 @@ pub trait FromFixed {
 
     /// Converts from a fixed-point number if it fits, otherwise returns [`None`].
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     fn checked_from_fixed<F: Fixed>(src: F) -> Option<Self>
     where
         Self: Sized;
 
     /// Converts from a fixed-point number, saturating if it does not fit.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     fn saturating_from_fixed<F: Fixed>(src: F) -> Self;
 
     /// Converts from a fixed-point number, wrapping if it does not fit.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     fn wrapping_from_fixed<F: Fixed>(src: F) -> Self;
 
     /// Converts from a fixed-point number.
@@ -3219,7 +3219,7 @@ pub trait FromFixed {
     /// an overflow has occurred. On overflow, the wrapped value is
     /// returned.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool)
     where
         Self: Sized;
@@ -3227,7 +3227,7 @@ pub trait FromFixed {
     /// Converts from a fixed-point number, panicking if the value
     /// does not fit.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     ///
     /// # Panics
     ///
@@ -3272,7 +3272,7 @@ pub trait FromFixed {
 pub trait ToFixed {
     /// Converts to a fixed-point number.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     ///
     /// # Panics
     ///
@@ -3290,12 +3290,12 @@ pub trait ToFixed {
 
     /// Converts to a fixed-point number if it fits, otherwise returns [`None`].
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     fn checked_to_fixed<F: Fixed>(self) -> Option<F>;
 
     /// Converts to a fixed-point number, saturating if it does not fit.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     ///
     /// # Panics
     ///
@@ -3306,7 +3306,7 @@ pub trait ToFixed {
 
     /// Converts to a fixed-point number, wrapping if it does not fit.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     ///
     /// # Panics
     ///
@@ -3321,7 +3321,7 @@ pub trait ToFixed {
     /// indicating whether an overflow has occurred. On overflow, the
     /// wrapped value is returned.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     ///
     /// # Panics
     ///
@@ -3332,7 +3332,7 @@ pub trait ToFixed {
 
     /// Converts to a fixed-point number, panicking if it does not fit.
     ///
-    /// Any extra fractional bits are discarded, which rounds towards −∞.
+    /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
     ///
     /// # Panics
     ///
@@ -3697,7 +3697,7 @@ macro_rules! impl_fixed {
         impl<Frac: $LeEqU> FromFixed for $Fixed<Frac> {
             /// Converts a fixed-point number.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             ///
             /// # Panics
             ///
@@ -3719,7 +3719,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number if it fits, otherwise returns [`None`].
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn checked_from_fixed<F: Fixed>(src: F) -> Option<Self> {
                 match FromFixed::overflowing_from_fixed(src) {
@@ -3730,7 +3730,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number, saturating if it does not fit.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn saturating_from_fixed<F: Fixed>(src: F) -> Self {
                 let conv = src.private_to_fixed_helper(Self::FRAC_NBITS, Self::INT_NBITS);
@@ -3760,7 +3760,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number, wrapping if it does not fit.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn wrapping_from_fixed<F: Fixed>(src: F) -> Self {
                 let (wrapped, _) = FromFixed::overflowing_from_fixed(src);
@@ -3773,7 +3773,7 @@ macro_rules! impl_fixed {
             /// indicating whether an overflow has occurred. On
             /// overflow, the wrapped value is returned.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
                 let conv = src.private_to_fixed_helper(Self::FRAC_NBITS, Self::INT_NBITS);
@@ -3802,7 +3802,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number, panicking if it does not fit.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             ///
             /// # Panics
             ///
@@ -3820,7 +3820,7 @@ macro_rules! impl_fixed {
         impl<Frac: $LeEqU> ToFixed for $Fixed<Frac> {
             /// Converts a fixed-point number.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             ///
             /// # Panics
             ///
@@ -3839,7 +3839,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number if it fits, otherwise returns [`None`].
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn checked_to_fixed<F: Fixed>(self) -> Option<F> {
                 FromFixed::checked_from_fixed(self)
@@ -3847,7 +3847,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number, saturating if it does not fit.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn saturating_to_fixed<F: Fixed>(self) -> F {
                 FromFixed::saturating_from_fixed(self)
@@ -3855,7 +3855,7 @@ macro_rules! impl_fixed {
 
             /// Converts a fixed-point number, wrapping if it does not fit.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn wrapping_to_fixed<F: Fixed>(self) -> F {
                 FromFixed::wrapping_from_fixed(self)
@@ -3867,14 +3867,14 @@ macro_rules! impl_fixed {
             /// indicating whether an overflow has occurred. On
             /// overflow, the wrapped value is returned.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn overflowing_to_fixed<F: Fixed>(self) -> (F, bool) {
                 FromFixed::overflowing_from_fixed(self)
             }
             /// Converts a fixed-point number, panicking if it does not fit.
             ///
-            /// Any extra fractional bits are discarded, which rounds towards −∞.
+            /// Any extra fractional bits are discarded, which rounds towards &minus;∞.
             ///
             /// # Panics
             ///

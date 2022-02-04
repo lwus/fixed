@@ -89,7 +89,7 @@ macro_rules! impl_int {
         impl FromFixed for $Int {
             /// Converts a fixed-point number to an integer.
             ///
-            /// Any fractional bits are discarded, which rounds towards −∞.
+            /// Any fractional bits are discarded, which rounds towards &minus;∞.
             ///
             /// # Panics
             ///
@@ -108,7 +108,7 @@ macro_rules! impl_int {
 
             /// Converts a fixed-point number to an integer if it fits, otherwise returns [`None`].
             ///
-            /// Any fractional bits are discarded, which rounds towards −∞.
+            /// Any fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn checked_from_fixed<F: Fixed>(src: F) -> Option<Self> {
                 FromFixed::checked_from_fixed(src).map(IntFixed::<$Int>::int)
@@ -116,7 +116,7 @@ macro_rules! impl_int {
 
             /// Converts a fixed-point number to an integer, saturating if it does not fit.
             ///
-            /// Any fractional bits are discarded, which rounds towards −∞.
+            /// Any fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn saturating_from_fixed<F: Fixed>(src: F) -> Self {
                 IntFixed::<$Int>::int(FromFixed::saturating_from_fixed(src))
@@ -124,7 +124,7 @@ macro_rules! impl_int {
 
             /// Converts a fixed-point number to an integer, wrapping if it does not fit.
             ///
-            /// Any fractional bits are discarded, which rounds towards −∞.
+            /// Any fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn wrapping_from_fixed<F: Fixed>(src: F) -> Self {
                 IntFixed::<$Int>::int(FromFixed::wrapping_from_fixed(src))
@@ -136,7 +136,7 @@ macro_rules! impl_int {
             /// an overflow has occurred. On overflow, the wrapped value is
             /// returned.
             ///
-            /// Any fractional bits are discarded, which rounds towards −∞.
+            /// Any fractional bits are discarded, which rounds towards &minus;∞.
             #[inline]
             fn overflowing_from_fixed<F: Fixed>(src: F) -> (Self, bool) {
                 let (fixed, overflow) = FromFixed::overflowing_from_fixed(src);
@@ -145,7 +145,7 @@ macro_rules! impl_int {
 
             /// Converts a fixed-point number to an integer, panicking if it does not fit.
             ///
-            /// Any fractional bits are discarded, which rounds towards −∞.
+            /// Any fractional bits are discarded, which rounds towards &minus;∞.
             ///
             /// # Panics
             ///

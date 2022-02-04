@@ -429,7 +429,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// The other number can be:
     ///
     ///   * A fixed-point number. Any extra fractional bits are
-    ///     discarded, which rounds towards −∞.
+    ///     discarded, which rounds towards &minus;∞.
     ///   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     ///     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     ///     [`usize`].
@@ -490,11 +490,11 @@ impl<F: Fixed> Unwrapped<F> {
     /// The other number can be:
     ///
     ///   * Another fixed-point number. Any extra fractional bits are
-    ///     discarded, which rounds towards −∞.
+    ///     discarded, which rounds towards &minus;∞.
     ///   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     ///     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     ///     [`usize`]. Any fractional bits are discarded, which rounds
-    ///     towards −∞.
+    ///     towards &minus;∞.
     ///   * A floating-point number of type [`f16`], [`bf16`],
     ///     [`f32`], [`f64`] or [`F128Bits`]. For this conversion, the
     ///     method rounds to the nearest, with ties rounding to even.
@@ -602,7 +602,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// Note that since the numbers are stored in two’s complement,
     /// negative numbers with non-zero fractional parts will be
-    /// rounded towards −∞, except in the case where there are no
+    /// rounded towards &minus;∞, except in the case where there are no
     /// integer bits, for example for the type
     /// <code>[Unwrapped]&lt;[I0F16]&gt;</code>, where the return
     /// value is always zero.
@@ -704,7 +704,7 @@ impl<F: Fixed> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_ceil())
     }
 
-    /// Unwrapped floor. Rounds to the next integer towards −∞,
+    /// Unwrapped floor. Rounds to the next integer towards &minus;∞,
     /// panicking on overflow.
     ///
     /// Overflow can only occur for signed numbers with zero integer
@@ -920,7 +920,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// # Panics
     ///
-    /// Panics if the fixed-point number is ≤ 0.
+    /// Panics if the fixed-point number is ≤&nbsp;0.
     #[inline]
     #[track_caller]
     pub fn int_log2(self) -> i32 {
@@ -934,7 +934,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// # Panics
     ///
-    /// Panics if the fixed-point number is ≤ 0.
+    /// Panics if the fixed-point number is ≤&nbsp;0.
     #[inline]
     #[track_caller]
     pub fn int_log10(self) -> i32 {
@@ -1114,7 +1114,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// let three = Unwrapped(I16F16::from_num(3));
     /// let four = Unwrapped(I16F16::from_num(4));
     /// assert_eq!(three.mul_add(half, four), Unwrapped(I16F16::from_num(5.5)));
-    /// // max × 1.5 − max = max / 2, which does not overflow
+    /// // max × 1.5 - max = max / 2, which does not overflow
     /// let max = Unwrapped(I16F16::MAX);
     /// assert_eq!(max.mul_add(Unwrapped(I16F16::from_num(1.5)), -max), max / 2);
     /// ```
@@ -1285,7 +1285,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```should_panic
     /// use fixed::{types::I8F8, Unwrapped};
     /// let num = Unwrapped(I8F8::from_num(-7.5));
-    /// // −128 ≤ Fix < 128, so the answer 192.5 overflows
+    /// // -128 ≤ Fix < 128, so the answer 192.5 overflows
     /// let _overflow = num.rem_euclid_int(200);
     /// ```
     #[inline]
@@ -1334,7 +1334,7 @@ impl<F: Fixed> Unwrapped<F> {
     ///
     /// # Panics
     ///
-    /// Panics when `start` = `end` or when the results overflows.
+    /// Panics when `start`&nbsp;=&nbsp;`end` or when the results overflows.
     ///
     /// # Examples
     ///
@@ -1347,7 +1347,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// );
     /// ```
     ///
-    /// The following panics because `start` = `end`.
+    /// The following panics because `start`&nbsp;=&nbsp;`end`.
     ///
     /// ```should_panic
     /// use fixed::{types::I16F16, Unwrapped};
@@ -1396,7 +1396,7 @@ impl<F: FixedSigned> Unwrapped<F> {
         self.0.signed_bits()
     }
 
-    /// Returns [`true`] if the number is > 0.
+    /// Returns [`true`] if the number is >&nbsp;0.
     ///
     /// See also <code>FixedI32::[is\_positive][FixedI32::is_positive]</code>.
     ///
@@ -1413,7 +1413,7 @@ impl<F: FixedSigned> Unwrapped<F> {
         self.0.is_positive()
     }
 
-    /// Returns [`true`] if the number is < 0.
+    /// Returns [`true`] if the number is <&nbsp;0.
     ///
     /// See also <code>FixedI32::[is\_negative][FixedI32::is_negative]</code>.
     ///
@@ -1474,7 +1474,7 @@ impl<F: FixedSigned> Unwrapped<F> {
     ///   * if the value is positive and the fixed-point number has zero
     ///     or one integer bits such that it cannot hold the value 1.
     ///   * if the value is negative and the fixed-point number has zero
-    ///     integer bits, such that it cannot hold the value −1.
+    ///     integer bits, such that it cannot hold the value &minus;1.
     ///
     /// # Examples
     ///
@@ -1541,8 +1541,8 @@ impl<F: FixedUnsigned> Unwrapped<F> {
     /// Returns the highest one in the binary representation, or zero
     /// if `self` is zero.
     ///
-    /// If `self` > 0, the highest one is equal to the largest power
-    /// of two that is ≤ `self`.
+    /// If `self`&nbsp;>&nbsp;0, the highest one is equal to the largest power
+    /// of two that is ≤&nbsp;`self`.
     ///
     /// See also <code>FixedU32::[highest\_one][FixedU32::highest_one]</code>.
     ///
@@ -1563,7 +1563,7 @@ impl<F: FixedUnsigned> Unwrapped<F> {
         Unwrapped(self.0.highest_one())
     }
 
-    /// Returns the smallest power of two that is ≥ `self`.
+    /// Returns the smallest power of two that is ≥&nbsp;`self`.
     ///
     /// See also
     /// <code>FixedU32::[unwrapped\_next\_power\_of\_two][FixedU32::unwrapped_next_power_of_two]</code>.

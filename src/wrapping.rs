@@ -426,7 +426,7 @@ impl<F: Fixed> Wrapping<F> {
     /// The other number can be:
     ///
     ///   * A fixed-point number. Any extra fractional bits are
-    ///     discarded, which rounds towards −∞.
+    ///     discarded, which rounds towards &minus;∞.
     ///   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     ///     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     ///     [`usize`].
@@ -485,11 +485,11 @@ impl<F: Fixed> Wrapping<F> {
     /// The other number can be:
     ///
     ///   * Another fixed-point number. Any extra fractional bits are
-    ///     discarded, which rounds towards −∞.
+    ///     discarded, which rounds towards &minus;∞.
     ///   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     ///     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     ///     [`usize`]. Any fractional bits are discarded, which rounds
-    ///     towards −∞.
+    ///     towards &minus;∞.
     ///   * A floating-point number of type [`f16`], [`bf16`],
     ///     [`f32`], [`f64`] or [`F128Bits`]. For this conversion, the
     ///     method rounds to the nearest, with ties rounding to even.
@@ -594,7 +594,7 @@ impl<F: Fixed> Wrapping<F> {
     ///
     /// Note that since the numbers are stored in two’s complement,
     /// negative numbers with non-zero fractional parts will be
-    /// rounded towards −∞, except in the case where there are no
+    /// rounded towards &minus;∞, except in the case where there are no
     /// integer bits, for example for the type
     /// <code>[Wrapping]&lt;[I0F16]&gt;</code>, where the return value
     /// is always zero.
@@ -685,7 +685,7 @@ impl<F: Fixed> Wrapping<F> {
         Wrapping(self.0.wrapping_ceil())
     }
 
-    /// Wrapping floor. Rounds to the next integer towards −∞,
+    /// Wrapping floor. Rounds to the next integer towards &minus;∞,
     /// wrapping on overflow.
     ///
     /// Overflow can only occur for signed numbers with zero integer
@@ -871,7 +871,7 @@ impl<F: Fixed> Wrapping<F> {
     ///
     /// # Panics
     ///
-    /// Panics if the fixed-point number is ≤ 0.
+    /// Panics if the fixed-point number is ≤&nbsp;0.
     #[inline]
     pub fn int_log2(self) -> i32 {
         self.0.int_log2()
@@ -884,7 +884,7 @@ impl<F: Fixed> Wrapping<F> {
     ///
     /// # Panics
     ///
-    /// Panics if the fixed-point number is ≤ 0.
+    /// Panics if the fixed-point number is ≤&nbsp;0.
     #[inline]
     pub fn int_log10(self) -> i32 {
         self.0.int_log10()
@@ -1246,7 +1246,7 @@ impl<F: FixedSigned> Wrapping<F> {
         self.0.signed_bits()
     }
 
-    /// Returns [`true`] if the number is > 0.
+    /// Returns [`true`] if the number is >&nbsp;0.
     ///
     /// See also <code>FixedI32::[is\_positive][FixedI32::is_positive]</code>.
     ///
@@ -1263,7 +1263,7 @@ impl<F: FixedSigned> Wrapping<F> {
         self.0.is_positive()
     }
 
-    /// Returns [`true`] if the number is < 0.
+    /// Returns [`true`] if the number is <&nbsp;0.
     ///
     /// See also <code>FixedI32::[is\_negative][FixedI32::is_negative]</code>.
     ///
@@ -1305,7 +1305,7 @@ impl<F: FixedSigned> Wrapping<F> {
     ///
     /// # Warning
     ///
-    /// Using this method when 1 and −1 cannot be represented is
+    /// Using this method when 1 and &minus;1 cannot be represented is
     /// almost certainly a bug, however, this is allowed and gives the
     /// following wrapped results.
     ///
@@ -1314,9 +1314,9 @@ impl<F: FixedSigned> Wrapping<F> {
     ///     is always zero.
     ///   * When there is one integer bit, for example for the type
     ///     <code>[Wrapping]&lt;[I1F15]&gt;</code>, the return value
-    ///     is zero when `self` is zero, and −1 otherwise. This means
-    ///     that for a positive number, −1 is returned, because +1
-    ///     does not fit and is wrapped to −1.
+    ///     is zero when `self` is zero, and &minus;1 otherwise. This means
+    ///     that for a positive number, &minus;1 is returned, because +1
+    ///     does not fit and is wrapped to &minus;1.
     ///
     /// See also
     /// <code>FixedI32::[wrapping\_signum][FixedI32::wrapping_signum]</code>.
@@ -1388,8 +1388,8 @@ impl<F: FixedUnsigned> Wrapping<F> {
     /// Returns the highest one in the binary representation, or zero
     /// if `self` is zero.
     ///
-    /// If `self` > 0, the highest one is equal to the largest power
-    /// of two that is ≤ `self`.
+    /// If `self`&nbsp;>&nbsp;0, the highest one is equal to the largest power
+    /// of two that is ≤&nbsp;`self`.
     ///
     /// See also <code>FixedU32::[highest\_one][FixedU32::highest_one]</code>.
     ///
@@ -1410,7 +1410,7 @@ impl<F: FixedUnsigned> Wrapping<F> {
         Wrapping(self.0.highest_one())
     }
 
-    /// Returns the smallest power of two that is ≥ `self`.
+    /// Returns the smallest power of two that is ≥&nbsp;`self`.
     ///
     /// If the next power of two is too large to fit, it is wrapped to zero.
     ///

@@ -36,7 +36,7 @@ macro_rules! fixed_const {
         $Signedness:tt
     ) => {
         comment! {
-            "This block contains constants in the range 0 < <i>x</i> < 0.5.
+            "This block contains constants in the range 0&nbsp;<&nbsp;<i>x</i>&nbsp;<&nbsp;0.5.
 
 # Examples
 
@@ -68,7 +68,7 @@ assert_eq!(Fix::LOG10_2, Fix::from_num(consts::LOG10_2));
         }
 
         comment! {
-            "This block contains constants in the range 0.5 ≤ <i>x</i> < 1.
+            "This block contains constants in the range 0.5&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;1.
 
 ",
             if_signed_else_empty_str! {
@@ -96,7 +96,7 @@ assert!(0.5 <= Fix::LN_2 && Fix::LN_2 < 1);
                 "
 The following example fails to compile, since the maximum
 representable value with ", $s_nbits, " fractional bits and 0 integer
-bits is < 0.5.
+bits is <&nbsp;0.5.
 
 ```rust,compile_fail
 use fixed::{consts, types::extra::U", $s_nbits, ", ", $s_fixed, "};
@@ -151,7 +151,7 @@ let _ = Fix::LN_2;
         }
 
         comment! {
-            "This block contains constants in the range 1 ≤ <i>x</i> < 2.
+            "This block contains constants in the range 1&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;2.
 
 These constants are not representable in ",
             if_signed_unsigned!($Signedness, "signed", "unsigned"),
@@ -177,7 +177,7 @@ representable value with ",
             if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
             " fractional bits and ",
             if_signed_unsigned!($Signedness, "1 integer bit", "0 integer bits"),
-            " is < 1.
+            " is <&nbsp;1.
 
 ```rust,compile_fail
 use fixed::{consts, types::extra::U",
@@ -247,7 +247,7 @@ assert_eq!(Fix::ONE, Fix::from_num(1));
         }
 
         comment! {
-            "This block contains constants in the range 2 ≤ <i>x</i> < 4.
+            "This block contains constants in the range 2&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;4.
 
 These constants are not representable in ",
             if_signed_unsigned!($Signedness, "signed", "unsigned"),
@@ -273,7 +273,7 @@ representable value with ",
             if_signed_unsigned!($Signedness, $s_nbits_m2, $s_nbits_m1),
             " fractional bits and ",
             if_signed_unsigned!($Signedness, "2 integer bits", "1 integer bit"),
-            " is < 2.
+            " is <&nbsp;2.
 
 ```rust,compile_fail
 use fixed::{consts, types::extra::U",
@@ -310,7 +310,7 @@ let _ = Fix::E;
         }
 
         comment! {
-            "This block contains constants in the range 4 ≤ <i>x</i> < 8.
+            "This block contains constants in the range 4&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;8.
 
 These constants are not representable in ",
             if_signed_unsigned!($Signedness, "signed", "unsigned"),
@@ -336,7 +336,7 @@ representable value with ",
             if_signed_unsigned!($Signedness, $s_nbits_m3, $s_nbits_m2),
             " fractional bits and ",
             if_signed_unsigned!($Signedness, "3", "2"),
-            " integer bits is < 4.
+            " integer bits is <&nbsp;4.
 
 ```rust,compile_fail
 use fixed::{consts, types::extra::U",

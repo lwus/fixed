@@ -24,7 +24,7 @@ macro_rules! fixed_round {
                 concat!(
                     "Note that since the numbers are stored in two’s
 complement, negative numbers with non-zero fractional parts will be
-rounded towards −∞, except in the case where there are no integer
+rounded towards &minus;∞, except in the case where there are no integer
 bits, that is `", $s_fixed, "<U", $s_nbits, ">`, where the return value is always zero.",
                 ),
                 "Note that for unsigned numbers, this is equivalent to [`floor`].",
@@ -117,7 +117,7 @@ assert_eq!((-two_and_quarter).frac(), three_quarters);
 from truncating/discarding the fractional bits. This is because in
 two’s-complement representations, the value of all the bits except for
 the most significant bit is positive; discarding positive bits would
-round towards −∞ unlike this method which rounds towards zero.",
+round towards &minus;∞ unlike this method which rounds towards zero.",
                 "Note that for unsigned numbers, this is equivalent to [`floor`].",
             ),
             "
@@ -200,7 +200,7 @@ assert_eq!(Fix::from_num(2.5).ceil(), Fix::from_num(3));
         }
 
         comment! {
-            "Rounds to the next integer towards −∞.
+            "Rounds to the next integer towards &minus;∞.
 
 ",
             if_signed_else_empty_str! {
@@ -338,7 +338,7 @@ assert_eq!(Fix::from_num(2.5).checked_ceil(), Some(Fix::from_num(3)));
         }
 
         comment! {
-            "Checked floor. Rounds to the next integer towards −∞.",
+            "Checked floor. Rounds to the next integer towards &minus;∞.",
             if_signed_unsigned!(
                 $Signedness,
                 "Returns [`None`] on overflow.
@@ -457,7 +457,7 @@ assert_eq!(Fix::from_num(2.5).saturating_ceil(), Fix::from_num(3));
         }
 
         comment! {
-            "Saturating floor. Rounds to the next integer towards −∞",
+            "Saturating floor. Rounds to the next integer towards &minus;∞",
             if_signed_unsigned!(
                 $Signedness,
                 ", saturating on overflow.
@@ -588,7 +588,7 @@ assert_eq!(Fix::from_num(2.5).wrapping_ceil(), Fix::from_num(3));
         }
 
         comment! {
-            "Wrapping floor. Rounds to the next integer towards −∞",
+            "Wrapping floor. Rounds to the next integer towards &minus;∞",
             if_signed_unsigned!(
                 $Signedness,
                 ", wrapping on overflow.
@@ -718,7 +718,7 @@ let _overflow = Fix::MAX.unwrapped_ceil();
         }
 
         comment! {
-            "Unwrapped floor. Rounds to the next integer towards −∞",
+            "Unwrapped floor. Rounds to the next integer towards &minus;∞",
             if_signed_unsigned!(
                 $Signedness,
                 ", panicking on overflow.
@@ -877,7 +877,7 @@ assert_eq!(Fix::from_num(2.5).overflowing_ceil(), (Fix::from_num(3), false));
         }
 
         comment! {
-            "Overflowing floor. Rounds to the next integer towards −∞.
+            "Overflowing floor. Rounds to the next integer towards &minus;∞.
 
 Returns a [tuple] of the fixed-point number and
 ",
@@ -968,8 +968,8 @@ assert_eq!(Fix::from_num(2.5).overflowing_round(), (Fix::from_num(3), false));
                         // otherwise .100...01, 0 < x < -0.5,  no overflow
                         return (int, tie);
                     }
-                    // If num is −int.100...00 = (-int) + 0.5, we simply truncate to move to −∞.
-                    // If num is −int.100...01 = (-int) + 0.6, we add 1 to −int.
+                    // If num is -int.100...00 = (-int) + 0.5, we simply truncate to move to -∞.
+                    // If num is -int.100...01 = (-int) + 0.6, we add 1 to -int.
                     // If num is +int.100...00 = (+int) + 0.5, we add 1 to +int.
                     // If num is +int.100...01 = (+int) + 0.6, we add 1 to +int.
                     if tie && self.to_bits() < 0 {

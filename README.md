@@ -15,22 +15,25 @@ The [*fixed* crate] provides fixed-point numbers.
   * [`FixedI64`] and [`FixedU64`] are 64-bit fixed-point numbers.
   * [`FixedI128`] and [`FixedU128`] are 128-bit fixed-point numbers.
 
-An <i>n</i>-bit fixed-point number has <i>f</i> = `Frac` fractional bits where
-0 ≤ <i>f</i> ≤ <i>n</i>, and <i>n</i> − <i>f</i> integer bits. For example,
+An <i>n</i>-bit fixed-point number has <i>f</i>&nbsp;=&nbsp;`Frac` fractional
+bits where 0&nbsp;≤&nbsp;<i>f</i>&nbsp;≤&nbsp;<i>n</i>, and
+<i>n</i>&nbsp;&minus;&nbsp;<i>f</i> integer bits. For example,
 <code>[FixedI32]\<[U24]></code> is a 32-bit signed fixed-point number with
-<i>n</i> = 32 total bits, <i>f</i> = 24 fractional bits, and
-<i>n</i> − <i>f</i> = 8 integer bits. <code>[FixedI32]\<[U0]></code> behaves
-like [`i32`], and <code>[FixedU32]\<[U0]></code> behaves like [`u32`].
+<i>n</i>&nbsp;=&nbsp;32 total bits, <i>f</i>&nbsp;=&nbsp;24 fractional bits, and
+<i>n</i>&nbsp;&minus;&nbsp;<i>f</i>&nbsp;=&nbsp;8 integer bits.
+<code>[FixedI32]\<[U0]></code> behaves like [`i32`], and
+<code>[FixedU32]\<[U0]></code> behaves like [`u32`].
 
 The difference between any two successive representable numbers is constant
 throughout the possible range for a fixed-point number:
-<i>Δ</i> = 1/2<sup><i>f</i></sup>. When <i>f</i> = 0, like in
-<code>[FixedI32]\<[U0]></code>, <i>Δ</i> = 1 because representable numbers are
-integers, and the difference between two successive integers is 1. When
-<i>f</i> = <i>n</i>, <i>Δ</i> = 1/2<sup><i>n</i></sup> and the value lies in the
-range −0.5 ≤ <i>x</i> < 0.5 for signed numbers like
-<code>[FixedI32]\<[U32]></code>, and in the range 0 ≤ <i>x</i> < 1 for unsigned
-numbers like <code>[FixedU32]\<[U32]></code>.
+<i>Δ</i>&nbsp;=&nbsp;1/2<sup><i>f</i></sup>. When <i>f</i>&nbsp;=&nbsp;0, like
+in <code>[FixedI32]\<[U0]></code>, <i>Δ</i>&nbsp;=&nbsp;1 because representable
+numbers are integers, and the difference between two successive integers is 1.
+When <i>f</i>&nbsp;=&nbsp;<i>n</i>, <i>Δ</i>&nbsp;=&nbsp;1/2<sup><i>n</i></sup>
+and the value lies in the range &minus;0.5&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;0.5
+for signed numbers like <code>[FixedI32]\<[U32]></code>, and in the range
+0&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;1 for unsigned numbers like
+<code>[FixedU32]\<[U32]></code>.
 
 In version 1 the [*typenum* crate] is used for the fractional bit count `Frac`;
 the plan is to to have a major version 2 with [const generics] instead when the
@@ -199,7 +202,7 @@ combinations of integer and fractional bits adding up to a total of eight, 16,
 ```rust
 use fixed::types::{I4F4, I4F12};
 
-// −8 ≤ I4F4 < 8 with steps of 1/16 (~0.06)
+// -8 ≤ I4F4 < 8 with steps of 1/16 (~0.06)
 let a = I4F4::from_num(1);
 // multiplication and division by integers are possible
 let ans1 = a / 5 * 17;
@@ -207,7 +210,7 @@ let ans1 = a / 5 * 17;
 assert_eq!(ans1, I4F4::from_bits((3 << 4) + 3));
 assert_eq!(ans1.to_string(), "3.2");
 
-// −8 ≤ I4F12 < 8 with steps of 1/4096 (~0.0002)
+// -8 ≤ I4F12 < 8 with steps of 1/4096 (~0.0002)
 let wider_a = I4F12::from(a);
 let wider_ans = wider_a / 5 * 17;
 let ans2 = I4F4::from_num(wider_ans);

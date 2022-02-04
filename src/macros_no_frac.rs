@@ -43,8 +43,8 @@ assert_eq!(Fix::ZERO, Fix::from_bits(0));
             comment! {
                 "The difference between any two successive representable numbers, <i>Δ</i>.
 
-If the number has <i>f</i> = `Frac` fractional bits, then
-<i>Δ</i> = 1/2<sup><i>f</i></sup>.
+If the number has <i>f</i>&nbsp;=&nbsp;`Frac` fractional bits, then
+<i>Δ</i>&nbsp;=&nbsp;1/2<sup><i>f</i></sup>.
 
 # Examples
 
@@ -66,8 +66,8 @@ assert_eq!(Fix::DELTA, 0.0625);
                 if_signed_unsigned! {
                     $Signedness,
                     concat!(
-                        "If the number has <i>f</i> = `Frac` fractional bits,
-then the minimum is −2<sup>", $s_nbits_m1, "</sup>/2<sup><i>f</i></sup>."
+                        "If the number has <i>f</i>&nbsp;=&nbsp;`Frac` fractional bits,
+then the minimum is &minus;2<sup>", $s_nbits_m1, "</sup>/2<sup><i>f</i></sup>."
                     ),
                     "The minimum of unsigned numbers is 0."
                 },
@@ -87,10 +87,10 @@ assert_eq!(Fix::MIN, Fix::from_bits(", $s_inner, "::MIN));
             comment! {
                 "The largest value that can be represented.
 
-If the number has <i>f</i> = `Frac` fractional bits, then the maximum is
+If the number has <i>f</i>&nbsp;=&nbsp;`Frac` fractional bits, then the maximum is
 (2<sup>",
                 if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
-                "</sup> − 1)/2<sup><i>f</i></sup>.
+                "</sup>&nbsp;&minus;&nbsp;1)/2<sup><i>f</i></sup>.
 
 # Examples
 
@@ -665,7 +665,7 @@ assert!(!Fix::from_num(5).is_zero());
             if_signed! {
                 $Signedness;
                 comment! {
-                    "Returns [`true`] if the number is > 0.
+                    "Returns [`true`] if the number is >&nbsp;0.
 
 # Examples
 
@@ -684,7 +684,7 @@ assert!(!Fix::from_num(-5).is_positive());
                 }
 
                 comment! {
-                    "Returns [`true`] if the number is < 0.
+                    "Returns [`true`] if the number is <&nbsp;0.
 
 # Examples
 
@@ -735,11 +735,11 @@ assert!(half.is_power_of_two());
                     "Multiplies two fixed-point numbers and returns a
 wider type to retain all precision.
 
-If `self` has <i>f</i> fractional bits and ", $s_nbits, " − <i>f</i>
+If `self` has <i>f</i> fractional bits and ", $s_nbits, "&nbsp;&minus;&nbsp;<i>f</i>
 integer bits, and `rhs` has <i>g</i> fractional bits and ", $s_nbits,
-" − <i>g</i> integer bits, then the returned fixed-point number will
-have <i>f</i> + <i>g</i> fractional bits and ", $s_nbits_2,
-" − <i>f</i> − <i>g</i> integer bits.
+"&nbsp;&minus;&nbsp;<i>g</i> integer bits, then the returned fixed-point number will
+have <i>f</i>&nbsp;+&nbsp;<i>g</i> fractional bits and ", $s_nbits_2,
+"&nbsp;&minus;&nbsp;<i>f</i>&nbsp;&minus;&nbsp;<i>g</i> integer bits.
 
 # Examples
 
@@ -774,11 +774,13 @@ assert_eq!(a.wide_mul(b), 1.328_125);
                     "Divides two fixed-point numbers and returns a
 wider type to retain more precision.
 
-If `self` has <i>f</i> fractional bits and ", $s_nbits, " − <i>f</i> integer
-bits, and `rhs` has <i>g</i> fractional bits and ", $s_nbits, " − <i>g</i>
-integer bits, then the returned fixed-point number will have ", $s_nbits,
-" + <i>f</i> − <i>g</i> fractional bits and ", $s_nbits, " − <i>f</i> + <i>g</i>
-integer bits.
+If `self` has <i>f</i> fractional bits
+and ", $s_nbits, "&nbsp;&minus;&nbsp;<i>f</i> integer bits, and `rhs` has
+<i>g</i> fractional bits and ", $s_nbits, "&nbsp;&minus;&nbsp;<i>g</i> integer
+bits, then the returned fixed-point number will
+have ", $s_nbits, "&nbsp;+&nbsp;<i>f</i>&nbsp;&minus;&nbsp;<i>g</i> fractional
+bits and ", $s_nbits, "&nbsp;&minus;&nbsp;<i>f</i>&nbsp;+&nbsp;<i>g</i> integer
+bits.
 ",
                     if_signed_else_empty_str! {
                         $Signedness;
@@ -879,7 +881,7 @@ assert_eq!(
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+                    "// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 assert_eq!(Fix::MAX.mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
 "
                 },
@@ -1100,12 +1102,13 @@ assert_eq!(Fix::from_num(3).mean(Fix::from_num(4)), Fix::from_num(3.5));
 The computed value can have a fixed-point type like `self` but with a different
 number of fractional bits.
 
-Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
-and 1 when `self` = `end`.
+Returns
+(`self`&nbsp;&minus;&nbsp;`start`)&nbsp;/&nbsp;(`end`&nbsp;&minus;&nbsp;`start`).
+This is 0 when `self`&nbsp;=&nbsp;`start`, and 1 when `self`&nbsp;=&nbsp;`end`.
 
 # Panics
 
-Panics when `start` = `end`.
+Panics when `start`&nbsp;=&nbsp;`end`.
 
 When debug assertions are enabled, this method also panics if the result
 overflows. When debug assertions are not enabled, the wrapped value can be
@@ -1156,8 +1159,8 @@ assert_eq!(Fix::from_num(5).inv_lerp::<U4>(start, end), 2);
                     "Returns the highest one in the binary
 representation, or zero if `self` is zero.
 
-If `self` > 0, the highest one is equal to the largest power of two
-that is ≤ `self`.
+If `self`&nbsp;>&nbsp;0, the highest one is equal to the largest power of two
+that is ≤&nbsp;`self`.
 
 # Examples
 
@@ -1185,7 +1188,7 @@ assert_eq!(Fix::ZERO.highest_one(), Fix::ZERO);
                 }
 
                 comment! {
-                    "Returns the smallest power of two that is ≥ `self`.
+                    "Returns the smallest power of two that is ≥&nbsp;`self`.
 
 # Panics
 
@@ -1479,7 +1482,7 @@ assert_eq!(Fix::MAX.checked_mul_add(Fix::ONE, Fix::DELTA), None);
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+                    "// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 assert_eq!(Fix::MAX.checked_mul_add(Fix::from_num(1.5), -Fix::MAX), Some(Fix::MAX / 2));
 "
                 },
@@ -1601,7 +1604,7 @@ assert_eq!(num.checked_rem_euclid(Fix::ZERO), None);
 
             comment! {
                 "Checked shift left. Returns the shifted number,
-or [`None`] if `rhs` ≥ ", $s_nbits, ".
+or [`None`] if `rhs`&nbsp;≥&nbsp;", $s_nbits, ".
 
 # Examples
 
@@ -1624,7 +1627,7 @@ assert_eq!((Fix::ONE / 2).checked_shl(", $s_nbits, "), None);
 
             comment! {
                 "Checked shift right. Returns the shifted number,
-or [`None`] if `rhs` ≥ ", $s_nbits, ".
+or [`None`] if `rhs`&nbsp;≥&nbsp;", $s_nbits, ".
 
 # Examples
 
@@ -1720,13 +1723,14 @@ assert_eq!(Fix::ONE.checked_dist(Fix::from_num(5)), Some(Fix::from_num(4)));
 
             comment! {
                 "Checked inverse linear interpolation between `start` and `end`.
-Returns [`None`] on overflow or when `start` = `end`.
+Returns [`None`] on overflow or when `start`&nbsp;=&nbsp;`end`.
 
 The computed value can have a fixed-point type like `self` but with a different
 number of fractional bits.
 
-Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
-and 1 when `self` = `end`.
+Returns
+(`self`&nbsp;&minus;&nbsp;`start`)&nbsp;/&nbsp;(`end`&nbsp;&minus;&nbsp;`start`).
+This is 0 when `self`&nbsp;=&nbsp;`start`, and 1 when `self`&nbsp;=&nbsp;`end`.
 
 # Examples
 
@@ -1761,7 +1765,7 @@ assert_eq!(Fix::MAX.checked_inv_lerp::<U4>(Fix::ZERO, Fix::from_num(0.5)), None)
             if_unsigned! {
                 $Signedness;
                 comment! {
-                    "Returns the smallest power of two that is ≥ `self`, or
+                    "Returns the smallest power of two that is ≥&nbsp;`self`, or
 [`None`] if the next power of two is too large to represent.
 
 # Examples
@@ -1924,7 +1928,7 @@ assert_eq!(half_max.saturating_mul_add(Fix::from_num(3), half_max), Fix::MAX);
                 if_signed_else_empty_str! {
                     $Signedness;
                     "assert_eq!(half_max.saturating_mul_add(Fix::from_num(-5), half_max), Fix::MIN);
-// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 assert_eq!(Fix::MAX.saturating_mul_add(Fix::from_num(1.5), -Fix::MAX), half_max);
 "
                 },
@@ -2070,12 +2074,13 @@ saturating on overflow.
 The computed value can have a fixed-point type like `self` but with a different
 number of fractional bits.
 
-Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
-and 1 when `self` = `end`.
+Returns
+(`self`&nbsp;&minus;&nbsp;`start`)&nbsp;/&nbsp;(`end`&nbsp;&minus;&nbsp;`start`).
+This is 0 when `self`&nbsp;=&nbsp;`start`, and 1 when `self`&nbsp;=&nbsp;`end`.
 
 # Panics
 
-Panics when `start` = `end`.
+Panics when `start`&nbsp;=&nbsp;`end`.
 
 # Examples
 
@@ -2268,7 +2273,7 @@ assert_eq!(Fix::MAX.wrapping_mul_int(4), wrapped);
                     $Signedness,
                     ", wrapping on overflow.
 
-Overflow can only occur when dividing the minimum value by −1.",
+Overflow can only occur when dividing the minimum value by &minus;1.",
                     ".
 
 Can never overflow for unsigned values.",
@@ -2303,7 +2308,7 @@ assert_eq!(Fix::from_num(3).wrapping_div_int(2), one_point_5);
             }
 
             comment! {
-                "Wrapping shift left. Wraps `rhs` if `rhs` ≥ ", $s_nbits, ",
+                "Wrapping shift left. Wraps `rhs` if `rhs`&nbsp;≥&nbsp;", $s_nbits, ",
 then shifts and returns the number.
 
 # Examples
@@ -2323,7 +2328,7 @@ assert_eq!((Fix::ONE / 2).wrapping_shl(3 + ", $s_nbits, "), Fix::from_num(4));
             }
 
             comment! {
-                "Wrapping shift right. Wraps `rhs` if `rhs` ≥ ", $s_nbits, ",
+                "Wrapping shift right. Wraps `rhs` if `rhs`&nbsp;≥&nbsp;", $s_nbits, ",
 then shifts and returns the number.
 
 # Examples
@@ -2413,12 +2418,13 @@ wrapping on overflow.
 The computed value can have a fixed-point type like `self` but with a different
 number of fractional bits.
 
-Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
-and 1 when `self` = `end`.
+Returns
+(`self`&nbsp;&minus;&nbsp;`start`)&nbsp;/&nbsp;(`end`&nbsp;&minus;&nbsp;`start`).
+This is 0 when `self`&nbsp;=&nbsp;`start`, and 1 when `self`&nbsp;=&nbsp;`end`.
 
 # Panics
 
-Panics when `start` = `end`.
+Panics when `start`&nbsp;=&nbsp;`end`.
 
 # Examples
 
@@ -2453,7 +2459,7 @@ assert_eq!(
             if_unsigned! {
                 $Signedness;
                 comment! {
-                    "Returns the smallest power of two that is ≥ `self`,
+                    "Returns the smallest power of two that is ≥&nbsp;`self`,
 wrapping to 0 if the next power of two is too large to represent.
 
 # Examples
@@ -2685,7 +2691,7 @@ assert_eq!(
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+                    "// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 assert_eq!(Fix::MAX.unwrapped_mul_add(Fix::from_num(1.5), -Fix::MAX), Fix::MAX / 2);
 "
                 },
@@ -2751,7 +2757,7 @@ let _overflow = Fix::MAX.unwrapped_mul_int(4);
                     $Signedness,
                     ", panicking on overflow.
 
-Overflow can only occur when dividing the minimum value by −1.",
+Overflow can only occur when dividing the minimum value by &minus;1.",
                     ".
 
 Can never overflow for unsigned values.",
@@ -2836,11 +2842,11 @@ let _divisor_is_zero = Fix::from_num(3).unwrapped_rem_euclid(Fix::ZERO);
             }
 
             comment! {
-                "Unwrapped shift left. Panics if `rhs` ≥ ", $s_nbits, ".
+                "Unwrapped shift left. Panics if `rhs`&nbsp;≥&nbsp;", $s_nbits, ".
 
 # Panics
 
-Panics if `rhs` ≥ ", $s_nbits, ".
+Panics if `rhs`&nbsp;≥&nbsp;", $s_nbits, ".
 
 # Examples
 
@@ -2870,11 +2876,11 @@ let _overflow = Fix::ONE.unwrapped_shl(", $s_nbits, ");
             }
 
             comment! {
-                "Unwrapped shift right. Panics if `rhs` ≥ ", $s_nbits, ".
+                "Unwrapped shift right. Panics if `rhs`&nbsp;≥&nbsp;", $s_nbits, ".
 
 # Panics
 
-Panics if `rhs` ≥ ", $s_nbits, ".
+Panics if `rhs`&nbsp;≥&nbsp;", $s_nbits, ".
 
 # Examples
 
@@ -3006,12 +3012,13 @@ panicking on overflow.
 The computed value can have a fixed-point type like `self` but with a different
 number of fractional bits.
 
-Returns (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
-and 1 when `self` = `end`.
+Returns
+(`self`&nbsp;&minus;&nbsp;`start`)&nbsp;/&nbsp;(`end`&nbsp;&minus;&nbsp;`start`).
+This is 0 when `self`&nbsp;=&nbsp;`start`, and 1 when `self`&nbsp;=&nbsp;`end`.
 
 # Panics
 
-Panics when `start` = `end` or when the results overflows.
+Panics when `start`&nbsp;=&nbsp;`end` or when the results overflows.
 
 # Examples
 
@@ -3023,7 +3030,7 @@ let four = Fix::from_num(4);
 assert_eq!(Fix::from_num(3).unwrapped_inv_lerp::<U4>(two, four), 0.5);
 ```
 
-The following panics because `start` = `end`.
+The following panics because `start`&nbsp;=&nbsp;`end`.
 
 ```should_panic
 use fixed::{types::extra::U4, ", $s_fixed, "};
@@ -3060,7 +3067,7 @@ let _overflow = Fix::MAX.unwrapped_inv_lerp::<U4>(Fix::ZERO, Fix::from_num(0.5))
             if_unsigned! {
                 $Signedness;
                 comment! {
-                    "Returns the smallest power of two that is ≥ `self`,
+                    "Returns the smallest power of two that is ≥&nbsp;`self`,
 panicking if the next power of two is too large to represent.
 
 # Panics
@@ -3234,7 +3241,7 @@ assert_eq!(
 ",
                 if_signed_else_empty_str! {
                     $Signedness;
-                    "// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+                    "// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 assert_eq!(
     Fix::MAX.overflowing_mul_add(Fix::from_num(1.5), -Fix::MAX),
     (Fix::MAX / 2, false)
@@ -3292,7 +3299,7 @@ Returns a [tuple] of the quotient and ",
                     $Signedness,
                     "a [`bool`] indicating whether an overflow has
 occurred. On overflow, the wrapped value is returned. Overflow can
-only occur when dividing the minimum value by −1.",
+only occur when dividing the minimum value by &minus;1.",
                     "[`false`], as the division can never overflow for unsigned values.",
                 ),
                 "
@@ -3329,7 +3336,7 @@ assert_eq!(Fix::from_num(3).overflowing_div_int(2), (one_point_5, false));
                 "Overflowing shift left.
 
 Returns a [tuple] of the shifted value and a [`bool`] indicating whether
-an overflow has occurred. Overflow occurs when `rhs` ≥ ", $s_nbits, ".
+an overflow has occurred. Overflow occurs when `rhs`&nbsp;≥&nbsp;", $s_nbits, ".
 On overflow `rhs` is wrapped before the shift operation.
 
 # Examples
@@ -3353,7 +3360,7 @@ assert_eq!((Fix::ONE / 2).overflowing_shl(3 + ", $s_nbits, "), (Fix::from_num(4)
                 "Overflowing shift right.
 
 Returns a [tuple] of the shifted value and a [`bool`] indicating whether
-an overflow has occurred. Overflow occurs when `rhs` ≥ ", $s_nbits, ".
+an overflow has occurred. Overflow occurs when `rhs`&nbsp;≥&nbsp;", $s_nbits, ".
 On overflow `rhs` is wrapped before the shift operation.
 
 # Examples
@@ -3466,12 +3473,13 @@ has occurred. On overflow, the wrapped value is returned.
 The computed value can have a fixed-point type like `self` but with a different
 number of fractional bits.
 
-Computes (`self` − `start`) / (`end` − `start`). This is 0 when `self` = `start`,
-and 1 when `self` = `end`.
+Computes
+(`self`&nbsp;&minus;&nbsp;`start`)&nbsp;/&nbsp;(`end`&nbsp;&minus;&nbsp;`start`).
+This is 0 when `self`&nbsp;=&nbsp;`start`, and 1 when `self`&nbsp;=&nbsp;`end`.
 
 # Panics
 
-Panics when `start` = `end`.
+Panics when `start`&nbsp;=&nbsp;`end`.
 
 # Examples
 

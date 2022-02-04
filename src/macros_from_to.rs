@@ -21,7 +21,7 @@ macro_rules! fixed_from_to {
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -87,11 +87,11 @@ assert_eq!(Fix::from_num(",
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`]. Any fractional bits are discarded, which rounds towards
-    −∞.
+    &minus;∞.
   * A floating-point number of type [`f16`], [`bf16`], [`f32`],
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
@@ -158,7 +158,7 @@ fits, otherwise returns [`None`].
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -227,11 +227,11 @@ fits, otherwise returns [`None`].
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`]. Any fractional bits are discarded, which rounds towards
-    −∞.
+    &minus;∞.
   * A floating-point number of type [`f16`], [`bf16`], [`f32`],
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
@@ -296,7 +296,7 @@ saturating if it does not fit.
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -368,11 +368,11 @@ saturating the value if it does not fit.
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`]. Any fractional bits are discarded, which rounds towards
-    −∞.
+    &minus;∞.
   * A floating-point number of type [`f16`], [`bf16`], [`f32`],
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
@@ -434,7 +434,7 @@ wrapping the value on overflow.
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -498,11 +498,11 @@ wrapping the value on overflow.
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`]. Any fractional bits are discarded, which rounds towards
-    −∞.
+    &minus;∞.
   * A floating-point number of type [`f16`], [`bf16`], [`f32`],
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
@@ -564,7 +564,7 @@ panicking on overflow.
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -628,11 +628,11 @@ panicking on overflow.
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`]. Any fractional bits are discarded, which rounds towards
-    −∞.
+    &minus;∞.
   * A floating-point number of type [`f16`], [`bf16`], [`f32`],
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.
@@ -694,7 +694,7 @@ returned.
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`].
@@ -762,11 +762,11 @@ overflow has occurred. On overflow, the wrapped value is returned.
 The other number can be:
 
   * Another fixed-point number. Any extra fractional bits are
-    discarded, which rounds towards −∞.
+    discarded, which rounds towards &minus;∞.
   * An integer of type [`i8`], [`i16`], [`i32`], [`i64`], [`i128`],
     [`isize`], [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], or
     [`usize`]. Any fractional bits are discarded, which rounds towards
-    −∞.
+    &minus;∞.
   * A floating-point number of type [`f16`], [`bf16`], [`f32`],
     [`f64`] or [`F128Bits`]. For this conversion, the method rounds to
     the nearest, with ties rounding to even.

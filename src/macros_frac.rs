@@ -73,7 +73,7 @@ assert_eq!(Fix::FRAC_NBITS, 6);
 
 # Panics
 
-Panics if the fixed-point number is ", if_signed_unsigned!($Signedness, "≤ 0", "zero"), ".
+Panics if the fixed-point number is ", if_signed_unsigned!($Signedness, "≤&nbsp;0", "zero"), ".
 
 # Examples
 
@@ -97,7 +97,7 @@ assert_eq!(Fix::from_num(0.1875).int_log2(), -3);
 
 # Panics
 
-Panics if the fixed-point number is ", if_signed_unsigned!($Signedness, "≤ 0", "zero"), ".
+Panics if the fixed-point number is ", if_signed_unsigned!($Signedness, "≤&nbsp;0", "zero"), ".
 
 # Examples
 
@@ -121,7 +121,7 @@ assert_eq!(", $s_fixed, "::<U6>::from_num(0.09375).int_log10(), -2);
             comment! {
                 "Checked integer base-2 logarithm, rounded down.
 Returns the logarithm or [`None`] if the fixed-point number is
-", if_signed_unsigned!($Signedness, "≤ 0", "zero"), ".
+", if_signed_unsigned!($Signedness, "≤&nbsp;0", "zero"), ".
 
 # Examples
 
@@ -148,7 +148,7 @@ assert_eq!(Fix::from_num(0.1875).checked_int_log2(), Some(-3));
             comment! {
                 "Checked integer base-10 logarithm, rounded down.
 Returns the logarithm or [`None`] if the fixed-point number is
-", if_signed_unsigned!($Signedness, "≤ 0", "zero"), ".
+", if_signed_unsigned!($Signedness, "≤&nbsp;0", "zero"), ".
 
 # Examples
 
@@ -192,11 +192,11 @@ When debug assertions are enabled, this method panics
   * if the value is positive and the fixed-point number has zero
     or one integer bits such that it cannot hold the value 1.
   * if the value is negative and the fixed-point number has zero
-    integer bits, such that it cannot hold the value −1.
+    integer bits, such that it cannot hold the value &minus;1.
 
 When debug assertions are not enabled, the wrapped value can be
 returned in those cases, but it is not considered a breaking change if
-in the future it panics; using this method when 1 and −1 cannot be
+in the future it panics; using this method when 1 and &minus;1 cannot be
 represented is almost certainly a bug.
 
 # Examples
@@ -312,7 +312,7 @@ Panics if the divisor is zero.
                     $Signedness;
                     "When debug assertions are enabled, this method
 also panics if the division overflows. Overflow can only occur when
-dividing the minimum value by −1. When debug assertions are not
+dividing the minimum value by &minus;1. When debug assertions are not
 enabled, the wrapped value can be returned, but it is not considered a
 breaking change if in the future it panics; if wrapping is required
 use [`wrapping_div_euclid_int`] instead.
@@ -387,7 +387,7 @@ assert_eq!(acc, 5);
                 if_signed_else_empty_str! {
                     $Signedness;
                     "
-// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
 acc.mul_acc(Fix::MAX, Fix::from_num(1.5));
 assert_eq!(acc, Fix::MAX / 2);
@@ -447,10 +447,11 @@ assert_eq!(Fix::from_num(7.5).rem_euclid_int(2), Fix::from_num(1.5));
             comment! {
                 "Linear interpolation between `start` and `end`.
 
-Returns `start` + `self` × (`end` − `start`). This is `start` when `self` = 0,
-`end` when `self` = 1, and linear interpolation for all other values of `self`.
-Linear extrapolation is performed if `self` is not in the range
-0 ≤ <i>x</i> ≤ 1.
+Returns
+`start`&nbsp;+&nbsp;`self`&nbsp;×&nbsp;(`end`&nbsp;&minus;&nbsp;`start`). This
+is `start` when `self`&nbsp;=&nbsp;0, `end` when `self`&nbsp;=&nbsp;1, and
+linear interpolation for all other values of `self`. Linear extrapolation is
+performed if `self` is not in the range 0&nbsp;≤&nbsp;<i>x</i>&nbsp;≤&nbsp;1.
 
 # Panics
 
@@ -507,7 +508,7 @@ Overflow can only occur
   * if the value is positive and the fixed-point number has zero
     or one integer bits such that it cannot hold the value 1.
   * if the value is negative and the fixed-point number has zero
-    integer bits, such that it cannot hold the value −1.
+    integer bits, such that it cannot hold the value &minus;1.
 
 # Examples
 
@@ -693,7 +694,7 @@ assert_eq!(acc, Fix::DELTA);
                 if_signed_else_empty_str! {
                     $Signedness;
                     "
-// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
 let check = acc.checked_mul_acc(Fix::MAX, Fix::from_num(1.5));
 assert_eq!(check, Some(()));
@@ -830,7 +831,7 @@ assert_eq!(Fix::from_num(7.5).checked_rem_euclid_int(0), None);
                 if_signed_else_empty_str! {
                     $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(2), Some(Fix::from_num(0.5)));
-// −8 ≤ Fix < 8, so the answer 12.5 overflows
+// -8 ≤ Fix < 8, so the answer 12.5 overflows
 assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(20), None);
 ",
                 },
@@ -872,10 +873,11 @@ assert_eq!(Fix::from_num(-7.5).checked_rem_euclid_int(20), None);
                 "Checked linear interpolation between `start` and `end`. Returns
 [`None`] on overflow.
 
-The interpolted value is `start` + `self` × (`end` − `start`). This is `start`
-when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
-values of `self`. Linear extrapolation is performed if `self` is not in the
-range 0 ≤ <i>x</i> ≤ 1.
+The interpolted value is
+`start`&nbsp;+&nbsp;`self`&nbsp;×&nbsp;(`end`&nbsp;&minus;&nbsp;`start`). This
+is `start` when `self`&nbsp;=&nbsp;0, `end` when `self`&nbsp;=&nbsp;1, and
+linear interpolation for all other values of `self`. Linear extrapolation is
+performed if `self` is not in the range 0&nbsp;≤&nbsp;<i>x</i>&nbsp;≤&nbsp;1.
 
 # Examples
 
@@ -909,7 +911,7 @@ Overflow can only occur
   * if the value is positive and the fixed-point number has zero
     or one integer bits such that it cannot hold the value 1.
   * if the value is negative and the fixed-point number has zero
-    integer bits, such that it cannot hold the value −1.
+    integer bits, such that it cannot hold the value &minus;1.
 
 # Examples
 
@@ -1086,7 +1088,7 @@ assert_eq!(Fix::MIN.saturating_div_euclid(Fix::from_num(0.25)), Fix::MIN);
                     $Signedness,
                     ", saturating on overflow.
 
-Overflow can only occur when dividing the minimum value by −1.",
+Overflow can only occur when dividing the minimum value by &minus;1.",
                     ".
 
 Can never overflow for unsigned values.",
@@ -1154,7 +1156,7 @@ assert_eq!(acc, Fix::MAX);
                 if_signed_else_empty_str! {
                     $Signedness;
                     "
-// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
 acc.saturating_mul_acc(Fix::MAX, Fix::from_num(1.5));
 assert_eq!(acc, Fix::MAX / 2);
@@ -1216,7 +1218,7 @@ assert_eq!(Fix::from_num(7.5).saturating_rem_euclid_int(2), Fix::from_num(1.5));
                 if_signed_else_empty_str! {
                     $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).saturating_rem_euclid_int(2), Fix::from_num(0.5));
-// −8 ≤ Fix < 8, so the answer 12.5 saturates
+// -8 ≤ Fix < 8, so the answer 12.5 saturates
 assert_eq!(Fix::from_num(-7.5).saturating_rem_euclid_int(20), Fix::MAX);
 ",
                 },
@@ -1236,10 +1238,11 @@ assert_eq!(Fix::from_num(-7.5).saturating_rem_euclid_int(20), Fix::MAX);
                 "Linear interpolation between `start` and `end`, saturating on
 overflow.
 
-The interpolated value is `start` + `self` × (`end` − `start`). This is `start`
-when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
-values of `self`. Linear extrapolation is performed if `self` is not in the
-range 0 ≤ <i>x</i> ≤ 1.
+The interpolated value is
+`start`&nbsp;+&nbsp;`self`&nbsp;×&nbsp;(`end`&nbsp;&minus;&nbsp;`start`). This
+is `start` when `self`&nbsp;=&nbsp;0, `end` when `self`&nbsp;=&nbsp;1, and
+linear interpolation for all other values of `self`. Linear extrapolation is
+performed if `self` is not in the range 0&nbsp;≤&nbsp;<i>x</i>&nbsp;≤&nbsp;1.
 
 # Examples
 
@@ -1294,7 +1297,7 @@ Overflow can only occur
   * if the value is positive and the fixed-point number has zero
     or one integer bits such that it cannot hold the value 1.
   * if the value is negative and the fixed-point number has zero
-    integer bits, such that it cannot hold the value −1.
+    integer bits, such that it cannot hold the value &minus;1.
 
 # Examples
 
@@ -1432,7 +1435,7 @@ assert_eq!(Fix::MAX.wrapping_div_euclid(Fix::from_num(0.25)), wrapped);
                     $Signedness,
                     ", wrapping on overflow.
 
-Overflow can only occur when dividing the minimum value by −1.",
+Overflow can only occur when dividing the minimum value by &minus;1.",
                     ".
 
 Can never overflow for unsigned values.",
@@ -1531,7 +1534,7 @@ assert_eq!(Fix::from_num(7.5).wrapping_rem_euclid_int(2), Fix::from_num(1.5));
                 if_signed_else_empty_str! {
                     $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(2), Fix::from_num(0.5));
-// −8 ≤ Fix < 8, so the answer 12.5 wraps to −3.5
+// -8 ≤ Fix < 8, so the answer 12.5 wraps to -3.5
 assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(20), Fix::from_num(-3.5));
 ",
                 },
@@ -1548,10 +1551,11 @@ assert_eq!(Fix::from_num(-7.5).wrapping_rem_euclid_int(20), Fix::from_num(-3.5))
                 "Linear interpolation between `start` and `end`, wrapping on
 overflow.
 
-The interpolated value is `start` + `self` × (`end` − `start`). This is `start`
-when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
-values of `self`. Linear extrapolation is performed if `self` is not in the
-range 0 ≤ <i>x</i> ≤ 1.
+The interpolated value is
+`start`&nbsp;+&nbsp;`self`&nbsp;×&nbsp;(`end`&nbsp;&minus;&nbsp;`start`). This
+is `start` when `self`&nbsp;=&nbsp;0, `end` when `self`&nbsp;=&nbsp;1, and
+linear interpolation for all other values of `self`. Linear extrapolation is
+performed if `self` is not in the range 0&nbsp;≤&nbsp;<i>x</i>&nbsp;≤&nbsp;1.
 
 # Examples
 
@@ -1587,7 +1591,7 @@ Overflow can only occur
   * if the value is positive and the fixed-point number has zero
     or one integer bits such that it cannot hold the value 1.
   * if the value is negative and the fixed-point number has zero
-    integer bits, such that it cannot hold the value −1.
+    integer bits, such that it cannot hold the value &minus;1.
 
 # Panics
 
@@ -1780,7 +1784,7 @@ assert_eq!(acc, 5);
                 if_signed_else_empty_str! {
                     $Signedness;
                     "
-// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
 acc.unwrapped_mul_acc(Fix::MAX, Fix::from_num(1.5));
 assert_eq!(acc, Fix::MAX / 2);
@@ -1853,7 +1857,7 @@ let _divisor_is_zero = Fix::from_num(3.75).unwrapped_rem_int(0);
                     $Signedness,
                     ", panicking on overflow.
 
-Overflow can only occur when dividing the minimum value by −1.",
+Overflow can only occur when dividing the minimum value by &minus;1.",
                     ".
 
 Can never overflow for unsigned values.",
@@ -1942,7 +1946,7 @@ The following panics because of overflow.
 ```should_panic
 use fixed::{types::extra::U", $s_nbits_m4, ", ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U", $s_nbits_m4, ">;
-// −8 ≤ Fix < 8, so the answer 12.5 overflows
+// -8 ≤ Fix < 8, so the answer 12.5 overflows
 let _overflow = Fix::from_num(-7.5).unwrapped_rem_euclid_int(20);
 ",
                 },
@@ -1963,10 +1967,11 @@ let _overflow = Fix::from_num(-7.5).unwrapped_rem_euclid_int(20);
                 "Linear interpolation between `start` and `end`, panicking on
 overflow.
 
-The interpolated value is `start` + `self` × (`end` − `start`). This is `start`
-when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
-values of `self`. Linear extrapolation is performed if `self` is not in the
-range 0 ≤ <i>x</i> ≤ 1.
+The interpolated value is
+`start`&nbsp;+&nbsp;`self`&nbsp;×&nbsp;(`end`&nbsp;&minus;&nbsp;`start`). This
+is `start` when `self`&nbsp;=&nbsp;0, `end` when `self`&nbsp;=&nbsp;1, and
+linear interpolation for all other values of `self`. Linear extrapolation is
+performed if `self` is not in the range 0&nbsp;≤&nbsp;<i>x</i>&nbsp;≤&nbsp;1.
 
 # Panics
 
@@ -2013,7 +2018,7 @@ Overflow can only occur
   * if the value is positive and the fixed-point number has zero
     or one integer bits such that it cannot hold the value 1.
   * if the value is negative and the fixed-point number has zero
-    integer bits, such that it cannot hold the value −1.
+    integer bits, such that it cannot hold the value &minus;1.
 
 # Examples
 
@@ -2216,7 +2221,7 @@ Returns a [tuple] of the quotient and ",
                     $Signedness,
                     "a [`bool`] indicating whether an overflow has
 occurred. On overflow, the wrapped value is returned. Overflow can
-only occur when dividing the minimum value by −1.",
+only occur when dividing the minimum value by &minus;1.",
                     "[`false`], as the division can never overflow for unsigned values.",
                 ),
                 "
@@ -2301,7 +2306,7 @@ assert_eq!(acc, Fix::MAX.wrapping_mul_int(4));
                 if_signed_else_empty_str! {
                     $Signedness;
                     "
-// MAX × 1.5 − MAX = MAX / 2, which does not overflow
+// MAX × 1.5 - MAX = MAX / 2, which does not overflow
 acc = -Fix::MAX;
 assert!(!acc.overflowing_mul_acc(Fix::MAX, Fix::from_num(1.5)));
 assert_eq!(acc, Fix::MAX / 2);
@@ -2356,7 +2361,7 @@ assert_eq!(Fix::from_num(7.5).overflowing_rem_euclid_int(2), (Fix::from_num(1.5)
                 if_signed_else_empty_str! {
                     $Signedness;
                     "assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(2), (Fix::from_num(0.5), false));
-// −8 ≤ Fix < 8, so the answer 12.5 wraps to −3.5
+// -8 ≤ Fix < 8, so the answer 12.5 wraps to -3.5
 assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3.5), true));
 ",
                 },
@@ -2401,10 +2406,11 @@ assert_eq!(Fix::from_num(-7.5).overflowing_rem_euclid_int(20), (Fix::from_num(-3
 Returns a [tuple] of the result and a [`bool`] indicationg whether an overflow
 has occurred. On overflow, the wrapped value is returned.
 
-The interpolated value is `start` + `self` × (`end` − `start`). This is `start`
-when `self` = 0, `end` when `self` = 1, and linear interpolation for all other
-values of `self`. Linear extrapolation is performed if `self` is not in the
-range 0 ≤ <i>x</i> ≤ 1.
+The interpolated value is
+`start`&nbsp;+&nbsp;`self`&nbsp;×&nbsp;(`end`&nbsp;&minus;&nbsp;`start`). This
+is `start` when `self`&nbsp;=&nbsp;0, `end` when `self`&nbsp;=&nbsp;1, and
+linear interpolation for all other values of `self`. Linear extrapolation is
+performed if `self` is not in the range 0&nbsp;≤&nbsp;<i>x</i>&nbsp;≤&nbsp;1.
 
 # Examples
 

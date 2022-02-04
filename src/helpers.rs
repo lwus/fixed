@@ -21,8 +21,8 @@ use crate::{
 };
 use core::cmp::Ordering;
 
-// Unsigned can have 0 ≤ x < 2↑128, that is its msb can be 0 or 1.
-// Negative can have −2↑127 ≤ x < 0, that is its msb must be 1.
+// Unsigned can have 0 ≤ x < 2^128, that is its msb can be 0 or 1.
+// Negative can have -2^127 ≤ x < 0, that is its msb must be 1.
 pub enum Widest {
     Unsigned(u128),
     Negative(i128),

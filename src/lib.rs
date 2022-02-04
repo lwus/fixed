@@ -24,22 +24,25 @@ The [*fixed* crate] provides fixed-point numbers.
   * [`FixedI64`] and [`FixedU64`] are 64-bit fixed-point numbers.
   * [`FixedI128`] and [`FixedU128`] are 128-bit fixed-point numbers.
 
-An <i>n</i>-bit fixed-point number has <i>f</i> = `Frac` fractional bits where
-0 ≤ <i>f</i> ≤ <i>n</i>, and <i>n</i> − <i>f</i> integer bits. For example,
+An <i>n</i>-bit fixed-point number has <i>f</i>&nbsp;=&nbsp;`Frac` fractional
+bits where 0&nbsp;≤&nbsp;<i>f</i>&nbsp;≤&nbsp;<i>n</i>, and
+<i>n</i>&nbsp;&minus;&nbsp;<i>f</i> integer bits. For example,
 <code>[FixedI32]\<[U24]></code> is a 32-bit signed fixed-point number with
-<i>n</i> = 32 total bits, <i>f</i> = 24 fractional bits, and
-<i>n</i> − <i>f</i> = 8 integer bits. <code>[FixedI32]\<[U0]></code> behaves
-like [`i32`], and <code>[FixedU32]\<[U0]></code> behaves like [`u32`].
+<i>n</i>&nbsp;=&nbsp;32 total bits, <i>f</i>&nbsp;=&nbsp;24 fractional bits, and
+<i>n</i>&nbsp;&minus;&nbsp;<i>f</i>&nbsp;=&nbsp;8 integer bits.
+<code>[FixedI32]\<[U0]></code> behaves like [`i32`], and
+<code>[FixedU32]\<[U0]></code> behaves like [`u32`].
 
 The difference between any two successive representable numbers is constant
 throughout the possible range for a fixed-point number:
-<i>Δ</i> = 1/2<sup><i>f</i></sup>. When <i>f</i> = 0, like in
-<code>[FixedI32]\<[U0]></code>, <i>Δ</i> = 1 because representable numbers are
-integers, and the difference between two successive integers is 1. When
-<i>f</i> = <i>n</i>, <i>Δ</i> = 1/2<sup><i>n</i></sup> and the value lies in the
-range −0.5 ≤ <i>x</i> < 0.5 for signed numbers like
-<code>[FixedI32]\<[U32]></code>, and in the range 0 ≤ <i>x</i> < 1 for unsigned
-numbers like <code>[FixedU32]\<[U32]></code>.
+<i>Δ</i>&nbsp;=&nbsp;1/2<sup><i>f</i></sup>. When <i>f</i>&nbsp;=&nbsp;0, like
+in <code>[FixedI32]\<[U0]></code>, <i>Δ</i>&nbsp;=&nbsp;1 because representable
+numbers are integers, and the difference between two successive integers is 1.
+When <i>f</i>&nbsp;=&nbsp;<i>n</i>, <i>Δ</i>&nbsp;=&nbsp;1/2<sup><i>n</i></sup>
+and the value lies in the range &minus;0.5&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;0.5
+for signed numbers like <code>[FixedI32]\<[U32]></code>, and in the range
+0&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;1 for unsigned numbers like
+<code>[FixedU32]\<[U32]></code>.
 
 In version 1 the [*typenum* crate] is used for the fractional bit count `Frac`;
 the plan is to to have a major version 2 with [const generics] instead when the
@@ -126,7 +129,7 @@ combinations of integer and fractional bits adding up to a total of eight, 16,
 ```rust
 use fixed::types::{I4F4, I4F12};
 
-// −8 ≤ I4F4 < 8 with steps of 1/16 (~0.06)
+// -8 ≤ I4F4 < 8 with steps of 1/16 (~0.06)
 let a = I4F4::from_num(1);
 // multiplication and division by integers are possible
 let ans1 = a / 5 * 17;
@@ -134,7 +137,7 @@ let ans1 = a / 5 * 17;
 assert_eq!(ans1, I4F4::from_bits((3 << 4) + 3));
 assert_eq!(ans1.to_string(), "3.2");
 
-// −8 ≤ I4F12 < 8 with steps of 1/4096 (~0.0002)
+// -8 ≤ I4F12 < 8 with steps of 1/4096 (~0.0002)
 let wider_a = I4F12::from(a);
 let wider_ans = wider_a / 5 * 17;
 let ans2 = I4F4::from_num(wider_ans);
@@ -441,34 +444,39 @@ macro_rules! fixed {
             if_signed_unsigned!($Signedness, "signed", "unsigned"),
             " number with `Frac` fractional bits.
 
-The number has ", $s_nbits, " bits, of which <i>f</i> = `Frac` are fractional
-bits and ", $s_nbits, " − <i>f</i> are integer bits. The value <i>x</i> can lie
-in the range ",
+The number has ", $s_nbits, " bits, of which <i>f</i>&nbsp;=&nbsp;`Frac` are
+fractional bits and ", $s_nbits, "&nbsp;&minus;&nbsp;<i>f</i> are integer bits.
+The value <i>x</i> can lie in the range ",
             if_signed_unsigned!(
                 $Signedness,
-                concat!("−2<sup>", $s_nbits_m1, "</sup>/2<sup><i>f</i></sup>"),
+                concat!("&minus;2<sup>", $s_nbits_m1, "</sup>/2<sup><i>f</i></sup>"),
                 "0",
             ),
-            " ≤ <i>x</i> < 2<sup>",
+            "&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;2<sup>",
             if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
             "</sup>/2<sup><i>f</i></sup>. The difference between successive
-numbers is constant throughout the range: <i>Δ</i> = 1/2<sup><i>f</i></sup>.
+numbers is constant throughout the range: <i>Δ</i>&nbsp;=&nbsp;1/2<sup><i>f</i></sup>.
 
-For <code>", $s_fixed, "\\<[U0]></code>, <i>f</i> = 0 and <i>Δ</i> = 1, and the
-fixed-point number behaves like ",
+For <code>", $s_fixed, "\\<[U0]></code>, <i>f</i>&nbsp;=&nbsp;0 and
+<i>Δ</i>&nbsp;=&nbsp;1, and the fixed-point number behaves like ",
             if_signed_unsigned!($Signedness, "an", "a"),
             " [`", $s_inner, "`] with the value lying in the range ",
             if_signed_unsigned!(
                 $Signedness,
-                concat!("−2<sup>", $s_nbits_m1, "</sup>"),
+                concat!("&minus;2<sup>", $s_nbits_m1, "</sup>"),
                 "0",
             ),
-            " ≤ <i>x</i> < 2<sup>",
+            "&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;2<sup>",
             if_signed_unsigned!($Signedness, $s_nbits_m1, $s_nbits),
             "</sup>. For <code>", $s_fixed, "\\<[U", $s_nbits, "]></code>,
-<i>f</i> = ", $s_nbits, " and <i>Δ</i> = 1/2<sup>", $s_nbits, "</sup>, and the
-value lies in the range ",
-            if_signed_unsigned!($Signedness, "−1/2 ≤ <i>x</i> < 1/2", "0 ≤ <i>x</i> < 1"),
+<i>f</i>&nbsp;=&nbsp;", $s_nbits, " and
+<i>Δ</i>&nbsp;=&nbsp;1/2<sup>", $s_nbits, "</sup>, and the value lies in the
+range ",
+            if_signed_unsigned!(
+                $Signedness,
+                "&minus;1/2&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;1/2",
+                "0&nbsp;≤&nbsp;<i>x</i>&nbsp;<&nbsp;1",
+            ),
             ".
 
 `Frac` is an [`Unsigned`] as provided by the [*typenum* crate]; the plan is to
