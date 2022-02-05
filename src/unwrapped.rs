@@ -1678,6 +1678,20 @@ macro_rules! op {
                 self.0 = (self.0).$unwrapped(other.0);
             }
         }
+        impl<F: Fixed> $OpAssign<F> for Unwrapped<F> {
+            #[inline]
+            #[track_caller]
+            fn $op_assign(&mut self, other: F) {
+                self.0 = (self.0).$unwrapped(other);
+            }
+        }
+        impl<F: Fixed> $OpAssign<&F> for Unwrapped<F> {
+            #[inline]
+            #[track_caller]
+            fn $op_assign(&mut self, other: &F) {
+                self.0 = (self.0).$unwrapped(*other);
+            }
+        }
     };
 }
 
@@ -1739,6 +1753,24 @@ macro_rules! op_bitwise {
             #[inline]
             fn $op_assign(&mut self, other: &Unwrapped<F>) {
                 (self.0).$op_assign(&other.0);
+            }
+        }
+        impl<F> $OpAssign<F> for Unwrapped<F>
+        where
+            F: $OpAssign<F>,
+        {
+            #[inline]
+            fn $op_assign(&mut self, other: F) {
+                (self.0).$op_assign(other);
+            }
+        }
+        impl<F> $OpAssign<&F> for Unwrapped<F>
+        where
+            for<'a> F: $OpAssign<&'a F>,
+        {
+            #[inline]
+            fn $op_assign(&mut self, other: &F) {
+                (self.0).$op_assign(other);
             }
         }
     };

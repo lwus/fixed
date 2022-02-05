@@ -98,6 +98,25 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.13.0 news (unreleased)
+
+  * The [`AddAssign`], [`SubAssign`], [`MulAssign`], [`DivAssign`],
+    [`RemAssign`], [`BitAndAssign`], [`BitOrAssign`] and [`BitXorAssign`] traits
+    for <code>[Wrapping][w-1-13]&lt;F></code> and
+    <code>[Unwrapped][u-1-13]&lt;F></code> are now also implemented with `F` as
+    the type of the right-hand side.
+
+[`AddAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.AddAssign.html
+[`BitAndAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.BitAndAssign.html
+[`BitOrAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.BitOrAssign.html
+[`BitXorAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.BitXorAssign.html
+[`DivAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.DivAssign.html
+[`MulAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.MulAssign.html
+[`RemAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.RemAssign.html
+[`SubAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.SubAssign.html
+[u-1-13]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
+[w-1-13]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+
 ### Version 1.12.0 news (2022-02-04)
 
   * The crate now requires rustc version 1.57.0 or later.

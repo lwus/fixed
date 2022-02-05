@@ -1511,6 +1511,18 @@ macro_rules! op {
                 self.0 = (self.0).$wrapping(other.0);
             }
         }
+        impl<F: Fixed> $OpAssign<F> for Wrapping<F> {
+            #[inline]
+            fn $op_assign(&mut self, other: F) {
+                self.0 = (self.0).$wrapping(other);
+            }
+        }
+        impl<F: Fixed> $OpAssign<&F> for Wrapping<F> {
+            #[inline]
+            fn $op_assign(&mut self, other: &F) {
+                self.0 = (self.0).$wrapping(*other);
+            }
+        }
     };
 }
 
@@ -1572,6 +1584,24 @@ macro_rules! op_bitwise {
             #[inline]
             fn $op_assign(&mut self, other: &Wrapping<F>) {
                 (self.0).$op_assign(&other.0);
+            }
+        }
+        impl<F> $OpAssign<F> for Wrapping<F>
+        where
+            F: $OpAssign<F>,
+        {
+            #[inline]
+            fn $op_assign(&mut self, other: F) {
+                (self.0).$op_assign(other);
+            }
+        }
+        impl<F> $OpAssign<&F> for Wrapping<F>
+        where
+            for<'a> F: $OpAssign<&'a F>,
+        {
+            #[inline]
+            fn $op_assign(&mut self, other: &F) {
+                (self.0).$op_assign(other);
             }
         }
     };

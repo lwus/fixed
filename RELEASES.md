@@ -5,6 +5,18 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.13.0 (unreleased)
+===========================
+
+  * The [`AddAssign`], [`SubAssign`], [`MulAssign`], [`DivAssign`],
+    [`RemAssign`], [`BitAndAssign`], [`BitOrAssign`] and [`BitXorAssign`] traits
+    for <code>[Wrapping][w-1-13]&lt;F></code> and
+    <code>[Unwrapped][u-1-13]&lt;F></code> are now also implemented with `F` as
+    the type of the right-hand side.
+
+[u-1-13]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Unwrapped.html
+[w-1-13]: https://tspiteri.gitlab.io/fixed/dev/fixed/struct.Wrapping.html
+
 Version 1.12.0 (2022-02-04)
 ===========================
 
@@ -822,6 +834,10 @@ Version 0.1.0 (2018-08-10)
 [*borsh* crate]: https://crates.io/crates/borsh
 [*bytemuck* crate]: https://crates.io/crates/bytemuck
 [*typenum* crate]: https://crates.io/crates/typenum
+[`AddAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.AddAssign.html
+[`BitAndAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.BitAndAssign.html
+[`BitOrAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.BitOrAssign.html
+[`BitXorAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.BitXorAssign.html
 [`Debug`]: https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html
 [`DivAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.DivAssign.html
 [`Div`]: https://doc.rust-lang.org/nightly/core/ops/trait.Div.html
@@ -831,4 +847,5 @@ Version 0.1.0 (2018-08-10)
 [`Product`]: https://doc.rust-lang.org/nightly/core/iter/trait.Product.html
 [`RemAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.RemAssign.html
 [`Rem`]: https://doc.rust-lang.org/nightly/core/ops/trait.Rem.html
+[`SubAssign`]: https://doc.rust-lang.org/nightly/core/ops/trait.SubAssign.html
 [`Sum`]: https://doc.rust-lang.org/nightly/core/iter/trait.Sum.html
