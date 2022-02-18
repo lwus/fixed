@@ -342,7 +342,6 @@ mod wrapping;
 pub use crate::impl_num_traits::RadixParseFixedError;
 use crate::{
     from_str::FromStrRadix,
-    log10::IntFracLog10,
     traits::{FromFixed, ToFixed},
     types::extra::{
         Diff, IsLessOrEqual, LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8, Sum, True, Unsigned, U12,
@@ -412,7 +411,7 @@ macro_rules! fixed {
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
-        $UFixed:ident, $UInner:ty, $Signedness:tt,
+        $UFixed:ident, $UInner:ident, $Signedness:tt,
         $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt,
         $HasDouble:tt, $Double:ident, $DoubleInner:ty, $s_nbits_2:expr
     ) => {
@@ -435,7 +434,7 @@ macro_rules! fixed {
             $s_nbits_m1:expr, $s_nbits_m2:expr, $s_nbits_m3:expr, $s_nbits_m4:expr
         ),
         $nbytes:expr, $bytes_val:expr, $rev_bytes_val:expr, $be_bytes:expr, $le_bytes:expr,
-        $UFixed:ident[$s_ufixed:expr], $UInner:ty, $Signedness:tt,
+        $UFixed:ident[$s_ufixed:expr], $UInner:ident, $Signedness:tt,
         $LeEqU_C0:tt, $LeEqU_C1:tt, $LeEqU_C2:tt, $LeEqU_C3:tt,
         $HasDouble:tt, $Double:ident[$s_double:expr], $DoubleInner:ty, $s_nbits_2:expr
     ) => {

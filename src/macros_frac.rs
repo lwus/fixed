@@ -19,7 +19,7 @@ macro_rules! fixed_frac {
             $Inner:ident[$s_inner:expr], $LeEqU:tt, $s_nbits:expr,
             $s_nbits_m1:expr, $s_nbits_m4:expr
         ),
-        $UFixed:ident, $UInner:ty, $Signedness:tt
+        $UFixed:ident, $UInner:ident, $Signedness:tt
     ) => {
         /// The implementation of items in this block depends on the
         /// number of fractional bits `Frac`.
@@ -173,10 +173,10 @@ assert_eq!(", $s_fixed, "::<U6>::from_num(0.09375).checked_int_log10(), Some(-2)
                     let bits = self.to_bits() as $UInner;
                     let int = bits >> Self::FRAC_NBITS;
                     if int != 0 {
-                        Some(int.int_part_log10())
+                        Some(log10::int_part::$UInner(int))
                     } else {
                         let frac = bits << Self::INT_NBITS;
-                        Some(frac.frac_part_log10())
+                        Some(log10::frac_part::$UInner(frac))
                     }
                 }
             }
