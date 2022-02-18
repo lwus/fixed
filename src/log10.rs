@@ -13,128 +13,95 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
-// the value must be positive for all methods
+// the value must be positive for all public functions
 
 pub mod int_part {
     // 1 <= val <= MAX (255)
     // 0 <= log <= 2
     #[inline]
     pub const fn u8(val: u8) -> i32 {
-        if val >= 100 {
-            2
-        } else if val >= 10 {
-            1
-        } else {
-            debug_assert!(val >= 1);
-            0
-        }
+        debug_assert!(val >= 1);
+        // | from |  to |  a |  b | a&b |
+        // |    1 |   9 | 10 | 01 |  00 |
+        // |   10 |  99 | 11 | 01 |  01 |
+        // |  100 | MAX | 11 | 10 |  10 |
+        let val = val as i32;
+        let a = (0b11 << 8) - 10 + val;
+        let b = (0b10 << 8) - 100 + val;
+        (a & b) >> 8
     }
 
     // 1 <= val <= MAX (65_535)
     // 0 <= log <= 4
     #[inline]
     pub const fn u16(val: u16) -> i32 {
-        if val >= 10_000 {
-            4
-        } else if val >= 1000 {
-            3
-        } else if val >= 100 {
-            2
-        } else if val >= 10 {
-            1
-        } else {
-            debug_assert!(val >= 1);
-            0
-        }
+        debug_assert!(val >= 1);
+        less_than_5(val as u32)
     }
 
     // 1 <= val <= MAX
     // 0 <= log <= 9
     pub const fn u32(mut val: u32) -> i32 {
-        if val >= 100_000_000 {
-            val /= 100_000_000;
-            debug_assert!(val < 100);
-            if val >= 10 {
-                9
-            } else {
-                debug_assert!(val >= 1);
-                8
-            }
-        } else {
-            less_than_8(val)
+        debug_assert!(val >= 1);
+        let mut log = 0;
+        if val >= 100_000 {
+            val /= 100_000;
+            log += 5;
         }
+        log + less_than_5(val)
     }
 
     // 1 <= val <= MAX
     // 0 <= log <= 19
     pub const fn u64(mut val: u64) -> i32 {
-        if val >= 10_000_000_000_000_000 {
-            val /= 10_000_000_000_000_000;
-            debug_assert!(val < 10_000);
-            if val >= 1000 {
-                19
-            } else if val >= 100 {
-                18
-            } else if val >= 10 {
-                17
-            } else {
-                debug_assert!(val >= 1);
-                16
-            }
-        } else {
-            less_than_16(val)
+        debug_assert!(val >= 1);
+        let mut log = 0;
+        if val >= 10_000_000_000 {
+            val /= 10_000_000_000;
+            log += 10;
         }
+        if val >= 100_000 {
+            val /= 100_000;
+            log += 5;
+        }
+        debug_assert!(val <= u32::MAX as u64);
+        log + less_than_5(val as u32)
     }
 
     // 1 <= val <= MAX
     // 0 <= log <= 38
     pub const fn u128(mut val: u128) -> i32 {
+        debug_assert!(val >= 1);
         let mut log = 0;
         if val >= 100_000_000_000_000_000_000_000_000_000_000 {
             val /= 100_000_000_000_000_000_000_000_000_000_000;
             debug_assert!(val <= u32::MAX as u128);
-            return 32 + less_than_8(val as u32);
+            return 32 + u32(val as u32);
         }
         if val >= 10_000_000_000_000_000 {
             val /= 10_000_000_000_000_000;
             log += 16;
         }
         debug_assert!(val <= u64::MAX as u128);
-        log + less_than_16(val as u64)
+        log + u64(val as u64)
     }
 
-    // 0 < val < 100_000_000
-    // 0 <= log <= 7
-    const fn less_than_8(mut val: u32) -> i32 {
-        debug_assert!(val < 100_000_000);
-        let mut log = 0;
-        if val >= 10_000 {
-            val /= 10_000;
-            log += 4;
-        }
-        log + if val >= 1000 {
-            3
-        } else if val >= 100 {
-            2
-        } else if val >= 10 {
-            1
-        } else {
-            debug_assert!(val >= 1);
-            0
-        }
-    }
-
-    // 0 < val < 10_000_000_000_000_000
-    // 0 <= log <= 15
-    const fn less_than_16(mut val: u64) -> i32 {
-        debug_assert!(val < 10_000_000_000_000_000);
-        let mut log = 0;
-        if val >= 100_000_000 {
-            val /= 100_000_000;
-            log += 8;
-        }
-        debug_assert!(val >> 32 == 0);
-        log + less_than_8(val as u32)
+    // 0 < val < 100_000
+    // 0 <= log <= 4
+    const fn less_than_5(val: u32) -> i32 {
+        debug_assert!(val < 100_000);
+        // |  from |    to |   a |   b | a&b |   c |   d | c&d | a&b ^ c&d |
+        // |     1 |     9 | 010 | 011 | 010 | 110 | 011 | 010 |       000 |
+        // |    10 |    99 | 011 | 011 | 011 | 110 | 011 | 010 |       001 |
+        // |   100 |   999 | 011 | 100 | 000 | 110 | 011 | 010 |       010 |
+        // |  1000 |  9999 | 011 | 100 | 000 | 111 | 011 | 011 |       011 |
+        // | 10000 | 99999 | 011 | 100 | 000 | 111 | 100 | 100 |       100 |
+        let val = val as i32;
+        let a = (0b011 << 17) - 10 + val;
+        let b = (0b100 << 17) - 100 + val;
+        let c = (0b111 << 17) - 1000 + val;
+        let d = (0b100 << 17) - 10000 + val;
+        ((a & b) ^ (c & d)) >> 17
     }
 }
 
