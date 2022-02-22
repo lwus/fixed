@@ -821,6 +821,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// assert_eq!(w.count_ones(), w.0.count_ones());
     /// ```
     #[inline]
+    #[doc(alias("popcount", "popcnt"))]
     pub fn count_ones(self) -> u32 {
         self.0.count_ones()
     }
@@ -1039,6 +1040,7 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[must_use = "this returns the result of the operation, without modifying the original"]
+    #[doc(alias = "abs_diff")]
     pub fn dist(self, other: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_dist(other.0))
     }

@@ -422,6 +422,7 @@ assert_eq!(f.count_ones(), 3);
 ```
 ";
                 #[inline]
+                #[doc(alias("popcount", "popcnt"))]
                 pub const fn count_ones(self) -> u32 {
                     self.to_bits().count_ones()
                 }
@@ -988,54 +989,42 @@ assert_eq!(Fix::MIN.unsigned_abs(), min_as_unsigned);
                 }
             }
 
-            comment! {
-                "Returns the distance from `self` to `other`.
+            if_signed! {
+                $Signedness;
+                comment! {
+                    "Returns the distance from `self` to `other`.
 
 The distance is the absolute value of the difference.
 
-",
-                if_signed_else_empty_str! {
-                    $Signedness;
-                    "# Panics
+# Panics
 
 When debug assertions are enabled, this method panics if the result overflows.
 When debug assertions are not enabled, the wrapped value can be returned, but it
 is not considered a breaking change if in the future it panics; if wrapping is
 required use [`wrapping_dist`] instead.
-",
-                },
-                "# Examples
+
+# Examples
 
 ```rust
 use fixed::{types::extra::U4, ", $s_fixed, "};
 type Fix = ", $s_fixed, "<U4>;
 assert_eq!(Fix::ONE.dist(Fix::from_num(5)), Fix::from_num(4));
-",
-                if_signed_else_empty_str! {
-                    $Signedness;
-                    "assert_eq!(Fix::from_num(-1).dist(Fix::from_num(2)), Fix::from_num(3));
-",
-                },
-                "```
-",
-                if_signed_else_empty_str! {
-                    $Signedness;
-                    "
-[`wrapping_dist`]: Self::wrapping_dist
-"
-                };
-                #[inline]
-                #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
-                    let s = self.to_bits();
-                    let o = other.to_bits();
-                    let d = if s < o { o - s } else { s - o };
-                    Self::from_bits(d)
-                }
-            }
+assert_eq!(Fix::from_num(-1).dist(Fix::from_num(2)), Fix::from_num(3));
+```
 
-            if_signed! {
-                $Signedness;
+[`wrapping_dist`]: Self::wrapping_dist
+";
+
+                    #[inline]
+                    #[must_use = "this returns the result of the operation, without modifying the original"]
+                    pub const fn dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                        let s = self.to_bits();
+                        let o = other.to_bits();
+                        let d = if s < o { o - s } else { s - o };
+                        Self::from_bits(d)
+                    }
+                }
+
                 comment! {
                     "Returns the distance from `self` to `other` using an
 unsigned type without any wrapping or panicking.
@@ -1054,6 +1043,7 @@ assert_eq!(Fix::MIN.unsigned_dist(Fix::MAX), UFix::MAX);
 ";
                     #[inline]
                     #[must_use = "this returns the result of the operation, without modifying the original"]
+                    #[doc(alias = "abs_diff")]
                     pub const fn unsigned_dist(self, other: $Fixed<Frac>) -> $UFixed<Frac> {
                         let s = self.to_bits();
                         let o = other.to_bits();
@@ -1063,6 +1053,33 @@ assert_eq!(Fix::MIN.unsigned_dist(Fix::MAX), UFix::MAX);
                             s.wrapping_sub(o)
                         };
                         $UFixed::from_bits(d as $UInner)
+                    }
+                }
+            }
+
+            if_unsigned! {
+                $Signedness;
+                comment! {
+                    "Returns the distance from `self` to `other`.
+
+The distance is the absolute value of the difference.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(Fix::ONE.dist(Fix::from_num(5)), Fix::from_num(4));
+```
+";
+                    #[inline]
+                    #[must_use = "this returns the result of the operation, without modifying the original"]
+                    #[doc(alias = "abs_diff")]
+                    pub const fn dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                        let s = self.to_bits();
+                        let o = other.to_bits();
+                        let d = if s < o { o - s } else { s - o };
+                        Self::from_bits(d)
                     }
                 }
             }

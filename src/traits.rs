@@ -1531,6 +1531,7 @@ where
     ///
     /// See also <code>FixedI32::[count\_ones][FixedI32::count_ones]</code> and
     /// <code>FixedU32::[count\_ones][FixedU32::count_ones]</code>.
+    #[doc(alias("popcount", "popcnt"))]
     fn count_ones(self) -> u32;
 
     /// Returns the number of zeros in the binary representation.
@@ -1636,6 +1637,7 @@ where
     /// See also <code>FixedI32::[dist][FixedI32::dist]</code> and
     /// <code>FixedU32::[dist][FixedU32::dist]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
+    #[doc(alias = "abs_diff")]
     fn dist(self, other: Self) -> Self;
 
     /// Returns the mean of `self` and `other`.
@@ -2832,6 +2834,7 @@ where
     ///
     /// See also
     /// <code>FixedI32::[unsigned\_dist][FixedI32::unsigned_dist]</code>.
+    #[doc(alias = "abs_diff")]
     fn unsigned_dist(self, other: Self) -> Self::Unsigned;
 
     /// Returns a number representing the sign of `self`.
