@@ -1078,7 +1078,6 @@ into! { f64: f64 }
 fn _compile_fail_tests() {}
 
 #[cfg(test)]
-#[allow(clippy::float_cmp)]
 mod tests {
     use crate::types::*;
 

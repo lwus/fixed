@@ -163,7 +163,7 @@ pub const fn wide_mul_i128(lhs: i128, rhs: i128) -> I256 {
 
     // Since both col0 and col64 fit in 64 bits, ans0 sum will never overflow.
     let ans0 = col0.wrapping_add((col64 as u128) << 64);
-    // Since lhs * rhs fits in 256 btits, ans128 sum will never overflow.
+    // Since lhs * rhs fits in 256 bits, ans128 sum will never overflow.
     let ans128 = lh_rh.wrapping_add(col128).wrapping_add(col192 << 64);
     I256 {
         lo: ans0,

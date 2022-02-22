@@ -7,7 +7,7 @@
 
 [package]
 name = "fixed"
-version = "1.12.0"
+version = "1.13.0"
 description = "Fixed-point numbers"
 documentation = "https://docs.rs/fixed"
 repository = "https://gitlab.com/tspiteri/fixed"
@@ -56,7 +56,7 @@ default-features = false
 optional = true
 
 [dependencies.borsh]
-version = "0.9.1"
+version = "0.9.3"
 default-features = false
 optional = true
 

@@ -62,20 +62,11 @@ x86_64-gnulinux-tidy:
   - rustup component add --toolchain beta-$TARGET rustfmt clippy
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary borsh num-traits serde std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary num-traits serde std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary num-traits serde"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary num-traits std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary num-traits"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary serde std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary serde"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary std"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits std"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings borsh"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde-str"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings std"
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
 
@@ -92,20 +83,11 @@ i686-gnulinux-tidy:
   - rustup component add --toolchain beta-$TARGET rustfmt clippy
   - cargo +beta-$TARGET fmt -- --check
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary borsh num-traits serde std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary num-traits serde std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary num-traits serde"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary num-traits std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary num-traits"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary serde std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary serde"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary std"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings arbitrary"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde std"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits serde"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits std"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings num-traits"
-  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde std"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings borsh"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde"
+  - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings serde-str"
   - cargo +beta-$TARGET clippy --all-targets --features "fail-on-warnings std"
   - cargo +beta-$TARGET clippy --all-targets --features fail-on-warnings
 
@@ -113,14 +95,14 @@ x86_64-gnulinux-tarpaulin:
   image: amd64/rust:1
   variables:
     TARGET: x86_64
-    REQ_COVERAGE: "80"
+    REQ_COVERAGE: "79.5"
   cache:
     key: $CI_JOB_NAME
     paths:
     - cargo/
   script:
   - rustup toolchain install --profile minimal beta-$TARGET
-  - cargo +beta-$TARGET install --version 0.18.5 --locked cargo-tarpaulin
+  - cargo +beta-$TARGET install --version 0.19.1 --locked cargo-tarpaulin
   - stdbuf -oL cargo +beta-$TARGET tarpaulin -v --ignore-tests --exclude-files build.rs --features "arbitrary borsh num-traits serde std" | tee tarpaulin.log
   - echo "Check that coverage not less than $REQ_COVERAGE%"
   - tail -1 tarpaulin.log | awk '{ if ($1 < '$REQ_COVERAGE') { exit 1 } }'

@@ -276,7 +276,6 @@ pub const GAMMA: U0F128 = U0F128::from_bits(0x93C4_67E3_7DB0_C7A4_D1BE_3F81_0152
 pub const CATALAN: U0F128 = U0F128::from_bits(0xEA7C_B89F_409A_E845_2158_22E3_7D32_D0C6);
 
 #[cfg(test)]
-#[allow(clippy::float_cmp)]
 mod tests {
     use crate::{
         consts::*,

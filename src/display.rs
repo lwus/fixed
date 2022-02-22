@@ -561,7 +561,6 @@ impl Mul10 for u128 {
 }
 
 #[cfg(test)]
-#[allow(clippy::float_cmp)]
 mod tests {
     use crate::{display, types::*};
     use std::{
