@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.13.1 (unreleased)
+Version 1.13.1 (2022-03-04)
 ===========================
 
   * The [`const_fixed_from_int`][cffi-1-13] macro now accepts a visibility

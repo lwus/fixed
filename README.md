@@ -98,7 +98,7 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
-### Version 1.13.1 news (unreleased)
+### Version 1.13.1 news (2022-03-04)
 
   * The [`const_fixed_from_int`][cffi-1-13] macro now accepts a visibility
     qualifier ([merge request 10]).
