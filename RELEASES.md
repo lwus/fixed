@@ -5,6 +5,12 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.13.1 (unreleased)
+===========================
+
+  * The [`const_fixed_from_int`][cffi-1-13] macro now accepts a visibility
+    qualifier ([merge request 10]).
+
 Version 1.13.0 (2022-02-22)
 ===========================
 
@@ -17,7 +23,9 @@ Version 1.13.0 (2022-02-22)
     because of a [rustc/LLVM issue][rust issue 75045]. This version should not
     trigger the rustc/LLVM issue ([issue 45]).
 
+[cffi-1-13]: https://docs.rs/fixed/~1.13/fixed/macro.const_fixed_from_int.html
 [issue 45]: https://gitlab.com/tspiteri/fixed/-/issues/45
+[merge request 10]: https://gitlab.com/tspiteri/fixed/-/merge_requests/10
 [rust issue 75045]: https://github.com/rust-lang/rust/issues/75045
 [u-1-13]: https://docs.rs/fixed/~1.13/fixed/struct.Unwrapped.html
 [w-1-13]: https://docs.rs/fixed/~1.13/fixed/struct.Wrapping.html
