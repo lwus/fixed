@@ -1096,6 +1096,42 @@ impl<F: Fixed> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_recip())
     }
 
+    /// Returns the next multiple of `other`.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_next\_multiple\_of][FixedI32::unwrapped_next_multiple_of]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_next\_multiple\_of][FixedU32::unwrapped_next_multiple_of]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `other` is zero or on overflow.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let one_point_5 = Unwrapped::<I16F16>::from_num(1.5);
+    /// let four = Unwrapped::<I16F16>::from_num(4);
+    /// let four_point_5 = Unwrapped::<I16F16>::from_num(4.5);
+    /// assert_eq!(four.next_multiple_of(one_point_5), four_point_5);
+    /// ```
+    ///
+    /// The following panics because of overflow.
+    ///
+    /// ```rust,should_panic
+    /// use fixed::{types::I16F16, Unwrapped};
+    /// let two = Unwrapped::<I16F16>::from_num(2);
+    /// let max = Unwrapped::<I16F16>::MAX;
+    /// let _overflow = max.next_multiple_of(two);
+    /// ```
+    #[inline]
+    #[track_caller]
+    #[must_use]
+    pub fn next_multiple_of(self, other: Unwrapped<F>) -> Unwrapped<F> {
+        Unwrapped(self.0.unwrapped_next_multiple_of(other.0))
+    }
+
     /// Multiply and add. Returns `self` × `mul` + `add`.
     ///
     /// See also

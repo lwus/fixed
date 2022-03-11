@@ -1665,6 +1665,19 @@ where
     #[must_use]
     fn recip(self) -> Self;
 
+    /// Returns the next multiple of `other`.
+    ///
+    /// See also
+    /// <code>FixedI32::[next\_multiple\_of][FixedI32::next_multiple_of]</code>
+    /// and
+    /// <code>FixedU32::[next\_multiple\_of][FixedU32::next_multiple_of]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `other` is zero.
+    #[must_use]
+    fn next_multiple_of(self, other: Self) -> Self;
+
     /// Multiply and add. Returns `self` × `mul` + `add`.
     ///
     /// Note that the inherent [`mul_add`] method is more flexible
@@ -1801,6 +1814,16 @@ where
     /// <code>FixedI32::[checked\_recip][FixedI32::checked_recip]</code> and
     /// <code>FixedU32::[checked\_recip][FixedU32::checked_recip]</code>.
     fn checked_recip(self) -> Option<Self>;
+
+    /// Checked next multiple of `other`. Returns the next multiple, or [`None`]
+    /// if `other` is zero or on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[checked\_next\_multiple\_of][FixedI32::checked_next_multiple_of]</code>
+    /// and
+    /// <code>FixedU32::[checked\_next\_multiple\_of][FixedU32::checked_next_multiple_of]</code>.
+    #[must_use]
+    fn checked_next_multiple_of(self, other: Self) -> Option<Self>;
 
     /// Checked multiply and add. Returns `self` × `mul` + `add`, or [`None`] on overflow.
     ///
@@ -1993,6 +2016,19 @@ where
     #[must_use]
     fn saturating_recip(self) -> Self;
 
+    /// Saturating next multiple of `other`.
+    ///
+    /// See also
+    /// <code>FixedI32::[saturating\_next\_multiple\_of][FixedI32::saturating_next_multiple_of]</code>
+    /// and
+    /// <code>FixedU32::[saturating\_next\_multiple\_of][FixedU32::saturating_next_multiple_of]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `other` is zero.
+    #[must_use]
+    fn saturating_next_multiple_of(self, other: Self) -> Self;
+
     /// Saturating multiply and add. Returns `self` × `mul` + `add`, saturating on overflow.
     ///
     /// See also
@@ -2136,6 +2172,19 @@ where
     /// Panics if `self` is zero.
     #[must_use]
     fn wrapping_recip(self) -> Self;
+
+    /// Wrapping next multiple of `other`.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_next\_multiple\_of][FixedI32::wrapping_next_multiple_of]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_next\_multiple\_of][FixedU32::wrapping_next_multiple_of]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `other` is zero.
+    #[must_use]
+    fn wrapping_next_multiple_of(self, other: Self) -> Self;
 
     /// Wrapping multiply and add. Returns `self` × `mul` + `add`, wrapping on overflow.
     ///
@@ -2354,6 +2403,21 @@ where
     #[track_caller]
     #[must_use]
     fn unwrapped_recip(self) -> Self;
+
+    /// Unwrapped next multiple of `other`. Returns the next multiple, panicking
+    /// on overflow.
+    ///
+    /// See also
+    /// <code>FixedI32::[unwrapped\_next\_multiple\_of][FixedI32::unwrapped_next_multiple_of]</code>
+    /// and
+    /// <code>FixedU32::[unwrapped\_next\_multiple\_of][FixedU32::unwrapped_next_multiple_of]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `other` is zero or on overflow.
+    #[track_caller]
+    #[must_use]
+    fn unwrapped_next_multiple_of(self, other: Self) -> Self;
 
     /// Unwrapped multiply and add. Returns `self` × `mul` + `add`, panicking on overflow.
     ///
@@ -2630,6 +2694,22 @@ where
     ///
     /// Panics if `self` is zero.
     fn overflowing_recip(self) -> (Self, bool);
+
+    /// Overflowing next multiple of `other`.
+    ///
+    /// Returns a [tuple] of the next multiple and a [`bool`], indicating
+    /// whether an overflow has occurred. On overflow, the wrapped value is
+    /// returned.
+    ///
+    /// See also
+    /// <code>FixedI32::[overflowing\_next\_multiple\_of][FixedI32::overflowing_next_multiple_of]</code>
+    /// and
+    /// <code>FixedU32::[overflowing\_next\_multiple\_of][FixedU32::overflowing_next_multiple_of]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `other` is zero.
+    fn overflowing_next_multiple_of(self, other: Self) -> (Self, bool);
 
     /// Overflowing multiply  and add.
     ///
@@ -3599,6 +3679,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn abs_diff(self, other: Self) -> Self::Unsigned }
             trait_delegate! { fn mean(self, other: Self) -> Self }
             trait_delegate! { fn recip(self) -> Self }
+            trait_delegate! { fn next_multiple_of(self, other: Self) -> Self }
             trait_delegate! { fn mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn mul_acc(&mut self, a: Self, b: Self) }
             trait_delegate! { fn div_euclid(self, rhs: Self) -> Self }
@@ -3614,6 +3695,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn checked_div(self, rhs: Self) -> Option<Self> }
             trait_delegate! { fn checked_rem(self, rhs: Self) -> Option<Self> }
             trait_delegate! { fn checked_recip(self) -> Option<Self> }
+            trait_delegate! { fn checked_next_multiple_of(self, other: Self) -> Option<Self> }
             trait_delegate! { fn checked_mul_add(self, mul: Self, add: Self) -> Option<Self> }
             trait_delegate! { fn checked_mul_acc(&mut self, a: Self, b: Self) -> Option<()> }
             trait_delegate! { fn checked_div_euclid(self, rhs: Self) -> Option<Self> }
@@ -3634,6 +3716,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn saturating_mul(self, rhs: Self) -> Self }
             trait_delegate! { fn saturating_div(self, rhs: Self) -> Self }
             trait_delegate! { fn saturating_recip(self) -> Self }
+            trait_delegate! { fn saturating_next_multiple_of(self, other: Self) -> Self }
             trait_delegate! { fn saturating_mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn saturating_mul_acc(&mut self, a: Self, b: Self) }
             trait_delegate! { fn saturating_div_euclid(self, rhs: Self) -> Self }
@@ -3649,6 +3732,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn wrapping_mul(self, rhs: Self) -> Self }
             trait_delegate! { fn wrapping_div(self, rhs: Self) -> Self }
             trait_delegate! { fn wrapping_recip(self) -> Self }
+            trait_delegate! { fn wrapping_next_multiple_of(self, other: Self) -> Self }
             trait_delegate! { fn wrapping_mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn wrapping_mul_acc(&mut self, a: Self, b: Self) }
             trait_delegate! { fn wrapping_div_euclid(self, rhs: Self) -> Self }
@@ -3668,6 +3752,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn unwrapped_div(self, rhs: Self) -> Self }
             trait_delegate! { fn unwrapped_rem(self, rhs: Self) -> Self }
             trait_delegate! { fn unwrapped_recip(self) -> Self }
+            trait_delegate! { fn unwrapped_next_multiple_of(self, other: Self) -> Self }
             trait_delegate! { fn unwrapped_mul_add(self, mul: Self, add: Self) -> Self }
             trait_delegate! { fn unwrapped_mul_acc(&mut self, a: Self, b: Self) }
             trait_delegate! { fn unwrapped_div_euclid(self, rhs: Self) -> Self }
@@ -3688,6 +3773,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn overflowing_mul(self, rhs: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_div(self, rhs: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_recip(self) -> (Self, bool) }
+            trait_delegate! { fn overflowing_next_multiple_of(self, other: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_mul_add(self, mul: Self, add: Self) -> (Self, bool) }
             trait_delegate! { fn overflowing_mul_acc(&mut self, a: Self, b: Self) -> bool }
             trait_delegate! { fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool) }

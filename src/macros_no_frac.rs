@@ -1127,6 +1127,52 @@ assert_eq!(Fix::from_num(3).mean(Fix::from_num(4)), Fix::from_num(3.5));
             }
 
             comment! {
+                "Returns the next multiple of `other`.
+
+If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
+If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+
+# Panics
+
+Panics if `other` is zero.
+
+When debug assertions are enabled, this method also panics if the result
+overflows. When debug assertions are not enabled, the wrapped value can be
+returned, but it is not considered a breaking change if in the future it panics;
+if wrapping is required use [`wrapping_next_multiple_of`] instead.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(
+    Fix::from_num(4).next_multiple_of(Fix::from_num(1.5)),
+    Fix::from_num(4.5)
+);
+",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    "assert_eq!(
+    Fix::from_num(4).next_multiple_of(Fix::from_num(-1.5)),
+    Fix::from_num(3)
+);
+",
+                },
+                "```
+
+[`wrapping_next_multiple_of`]: Self::wrapping_next_multiple_of
+";
+                #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
+                pub const fn next_multiple_of(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                    let (ans, overflow) = self.overflowing_next_multiple_of(other);
+                    debug_assert!(!overflow, "overflow");
+                    ans
+                }
+            }
+
+            comment! {
                 "Inverse linear interpolation between `start` and `end`.
 
 The computed value can have a fixed-point type like `self` but with a different
@@ -1752,6 +1798,43 @@ assert_eq!(Fix::ONE.checked_dist(Fix::from_num(5)), Some(Fix::from_num(4)));
             }
 
             comment! {
+                "Checked next multiple of `other`. Returns the next multiple, or
+[`None`] if `other` is zero or on overflow.
+
+If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
+If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(
+    Fix::from_num(4).checked_next_multiple_of(Fix::from_num(1.5)),
+    Some(Fix::from_num(4.5))
+);
+assert_eq!(Fix::from_num(4).checked_next_multiple_of(Fix::ZERO), None);
+assert_eq!(Fix::MAX.checked_next_multiple_of(Fix::from_num(2)), None);
+```
+";
+                #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
+                pub const fn checked_next_multiple_of(
+                    self,
+                    other: $Fixed<Frac>,
+                ) -> Option<$Fixed<Frac>> {
+                    if other.to_bits() == 0 {
+                        None
+                    } else {
+                        match self.overflowing_next_multiple_of(other) {
+                            (ans, false) => Some(ans),
+                            (_, true) => None,
+                        }
+                    }
+                }
+            }
+
+            comment! {
                 "Checked inverse linear interpolation between `start` and `end`.
 Returns [`None`] on overflow or when `start`&nbsp;=&nbsp;`end`.
 
@@ -2098,6 +2181,51 @@ assert_eq!(Fix::ONE.saturating_dist(Fix::from_num(5)), Fix::from_num(4));
             }
 
             comment! {
+                "Saturating next multiple of `other`.
+
+If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
+If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+
+# Panics
+
+Panics if `other` is zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(
+    Fix::from_num(4).saturating_next_multiple_of(Fix::from_num(1.5)),
+    Fix::from_num(4.5)
+);
+assert_eq!(Fix::MAX.saturating_next_multiple_of(Fix::from_num(2)), Fix::MAX);
+```
+";
+                #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
+                pub const fn saturating_next_multiple_of(
+                    self,
+                    other: $Fixed<Frac>
+                ) -> $Fixed<Frac> {
+                    match self.overflowing_next_multiple_of(other) {
+                        (ans, false) => ans,
+                        (_, true) => {
+                            if_signed_unsigned!(
+                                $Signedness,
+                                if other.to_bits() < 0 {
+                                    $Fixed::MIN
+                                } else {
+                                    $Fixed::MAX
+                                },
+                                $Fixed::MAX,
+                            )
+                        }
+                    }
+                }
+            }
+
+            comment! {
                 "Inverse linear interpolation between `start` and `end`,
 saturating on overflow.
 
@@ -2438,6 +2566,43 @@ assert_eq!(Fix::ONE.wrapping_dist(Fix::from_num(5)), Fix::from_num(4));
                         self.overflowing_dist(other).0,
                         self.dist(other),
                     )
+                }
+            }
+
+            comment! {
+                "Wrapping next multiple of `other`.
+
+If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
+If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+
+# Panics
+
+Panics if `other` is zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(
+    Fix::from_num(4).wrapping_next_multiple_of(Fix::from_num(1.5)),
+    Fix::from_num(4.5)
+);
+let max_minus_delta = Fix::MAX - Fix::DELTA;
+assert_eq!(
+    Fix::MAX.wrapping_next_multiple_of(max_minus_delta),
+    max_minus_delta.wrapping_mul_int(2)
+);
+```
+";
+                #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
+                pub const fn wrapping_next_multiple_of(
+                    self,
+                    other: $Fixed<Frac>
+                ) -> $Fixed<Frac> {
+                    let (ans, _) = self.overflowing_next_multiple_of(other);
+                    ans
                 }
             }
 
@@ -3036,6 +3201,48 @@ let _overflow = Fix::MIN.unwrapped_dist(Fix::ZERO);
             }
 
             comment! {
+                "Returns the next multiple of `other`, panicking on overflow.
+
+If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
+If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+
+# Panics
+
+Panics if `other` is zero or on overflow.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(
+    Fix::from_num(4).unwrapped_next_multiple_of(Fix::from_num(1.5)),
+    Fix::from_num(4.5)
+);
+```
+
+The following panics because of overflow.
+
+```rust,should_panic
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+let _overflow = Fix::MAX.unwrapped_next_multiple_of(Fix::from_num(2));
+```
+";
+                #[inline]
+                #[track_caller]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
+                pub const fn unwrapped_next_multiple_of(
+                    self,
+                    other: $Fixed<Frac>
+                ) -> $Fixed<Frac> {
+                    let (ans, overflow) = self.overflowing_next_multiple_of(other);
+                    assert!(!overflow, "overflow");
+                    ans
+                }
+            }
+
+            comment! {
                 "Inverse linear interpolation between `start` and `end`,
 panicking on overflow.
 
@@ -3490,6 +3697,85 @@ assert_eq!(
                     if_unsigned! {
                         $Signedness;
                         (self.dist(other), false)
+                    }
+                }
+            }
+
+            comment! {
+                "Overflowing next multiple of `other`.
+
+Returns a [tuple] of the next multiple and a [`bool`] indicating whether an
+overflow has occurred. On overflow, the wrapped value is returned.
+
+If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
+If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+
+# Panics
+
+Panics if `other` is zero.
+
+# Examples
+
+```rust
+use fixed::{types::extra::U4, ", $s_fixed, "};
+type Fix = ", $s_fixed, "<U4>;
+assert_eq!(
+    Fix::from_num(4).overflowing_next_multiple_of(Fix::from_num(1.5)),
+    (Fix::from_num(4.5), false)
+);
+let max_minus_delta = Fix::MAX - Fix::DELTA;
+assert_eq!(
+    Fix::MAX.overflowing_next_multiple_of(max_minus_delta),
+    (max_minus_delta.wrapping_mul_int(2), true)
+);
+```
+";
+                #[inline]
+                #[must_use = "this returns the result of the operation, without modifying the original"]
+                pub const fn overflowing_next_multiple_of(
+                    self,
+                    other: $Fixed<Frac>
+                ) -> ($Fixed<Frac>, bool) {
+                    let slf = self.to_bits();
+                    let other = other.to_bits();
+
+                    if_signed! {
+                        $Signedness;
+
+                        // check for overflowing division
+                        if other == -1 {
+                            return (self, false);
+                        }
+
+                        // panics if other == 0
+                        let rem = slf % other;
+
+                        let m = if rem.is_negative() != other.is_negative() {
+                            // cannot overflow as they have opposite signs
+                            rem + other
+                        } else {
+                            rem
+                        };
+                        if m == 0 {
+                            (self, false)
+                        } else {
+                            // other - m cannot overflow because they have the same sign
+                            self.overflowing_add($Fixed::from_bits(other - m))
+                        }
+                    }
+
+                    if_unsigned! {
+                        $Signedness;
+
+                        // panics if other == 0
+                        let rem = slf % other;
+
+                        if rem == 0 {
+                            (self, false)
+                        } else {
+                            // other - rem cannot overflow because rem is smaller
+                            self.overflowing_add($Fixed::from_bits(other - rem))
+                        }
                     }
                 }
             }

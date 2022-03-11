@@ -1027,6 +1027,36 @@ impl<F: Fixed> Wrapping<F> {
         Wrapping(self.0.wrapping_recip())
     }
 
+    /// Returns the next multiple of `other`.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_next\_multiple\_of][FixedI32::wrapping_next_multiple_of]</code>
+    /// and
+    /// <code>FixedU32::[wrapping\_next\_multiple\_of][FixedU32::wrapping_next_multiple_of]</code>.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `other` is zero.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{types::I16F16, Wrapping};
+    /// let one_point_5 = Wrapping::<I16F16>::from_num(1.5);
+    /// let four = Wrapping::<I16F16>::from_num(4);
+    /// let four_point_5 = Wrapping::<I16F16>::from_num(4.5);
+    /// assert_eq!(four.next_multiple_of(one_point_5), four_point_5);
+    ///
+    /// let max = Wrapping::<I16F16>::MAX;
+    /// let max_minus_delta = max - Wrapping::<I16F16>::DELTA;
+    /// assert_eq!(max.next_multiple_of(max_minus_delta), max_minus_delta * 2);
+    /// ```
+    #[inline]
+    #[must_use]
+    pub fn next_multiple_of(self, other: Wrapping<F>) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_next_multiple_of(other.0))
+    }
+
     /// Multiply and add. Returns `self` × `mul` + `add`.
     ///
     /// See also

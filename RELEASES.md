@@ -8,11 +8,28 @@ as-is, without any warranty. -->
 Version 1.14.0 (unreleased)
 ===========================
 
-  * The [`abs_diff`][f-ad-1-14] method was added to all fixed-point numbers and
-    to the [`Fixed`][tf-1-14] trait.
+  * The [`next_multiple_of`][f-nmo-1-14] method was added to all fixed-point
+    numbers, to the [`Fixed`][tf-1-14] trait, and to the [`Wrapping`][w-1-14]
+    and [`Unwrapped`][u-1-14] wrappers.
+  * The following methods were added to all fixed-point numbers and to the
+    [`Fixed`][tf-1-14] trait:
+      * [`abs_diff`][f-ad-1-14]
+      * [`checked_next_multiple_of`][f-cnmo-1-14],
+        [`saturating_next_multiple_of`][f-snmo-1-14],
+        [`wrapping_next_multiple_of`][f-wnmo-1-14],
+        [`unwrapped_next_multiple_of`][f-unmo-1-14],
+        [`overflowing_next_multiple_of`][f-onmo-1-14]
 
 [f-ad-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.abs_diff
+[f-cnmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.checked_next_multiple_of
+[f-nmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.next_multiple_of
+[f-onmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.overflowing_next_multiple_of
+[f-snmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.saturating_next_multiple_of
+[f-unmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.unwrapped_next_multiple_of
+[f-wnmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.wrapping_next_multiple_of
 [tf-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html
+[u-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.Unwrapped.html
+[w-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.Wrapping.html
 
 Version 1.13.1 (2022-03-04)
 ===========================
