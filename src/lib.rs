@@ -45,8 +45,12 @@ for signed numbers like <code>[FixedI32]\<[U32]></code>, and in the range
 <code>[FixedU32]\<[U32]></code>.
 
 In version 1 the [*typenum* crate] is used for the fractional bit count `Frac`;
-the plan is to to have a major version 2 with [const generics] instead when the
-Rust compiler support for them is powerful enough.
+the plan is to to have a major version 2 with const generics when the Rust
+compiler’s [`generic_const_expr` feature] is stabilized. An [alpha version] is
+already available.
+
+[`generic_const_expr` feature]: https://github.com/rust-lang/rust/issues/76560
+[alpha version]: https://crates.io/crates/fixed/2.0.0-alpha.2
 
 The main features are
 
@@ -292,7 +296,6 @@ shall be dual licensed as above, without any additional terms or conditions.
 [`from_str_hex`]: FixedI32::from_str_hex
 [`from_str_octal`]: FixedI32::from_str_octal
 [`to_num`]: FixedI32::to_num
-[const generics]: https://github.com/rust-lang/rust/issues/44580
 */
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(missing_docs)]
@@ -478,8 +481,9 @@ range ",
             ".
 
 `Frac` is an [`Unsigned`] as provided by the [*typenum* crate]; the plan is to
-to have a major version 2 with [const generics] instead when the Rust compiler
-support for them is powerful enough.
+to have a major version 2 where `Frac` is replaced by `FRAC` of type [`i32`]
+when the Rust compiler’s [`generic_const_expr` feature] is stabilized. An [alpha
+version] is already available.
 
 `", $s_fixed, "<Frac>` has the same size, alignment and ABI as [`", $s_inner, "`];
 it is `#[repr(transparent)]` with [`", $s_inner, "`] as the only non-zero-sized field.
@@ -499,9 +503,10 @@ assert_eq!(two_point_75.to_string(), \"2.8\");
 ```
 
 [*typenum* crate]: https://crates.io/crates/typenum
-[U0]: crate::types::extra::U0
 [U", $s_nbits, "]: crate::types::extra::U", $s_nbits, "
-[const generics]: https://github.com/rust-lang/rust/issues/44580
+[U0]: crate::types::extra::U0
+[`generic_const_expr` feature]: https://github.com/rust-lang/rust/issues/76560
+[alpha version]: https://crates.io/crates/fixed/2.0.0-alpha.2
 ";
             #[repr(transparent)]
             pub struct $Fixed<Frac> {

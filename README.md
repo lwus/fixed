@@ -36,8 +36,12 @@ for signed numbers like <code>[FixedI32]\<[U32]></code>, and in the range
 <code>[FixedU32]\<[U32]></code>.
 
 In version 1 the [*typenum* crate] is used for the fractional bit count `Frac`;
-the plan is to to have a major version 2 with [const generics] instead when the
-Rust compiler support for them is powerful enough.
+the plan is to to have a major version 2 with const generics when the Rust
+compiler’s [`generic_const_expr` feature] is stabilized. An [alpha version] is
+already available.
+
+[`generic_const_expr` feature]: https://github.com/rust-lang/rust/issues/76560
+[alpha version]: https://crates.io/crates/fixed/2.0.0-alpha.2
 
 The main features are
 
@@ -375,4 +379,3 @@ shall be dual licensed as above, without any additional terms or conditions.
 [`i32`]: https://doc.rust-lang.org/nightly/core/primitive.i32.html
 [`to_num`]: https://docs.rs/fixed/~1.13/fixed/struct.FixedI32.html#method.to_num
 [`u32`]: https://doc.rust-lang.org/nightly/core/primitive.u32.html
-[const generics]: https://github.com/rust-lang/rust/issues/44580
