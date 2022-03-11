@@ -1127,10 +1127,13 @@ assert_eq!(Fix::from_num(3).mean(Fix::from_num(4)), Fix::from_num(3.5));
             }
 
             comment! {
-                "Returns the next multiple of `other`.
-
-If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
-If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+                "Returns the smallest multiple of `other` that is ≥&nbsp;`self`",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    " if `other` is positive, and the largest multiple of
+`other` that is ≤&nbsp;`self` if `other` is negative",
+                },
+                ".
 
 # Panics
 
@@ -1801,8 +1804,13 @@ assert_eq!(Fix::ONE.checked_dist(Fix::from_num(5)), Some(Fix::from_num(4)));
                 "Checked next multiple of `other`. Returns the next multiple, or
 [`None`] if `other` is zero or on overflow.
 
-If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
-If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+The next multiple is the smallest multiple of `other` that is ≥&nbsp;`self`",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    " if `other` is positive, and the largest multiple of
+`other` that is ≤&nbsp;`self` if `other` is negative",
+                },
+                ".
 
 # Examples
 
@@ -2183,8 +2191,13 @@ assert_eq!(Fix::ONE.saturating_dist(Fix::from_num(5)), Fix::from_num(4));
             comment! {
                 "Saturating next multiple of `other`.
 
-If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
-If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+The next multiple is the smallest multiple of `other` that is ≥&nbsp;`self`",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    " if `other` is positive, and the largest multiple of
+`other` that is ≤&nbsp;`self` if `other` is negative",
+                },
+                ".
 
 # Panics
 
@@ -2572,8 +2585,13 @@ assert_eq!(Fix::ONE.wrapping_dist(Fix::from_num(5)), Fix::from_num(4));
             comment! {
                 "Wrapping next multiple of `other`.
 
-If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
-If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+The next multiple is the smallest multiple of `other` that is ≥&nbsp;`self`",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    " if `other` is positive, and the largest multiple of
+`other` that is ≤&nbsp;`self` if `other` is negative",
+                },
+                ".
 
 # Panics
 
@@ -3203,8 +3221,13 @@ let _overflow = Fix::MIN.unwrapped_dist(Fix::ZERO);
             comment! {
                 "Returns the next multiple of `other`, panicking on overflow.
 
-If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
-If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+The next multiple is the smallest multiple of `other` that is ≥&nbsp;`self`",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    " if `other` is positive, and the largest multiple of
+`other` that is ≤&nbsp;`self` if `other` is negative",
+                },
+                ".
 
 # Panics
 
@@ -3707,8 +3730,13 @@ assert_eq!(
 Returns a [tuple] of the next multiple and a [`bool`] indicating whether an
 overflow has occurred. On overflow, the wrapped value is returned.
 
-If `other` is positive, returns the smallest multiple of `other` that is ≥&nbsp;`self`.
-If `other` is negative, returns the largest multiple of `other` that is ≤&nbsp;`self`.
+The next multiple is the smallest multiple of `other` that is ≥&nbsp;`self`",
+                if_signed_else_empty_str! {
+                    $Signedness;
+                    " if `other` is positive, and the largest multiple of
+`other` that is ≤&nbsp;`self` if `other` is negative",
+                },
+                ".
 
 # Panics
 
