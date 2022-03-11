@@ -1637,8 +1637,15 @@ where
     /// See also <code>FixedI32::[dist][FixedI32::dist]</code> and
     /// <code>FixedU32::[dist][FixedU32::dist]</code>.
     #[must_use = "this returns the result of the operation, without modifying the original"]
-    #[doc(alias = "abs_diff")]
     fn dist(self, other: Self) -> Self;
+
+    /// Returns the absolute value of the difference between `self` and `other`
+    /// using an unsigned type without any wrapping or panicking.
+    ///
+    /// See also <code>FixedI32::[abs\_diff][FixedI32::abs_diff]</code> and
+    /// <code>FixedU32::[abs\_diff][FixedU32::abs_diff]</code>.
+    #[must_use = "this returns the result of the operation, without modifying the original"]
+    fn abs_diff(self, other: Self) -> Self::Unsigned;
 
     /// Returns the mean of `self` and `other`.
     ///
@@ -2834,7 +2841,6 @@ where
     ///
     /// See also
     /// <code>FixedI32::[unsigned\_dist][FixedI32::unsigned_dist]</code>.
-    #[doc(alias = "abs_diff")]
     fn unsigned_dist(self, other: Self) -> Self::Unsigned;
 
     /// Returns a number representing the sign of `self`.
@@ -3590,6 +3596,7 @@ macro_rules! impl_fixed {
             trait_delegate! { fn rotate_right(self, n: u32) -> Self }
             trait_delegate! { fn is_zero(self) -> bool }
             trait_delegate! { fn dist(self, other: Self) -> Self }
+            trait_delegate! { fn abs_diff(self, other: Self) -> Self::Unsigned }
             trait_delegate! { fn mean(self, other: Self) -> Self }
             trait_delegate! { fn recip(self) -> Self }
             trait_delegate! { fn mul_add(self, mul: Self, add: Self) -> Self }

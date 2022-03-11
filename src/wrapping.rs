@@ -978,7 +978,6 @@ impl<F: Fixed> Wrapping<F> {
     /// ```
     #[inline]
     #[must_use = "this returns the result of the operation, without modifying the original"]
-    #[doc(alias = "abs_diff")]
     pub fn dist(self, other: Wrapping<F>) -> Wrapping<F> {
         Wrapping(self.0.wrapping_dist(other.0))
     }

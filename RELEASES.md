@@ -5,6 +5,15 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.14.0 (unreleased)
+===========================
+
+  * The [`abs_diff`][f-ad-1-14] method was added to all fixed-point numbers and
+    to the [`Fixed`][tf-1-14] trait.
+
+[f-ad-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.abs_diff
+[tf-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html
+
 Version 1.13.1 (2022-03-04)
 ===========================
 

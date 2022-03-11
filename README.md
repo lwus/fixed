@@ -98,6 +98,14 @@ The conversions supported cover the following cases.
 
 ## What’s new
 
+### Version 1.14.0 news (unreleased)
+
+  * The [`abs_diff`][f-ad-1-14] method was added to all fixed-point numbers and
+    to the [`Fixed`][tf-1-14] trait.
+
+[f-ad-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.abs_diff
+[tf-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html
+
 ### Version 1.13.1 news (2022-03-04)
 
   * The [`const_fixed_from_int`][cffi-1-13] macro now accepts a visibility

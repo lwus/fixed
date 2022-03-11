@@ -1040,7 +1040,6 @@ impl<F: Fixed> Unwrapped<F> {
     /// ```
     #[inline]
     #[must_use = "this returns the result of the operation, without modifying the original"]
-    #[doc(alias = "abs_diff")]
     pub fn dist(self, other: Unwrapped<F>) -> Unwrapped<F> {
         Unwrapped(self.0.unwrapped_dist(other.0))
     }
