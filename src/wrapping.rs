@@ -1375,6 +1375,60 @@ impl<F: FixedSigned> Wrapping<F> {
     pub fn signum(self) -> Wrapping<F> {
         Wrapping(self.0.wrapping_signum())
     }
+
+    /// Addition with an unsigned fixed-point number.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_add\_unsigned][FixedI32::wrapping_add_unsigned]</code>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     types::{I16F16, U16F16},
+    ///     Wrapping,
+    /// };
+    /// assert_eq!(
+    ///     Wrapping::<I16F16>::from_num(-5).add_unsigned(U16F16::from_num(3)),
+    ///     Wrapping::<I16F16>::from_num(-2)
+    /// );
+    /// assert_eq!(
+    ///     Wrapping::<I16F16>::ZERO.add_unsigned(U16F16::MAX),
+    ///     -Wrapping::<I16F16>::DELTA
+    /// );
+    /// ```
+    #[inline]
+    #[must_use]
+    pub fn add_unsigned(self, rhs: F::Unsigned) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_add_unsigned(rhs))
+    }
+
+    /// Subtraction with an unsigned fixed-point number.
+    ///
+    /// See also
+    /// <code>FixedI32::[wrapping\_sub\_unsigned][FixedI32::wrapping_sub_unsigned]</code>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     types::{I16F16, U16F16},
+    ///     Wrapping,
+    /// };
+    /// assert_eq!(
+    ///     Wrapping::<I16F16>::from_num(3).sub_unsigned(U16F16::from_num(5)),
+    ///     Wrapping::<I16F16>::from_num(-2)
+    /// );
+    /// assert_eq!(
+    ///     Wrapping::<I16F16>::ZERO.sub_unsigned(U16F16::MAX),
+    ///     Wrapping::<I16F16>::DELTA
+    /// );
+    /// ```
+    #[inline]
+    #[must_use]
+    pub fn sub_unsigned(self, rhs: F::Unsigned) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_sub_unsigned(rhs))
+    }
 }
 
 impl<F: FixedUnsigned> Wrapping<F> {
@@ -1464,6 +1518,60 @@ impl<F: FixedUnsigned> Wrapping<F> {
     #[must_use]
     pub fn next_power_of_two(self) -> Wrapping<F> {
         Wrapping(self.0.wrapping_next_power_of_two())
+    }
+
+    /// Addition with an signed fixed-point number.
+    ///
+    /// See also
+    /// <code>FixedU32::[wrapping\_add\_signed][FixedU32::wrapping_add_signed]</code>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     types::{I16F16, U16F16},
+    ///     Wrapping,
+    /// };
+    /// assert_eq!(
+    ///     Wrapping::<U16F16>::from_num(5).add_signed(I16F16::from_num(-3)),
+    ///     Wrapping::<U16F16>::from_num(2)
+    /// );
+    /// assert_eq!(
+    ///     Wrapping::<U16F16>::ZERO.add_signed(-I16F16::DELTA),
+    ///     Wrapping::<U16F16>::MAX
+    /// );
+    /// ```
+    #[inline]
+    #[must_use]
+    pub fn add_signed(self, rhs: F::Signed) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_add_signed(rhs))
+    }
+
+    /// Subtraction with an signed fixed-point number.
+    ///
+    /// See also
+    /// <code>FixedU32::[wrapping\_sub\_signed][FixedU32::wrapping_sub_signed]</code>.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fixed::{
+    ///     types::{I16F16, U16F16},
+    ///     Wrapping,
+    /// };
+    /// assert_eq!(
+    ///     Wrapping::<U16F16>::from_num(5).sub_signed(I16F16::from_num(-3)),
+    ///     Wrapping::<U16F16>::from_num(8)
+    /// );
+    /// assert_eq!(
+    ///     Wrapping::<U16F16>::ZERO.sub_signed(I16F16::DELTA),
+    ///     Wrapping::<U16F16>::MAX
+    /// );
+    /// ```
+    #[inline]
+    #[must_use]
+    pub fn sub_signed(self, rhs: F::Signed) -> Wrapping<F> {
+        Wrapping(self.0.wrapping_sub_signed(rhs))
     }
 }
 
