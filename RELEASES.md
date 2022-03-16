@@ -19,6 +19,18 @@ Version 1.14.0 (unreleased)
         [`wrapping_next_multiple_of`][f-wnmo-1-14],
         [`unwrapped_next_multiple_of`][f-unmo-1-14],
         [`overflowing_next_multiple_of`][f-onmo-1-14]
+  * The following methods were added to all signed fixed-point numbers:
+      * [`add_unsigned`][f-au-1-14], [`checked_add_unsigned`][f-cau-1-14],
+        [`saturating_add_unsigned`][f-sau-1-14],
+        [`wrapping_add_unsigned`][f-wau-1-14],
+        [`unwrapped_add_unsigned`][f-uau-1-14],
+        [`overflowing_add_unsigned`][f-oau-1-14]
+  * The following methods were added to all unsigned fixed-point numbers:
+      * [`add_signed`][f-as-1-14], [`checked_add_signed`][f-cas-1-14],
+        [`saturating_add_signed`][f-sas-1-14],
+        [`wrapping_add_signed`][f-was-1-14],
+        [`unwrapped_add_signed`][f-uas-1-14],
+        [`overflowing_add_signed`][f-oas-1-14]
   * Some supertraits were added to
     <code>[Fixed][tf-1-14]::[Bits][tf-b-1-14]</code> and to
     <code>[Fixed][tf-1-14]::[NonZeroBits][tf-nzb-1-14]</code> in order to allow
@@ -27,11 +39,23 @@ Version 1.14.0 (unreleased)
 
 [az-1-2]: https://docs.rs/az/~1.2/az/index.html
 [f-ad-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.abs_diff
+[f-as-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedU32.html#method.add_signed
+[f-au-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.add_unsigned
+[f-cas-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedU32.html#method.checked_add_signed
+[f-cau-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.checked_add_unsigned
 [f-cnmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.checked_next_multiple_of
 [f-nmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.next_multiple_of
+[f-oas-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedU32.html#method.overflowing_add_signed
+[f-oau-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.overflowing_add_unsigned
 [f-onmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.overflowing_next_multiple_of
+[f-sas-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedU32.html#method.saturating_add_signed
+[f-sau-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.saturating_add_unsigned
 [f-snmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.saturating_next_multiple_of
+[f-uas-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedU32.html#method.unwrapped_add_signed
+[f-uau-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.unwrapped_add_unsigned
 [f-unmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.unwrapped_next_multiple_of
+[f-was-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedU32.html#method.wrapping_add_signed
+[f-wau-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.wrapping_add_unsigned
 [f-wnmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.wrapping_next_multiple_of
 [tf-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html
 [tf-b-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html#associatedtype.Bits
