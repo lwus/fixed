@@ -19,7 +19,8 @@ Version 1.14.0 (unreleased)
         [`wrapping_next_multiple_of`][f-wnmo-1-14],
         [`unwrapped_next_multiple_of`][f-unmo-1-14],
         [`overflowing_next_multiple_of`][f-onmo-1-14]
-  * The following methods were added to all signed fixed-point numbers:
+  * The following methods were added to all signed fixed-point numbers and to
+    the [`FixedSigned`][tfs-1-14] trait:
       * [`add_unsigned`][f-au-1-14], [`sub_unsigned`][f-su-1-14]
       * [`checked_add_unsigned`][f-cau-1-14],
         [`saturating_add_unsigned`][f-sau-1-14],
@@ -31,7 +32,8 @@ Version 1.14.0 (unreleased)
         [`wrapping_sub_unsigned`][f-wsu-1-14],
         [`unwrapped_sub_unsigned`][f-usu-1-14],
         [`overflowing_sub_unsigned`][f-osu-1-14]
-  * The following methods were added to all unsigned fixed-point numbers:
+  * The following methods were added to all unsigned fixed-point numbers and to
+    the [`FixedUnsigned`][tfu-1-14] trait:
       * [`add_signed`][f-as-1-14], [`sub_signed`][f-ss-1-14]
       * [`checked_add_signed`][f-cas-1-14],
         [`saturating_add_signed`][f-sas-1-14],
@@ -84,6 +86,8 @@ Version 1.14.0 (unreleased)
 [tf-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html
 [tf-b-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html#associatedtype.Bits
 [tf-nzb-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html#associatedtype.NonZeroBits
+[tfs-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.FixedSigned.html
+[tfu-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.FixedUnsigned.html
 [u-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.Unwrapped.html
 [w-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.Wrapping.html
 
