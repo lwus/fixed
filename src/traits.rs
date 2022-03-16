@@ -25,6 +25,7 @@ use crate::{
 };
 #[cfg(feature = "arbitrary")]
 use arbitrary::Arbitrary;
+use az_crate::{OverflowingCast, OverflowingCastFrom};
 #[cfg(feature = "borsh")]
 use borsh::{BorshDeserialize, BorshSerialize};
 use bytemuck::{self, Pod, TransparentWrapper};
@@ -583,7 +584,7 @@ where
     /// const DELTA_BITS: <I16F16 as Fixed>::Bits = I16F16::DELTA.to_bits();
     /// assert_eq!(DELTA_BITS, 1i32);
     /// ```
-    type Bits;
+    type Bits: FixedBits + From<Self::NonZeroBits>;
 
     /// The non-zero wrapped version of [`Bits`].
     ///
@@ -597,7 +598,7 @@ where
     /// ```
     ///
     /// [`Bits`]: Fixed::Bits
-    type NonZeroBits;
+    type NonZeroBits: TryFrom<Self::Bits>;
 
     /// A byte array with the same size as the type.
     ///
@@ -4017,6 +4018,8 @@ macro_rules! impl_fixed {
                 trait_delegate! { fn unwrapped_next_power_of_two(self) -> Self }
             }
         }
+
+        impl FixedBits for $Bits {}
     };
 }
 
@@ -4030,3 +4033,42 @@ impl_fixed! { FixedU16, FixedI16, FixedU16, LeEqU16, u16, NonZeroU16, Unsigned }
 impl_fixed! { FixedU32, FixedI32, FixedU32, LeEqU32, u32, NonZeroU32, Unsigned }
 impl_fixed! { FixedU64, FixedI64, FixedU64, LeEqU64, u64, NonZeroU64, Unsigned }
 impl_fixed! { FixedU128, FixedI128, FixedU128, LeEqU128, u128, NonZeroU128, Unsigned }
+
+/// This trait is implemented for <code>[Fixed]::[Bits][Fixed::Bits]</code> for
+/// all fixed-point numbers.
+///
+/// This provides some facilities to manipulate bits in generic functions.
+///
+/// # Examples
+///
+/// ```rust
+/// # use az_crate::OverflowingAs;
+/// # #[cfg(skip_this)]
+/// use az::OverflowingAs;
+/// use fixed::{traits::Fixed, types::*};
+/// fn limited_positive_bits<F: Fixed>(fixed: F) -> Option<u32> {
+///     let bits = fixed.to_bits();
+///     match bits.overflowing_as::<u32>() {
+///         (wrapped, false) => Some(wrapped),
+///         (_, true) => None,
+///     }
+/// }
+/// assert_eq!(limited_positive_bits(I16F16::from_bits(100)), Some(100));
+/// assert_eq!(limited_positive_bits(I16F16::from_bits(-100)), None);
+/// ```
+pub trait FixedBits
+where
+    Self: Copy + Ord,
+    Self: Shl<u32, Output = Self> + Shr<u32, Output = Self>,
+    Self: OverflowingCast<i8> + OverflowingCastFrom<i8>,
+    Self: OverflowingCast<i16> + OverflowingCastFrom<i16>,
+    Self: OverflowingCast<i32> + OverflowingCastFrom<i32>,
+    Self: OverflowingCast<i64> + OverflowingCastFrom<i64>,
+    Self: OverflowingCast<i128> + OverflowingCastFrom<i128>,
+    Self: OverflowingCast<u8> + OverflowingCastFrom<u8>,
+    Self: OverflowingCast<u16> + OverflowingCastFrom<u16>,
+    Self: OverflowingCast<u32> + OverflowingCastFrom<u32>,
+    Self: OverflowingCast<u64> + OverflowingCastFrom<u64>,
+    Self: OverflowingCast<u128> + OverflowingCastFrom<u128>,
+{
+}

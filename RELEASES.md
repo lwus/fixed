@@ -19,7 +19,13 @@ Version 1.14.0 (unreleased)
         [`wrapping_next_multiple_of`][f-wnmo-1-14],
         [`unwrapped_next_multiple_of`][f-unmo-1-14],
         [`overflowing_next_multiple_of`][f-onmo-1-14]
+  * Some supertraits were added to
+    <code>[Fixed][tf-1-14]::[Bits][tf-b-1-14]</code> and to
+    <code>[Fixed][tf-1-14]::[NonZeroBits][tf-nzb-1-14]</code> in order to allow
+    some conversions in generic functions.
+  * The [*az* crate] dependency was updated to [version 1.2][az-1-2].
 
+[az-1-2]: https://docs.rs/az/~1.2/az/index.html
 [f-ad-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.abs_diff
 [f-cnmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.checked_next_multiple_of
 [f-nmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.next_multiple_of
@@ -28,6 +34,8 @@ Version 1.14.0 (unreleased)
 [f-unmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.unwrapped_next_multiple_of
 [f-wnmo-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.FixedI32.html#method.wrapping_next_multiple_of
 [tf-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html
+[tf-b-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html#associatedtype.Bits
+[tf-nzb-1-14]: https://docs.rs/fixed/~1.14/fixed/traits/trait.Fixed.html#associatedtype.NonZeroBits
 [u-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.Unwrapped.html
 [w-1-14]: https://docs.rs/fixed/~1.14/fixed/struct.Wrapping.html
 
