@@ -143,10 +143,9 @@ The conversions supported cover the following cases.
         [`wrapping_sub_signed`][f-wss-1-14],
         [`unwrapped_sub_signed`][f-uss-1-14],
         [`overflowing_sub_signed`][f-oss-1-14]
-  * Some supertraits were added to
-    <code>[Fixed][tf-1-14]::[Bits][tf-b-1-14]</code> and to
-    <code>[Fixed][tf-1-14]::[NonZeroBits][tf-nzb-1-14]</code> in order to allow
-    some conversions in generic functions.
+  * Supertraits were added to <code>[Fixed][tf-1-14]::[Bits][tf-b-1-14]</code>
+    and to <code>[Fixed][tf-1-14]::[NonZeroBits][tf-nzb-1-14]</code> in order to
+    allow conversions and operations in generic functions.
   * The [*az* crate] dependency was updated to [version 1.2][az-1-2].
 
 [*az* crate]: https://crates.io/crates/az

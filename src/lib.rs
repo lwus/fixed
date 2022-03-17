@@ -336,6 +336,7 @@ mod prim_traits;
 #[cfg(feature = "serde")]
 mod serdeize;
 pub mod traits;
+mod traits_bits;
 pub mod types;
 mod unwrapped;
 mod wrapping;
