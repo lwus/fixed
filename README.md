@@ -37,8 +37,8 @@ for signed numbers like <code>[FixedI32]\<[U32]></code>, and in the range
 
 In version 1 the [*typenum* crate] is used for the fractional bit count `Frac`;
 the plan is to to have a major version 2 with const generics when the Rust
-compiler’s [`generic_const_expr` feature] is stabilized. An [alpha version] is
-already available.
+compiler’s [`generic_const_expr` feature] is ready and stabilized. An [alpha
+version] is already available.
 
 [`generic_const_expr` feature]: https://github.com/rust-lang/rust/issues/76560
 [alpha version]: https://crates.io/crates/fixed/2.0.0-alpha.2
@@ -117,7 +117,7 @@ The conversions supported cover the following cases.
         [`overflowing_next_multiple_of`][f-onmo-1-14]
   * The following methods were added to all signed fixed-point numbers, to the
     [`FixedSigned`][tfs-1-14] trait, and to the [`Wrapping`][w-1-14] and
-    [`Unwrapped`][u-1-14] wrappers:
+    [`Unwrapped`][u-1-14] wrappers for signed numbers:
       * [`add_unsigned`][f-au-1-14], [`sub_unsigned`][f-su-1-14]
       * [`checked_add_unsigned`][f-cau-1-14],
         [`saturating_add_unsigned`][f-sau-1-14],
@@ -131,7 +131,7 @@ The conversions supported cover the following cases.
         [`overflowing_sub_unsigned`][f-osu-1-14]
   * The following methods were added to all unsigned fixed-point numbers, to the
     [`FixedUnsigned`][tfu-1-14] trait, and to the [`Wrapping`][w-1-14] and
-    [`Unwrapped`][u-1-14] wrappers:
+    [`Unwrapped`][u-1-14] wrappers for unsigned numbers:
       * [`add_signed`][f-as-1-14], [`sub_signed`][f-ss-1-14]
       * [`checked_add_signed`][f-cas-1-14],
         [`saturating_add_signed`][f-sas-1-14],

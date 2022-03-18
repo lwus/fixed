@@ -21,7 +21,7 @@ Version 1.14.0 (unreleased)
         [`overflowing_next_multiple_of`][f-onmo-1-14]
   * The following methods were added to all signed fixed-point numbers, to the
     [`FixedSigned`][tfs-1-14] trait, and to the [`Wrapping`][w-1-14] and
-    [`Unwrapped`][u-1-14] wrappers:
+    [`Unwrapped`][u-1-14] wrappers for signed numbers:
       * [`add_unsigned`][f-au-1-14], [`sub_unsigned`][f-su-1-14]
       * [`checked_add_unsigned`][f-cau-1-14],
         [`saturating_add_unsigned`][f-sau-1-14],
@@ -35,7 +35,7 @@ Version 1.14.0 (unreleased)
         [`overflowing_sub_unsigned`][f-osu-1-14]
   * The following methods were added to all unsigned fixed-point numbers, to the
     [`FixedUnsigned`][tfu-1-14] trait, and to the [`Wrapping`][w-1-14] and
-    [`Unwrapped`][u-1-14] wrappers:
+    [`Unwrapped`][u-1-14] wrappers for unsigned numbers:
       * [`add_signed`][f-as-1-14], [`sub_signed`][f-ss-1-14]
       * [`checked_add_signed`][f-cas-1-14],
         [`saturating_add_signed`][f-sas-1-14],
