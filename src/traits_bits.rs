@@ -13,6 +13,15 @@
 // <https://www.apache.org/licenses/LICENSE-2.0> and
 // <https://opensource.org/licenses/MIT>.
 
+#[cfg(feature = "arbitrary")]
+use arbitrary::Arbitrary;
+#[cfg(feature = "borsh")]
+use borsh::{BorshDeserialize, BorshSerialize};
+#[cfg(feature = "num-traits")]
+use num_traits::Num;
+#[cfg(feature = "serde")]
+use serde::{de::Deserialize, ser::Serialize};
+
 use az_crate::{
     Cast, CastFrom, CheckedCast, CheckedCastFrom, OverflowingCast, OverflowingCastFrom,
     SaturatingCast, SaturatingCastFrom, UnwrappedCast, UnwrappedCastFrom, WrappingCast,
@@ -48,6 +57,10 @@ macro_rules! impl_bits {
         impl FixedBitsCast<u64> for $Bits {}
         impl FixedBitsCast<u128> for $Bits {}
         impl FixedBitsCast<usize> for $Bits {}
+        impl FixedBitsOptionalArbitrary for $Bits {}
+        impl FixedBitsOptionalBorsh for $Bits {}
+        impl FixedBitsOptionalNum for $Bits {}
+        impl FixedBitsOptionalSerde for $Bits {}
     };
 }
 
@@ -102,14 +115,16 @@ where
     Self: FixedBitsCast<i64> + FixedBitsCast<i128> + FixedBitsCast<isize>,
     Self: FixedBitsCast<u8> + FixedBitsCast<u16> + FixedBitsCast<u32>,
     Self: FixedBitsCast<u64> + FixedBitsCast<u128> + FixedBitsCast<usize>,
+    Self: FixedBitsOptionalArbitrary,
+    Self: FixedBitsOptionalBorsh,
+    Self: FixedBitsOptionalNum,
+    Self: FixedBitsOptionalSerde,
     Self: Sealed,
 {
 }
 
 /// This trait is used to provide supertraits to the [`FixedBits`] trait, and
 /// should not be used directly.
-///
-/// With this trait, [`FixedBits`] constraints are made cleaner.
 pub trait FixedBitsCast<Prim>
 where
     Self: TryInto<Prim> + TryFrom<Prim>,
@@ -135,3 +150,107 @@ impl_bits! { u16 }
 impl_bits! { u32 }
 impl_bits! { u64 }
 impl_bits! { u128 }
+
+#[cfg(not(feature = "arbitrary"))]
+/// This trait is used to provide supertrait to the [`FixedBits`] trait
+/// depending on the crates’s [optional features], and should not be used
+/// directly.
+///
+/// If the `arbitrary` feature is enabled, [`Arbitrary`] is a supertrait of
+/// [`FixedBits`].
+///
+/// [optional features]: crate#optional-features
+pub trait FixedBitsOptionalArbitrary: Sealed {}
+
+#[cfg(feature = "arbitrary")]
+/// This trait is used to provide supertrait to the [`FixedBits`] trait
+/// depending on the crates’s [optional features], and should not be used
+/// directly.
+///
+/// If the `arbitrary` feature is enabled, [`Arbitrary`] is a supertrait of
+/// [`FixedBits`].
+///
+/// [optional features]: crate#optional-features
+pub trait FixedBitsOptionalArbitrary: Sealed
+where
+    Self: for<'a> Arbitrary<'a>,
+{
+}
+
+#[cfg(not(feature = "borsh"))]
+/// This trait is used to provide supertraits to the [`FixedBits`] trait
+/// depending on the crates’s [optional features], and should not be used
+/// directly.
+///
+/// If the `borsh` experimental feature is enabled, [`BorshSerialize`] and
+/// [`BorshDeserialize`] are supertraits of [`FixedBits`].
+///
+/// [optional features]: crate#optional-features
+pub trait FixedBitsOptionalBorsh: Sealed {}
+
+#[cfg(feature = "borsh")]
+/// This trait is used to provide supertraits to the [`FixedBits`] trait
+/// depending on the crates’s [optional features], and should not be used
+/// directly.
+///
+/// If the `borsh` experimental feature is enabled, [`BorshSerialize`] and
+/// [`BorshDeserialize`] are supertraits of [`FixedBits`].
+///
+/// [optional features]: crate#optional-features
+pub trait FixedBitsOptionalBorsh: Sealed
+where
+    Self: BorshSerialize + BorshDeserialize,
+{
+}
+
+#[cfg(not(feature = "num-traits"))]
+/// This trait is used to provide supertraits to the [`FixedBits`] trait
+/// depending on the crates’s [optional features], and should not be used
+/// directly.
+///
+/// If the `num-traits` experimental feature is enabled, [`Num`] is a supertrait
+/// of [`FixedBits`].
+///
+/// [optional features]: crate#optional-features
+pub trait FixedBitsOptionalNum: Sealed {}
+
+#[cfg(feature = "num-traits")]
+/// This trait is used to provide supertraits to the [`FixedBits`] trait
+/// depending on the crates’s [optional features], and should not be used
+/// directly.
+///
+/// If the `num-traits` experimental feature is enabled, [`Num`] is a supertrait
+/// of [`FixedBits`].
+///
+/// [optional features]: crate#optional-features
+pub trait FixedBitsOptionalNum: Sealed
+where
+    Self: Num,
+{
+}
+
+#[cfg(not(feature = "serde"))]
+/// This trait is used to provide supertraits to the [`FixedBits`] trait
+/// depending on the crates’s [optional features], and should not be used
+/// directly.
+///
+/// If the `serde` feature is enabled, [`Serialize`] and [`Deserialize`] are
+/// supertraits of [`FixedBits`].
+///
+/// [optional features]: crate#optional-features
+pub trait FixedBitsOptionalSerde: Sealed {}
+
+#[cfg(feature = "serde")]
+/// This trait is used to provide supertraits to the [`FixedBits`] trait
+/// depending on the crates’s [optional features], and should not be used
+/// directly.
+///
+/// If the `serde` feature is enabled, [`Serialize`] and [`Deserialize`] are
+/// supertraits of [`FixedBits`].
+///
+/// [optional features]: crate#optional-features
+pub trait FixedBitsOptionalSerde: Sealed
+where
+    Self: Serialize + for<'de> Deserialize<'de>,
+{
+}

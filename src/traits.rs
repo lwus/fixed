@@ -17,7 +17,10 @@
 Traits for conversions and for generic use of fixed-point numbers.
 */
 
-pub use crate::traits_bits::{FixedBits, FixedBitsCast};
+pub use crate::traits_bits::{
+    FixedBits, FixedBitsCast, FixedBitsOptionalArbitrary, FixedBitsOptionalBorsh,
+    FixedBitsOptionalNum, FixedBitsOptionalSerde,
+};
 use crate::{
     helpers::{Sealed, Widest},
     types::extra::{LeEqU128, LeEqU16, LeEqU32, LeEqU64, LeEqU8, Unsigned},
