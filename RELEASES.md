@@ -5,7 +5,7 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
-Version 1.14.0 (unreleased)
+Version 1.14.0 (2022-03-20)
 ===========================
 
   * The [`next_multiple_of`][f-nmo-1-14] method was added to all fixed-point

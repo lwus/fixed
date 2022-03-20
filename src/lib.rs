@@ -185,7 +185,7 @@ crate, add it as a dependency inside [*Cargo.toml*]:
 
 ```toml
 [dependencies]
-fixed = "1.13"
+fixed = "1.14"
 ```
 
 The *fixed* crate requires rustc version 1.57.0 or later.
@@ -212,7 +212,7 @@ To enable features, you can add the dependency like this to [*Cargo.toml*]:
 
 ```toml
 [dependencies.fixed]
-version = "1.13"
+version = "1.14"
 features = ["serde"]
 ```
 
@@ -232,7 +232,7 @@ updated to an incompatible newer version.
 
 ## Deprecated optional features
 
-The following optional features are deprecated and may be removed in the next
+The following optional features are deprecated and will be removed in the next
 major version of the crate.
 
  1. `az`, has no effect. Previously required for the [`az`] cast traits. Now
@@ -300,7 +300,7 @@ shall be dual licensed as above, without any additional terms or conditions.
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(missing_docs)]
 #![warn(unsafe_op_in_unsafe_fn)]
-#![doc(html_root_url = "https://docs.rs/fixed/~1.13")]
+#![doc(html_root_url = "https://docs.rs/fixed/~1.14")]
 #![doc(test(attr(deny(warnings))))]
 #![cfg_attr(feature = "fail-on-warnings", deny(warnings))]
 
