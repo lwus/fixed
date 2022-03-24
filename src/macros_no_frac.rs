@@ -178,7 +178,7 @@ if cfg!(target_endian = \"big\") {
 ```
 ";
                 #[inline]
-                pub const fn from_be(f: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn from_be(f: $Fixed<Frac>) -> $Fixed<Frac> {
                     $Fixed::from_bits(<$Inner>::from_be(f.to_bits()))
                 }
             }
@@ -200,7 +200,7 @@ if cfg!(target_endian = \"little\") {
 ```
 ";
                 #[inline]
-                pub const fn from_le(f: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn from_le(f: $Fixed<Frac>) -> $Fixed<Frac> {
                     $Fixed::from_bits(<$Inner>::from_le(f.to_bits()))
                 }
             }
@@ -223,7 +223,7 @@ if cfg!(target_endian = \"big\") {
 ";
                 #[inline]
                 #[must_use]
-                pub const fn to_be(self) -> $Fixed<Frac> {
+                pub fn to_be(self) -> $Fixed<Frac> {
                     $Fixed::from_bits(self.to_bits().to_be())
                 }
             }
@@ -246,7 +246,7 @@ if cfg!(target_endian = \"little\") {
 ";
                 #[inline]
                 #[must_use]
-                pub const fn to_le(self) -> $Fixed<Frac> {
+                pub fn to_le(self) -> $Fixed<Frac> {
                     $Fixed::from_bits(self.to_bits().to_le())
                 }
             }
@@ -266,7 +266,7 @@ assert_eq!(f.swap_bytes(), swapped);
 ";
                 #[inline]
                 #[must_use]
-                pub const fn swap_bytes(self) -> $Fixed<Frac> {
+                pub fn swap_bytes(self) -> $Fixed<Frac> {
                     $Fixed::from_bits(self.to_bits().swap_bytes())
                 }
             }
@@ -287,7 +287,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub const fn from_be_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
+                pub fn from_be_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
                     $Fixed::from_bits(<$Inner>::from_be_bytes(bytes))
                 }
             }
@@ -308,7 +308,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub const fn from_le_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
+                pub fn from_le_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
                     $Fixed::from_bits(<$Inner>::from_le_bytes(bytes))
                 }
             }
@@ -333,7 +333,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub const fn from_ne_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
+                pub fn from_ne_bytes(bytes: [u8; $nbytes]) -> $Fixed<Frac> {
                     $Fixed::from_bits(<$Inner>::from_ne_bytes(bytes))
                 }
             }
@@ -355,7 +355,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub const fn to_be_bytes(self) -> [u8; $nbytes] {
+                pub fn to_be_bytes(self) -> [u8; $nbytes] {
                     self.to_bits().to_be_bytes()
                 }
             }
@@ -377,7 +377,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub const fn to_le_bytes(self) -> [u8; $nbytes] {
+                pub fn to_le_bytes(self) -> [u8; $nbytes] {
                     self.to_bits().to_le_bytes()
                 }
             }
@@ -403,7 +403,7 @@ assert_eq!(
 ```
 ";
                 #[inline]
-                pub const fn to_ne_bytes(self) -> [u8; $nbytes] {
+                pub fn to_ne_bytes(self) -> [u8; $nbytes] {
                     self.to_bits().to_ne_bytes()
                 }
             }
@@ -423,7 +423,7 @@ assert_eq!(f.count_ones(), 3);
 ";
                 #[inline]
                 #[doc(alias("popcount", "popcnt"))]
-                pub const fn count_ones(self) -> u32 {
+                pub fn count_ones(self) -> u32 {
                     self.to_bits().count_ones()
                 }
             }
@@ -442,7 +442,7 @@ assert_eq!(f.count_zeros(), 3);
 ```
 ";
                 #[inline]
-                pub const fn count_zeros(self) -> u32 {
+                pub fn count_zeros(self) -> u32 {
                     self.to_bits().count_zeros()
                 }
             }
@@ -462,7 +462,7 @@ assert_eq!(f.leading_ones(), ", $s_nbits, " - 6);
 ```
 ";
                 #[inline]
-                pub const fn leading_ones(self) -> u32 {
+                pub fn leading_ones(self) -> u32 {
                     (!self.to_bits()).leading_zeros()
                 }
             }
@@ -481,7 +481,7 @@ assert_eq!(f.leading_zeros(), ", $s_nbits, " - 6);
 ```
 ";
                 #[inline]
-                pub const fn leading_zeros(self) -> u32 {
+                pub fn leading_zeros(self) -> u32 {
                     self.to_bits().leading_zeros()
                 }
             }
@@ -500,7 +500,7 @@ assert_eq!(f.trailing_ones(), 5);
 ```
 ";
                 #[inline]
-                pub const fn trailing_ones(self) -> u32 {
+                pub fn trailing_ones(self) -> u32 {
                     (!self.to_bits()).trailing_zeros()
                 }
             }
@@ -519,7 +519,7 @@ assert_eq!(f.trailing_zeros(), 5);
 ```
 ";
                 #[inline]
-                pub const fn trailing_zeros(self) -> u32 {
+                pub fn trailing_zeros(self) -> u32 {
                     self.to_bits().trailing_zeros()
                 }
             }
@@ -541,7 +541,7 @@ assert_eq!(Fix::from_num(3).significant_bits(), 6);      // “__11.0000”
 ```
 ";
                     #[inline]
-                    pub const fn significant_bits(self) -> u32 {
+                    pub fn significant_bits(self) -> u32 {
                         mem::size_of::<$Inner>() as u32 * 8 - self.leading_zeros()
                     }
                 }
@@ -570,7 +570,7 @@ assert_eq!(Fix::from_num(3).signed_bits(), 7);       // “_011.0000”
 ```
 ";
                     #[inline]
-                    pub const fn signed_bits(self) -> u32 {
+                    pub fn signed_bits(self) -> u32 {
                         let leading = if self.is_negative() {
                             self.leading_ones()
                         } else {
@@ -596,7 +596,7 @@ assert_eq!(Fix::from_bits(bits).reverse_bits(), Fix::from_bits(rev_bits));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn reverse_bits(self) -> $Fixed<Frac> {
+                pub fn reverse_bits(self) -> $Fixed<Frac> {
                     $Fixed::from_bits(self.to_bits().reverse_bits())
                 }
             }
@@ -618,7 +618,7 @@ assert_eq!(Fix::from_bits(bits).rotate_left(3), Fix::from_bits(rot));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn rotate_left(self, n: u32) -> $Fixed<Frac> {
+                pub fn rotate_left(self, n: u32) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().rotate_left(n))
                 }
             }
@@ -640,7 +640,7 @@ assert_eq!(Fix::from_bits(bits).rotate_right(3), Fix::from_bits(rot));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn rotate_right(self, n: u32) -> $Fixed<Frac> {
+                pub fn rotate_right(self, n: u32) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().rotate_right(n))
                 }
             }
@@ -658,7 +658,7 @@ assert!(!Fix::from_num(5).is_zero());
 ```
 ";
                 #[inline]
-                pub const fn is_zero(self) -> bool {
+                pub fn is_zero(self) -> bool {
                     self.to_bits() == 0
                 }
             }
@@ -679,7 +679,7 @@ assert!(!Fix::from_num(-5).is_positive());
 ```
 ";
                     #[inline]
-                    pub const fn is_positive(self) -> bool {
+                    pub fn is_positive(self) -> bool {
                         self.to_bits().is_positive()
                     }
                 }
@@ -698,7 +698,7 @@ assert!(Fix::from_num(-5).is_negative());
 ```
 ";
                     #[inline]
-                    pub const fn is_negative(self) -> bool {
+                    pub fn is_negative(self) -> bool {
                         self.to_bits().is_negative()
                     }
                 }
@@ -724,7 +724,7 @@ assert!(half.is_power_of_two());
 ```
 ";
                     #[inline]
-                    pub const fn is_power_of_two(self) -> bool {
+                    pub fn is_power_of_two(self) -> bool {
                         self.to_bits().is_power_of_two()
                     }
                 }
@@ -931,7 +931,7 @@ assert_eq!(Fix::from_num(7.5).rem_euclid(Fix::from_num(2)), Fix::from_num(1.5));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     let rhs_bits = rhs.to_bits();
                     if_signed! {
                         $Signedness;
@@ -961,7 +961,7 @@ assert_eq!(minus_five.abs(), five);
 ";
                     #[inline]
                     #[must_use]
-                    pub const fn abs(self) -> $Fixed<Frac> {
+                    pub fn abs(self) -> $Fixed<Frac> {
                         Self::from_bits(self.to_bits().abs())
                     }
                 }
@@ -983,7 +983,7 @@ assert_eq!(Fix::MIN.unsigned_abs(), min_as_unsigned);
 ```
 ";
                     #[inline]
-                    pub const fn unsigned_abs(self) -> $UFixed<Frac> {
+                    pub fn unsigned_abs(self) -> $UFixed<Frac> {
                         $UFixed::from_bits(self.to_bits().unsigned_abs())
                     }
                 }
@@ -1028,7 +1028,7 @@ assert_eq!(Fix::ONE.dist(Fix::from_num(5)), Fix::from_num(4));
                 };
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     let s = self.to_bits();
                     let o = other.to_bits();
                     let d = if s < o { o - s } else { s - o };
@@ -1056,7 +1056,7 @@ assert_eq!(Fix::MIN.unsigned_dist(Fix::MAX), UFix::MAX);
 ";
                     #[inline]
                     #[must_use = "this returns the result of the operation, without modifying the original"]
-                    pub const fn unsigned_dist(self, other: $Fixed<Frac>) -> $UFixed<Frac> {
+                    pub fn unsigned_dist(self, other: $Fixed<Frac>) -> $UFixed<Frac> {
                         let s = self.to_bits();
                         let o = other.to_bits();
                         let d = if s < o {
@@ -1088,7 +1088,7 @@ This method is the same as [`dist`] for unsigned fixed-point numbers.
                 );
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn abs_diff(self, other: $Fixed<Frac>) -> $UFixed<Frac> {
+                pub fn abs_diff(self, other: $Fixed<Frac>) -> $UFixed<Frac> {
                     if_signed_unsigned!(
                         $Signedness,
                         self.unsigned_dist(other),
@@ -1116,7 +1116,7 @@ assert_eq!(Fix::from_num(3).mean(Fix::from_num(4)), Fix::from_num(3.5));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn mean(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn mean(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     // a & b == common bits
                     // a ^ b == different bits
                     // a + b == 2 * (a & b) + (a ^ b)
@@ -1168,7 +1168,7 @@ assert_eq!(
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn next_multiple_of(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn next_multiple_of(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_next_multiple_of(other);
                     debug_assert!(!overflow, "overflow");
                     ans
@@ -1255,7 +1255,7 @@ assert_eq!(Fix::ZERO.highest_one(), Fix::ZERO);
 ";
                     #[inline]
                     #[must_use]
-                    pub const fn highest_one(self) -> $Fixed<Frac> {
+                    pub fn highest_one(self) -> $Fixed<Frac> {
                         const ONE: $Inner = 1;
                         let bits = self.to_bits();
                         if bits == 0 {
@@ -1292,7 +1292,7 @@ assert_eq!(Fix::from_num(6.5).next_power_of_two(), Fix::from_num(8));
 ";
                     #[inline]
                     #[must_use]
-                    pub const fn next_power_of_two(self) -> $Fixed<Frac> {
+                    pub fn next_power_of_two(self) -> $Fixed<Frac> {
                         Self::from_bits(self.to_bits().next_power_of_two())
                     }
                 }
@@ -1322,7 +1322,7 @@ assert_eq!(Fix::from_num(6.5).next_power_of_two(), Fix::from_num(8));
                 /// [`wrapping_add_unsigned`]: Self::wrapping_add_unsigned
                 #[inline]
                 #[must_use]
-                pub const fn add_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
+                pub fn add_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_add_unsigned(rhs);
                     debug_assert!(!overflow, "overflow");
                     ans
@@ -1350,7 +1350,7 @@ assert_eq!(Fix::from_num(6.5).next_power_of_two(), Fix::from_num(8));
                 /// [`wrapping_sub_unsigned`]: Self::wrapping_sub_unsigned
                 #[inline]
                 #[must_use]
-                pub const fn sub_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
+                pub fn sub_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_sub_unsigned(rhs);
                     debug_assert!(!overflow, "overflow");
                     ans
@@ -1381,7 +1381,7 @@ assert_eq!(Fix::from_num(6.5).next_power_of_two(), Fix::from_num(8));
                 /// [`wrapping_add_signed`]: Self::wrapping_add_signed
                 #[inline]
                 #[must_use]
-                pub const fn add_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
+                pub fn add_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_add_signed(rhs);
                     debug_assert!(!overflow, "overflow");
                     ans
@@ -1409,7 +1409,7 @@ assert_eq!(Fix::from_num(6.5).next_power_of_two(), Fix::from_num(8));
                 /// [`wrapping_sub_signed`]: Self::wrapping_sub_signed
                 #[inline]
                 #[must_use]
-                pub const fn sub_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
+                pub fn sub_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_sub_signed(rhs);
                     debug_assert!(!overflow, "overflow");
                     ans
@@ -1441,7 +1441,7 @@ assert_eq!(NOT_A, !A);
 ";
                 #[inline]
                 #[must_use]
-                pub const fn const_not(self) -> $Fixed<Frac> {
+                pub fn const_not(self) -> $Fixed<Frac> {
                     Self::from_bits(!self.to_bits())
                 }
             }
@@ -1472,7 +1472,7 @@ assert_eq!(A_BITAND_B, A & B);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn const_bitand(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn const_bitand(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits() & rhs.to_bits())
                 }
             }
@@ -1503,7 +1503,7 @@ assert_eq!(A_BITOR_B, A | B);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn const_bitor(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn const_bitor(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits() | rhs.to_bits())
                 }
             }
@@ -1534,7 +1534,7 @@ assert_eq!(A_BITXOR_B, A ^ B);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn const_bitxor(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn const_bitxor(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits() ^ rhs.to_bits())
                 }
             }
@@ -1567,7 +1567,7 @@ assert_eq!(Fix::from_num(5).checked_neg(), None);",
 ```
 ";
                 #[inline]
-                pub const fn checked_neg(self) -> Option<$Fixed<Frac>> {
+                pub fn checked_neg(self) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_neg() {
                         None => None,
                         Some(bits) => Some(Self::from_bits(bits)),
@@ -1589,7 +1589,7 @@ assert_eq!(Fix::MAX.checked_add(Fix::ONE), None);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_add(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
+                pub fn checked_add(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_add(rhs.to_bits()) {
                         None => None,
                         Some(bits) => Some(Self::from_bits(bits)),
@@ -1611,7 +1611,7 @@ assert_eq!(Fix::MIN.checked_sub(Fix::ONE), None);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_sub(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
+                pub fn checked_sub(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_sub(rhs.to_bits()) {
                         None => None,
                         Some(bits) => Some(Self::from_bits(bits)),
@@ -1634,7 +1634,7 @@ assert_eq!(Fix::from_num(1.5).checked_rem(Fix::ZERO), None);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_rem(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
+                pub fn checked_rem(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     let rhs_bits = rhs.to_bits();
                     if_signed! {
                         $Signedness;
@@ -1719,7 +1719,7 @@ assert_eq!(Fix::MAX.checked_mul_int(2), None);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_mul_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
+                pub fn checked_mul_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_mul(rhs) {
                         None => None,
                         Some(bits) => Some(Self::from_bits(bits)),
@@ -1754,7 +1754,7 @@ assert_eq!(Fix::ONE.checked_div_int(0), None);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_div_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
+                pub fn checked_div_int(self, rhs: $Inner) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_div(rhs) {
                         None => None,
                         Some(bits) => Some(Self::from_bits(bits)),
@@ -1784,7 +1784,7 @@ assert_eq!(num.checked_rem_euclid(Fix::ZERO), None);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_rem_euclid(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
+                pub fn checked_rem_euclid(self, rhs: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     let rhs_bits = rhs.to_bits();
                     if_signed! {
                         $Signedness;
@@ -1814,7 +1814,7 @@ assert_eq!((Fix::ONE / 2).checked_shl(", $s_nbits, "), None);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_shl(self, rhs: u32) -> Option<$Fixed<Frac>> {
+                pub fn checked_shl(self, rhs: u32) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_shl(rhs) {
                         None => None,
                         Some(bits) => Some(Self::from_bits(bits)),
@@ -1837,7 +1837,7 @@ assert_eq!(Fix::from_num(4).checked_shr(", $s_nbits, "), None);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_shr(self, rhs: u32) -> Option<$Fixed<Frac>> {
+                pub fn checked_shr(self, rhs: u32) -> Option<$Fixed<Frac>> {
                     match self.to_bits().checked_shr(rhs) {
                         None => None,
                         Some(bits) => Some(Self::from_bits(bits)),
@@ -1862,7 +1862,7 @@ assert_eq!(Fix::MIN.checked_abs(), None);
 ```
 ";
                     #[inline]
-                    pub const fn checked_abs(self) -> Option<$Fixed<Frac>> {
+                    pub fn checked_abs(self) -> Option<$Fixed<Frac>> {
                         match self.to_bits().checked_abs() {
                             None => None,
                             Some(bits) => Some(Self::from_bits(bits)),
@@ -1902,7 +1902,7 @@ assert_eq!(Fix::ONE.checked_dist(Fix::from_num(5)), Some(Fix::from_num(4)));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_dist(self, other: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
+                pub fn checked_dist(self, other: $Fixed<Frac>) -> Option<$Fixed<Frac>> {
                     if_signed! {
                         $Signedness;
                         if self.to_bits() < other.to_bits() {
@@ -1945,7 +1945,7 @@ assert_eq!(Fix::MAX.checked_next_multiple_of(Fix::from_num(2)), None);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn checked_next_multiple_of(
+                pub fn checked_next_multiple_of(
                     self,
                     other: $Fixed<Frac>,
                 ) -> Option<$Fixed<Frac>> {
@@ -2021,7 +2021,7 @@ assert!(Fix::MAX.checked_next_power_of_two().is_none());
 ```
 ";
                     #[inline]
-                    pub const fn checked_next_power_of_two(self) -> Option<$Fixed<Frac>> {
+                    pub fn checked_next_power_of_two(self) -> Option<$Fixed<Frac>> {
                         match self.to_bits().checked_next_power_of_two() {
                             Some(bits) => Some(Self::from_bits(bits)),
                             None => None,
@@ -2049,7 +2049,7 @@ assert!(Fix::MAX.checked_next_power_of_two().is_none());
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn checked_add_unsigned(
+                pub fn checked_add_unsigned(
                     self,
                     rhs: $UFixed<Frac>,
                 ) -> Option<$Fixed<Frac>> {
@@ -2076,7 +2076,7 @@ assert!(Fix::MAX.checked_next_power_of_two().is_none());
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn checked_sub_unsigned(
+                pub fn checked_sub_unsigned(
                     self,
                     rhs: $UFixed<Frac>,
                 ) -> Option<$Fixed<Frac>> {
@@ -2106,7 +2106,7 @@ assert!(Fix::MAX.checked_next_power_of_two().is_none());
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn checked_add_signed(self, rhs: $IFixed<Frac>) -> Option<$Fixed<Frac>> {
+                pub fn checked_add_signed(self, rhs: $IFixed<Frac>) -> Option<$Fixed<Frac>> {
                     match self.overflowing_add_signed(rhs) {
                         (ans, false) => Some(ans),
                         (_, true) => None,
@@ -2130,7 +2130,7 @@ assert!(Fix::MAX.checked_next_power_of_two().is_none());
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn checked_sub_signed(self, rhs: $IFixed<Frac>) -> Option<$Fixed<Frac>> {
+                pub fn checked_sub_signed(self, rhs: $IFixed<Frac>) -> Option<$Fixed<Frac>> {
                     match self.overflowing_sub_signed(rhs) {
                         (ans, false) => Some(ans),
                         (_, true) => None,
@@ -2167,7 +2167,7 @@ assert_eq!(Fix::from_num(5).saturating_neg(), Fix::ZERO);",
 ";
                 #[inline]
                 #[must_use]
-                pub const fn saturating_neg(self) -> $Fixed<Frac> {
+                pub fn saturating_neg(self) -> $Fixed<Frac> {
                     if_signed_unsigned!(
                         $Signedness,
                         {
@@ -2195,7 +2195,7 @@ assert_eq!(Fix::MAX.saturating_add(Fix::ONE), Fix::MAX);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn saturating_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn saturating_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_add(rhs) {
                         (val, false) => val,
                         (_, true) => if_signed_unsigned!(
@@ -2228,7 +2228,7 @@ assert_eq!(Fix::ZERO.saturating_sub(Fix::ONE), Fix::ZERO);",
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn saturating_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn saturating_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_sub(rhs) {
                         (val, false) => val,
                         (_, true) => if_signed_unsigned!(
@@ -2325,7 +2325,7 @@ assert_eq!(Fix::MAX.saturating_mul_int(2), Fix::MAX);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn saturating_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                pub fn saturating_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.overflowing_mul_int(rhs) {
                         (val, false) => val,
                         (_, true) => if_signed_unsigned!(
@@ -2359,7 +2359,7 @@ assert_eq!(Fix::MIN.saturating_abs(), Fix::MAX);
 ";
                     #[inline]
                     #[must_use]
-                    pub const fn saturating_abs(self) -> $Fixed<Frac> {
+                    pub fn saturating_abs(self) -> $Fixed<Frac> {
                         match self.overflowing_abs() {
                             (val, false) => val,
                             (_, true) => Self::MAX,
@@ -2399,7 +2399,7 @@ assert_eq!(Fix::ONE.saturating_dist(Fix::from_num(5)), Fix::from_num(4));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn saturating_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn saturating_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     if_signed! {
                         $Signedness;
                         match self.checked_dist(other) {
@@ -2443,7 +2443,7 @@ assert_eq!(Fix::MAX.saturating_next_multiple_of(Fix::from_num(2)), Fix::MAX);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn saturating_next_multiple_of(
+                pub fn saturating_next_multiple_of(
                     self,
                     other: $Fixed<Frac>
                 ) -> $Fixed<Frac> {
@@ -2536,7 +2536,7 @@ assert_eq!(Fix::MAX.saturating_inv_lerp::<U4>(Fix::from_num(0.5), Fix::ZERO), Fi
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn saturating_add_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
+                pub fn saturating_add_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_add_unsigned(rhs) {
                         (ans, false) => ans,
                         (_, true) => $Fixed::MAX,
@@ -2557,7 +2557,7 @@ assert_eq!(Fix::MAX.saturating_inv_lerp::<U4>(Fix::from_num(0.5), Fix::ZERO), Fi
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn saturating_sub_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
+                pub fn saturating_sub_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_sub_unsigned(rhs) {
                         (ans, false) => ans,
                         (_, true) => $Fixed::MIN,
@@ -2582,7 +2582,7 @@ assert_eq!(Fix::MAX.saturating_inv_lerp::<U4>(Fix::from_num(0.5), Fix::ZERO), Fi
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn saturating_add_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
+                pub fn saturating_add_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_add_signed(rhs) {
                         (ans, false) => ans,
                         (_, true) => {
@@ -2610,7 +2610,7 @@ assert_eq!(Fix::MAX.saturating_inv_lerp::<U4>(Fix::from_num(0.5), Fix::ZERO), Fi
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn saturating_sub_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
+                pub fn saturating_sub_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
                     match self.overflowing_sub_signed(rhs) {
                         (ans, false) => ans,
                         (_, true) => {
@@ -2655,7 +2655,7 @@ assert_eq!(Fix::from_num(5).wrapping_neg(), Fix::from_bits(neg_five_bits));",
 ";
                 #[inline]
                 #[must_use]
-                pub const fn wrapping_neg(self) -> $Fixed<Frac> {
+                pub fn wrapping_neg(self) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_neg())
                 }
             }
@@ -2677,7 +2677,7 @@ assert_eq!(Fix::MAX.wrapping_add(Fix::ONE), ",
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn wrapping_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn wrapping_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_add(rhs.to_bits()))
                 }
             }
@@ -2704,7 +2704,7 @@ assert_eq!(Fix::ZERO",
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn wrapping_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn wrapping_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_sub(rhs.to_bits()))
                 }
             }
@@ -2763,7 +2763,7 @@ assert_eq!(Fix::MAX.wrapping_mul_int(4), wrapped);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn wrapping_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                pub fn wrapping_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_mul(rhs))
                 }
             }
@@ -2803,7 +2803,7 @@ assert_eq!(Fix::from_num(3).wrapping_div_int(2), one_point_5);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn wrapping_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                pub fn wrapping_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_div(rhs))
                 }
             }
@@ -2823,7 +2823,7 @@ assert_eq!((Fix::ONE / 2).wrapping_shl(3 + ", $s_nbits, "), Fix::from_num(4));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn wrapping_shl(self, rhs: u32) -> $Fixed<Frac> {
+                pub fn wrapping_shl(self, rhs: u32) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_shl(rhs))
                 }
             }
@@ -2843,7 +2843,7 @@ assert_eq!((Fix::from_num(4)).wrapping_shr(3 + ", $s_nbits, "), Fix::ONE / 2);
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn wrapping_shr(self, rhs: u32) -> $Fixed<Frac> {
+                pub fn wrapping_shr(self, rhs: u32) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits().wrapping_shr(rhs))
                 }
             }
@@ -2866,7 +2866,7 @@ assert_eq!(Fix::MIN.wrapping_abs(), Fix::MIN);
 ";
                     #[inline]
                     #[must_use]
-                    pub const fn wrapping_abs(self) -> $Fixed<Frac> {
+                    pub fn wrapping_abs(self) -> $Fixed<Frac> {
                         Self::from_bits(self.to_bits().wrapping_abs())
                     }
                 }
@@ -2903,7 +2903,7 @@ assert_eq!(Fix::ONE.wrapping_dist(Fix::from_num(5)), Fix::from_num(4));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn wrapping_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn wrapping_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     if_signed_unsigned!(
                         $Signedness,
                         self.overflowing_dist(other).0,
@@ -2945,7 +2945,7 @@ assert_eq!(
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn wrapping_next_multiple_of(
+                pub fn wrapping_next_multiple_of(
                     self,
                     other: $Fixed<Frac>
                 ) -> $Fixed<Frac> {
@@ -3020,7 +3020,7 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
 ";
                     #[inline]
                     #[must_use]
-                    pub const fn wrapping_next_power_of_two(self) -> $Fixed<Frac> {
+                    pub fn wrapping_next_power_of_two(self) -> $Fixed<Frac> {
                         match self.checked_next_power_of_two() {
                             Some(x) => x,
                             None => Self::ZERO,
@@ -3045,7 +3045,7 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn wrapping_add_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
+                pub fn wrapping_add_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, _) = self.overflowing_add_unsigned(rhs);
                     ans
                 }
@@ -3064,7 +3064,7 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn wrapping_sub_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
+                pub fn wrapping_sub_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, _) = self.overflowing_sub_unsigned(rhs);
                     ans
                 }
@@ -3086,7 +3086,7 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn wrapping_add_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
+                pub fn wrapping_add_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, _) = self.overflowing_add_signed(rhs);
                     ans
                 }
@@ -3105,7 +3105,7 @@ assert_eq!(Fix::MAX.wrapping_next_power_of_two(), 0);
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn wrapping_sub_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
+                pub fn wrapping_sub_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, _) = self.overflowing_sub_signed(rhs);
                     ans
                 }
@@ -3163,7 +3163,7 @@ let _overflow = Fix::from_num(5).unwrapped_neg();",
                 #[inline]
                 #[track_caller]
                 #[must_use]
-                pub const fn unwrapped_neg(self) -> $Fixed<Frac> {
+                pub fn unwrapped_neg(self) -> $Fixed<Frac> {
                     match self.checked_neg() {
                         Some(s) => s,
                         None => panic!("overflow"),
@@ -3197,7 +3197,7 @@ let _overflow = Fix::MAX.unwrapped_add(Fix::DELTA);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_add(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.checked_add(rhs) {
                         Some(s) => s,
                         None => panic!("overflow"),
@@ -3238,7 +3238,7 @@ let _overflow = Fix::MIN.unwrapped_sub(Fix::DELTA);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_sub(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     match self.checked_sub(rhs) {
                         Some(s) => s,
                         None => panic!("overflow"),
@@ -3272,7 +3272,7 @@ let _divisor_is_zero = Fix::from_num(1.5).unwrapped_rem(Fix::ZERO);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_rem(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_rem(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     let rhs_bits = rhs.to_bits();
                     if_signed! {
                         $Signedness;
@@ -3368,7 +3368,7 @@ let _overflow = Fix::MAX.unwrapped_mul_int(4);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                pub fn unwrapped_mul_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     match self.checked_mul_int(rhs) {
                         Some(s) => s,
                         None => panic!("overflow"),
@@ -3431,7 +3431,7 @@ let _overflow = Fix::MIN.unwrapped_div_int(-1);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
+                pub fn unwrapped_div_int(self, rhs: $Inner) -> $Fixed<Frac> {
                     Self::from_bits(self.to_bits() / rhs)
                 }
             }
@@ -3461,7 +3461,7 @@ let _divisor_is_zero = Fix::from_num(3).unwrapped_rem_euclid(Fix::ZERO);
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_rem_euclid(self, rhs: $Fixed<Frac>) -> $Fixed<Frac> {
                     self.rem_euclid(rhs)
                 }
             }
@@ -3492,7 +3492,7 @@ let _overflow = Fix::ONE.unwrapped_shl(", $s_nbits, ");
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_shl(self, rhs: u32) -> $Fixed<Frac> {
+                pub fn unwrapped_shl(self, rhs: u32) -> $Fixed<Frac> {
                     match self.checked_shl(rhs) {
                         Some(s) => s,
                         None => panic!("overflow"),
@@ -3526,7 +3526,7 @@ let _overflow = Fix::ONE.unwrapped_shr(", $s_nbits, ");
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_shr(self, rhs: u32) -> $Fixed<Frac> {
+                pub fn unwrapped_shr(self, rhs: u32) -> $Fixed<Frac> {
                     match self.checked_shr(rhs) {
                         Some(s) => s,
                         None => panic!("overflow"),
@@ -3564,7 +3564,7 @@ let _overflow = Fix::MIN.unwrapped_abs();
                     #[inline]
                     #[track_caller]
                     #[must_use]
-                    pub const fn unwrapped_abs(self) -> $Fixed<Frac> {
+                    pub fn unwrapped_abs(self) -> $Fixed<Frac> {
                         match self.checked_abs() {
                             Some(s) => s,
                             None => panic!("overflow"),
@@ -3618,7 +3618,7 @@ let _overflow = Fix::MIN.unwrapped_dist(Fix::ZERO);
                 };
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_dist(self, other: $Fixed<Frac>) -> $Fixed<Frac> {
                     if_signed_unsigned!(
                         $Signedness,
                         match self.checked_dist(other) {
@@ -3667,7 +3667,7 @@ let _overflow = Fix::MAX.unwrapped_next_multiple_of(Fix::from_num(2));
                 #[inline]
                 #[track_caller]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn unwrapped_next_multiple_of(
+                pub fn unwrapped_next_multiple_of(
                     self,
                     other: $Fixed<Frac>
                 ) -> $Fixed<Frac> {
@@ -3769,7 +3769,7 @@ let _overflow = Fix::MAX.unwrapped_next_power_of_two();
                     #[inline]
                     #[track_caller]
                     #[must_use]
-                    pub const fn unwrapped_next_power_of_two(self) -> $Fixed<Frac> {
+                    pub fn unwrapped_next_power_of_two(self) -> $Fixed<Frac> {
                         match self.checked_next_power_of_two() {
                             Some(s) => s,
                             None => panic!("overflow"),
@@ -3806,7 +3806,7 @@ let _overflow = Fix::MAX.unwrapped_next_power_of_two();
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn unwrapped_add_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_add_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_add_unsigned(rhs);
                     assert!(!overflow, "overflow");
                     ans
@@ -3838,7 +3838,7 @@ let _overflow = Fix::MAX.unwrapped_next_power_of_two();
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn unwrapped_sub_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_sub_unsigned(self, rhs: $UFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_sub_unsigned(rhs);
                     assert!(!overflow, "overflow");
                     ans
@@ -3873,7 +3873,7 @@ let _overflow = Fix::MAX.unwrapped_next_power_of_two();
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn unwrapped_add_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_add_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_add_signed(rhs);
                     assert!(!overflow, "overflow");
                     ans
@@ -3905,7 +3905,7 @@ let _overflow = Fix::MAX.unwrapped_next_power_of_two();
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn unwrapped_sub_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
+                pub fn unwrapped_sub_signed(self, rhs: $IFixed<Frac>) -> $Fixed<Frac> {
                     let (ans, overflow) = self.overflowing_sub_signed(rhs);
                     assert!(!overflow, "overflow");
                     ans
@@ -3945,7 +3945,7 @@ assert_eq!(Fix::from_num(5).overflowing_neg(), (Fix::from_bits(neg_five_bits), t
 ```
 ";
                 #[inline]
-                pub const fn overflowing_neg(self) -> ($Fixed<Frac>, bool) {
+                pub fn overflowing_neg(self) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_neg();
                     (Self::from_bits(ans), o)
                 }
@@ -3971,7 +3971,7 @@ assert_eq!(Fix::MAX.overflowing_add(Fix::ONE), (",
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn overflowing_add(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
+                pub fn overflowing_add(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_add(rhs.to_bits());
                     (Self::from_bits(ans), o)
                 }
@@ -4002,7 +4002,7 @@ assert_eq!(Fix::ZERO",
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn overflowing_sub(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
+                pub fn overflowing_sub(self, rhs: $Fixed<Frac>) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_sub(rhs.to_bits());
                     (Self::from_bits(ans), o)
                 }
@@ -4091,7 +4091,7 @@ assert_eq!(Fix::MAX.overflowing_mul_int(4), (wrapped, true));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn overflowing_mul_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
+                pub fn overflowing_mul_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_mul(rhs);
                     (Self::from_bits(ans), o)
                 }
@@ -4132,7 +4132,7 @@ assert_eq!(Fix::from_num(3).overflowing_div_int(2), (one_point_5, false));
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn overflowing_div_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
+                pub fn overflowing_div_int(self, rhs: $Inner) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_div(rhs);
                     (Self::from_bits(ans), o)
                 }
@@ -4156,7 +4156,7 @@ assert_eq!((Fix::ONE / 2).overflowing_shl(3 + ", $s_nbits, "), (Fix::from_num(4)
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn overflowing_shl(self, rhs: u32) -> ($Fixed<Frac>, bool) {
+                pub fn overflowing_shl(self, rhs: u32) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_shl(rhs);
                     (Self::from_bits(ans), o)
                 }
@@ -4180,7 +4180,7 @@ assert_eq!((Fix::from_num(4)).overflowing_shr(3 + ", $s_nbits, "), (Fix::ONE / 2
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn overflowing_shr(self, rhs: u32) -> ($Fixed<Frac>, bool) {
+                pub fn overflowing_shr(self, rhs: u32) -> ($Fixed<Frac>, bool) {
                     let (ans, o) = self.to_bits().overflowing_shr(rhs);
                     (Self::from_bits(ans), o)
                 }
@@ -4207,7 +4207,7 @@ assert_eq!(Fix::MIN.overflowing_abs(), (Fix::MIN, true));
 ```
 ";
                     #[inline]
-                    pub const fn overflowing_abs(self) -> ($Fixed<Frac>, bool) {
+                    pub fn overflowing_abs(self) -> ($Fixed<Frac>, bool) {
                         let (ans, o) = self.to_bits().overflowing_abs();
                         (Self::from_bits(ans), o)
                     }
@@ -4254,7 +4254,7 @@ assert_eq!(
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn overflowing_dist(self, other: $Fixed<Frac>,) -> ($Fixed<Frac>, bool) {
+                pub fn overflowing_dist(self, other: $Fixed<Frac>,) -> ($Fixed<Frac>, bool) {
                     if_signed! {
                         $Signedness;
                         if self.to_bits() < other.to_bits() {
@@ -4306,7 +4306,7 @@ assert_eq!(
 ";
                 #[inline]
                 #[must_use = "this returns the result of the operation, without modifying the original"]
-                pub const fn overflowing_next_multiple_of(
+                pub fn overflowing_next_multiple_of(
                     self,
                     other: $Fixed<Frac>
                 ) -> ($Fixed<Frac>, bool) {
@@ -4429,7 +4429,7 @@ assert_eq!(
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn overflowing_add_unsigned(
+                pub fn overflowing_add_unsigned(
                     self,
                     rhs: $UFixed<Frac>,
                 ) -> ($Fixed<Frac>, bool) {
@@ -4463,7 +4463,7 @@ assert_eq!(
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn overflowing_sub_unsigned(
+                pub fn overflowing_sub_unsigned(
                     self,
                     rhs: $UFixed<Frac>,
                 ) -> ($Fixed<Frac>, bool) {
@@ -4500,7 +4500,7 @@ assert_eq!(
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn overflowing_add_signed(
+                pub fn overflowing_add_signed(
                     self,
                     rhs: $IFixed<Frac>,
                 ) -> ($Fixed<Frac>, bool) {
@@ -4534,7 +4534,7 @@ assert_eq!(
                 /// ```
                 #[inline]
                 #[must_use]
-                pub const fn overflowing_sub_signed(
+                pub fn overflowing_sub_signed(
                     self,
                     rhs: $IFixed<Frac>,
                 ) -> ($Fixed<Frac>, bool) {

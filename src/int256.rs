@@ -75,17 +75,17 @@ pub fn overflowing_add_i256_i128(a: I256, b: i128) -> (I256, bool) {
 }
 
 #[inline]
-const fn u128_lo_hi(u: u128) -> (u128, u128) {
+fn u128_lo_hi(u: u128) -> (u128, u128) {
     (u & !(!0 << 64), u >> 64)
 }
 
 #[inline]
-const fn i128_lo_hi(i: i128) -> (i128, i128) {
+fn i128_lo_hi(i: i128) -> (i128, i128) {
     (i & !(!0 << 64), i >> 64)
 }
 
 #[inline]
-pub const fn wide_mul_u128(lhs: u128, rhs: u128) -> U256 {
+pub fn wide_mul_u128(lhs: u128, rhs: u128) -> U256 {
     let (ll, lh) = u128_lo_hi(lhs);
     let (rl, rh) = u128_lo_hi(rhs);
     // 0 <= ll_rl <= 2^128 - 2^65 + 1; ll_rl unit is 1
@@ -124,7 +124,7 @@ pub const fn wide_mul_u128(lhs: u128, rhs: u128) -> U256 {
 }
 
 #[inline]
-pub const fn wide_mul_i128(lhs: i128, rhs: i128) -> I256 {
+pub fn wide_mul_i128(lhs: i128, rhs: i128) -> I256 {
     let (ll, lh) = i128_lo_hi(lhs);
     let (rl, rh) = i128_lo_hi(rhs);
     // 0 <= ll_rl <= 2^128 - 2^65 + 1; ll_rl unit is 1; must be unsigned to hold all range!
